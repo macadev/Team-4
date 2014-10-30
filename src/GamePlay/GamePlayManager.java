@@ -1,13 +1,18 @@
+package GamePlay;
+
 import java.awt.*;
+import SystemController.GameState;
+import GameObject.TileMap;
+import SystemController.GameStateManager;
 
 /**
  * Created by danielmacario on 14-10-29.
  */
-public class GamePlayState extends GameState {
+public class GamePlayManager extends GameState {
 
     private TileMap tileMap;
 
-    public GamePlayState(GameStateManager gsm) {
+    public GamePlayManager(GameStateManager gsm) {
         this.gsm = gsm;
     }
 

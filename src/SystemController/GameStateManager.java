@@ -1,3 +1,8 @@
+package SystemController;
+
+import GamePlay.GamePlayManager;
+import Menu.*;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -15,9 +20,8 @@ public class GameStateManager {
     public GameStateManager() {
         gameStates = new ArrayList<GameState>();
 
-        currentState = MENUSTATE;
         gameStates.add(new MenuState(this));
-        gameStates.add(new GamePlayState(this));
+        gameStates.add(new GamePlayManager(this));
     }
 
     public void setState(int state) {

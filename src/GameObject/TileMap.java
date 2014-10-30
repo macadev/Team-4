@@ -1,3 +1,7 @@
+package GameObject;
+
+import SystemController.GameController;
+
 import java.awt.image.BufferedImage;
 
 /**
@@ -38,8 +42,8 @@ public class TileMap {
 
     public TileMap(int tileSize) {
         this.tileSize = tileSize;
-        numRowsToDraw = GamePanel.HEIGHT / tileSize + 2;
-        numColsToDraw = GamePanel.WIDTH / tileSize + 2;
+        numRowsToDraw = GameController.HEIGHT / tileSize + 2;
+        numColsToDraw = GameController.WIDTH / tileSize + 2;
         tween = 0.07;
     }
 

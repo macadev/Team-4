@@ -1,13 +1,14 @@
 /**
  * Created by danielmacario on 14-10-29.
  */
+package SystemController;
 
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.event.*;
 
-public class GamePanel extends JPanel implements Runnable, KeyListener {
+public class GameController extends JPanel implements Runnable, KeyListener {
 
     public static final int WIDTH = 320;
     public static final int HEIGHT = 240;
@@ -26,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     // game state manager instance
     private GameStateManager gsm;
 
-    public GamePanel() {
+    public GameController() {
         super();
         setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         setFocusable(true);

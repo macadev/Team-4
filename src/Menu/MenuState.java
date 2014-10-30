@@ -1,3 +1,8 @@
+package Menu;
+
+import SystemController.GameState;
+import SystemController.GameStateManager;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
