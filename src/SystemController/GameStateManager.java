@@ -1,3 +1,6 @@
+/**
+ * Created by danielmacario on 14-10-29.
+ */
 package SystemController;
 
 import GamePlay.GamePlayManager;
@@ -6,9 +9,6 @@ import Menu.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * Created by danielmacario on 14-10-29.
- */
 public class GameStateManager {
 
     private ArrayList<GameState> gameStates;
@@ -18,13 +18,16 @@ public class GameStateManager {
     public static final int GAMEPLAY = 1;
 
     public GameStateManager() {
+        System.out.println("Initialized GameStateManager");
+        System.out.println("curr state = " + currentState);
         gameStates = new ArrayList<GameState>();
-
         gameStates.add(new MenuState(this));
         gameStates.add(new GamePlayManager(this));
+        System.out.println("curr state = " + currentState);
     }
 
     public void setState(int state) {
+        //current state is set to 0 by default
         currentState = state;
         gameStates.get(currentState).init();
     }

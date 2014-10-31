@@ -8,6 +8,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.event.*;
 
+/**
+ * GameController manages the single thread of the application.
+ * It also trickles user inputs to the corresponding game state the user
+ * is in. It also sets up the top-most visual layer of the application.
+ */
 public class GameController extends JPanel implements Runnable, KeyListener {
 
     public static final int WIDTH = 320;
