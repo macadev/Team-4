@@ -11,7 +11,12 @@ import java.awt.event.KeyEvent;
  */
 public class MenuState extends GameState {
 
-    private String[] options = {"Start", "Help", "Quit"};
+    private String[] options = {"Start Game",
+                                "Load Game",
+                                "View Leaderboards",
+                                "Modify Account Information",
+                                "Logout",
+                                "Quit"};
     private int currentChoice = 0;
     private Color titleColor;
     private Font titleFont;
@@ -51,7 +56,8 @@ public class MenuState extends GameState {
             } else {
                 g.setColor(Color.RED);
             }
-            g.drawString(options[i], 145, 140 + i * 15);
+            // pass horizontal distance, then vertical distance
+            g.drawString(options[i], 95, 120 + i * 15);
         }
 
     }
@@ -61,9 +67,19 @@ public class MenuState extends GameState {
             gsm.setState(GameStateManager.GAMEPLAY);
         }
         if (currentChoice == 1) {
-            //help
+            //load game
         }
-        if(currentChoice == 2) {
+        if (currentChoice == 2) {
+            //view leaderboards
+        }
+        if (currentChoice == 3) {
+            //Modify account info
+        }
+        if (currentChoice == 4) {
+            //logout
+        }
+        if (currentChoice == 5) {
+            //terminate the game
             System.exit(0);
         }
     }
