@@ -1,18 +1,16 @@
-package SystemController;
+package Menu;
 
-
-import Menu.MenuManager;
 import SystemController.GameStateManager;
 
 import java.awt.*;
 
 /**
- * Created by danielmacario on 14-10-29.
+ * Created by danielmacario on 14-10-31.
  */
-public abstract class GameState {
+public abstract class MenuTemplate {
 
-    protected GameStateManager gsm;
     protected MenuManager menuManager;
+    protected GameStateManager gsm;
 
     public abstract void init();
     public abstract void update();

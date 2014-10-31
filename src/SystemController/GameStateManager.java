@@ -18,10 +18,11 @@ public class GameStateManager {
     public static final int GAMEPLAY = 1;
 
     public GameStateManager() {
-        System.out.println("Initialized GameStateManager");
-        System.out.println("curr state = " + currentState);
+
         gameStates = new ArrayList<GameState>();
-        gameStates.add(new MenuState(this));
+        //gameStates.add(new MenuState(this));
+
+        gameStates.add(new MenuManager(this));
         gameStates.add(new GamePlayManager(this));
         System.out.println("curr state = " + currentState);
     }
