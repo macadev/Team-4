@@ -8,7 +8,7 @@ import java.awt.event.KeyEvent;
 /**
  * Created by danielmacario on 14-10-31.
  */
-public class Player extends MovableObject{
+public class Player extends MovableObject {
 
     private int score;
     private GamePlayState currentState;
@@ -21,8 +21,7 @@ public class Player extends MovableObject{
         this.posY = posY;
         this.visible = visible;
         this.speed = speed;
-        this.image = new ImageIcon(this.getClass().getResource("../resources/enemyTest.png")).getImage();
-        System.out.println(this.image.getHeight(null));
+        this.image = new ImageIcon(this.getClass().getResource("../resources/bomberman.png")).getImage();
     }
 
     public void keyPressed(int key) {

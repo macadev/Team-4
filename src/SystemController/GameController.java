@@ -15,8 +15,8 @@ import java.awt.event.*;
  */
 public class GameController extends JPanel implements Runnable, KeyListener {
 
-    public static final int WIDTH = 320;
-    public static final int HEIGHT = 240;
+    public static final int WIDTH = 480;
+    public static final int HEIGHT = 416;
     public static final int SCALE = 2;
 
     // game thread
@@ -34,7 +34,7 @@ public class GameController extends JPanel implements Runnable, KeyListener {
 
     public GameController() {
         super();
-        setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setFocusable(true);
         setBackground(Color.BLACK);
         requestFocus();
@@ -102,7 +102,7 @@ public class GameController extends JPanel implements Runnable, KeyListener {
 
     private void drawToScreen() {
         Graphics g2 = getGraphics();
-        g2.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
+        g2.drawImage(image, 0, 0, WIDTH, HEIGHT, null);
         g2.dispose();
     }
 

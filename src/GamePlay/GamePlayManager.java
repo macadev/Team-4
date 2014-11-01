@@ -17,6 +17,8 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     private TileMap tileMap;
     private Player player;
+    private Color titleColor;
+    private Font titleFont;
 
     public GamePlayManager(GameStateManager gsm) {
         this.gsm = gsm;
@@ -38,7 +40,14 @@ public class GamePlayManager extends GameState implements ActionListener {
         GamePlayState currentState = player.getCurrentGamePlayState();
         if (currentState == GamePlayState.PAUSE) {
 
-            //Transfer to pause menu goes here!
+            //This section is just for the demo.
+            //TODO: remove after demo
+            titleColor = new Color(230, 200, 0);
+            titleFont = new Font("Century Gothic", Font.PLAIN, 28);
+            g.setColor(titleColor);
+            g.setFont(titleFont);
+            g.setPaint(new Color(255,255,255));
+            g.drawString("Game Paused", 80, 70);
 
         } else if (currentState == GamePlayState.INGAME) {
             player.move();
