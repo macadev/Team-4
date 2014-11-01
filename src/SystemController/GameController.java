@@ -17,6 +17,7 @@ public class GameController extends JPanel implements Runnable, KeyListener {
 
     public static final int WIDTH = 480;
     public static final int HEIGHT = 416;
+    //TODO: decide wether we should rescale the screen to make it bigger
     public static final int SCALE = 2;
 
     // game thread
@@ -57,11 +58,10 @@ public class GameController extends JPanel implements Runnable, KeyListener {
         long wait;
 
         init();
-
         //game loop
         while (running) {
 
-            g.setPaint(new Color(0,0,200));
+            g.setPaint(new Color(25,150,0));
             g.fillRect(0, 0, image.getWidth(), image.getHeight() );
             start = System.nanoTime();
 

@@ -3,8 +3,10 @@ package GamePlay;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
-import GameObject.GameObject;
+import GameObject.ConcreteWall;
 import SystemController.GameState;
 import GameObject.TileMap;
 import SystemController.GameStateManager;
@@ -17,16 +19,45 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     private TileMap tileMap;
     private Player player;
+    private ArrayList<ConcreteWall> concreteWalls;
+    private Spawner spawner;
+
+    //Temporary variables
+    //TODO: remove after demo
     private Color titleColor;
     private Font titleFont;
 
     public GamePlayManager(GameStateManager gsm) {
         this.gsm = gsm;
-        this.player = new Player(0, 0, true, 2);
+        this.player = new Player(50, 50, true, 2);
+        this.spawner = new Spawner();
+        /*
+        * TODO: we should call populate within the init method,
+        * but there seems to be a race condition that I can't understand
+        */
+        populateGridWithBlocks();
+    }
+
+    public void drawBlocks(Graphics2D g) {
+        for (ConcreteWall concreteWall : concreteWalls) {
+            g.drawImage(concreteWall.getImage(), concreteWall.getPosX(), concreteWall.getPosY(), null);
+        }
+    }
+
+    public void drawPlayer(Graphics2D g) {
+        g.drawImage(player.getImage(), player.getPosX(), player.getPosY(), null);
+    }
+
+    public void populateGridWithBlocks() {
+        concreteWalls = spawner.generateConcreteWalls();
     }
 
     @Override
     public void init() {
+        System.out.println("Init called boi");
+
+        //Populate the blocks arrayLists present in the game;
+        //populateGridWithBlocks();
 
     }
 
@@ -50,8 +81,14 @@ public class GamePlayManager extends GameState implements ActionListener {
             g.drawString("Game Paused", 80, 70);
 
         } else if (currentState == GamePlayState.INGAME) {
+
+            //Move the player each time we render again
+            //Movement depends on the deltaX and deltaY
+            //values of the MovableObject class
             player.move();
-            g.drawImage(player.getImage(), player.getPosX(), player.getPosY(), null);
+
+            drawPlayer(g);
+            drawBlocks(g);
         }
     }
 
