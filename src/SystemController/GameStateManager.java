@@ -49,5 +49,4 @@ public class GameStateManager {
         gameStates.get(currentState).keyReleased(k);
     }
 
-
 }

@@ -6,6 +6,8 @@ package GameObject;
 public class MovableObject extends GameObject {
 
     protected int speed;
+    protected int deltaX;
+    protected int deltaY;
 
     /**
      * Displaces the object on the grid in the specified motion.

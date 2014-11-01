@@ -7,7 +7,6 @@ import java.awt.*;
  */
 public class GameObject {
 
-
     protected int posX;
     protected int posY;
     protected int previousX;
@@ -23,4 +22,67 @@ public class GameObject {
         return 0;
     }
 
+    public int getPosX() {
+        return posX;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
+    }
+
+    public int getPreviousX() {
+        return previousX;
+    }
+
+    public void setPreviousX(int previousX) {
+        this.previousX = previousX;
+    }
+
+    public int getPreviousY() {
+        return previousY;
+    }
+
+    public void setPreviousY(int previousY) {
+        this.previousY = previousY;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 }
