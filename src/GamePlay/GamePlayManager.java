@@ -20,7 +20,7 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     public GamePlayManager(GameStateManager gsm) {
         this.gsm = gsm;
-        this.player = new Player(50, 50, true, 1);
+        this.player = new Player(0, 0, true, 2);
     }
 
     @Override
@@ -35,8 +35,15 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     @Override
     public void draw(Graphics2D g) {
-        player.move();
-        g.drawImage(player.getImage(), player.getPosX(), player.getPosY(), null);
+        GamePlayState currentState = player.getCurrentGamePlayState();
+        if (currentState == GamePlayState.PAUSE) {
+
+            //Transfer to pause menu goes here!
+
+        } else if (currentState == GamePlayState.INGAME) {
+            player.move();
+            g.drawImage(player.getImage(), player.getPosX(), player.getPosY(), null);
+        }
     }
 
     @Override

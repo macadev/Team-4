@@ -17,9 +17,8 @@ public class GameObject {
     protected Image image;
     protected boolean visible;
 
-    // TODO: defined logic that goes into this function
-    public int getBounds() {
-        return 0;
+    public Rectangle getBounds() {
+        return new Rectangle(posX, posY, width, height);
     }
 
     public int getPosX() {

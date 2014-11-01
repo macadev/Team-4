@@ -36,7 +36,7 @@ public class MenuManager extends GameState {
 
     }
 
-    public void setState(MenuState state) {
+    public void setMenuState(MenuState state) {
         currentMenu = state;
         menuStates.get(currentMenu).init();
     }
