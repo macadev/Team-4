@@ -11,6 +11,8 @@ public class Player extends MovableObject{
     private int score;
 
     public Player(int posX, int posY, boolean visible, int speed) {
+        this.deltaX = 0;
+        this.deltaY = 0;
         this.posX = posX;
         this.posY = posY;
         this.visible = visible;
@@ -19,13 +21,12 @@ public class Player extends MovableObject{
         System.out.println(this.image.getHeight(null));
     }
 
-    public void KeyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
+    public void keyPressed(int key) {
 
         if (key == KeyEvent.VK_UP) {
-            deltaY = speed;
-        } else if (key == KeyEvent.VK_DOWN) {
             deltaY = -speed;
+        } else if (key == KeyEvent.VK_DOWN) {
+            deltaY = speed;
         } else if (key == KeyEvent.VK_LEFT) {
             deltaX = -speed;
         } else if (key == KeyEvent.VK_RIGHT) {
@@ -34,8 +35,7 @@ public class Player extends MovableObject{
 
     }
 
-    public void keyReleased(KeyEvent e) {
-        int key = e.getKeyCode();
+    public void keyReleased(int key) {
 
         if (key == KeyEvent.VK_LEFT) {
             deltaX = 0;

@@ -20,7 +20,7 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     public GamePlayManager(GameStateManager gsm) {
         this.gsm = gsm;
-        this.player = new Player(50, 50, true, 50);
+        this.player = new Player(50, 50, true, 1);
     }
 
     @Override
@@ -35,17 +35,18 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     @Override
     public void draw(Graphics2D g) {
+        player.move();
         g.drawImage(player.getImage(), player.getPosX(), player.getPosY(), null);
     }
 
     @Override
     public void keyPressed(int k) {
-
+        this.player.keyPressed(k);
     }
 
     @Override
     public void keyReleased(int k) {
-
+        this.player.keyReleased(k);
     }
 
     @Override
