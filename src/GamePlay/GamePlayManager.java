@@ -22,8 +22,7 @@ public class GamePlayManager extends GameState implements ActionListener {
     private Player player;
     private boolean cameraMoving;
 
-    //Temporary variables
-    //TODO: remove after demo
+    //TODO: remove after demo, these are for temporary pause feature
     private Color titleColor;
     private Font titleFont;
 
@@ -71,7 +70,7 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     public void updateCamera() {
         int virtualX = player.getVirtualX();
-        if (virtualX >= tileMap.CAMERA_MOVING_LIMIT && virtualX <= 768) {
+        if (virtualX > tileMap.CAMERA_MOVING_LIMIT && virtualX < 768) {
             cameraMoving = true;
         } else {
             cameraMoving = false;
@@ -88,7 +87,13 @@ public class GamePlayManager extends GameState implements ActionListener {
                 if (wall != null) {
                     Rectangle wallRectangle = wall.getBounds();
                     if (playerRectangle.intersects(wallRectangle)) {
-                        player.restorePreviousPosition();
+                        if (!cameraMoving)
+                            player.restorePreviousPosition();
+                        else {
+                            System.out.println("COLLIDE!");
+                            player.restorePreviousPosition();
+                            tileMap.restorePreviousPosition();
+                        }
                     }
                 }
             }

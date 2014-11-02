@@ -47,11 +47,13 @@ public class TileMap {
 
     public void moveBlocks() {
         int newX;
-
+        int currentX;
         for (StaticObject[] row : walls) {
             for (StaticObject wall : row) {
                 if (wall != null) {
-                    newX = wall.getPosX() + deltaX;
+                    currentX = wall.getPosX();
+                    newX = currentX + deltaX;
+                    wall.setPreviousX(currentX);
                     wall.setPosX(newX);
                 }
             }
@@ -91,4 +93,17 @@ public class TileMap {
         return walls;
     }
 
+    public void restorePreviousPosition() {
+        int previousX;
+
+        for (StaticObject[] row : walls) {
+            for (StaticObject wall : row) {
+                if (wall != null) {
+                    previousX = wall.getPosX();
+                    wall.setPosX(previousX);
+                }
+            }
+        }
+
+    }
 }
