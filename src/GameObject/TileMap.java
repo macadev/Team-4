@@ -45,21 +45,6 @@ public class TileMap {
         }
     }
 
-    public void moveBlocks() {
-        int newX;
-        int currentX;
-        for (StaticObject[] row : walls) {
-            for (StaticObject wall : row) {
-                if (wall != null) {
-                    currentX = wall.getPosX();
-                    newX = currentX + deltaX;
-                    wall.setPreviousX(currentX);
-                    wall.setPosX(newX);
-                }
-            }
-        }
-    }
-
     public void populateGridWithBlocks() {
         walls = spawner.generateWalls();
     }
@@ -81,10 +66,6 @@ public class TileMap {
         }
     }
 
-    public int getPosXOfFirstBlock() {
-        return getConcreteWalls()[0][0].getPosX();
-    }
-
     public int getDeltaX() {
         return deltaX;
     }
@@ -93,17 +74,4 @@ public class TileMap {
         return walls;
     }
 
-    public void restorePreviousPosition() {
-        int previousX;
-
-        for (StaticObject[] row : walls) {
-            for (StaticObject wall : row) {
-                if (wall != null) {
-                    previousX = wall.getPosX();
-                    wall.setPosX(previousX);
-                }
-            }
-        }
-
-    }
 }
