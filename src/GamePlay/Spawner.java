@@ -2,6 +2,7 @@ package GamePlay;
 
 import GameObject.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by danielmacario on 14-11-01.
@@ -10,49 +11,90 @@ public class Spawner {
 
     private ArrayList<ConcreteWall> concreteWalls;
     private TileMap tileMap;
+
+    private StaticObject[][] gridLayout;
+
     //private ArrayList<BrickWall> brickWalls;
     //private <Enemy> enemies;
 
     public Spawner() {
+        int numRows = 13;
+        int numCols = 31;
+        gridLayout = new StaticObject[numCols][numRows];
+
         tileMap = new TileMap();
         concreteWalls = new ArrayList<ConcreteWall>();
     }
 
-    public ArrayList<ConcreteWall> generateConcreteWalls() {
+    public StaticObject[][] generateWalls() {
 
-        for (int i = 0; i < tileMap.NUM_OF_COLS; i++) {
-            //Generate top row of tiles
-            concreteWalls.add(new ConcreteWall(i * tileMap.WIDTH_OF_TILE, 0, true));
+        generateConcreteWalls();
+        generateBrickWalls();
 
-            //Generate bottom row of tiles
-            concreteWalls.add(new ConcreteWall(i * tileMap.WIDTH_OF_TILE,
-                    tileMap.HEIGHT_OF_TILE * (tileMap.NUM_OF_ROWS - 1), true));
+        return gridLayout;
+    }
 
-            //Generate first column of tiles
-            if (i >= 2 && i <= 12)
-                concreteWalls.add(new ConcreteWall(0, i * tileMap.WIDTH_OF_TILE - tileMap.WIDTH_OF_TILE, true));
+    public void generateConcreteWalls() {
 
-            //Generate last column of tiles
-            if (i >= 2 && i <= 12)
-                concreteWalls.add(new ConcreteWall(tileMap.TOTAL_WIDTH_OF_COLUMNS - tileMap.WIDTH_OF_TILE,
-                        i * tileMap.WIDTH_OF_TILE - tileMap.WIDTH_OF_TILE, true));
+        for (int col = 0; col < tileMap.NUM_OF_COLS; col++) {
 
-            //Generate alternating tiles present inside the grid
-            if (i % 2 == 1) {
-                concreteWalls.add(new ConcreteWall(i * tileMap.WIDTH_OF_TILE - tileMap.WIDTH_OF_TILE, 2 * tileMap.WIDTH_OF_TILE, true));
-                concreteWalls.add(new ConcreteWall(i * tileMap.WIDTH_OF_TILE - tileMap.WIDTH_OF_TILE, 4 * tileMap.WIDTH_OF_TILE, true));
-                concreteWalls.add(new ConcreteWall(i * tileMap.WIDTH_OF_TILE - tileMap.WIDTH_OF_TILE, 6 * tileMap.WIDTH_OF_TILE, true));
-                concreteWalls.add(new ConcreteWall(i * tileMap.WIDTH_OF_TILE - tileMap.WIDTH_OF_TILE, 8 * tileMap.WIDTH_OF_TILE, true));
-                concreteWalls.add(new ConcreteWall(i * tileMap.WIDTH_OF_TILE - tileMap.WIDTH_OF_TILE, 10 * tileMap.WIDTH_OF_TILE, true));
+            for (int row = 0; row < tileMap.NUM_OF_ROWS; row++) {
+
+                //Generate top row of tiles
+                if (row == 0) gridLayout[col][row] = new ConcreteWall(col * tileMap.WIDTH_OF_TILE, 0, true);
+
+                //Generate bottom row of tiles
+                if (row == 12) gridLayout[col][row] = new ConcreteWall(col * tileMap.WIDTH_OF_TILE,
+                        tileMap.HEIGHT_OF_TILE * (row), true);
+                //Generate first column of tiles
+                if (col == 0 && row >= 1 && row < 12)
+                    gridLayout[col][row] = new ConcreteWall(col, row * tileMap.HEIGHT_OF_TILE, true);
+
+                //Generate last column of tiles
+                if (col == 30 && row >= 1 && row < 12)
+                    gridLayout[col][row] = new ConcreteWall(col * tileMap.WIDTH_OF_TILE, row * tileMap.HEIGHT_OF_TILE, true);
+
+                //Generate alternating tiles present inside the grid
+                if (row >= 2 && row <= 10 && (row % 2) == 0 && col >= 2 && col <= 28 && (col % 2) == 0) {
+                    gridLayout[col][row] = new ConcreteWall(col * tileMap.WIDTH_OF_TILE, row * tileMap.WIDTH_OF_TILE, true);
+                }
             }
-
         }
-
-        return concreteWalls;
     }
 
     public void generateBrickWalls() {
 
+        int bricksLeft = 30;
+        int randomRow;
+        int randomCol;
+        while (bricksLeft > 0) {
+
+            randomCol = getRandom(1, 30);
+            randomRow = getRandom(2, 12);
+
+            if (gridLayout[randomCol][randomRow] == null) {
+                gridLayout[randomCol][randomRow] = new BrickWall(randomCol * tileMap.WIDTH_OF_TILE,
+                        randomRow * tileMap.HEIGHT_OF_TILE, true, false);
+                bricksLeft--;
+            }
+
+        }
+
+
+    }
+
+    /**
+     *
+     * @param low
+     * @param high
+     * @return
+     */
+    public int getRandom(int low, int high) {
+        Random r = new Random();
+        int result = r.nextInt(high - low) + low;
+
+        //number range is low <= x < high
+        return result;
     }
 
     public void generateEnemies() {

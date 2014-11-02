@@ -21,7 +21,7 @@ public class TileMap {
     public static final int HEIGHT_OF_TILE = 32;
     public static final int CAMERA_MOVING_LIMIT = 224;
 
-    private ArrayList<ConcreteWall> concreteWalls;
+    private StaticObject[][] walls;
     private Spawner spawner;
     private int speed;
 
@@ -37,21 +37,29 @@ public class TileMap {
     }
 
     public void drawBlocks(Graphics2D g) {
-        for (ConcreteWall concreteWall : concreteWalls) {
-            g.drawImage(concreteWall.getImage(), concreteWall.getPosX(), concreteWall.getPosY(), null);
+        for (StaticObject[] row : walls) {
+            for (StaticObject wall : row) {
+                if (wall != null)
+                    g.drawImage(wall.getImage(), wall.getPosX(), wall.getPosY(), null);
+            }
         }
     }
 
     public void moveBlocks() {
         int newX;
-        for (ConcreteWall concreteWall : concreteWalls) {
-            newX = concreteWall.getPosX() + deltaX;
-            concreteWall.setPosX(newX);
+
+        for (StaticObject[] row : walls) {
+            for (StaticObject wall : row) {
+                if (wall != null) {
+                    newX = wall.getPosX() + deltaX;
+                    wall.setPosX(newX);
+                }
+            }
         }
     }
 
     public void populateGridWithBlocks() {
-        concreteWalls = spawner.generateConcreteWalls();
+        walls = spawner.generateWalls();
     }
 
 
@@ -71,12 +79,16 @@ public class TileMap {
         }
     }
 
+    public int getPosXOfFirstBlock() {
+        return getConcreteWalls()[0][0].getPosX();
+    }
+
     public int getDeltaX() {
         return deltaX;
     }
 
-    public ArrayList<ConcreteWall> getConcreteWalls() {
-        return concreteWalls;
+    public StaticObject[][] getConcreteWalls() {
+        return walls;
     }
 
 }

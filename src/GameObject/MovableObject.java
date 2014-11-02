@@ -18,8 +18,14 @@ public class MovableObject extends GameObject {
         previousY = posY;
         posX += deltaX;
         posY += deltaY;
-        virtualX += deltaX;
+        virtualX = posX;
+        virtualY = posY;
+    }
+
+    public void moveVertically() {
+        posY += deltaY;
         virtualY += deltaY;
+        previousY = posY;
     }
 
     public void moveVirtualPosition(int deltaX){
@@ -30,5 +36,4 @@ public class MovableObject extends GameObject {
     public int getSpeed() {
         return this.speed;
     }
-
 }
