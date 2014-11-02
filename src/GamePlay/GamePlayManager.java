@@ -20,10 +20,10 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     private TileMap tileMap;
     private Player player;
+    private Camera camera;
     private boolean cameraMoving;
 
-    //Temporary variables
-    //TODO: remove after demo
+    //TODO: remove after demo, these are for temporary pause feature
     private Color titleColor;
     private Font titleFont;
 
@@ -32,6 +32,7 @@ public class GamePlayManager extends GameState implements ActionListener {
         this.player = new Player(35, 35, true, 2);
         this.cameraMoving = false;
         this.tileMap = new TileMap(player.getSpeed());
+        this.camera = new Camera(0, 0, player);
     }
 
     @Override
@@ -52,26 +53,28 @@ public class GamePlayManager extends GameState implements ActionListener {
             //Move the player each time we render again
             //Movement depends on the deltaX and deltaY
             //values of the MovableObject class
-            updateCamera();
+            //updateCamera();
 
-            if (!cameraMoving) {
-                player.move();
-            } else {
-                tileMap.moveBlocks();
-                player.moveVertically();
-                player.moveVirtualPosition(-tileMap.getDeltaX());
-            }
-
+            player.move();
             checkCollisions();
-            player.draw(g);
-            tileMap.drawBlocks(g);
+            updateCamera();
+            camera.adjustPosition();
+            if (cameraMoving) {
+                g.translate(camera.getPosX(), 0);
+                player.draw(g);
+                tileMap.drawBlocks(g);
+                g.translate(-camera.getPosX(), 0);
+            } else {
+                player.draw(g);
+                tileMap.drawBlocks(g);
+            }
 
         }
     }
 
     public void updateCamera() {
-        int virtualX = player.getVirtualX();
-        if (virtualX >= tileMap.CAMERA_MOVING_LIMIT && virtualX <= 768) {
+        int playerPosX = player.getPosX();
+        if (playerPosX > tileMap.CAMERA_MOVING_LIMIT && playerPosX < 768) {
             cameraMoving = true;
         } else {
             cameraMoving = false;
@@ -99,18 +102,12 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     @Override
     public void keyPressed(int k) {
-        if (cameraMoving && (k == KeyEvent.VK_LEFT || k == KeyEvent.VK_RIGHT))
-            tileMap.keyPressed(k);
-        else
-            this.player.keyPressed(k);
+        this.player.keyPressed(k);
     }
 
     @Override
     public void keyReleased(int k) {
-        if (cameraMoving && (k == KeyEvent.VK_LEFT || k == KeyEvent.VK_RIGHT))
-            tileMap.keyReleased(k);
-        else
-            this.player.keyReleased(k);
+        this.player.keyReleased(k);
     }
 
     @Override

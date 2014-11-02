@@ -22,8 +22,6 @@ public class Player extends MovableObject {
         this.posY = posY;
         this.previousX = posX;
         this.previousY = posY;
-        this.virtualX = posX;
-        this.virtualY = posY;
         this.visible = visible;
         this.speed = speed;
         this.image = new ImageIcon(this.getClass().getResource("../resources/bomberman3.png")).getImage();
@@ -38,8 +36,6 @@ public class Player extends MovableObject {
     public void restorePreviousPosition() {
         posX = previousX;
         posY = previousY;
-        virtualX = previousX;
-        virtualY = previousY;
     }
 
     public void keyPressed(int key) {
