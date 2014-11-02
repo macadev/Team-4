@@ -14,7 +14,7 @@ public class BrickWall extends StaticObject {
         this.posY = posY;
         this.previousX = posX;
         this.visible = visible;
-        this.image = new ImageIcon(this.getClass().getResource("../resources/brickBlock.png")).getImage();
+        this.image = new ImageIcon(this.getClass().getResource("../resources/brickBlock2.png")).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.hasPowerUp = hasPowerUp;

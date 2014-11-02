@@ -24,7 +24,7 @@ public class Player extends MovableObject {
         this.previousY = posY;
         this.visible = visible;
         this.speed = speed;
-        this.image = new ImageIcon(this.getClass().getResource("../resources/bomberman3.png")).getImage();
+        this.image = new ImageIcon(this.getClass().getResource("../resources/bomberman5.png")).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
     }

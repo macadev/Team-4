@@ -32,7 +32,7 @@ public class GamePlayManager extends GameState implements ActionListener {
         this.player = new Player(35, 35, true, 2);
         this.cameraMoving = false;
         this.tileMap = new TileMap(player.getSpeed());
-        this.camera = new Camera(0, 0, player);
+        this.camera = new Camera(player.getPosX(), player);
     }
 
     @Override

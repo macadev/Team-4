@@ -9,12 +9,10 @@ import SystemController.GameController;
 public class Camera {
 
     private int posX;
-    private int posY;
     private Player player;
 
-    public Camera(int posX, int posY, Player player) {
+    public Camera(int posX, Player player) {
         this.posX = posX;
-        this.posY = posY;
         this.player = player;
     }
 
@@ -29,14 +27,5 @@ public class Camera {
     public void setPosX(int posX) {
         this.posX = posX;
     }
-
-    public int getPosY() {
-        return posY;
-    }
-
-    public void setPosY(int posY) {
-        this.posY = posY;
-    }
-
 
 }
