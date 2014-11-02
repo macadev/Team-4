@@ -75,4 +75,8 @@ public class TileMap {
         return deltaX;
     }
 
+    public ArrayList<ConcreteWall> getConcreteWalls() {
+        return concreteWalls;
+    }
+
 }

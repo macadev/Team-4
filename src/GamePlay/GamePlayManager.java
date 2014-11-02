@@ -13,6 +13,7 @@ import SystemController.GameState;
 import GameObject.TileMap;
 import SystemController.GameStateManager;
 import GameObject.Player;
+import GameObject.ConcreteWall;
 
 /**
  * Created by danielmacario on 14-10-29.
@@ -30,17 +31,33 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     public GamePlayManager(GameStateManager gsm) {
         this.gsm = gsm;
-        this.player = new Player(50, 50, true, 2);
+        this.player = new Player(35, 35, true, 2);
         this.cameraMoving = false;
         this.tileMap = new TileMap(player.getSpeed());
     }
 
     public void updateCamera() {
-        if (player.getVirtualX() >= tileMap.CAMERA_MOVING_LIMIT) {
+        int virtualX = player.getVirtualX();
+        if (virtualX >= tileMap.CAMERA_MOVING_LIMIT && virtualX <= 768) {
             cameraMoving = true;
         } else {
             cameraMoving = false;
         }
+    }
+
+    public void checkCollisions() {
+        Rectangle playerRectangle = player.getBounds();
+        ArrayList<ConcreteWall> walls = tileMap.getConcreteWalls();
+        for (ConcreteWall wall : walls ) {
+
+            Rectangle wallRectangle = wall.getBounds();
+
+            if (playerRectangle.intersects(wallRectangle)) {
+                //System.out.println("Intersected!");
+                player.restorePreviousPosition();
+            }
+        }
+
     }
 
     @Override
@@ -85,8 +102,10 @@ public class GamePlayManager extends GameState implements ActionListener {
                 player.moveVirtualPosition(-tileMap.getDeltaX());
             }
 
+            checkCollisions();
             player.draw(g);
             tileMap.drawBlocks(g);
+
         }
     }
 

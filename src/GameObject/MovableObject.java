@@ -14,6 +14,8 @@ public class MovableObject extends GameObject {
      * The size of the displacement depends on the speed.
      */
     public void move() {
+        previousX = posX;
+        previousY = posY;
         posX += deltaX;
         posY += deltaY;
         virtualX += deltaX;

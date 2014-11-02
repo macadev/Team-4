@@ -20,15 +20,24 @@ public class Player extends MovableObject {
         this.deltaY = 0;
         this.posX = posX;
         this.posY = posY;
+        this.previousX = posX;
+        this.previousY = posY;
         this.virtualX = posX;
         this.virtualY = posY;
         this.visible = visible;
         this.speed = speed;
-        this.image = new ImageIcon(this.getClass().getResource("../resources/bomberman.png")).getImage();
+        this.image = new ImageIcon(this.getClass().getResource("../resources/bomberman2.png")).getImage();
+        this.width = image.getWidth(null);
+        this.height = image.getHeight(null);
     }
 
     public void draw(Graphics2D g) {
         g.drawImage(image, posX, posY, null);
+    }
+
+    public void restorePreviousPosition() {
+        posX = previousX;
+        posY = previousY;
     }
 
     public void keyPressed(int key) {
@@ -58,10 +67,8 @@ public class Player extends MovableObject {
         } else if (key == KeyEvent.VK_RIGHT) {
             deltaX = 0;
         } else if (key == KeyEvent.VK_UP) {
-            System.out.println("CALLEDLEDLED");
             deltaY = 0;
         } else if (key == KeyEvent.VK_DOWN) {
-            System.out.println("CALLEDLEDLED");
             deltaY = 0;
         }
     }

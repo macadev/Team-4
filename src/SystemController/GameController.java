@@ -61,7 +61,7 @@ public class GameController extends JPanel implements Runnable, KeyListener {
         //game loop
         while (running) {
 
-            g.setPaint(new Color(8, 77,0));
+            g.setPaint(new Color(10, 176,0));
             g.fillRect(0, 0, image.getWidth(), image.getHeight() );
             start = System.nanoTime();
 
