@@ -56,16 +56,19 @@ public class GamePlayManager extends GameState implements ActionListener {
             //updateCamera();
 
             player.move();
+            player.timeBombDetonation();
             checkCollisions();
             updateCamera();
             camera.adjustPosition();
             if (cameraMoving) {
                 g.translate(camera.getPosX(), 0);
                 player.draw(g);
+                player.drawBombs(g);
                 tileMap.drawBlocks(g);
                 g.translate(-camera.getPosX(), 0);
             } else {
                 player.draw(g);
+                player.drawBombs(g);
                 tileMap.drawBlocks(g);
             }
 

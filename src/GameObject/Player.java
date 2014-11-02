@@ -5,6 +5,7 @@ import GamePlay.GamePlayState;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 /**
  * Created by danielmacario on 14-10-31.
@@ -12,6 +13,7 @@ import java.awt.event.KeyEvent;
 public class Player extends MovableObject {
 
     private int score;
+    ArrayList<Bomb> bombsPlaced;
     private GamePlayState currentState;
 
     public Player(int posX, int posY, boolean visible, int speed) {
@@ -27,15 +29,36 @@ public class Player extends MovableObject {
         this.image = new ImageIcon(this.getClass().getResource("../resources/bomberman5.png")).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
+        this.bombsPlaced = new ArrayList<Bomb>();
     }
 
     public void draw(Graphics2D g) {
         g.drawImage(image, posX, posY, null);
     }
 
+    public void drawBombs(Graphics2D g) {
+        if (bombsPlaced.isEmpty()) return;
+        for (Bomb bomb : bombsPlaced) {
+            if (!bomb.isVisible()) bombsPlaced.remove(bomb);
+            else bomb.draw(g);
+        }
+    }
+
+    public void timeBombDetonation() {
+        if (bombsPlaced.isEmpty()) return;
+        for (Bomb bomb : bombsPlaced) {
+            bomb.detonationCountDown();
+        }
+    }
+
     public void restorePreviousPosition() {
         posX = previousX;
         posY = previousY;
+    }
+
+    private void placeBomb() {
+        Bomb bomb = new Bomb(posX, posY);
+        bombsPlaced.add(bomb);
     }
 
     public void keyPressed(int key) {
@@ -55,6 +78,9 @@ public class Player extends MovableObject {
             } else {
                 currentState = GamePlayState.INGAME;
             }
+
+        } else if (key == KeyEvent.VK_X) {
+            placeBomb();
         }
 
     }
