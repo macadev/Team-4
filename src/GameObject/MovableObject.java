@@ -16,6 +16,17 @@ public class MovableObject extends GameObject {
     public void move() {
         posX += deltaX;
         posY += deltaY;
+        virtualX += deltaX;
+        virtualY += deltaY;
+    }
+
+    public void moveVirtualPosition(int deltaX){
+        virtualX += deltaX;
+        virtualY += deltaY;
+    }
+
+    public int getSpeed() {
+        return this.speed;
     }
 
 }

@@ -3,6 +3,8 @@ package GamePlay;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -19,8 +21,7 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     private TileMap tileMap;
     private Player player;
-    private ArrayList<ConcreteWall> concreteWalls;
-    private Spawner spawner;
+    private boolean cameraMoving;
 
     //Temporary variables
     //TODO: remove after demo
@@ -30,31 +31,20 @@ public class GamePlayManager extends GameState implements ActionListener {
     public GamePlayManager(GameStateManager gsm) {
         this.gsm = gsm;
         this.player = new Player(50, 50, true, 2);
-        this.spawner = new Spawner();
-        /*
-        * TODO: we should call populate within the init method,
-        * but there seems to be a race condition that I can't understand
-        */
-        populateGridWithBlocks();
+        this.cameraMoving = false;
+        this.tileMap = new TileMap(player.getSpeed());
     }
 
-    public void drawBlocks(Graphics2D g) {
-        for (ConcreteWall concreteWall : concreteWalls) {
-            g.drawImage(concreteWall.getImage(), concreteWall.getPosX(), concreteWall.getPosY(), null);
+    public void updateCamera() {
+        if (player.getVirtualX() >= tileMap.CAMERA_MOVING_LIMIT) {
+            cameraMoving = true;
+        } else {
+            cameraMoving = false;
         }
-    }
-
-    public void drawPlayer(Graphics2D g) {
-        g.drawImage(player.getImage(), player.getPosX(), player.getPosY(), null);
-    }
-
-    public void populateGridWithBlocks() {
-        concreteWalls = spawner.generateConcreteWalls();
     }
 
     @Override
     public void init() {
-        System.out.println("Init called boi");
 
         //Populate the blocks arrayLists present in the game;
         //populateGridWithBlocks();
@@ -69,6 +59,7 @@ public class GamePlayManager extends GameState implements ActionListener {
     @Override
     public void draw(Graphics2D g) {
         GamePlayState currentState = player.getCurrentGamePlayState();
+
         if (currentState == GamePlayState.PAUSE) {
 
             //This section is just for the demo.
@@ -85,21 +76,34 @@ public class GamePlayManager extends GameState implements ActionListener {
             //Move the player each time we render again
             //Movement depends on the deltaX and deltaY
             //values of the MovableObject class
-            player.move();
+            updateCamera();
 
-            drawPlayer(g);
-            drawBlocks(g);
+            if (!cameraMoving) {
+                player.move();
+            } else {
+                tileMap.moveBlocks();
+                player.moveVirtualPosition(-tileMap.getDeltaX());
+            }
+
+            player.draw(g);
+            tileMap.drawBlocks(g);
         }
     }
 
     @Override
     public void keyPressed(int k) {
-        this.player.keyPressed(k);
+        if (cameraMoving && (k == KeyEvent.VK_LEFT || k == KeyEvent.VK_RIGHT))
+            tileMap.keyPressed(k);
+        else
+            this.player.keyPressed(k);
     }
 
     @Override
     public void keyReleased(int k) {
-        this.player.keyReleased(k);
+        if (cameraMoving && (k == KeyEvent.VK_LEFT || k == KeyEvent.VK_RIGHT))
+            tileMap.keyReleased(k);
+        else
+            this.player.keyReleased(k);
     }
 
     @Override

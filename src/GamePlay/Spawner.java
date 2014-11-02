@@ -14,18 +14,18 @@ public class Spawner {
     //private <Enemy> enemies;
 
     public Spawner() {
-        concreteWalls = new ArrayList<ConcreteWall>();
         tileMap = new TileMap();
+        concreteWalls = new ArrayList<ConcreteWall>();
     }
 
     public ArrayList<ConcreteWall> generateConcreteWalls() {
 
         for (int i = 0; i < tileMap.NUM_OF_COLS; i++) {
             //Generate top row of tiles
-            concreteWalls.add(new ConcreteWall(i * tileMap.WIDTH_OF_TILE - tileMap.WIDTH_OF_TILE, 0, true));
+            concreteWalls.add(new ConcreteWall(i * tileMap.WIDTH_OF_TILE, 0, true));
 
             //Generate bottom row of tiles
-            concreteWalls.add(new ConcreteWall(i * tileMap.WIDTH_OF_TILE - tileMap.WIDTH_OF_TILE,
+            concreteWalls.add(new ConcreteWall(i * tileMap.WIDTH_OF_TILE,
                     tileMap.HEIGHT_OF_TILE * (tileMap.NUM_OF_ROWS - 1), true));
 
             //Generate first column of tiles

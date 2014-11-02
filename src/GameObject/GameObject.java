@@ -7,8 +7,15 @@ import java.awt.*;
  */
 public class GameObject {
 
+    //Actual coordinates on the grid
     protected int posX;
     protected int posY;
+
+    //coordinates used once the objects start moving on the grid
+    //to keep track of the position in reference to the original ones
+    protected int virtualX;
+    protected int virtualY;
+
     protected int previousX;
     protected int previousY;
     protected int width;
@@ -35,6 +42,22 @@ public class GameObject {
 
     public void setPosY(int posY) {
         this.posY = posY;
+    }
+
+    public int getVirtualX() {
+        return virtualX;
+    }
+
+    public void setVirtualX(int virtualX) {
+        this.virtualX = virtualX;
+    }
+
+    public int getVirtualY() {
+        return virtualY;
+    }
+
+    public void setVirtualY(int virtualY) {
+        this.virtualY = virtualY;
     }
 
     public int getPreviousX() {

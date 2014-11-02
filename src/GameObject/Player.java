@@ -3,6 +3,7 @@ package GameObject;
 import GamePlay.GamePlayState;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**
@@ -19,9 +20,15 @@ public class Player extends MovableObject {
         this.deltaY = 0;
         this.posX = posX;
         this.posY = posY;
+        this.virtualX = posX;
+        this.virtualY = posY;
         this.visible = visible;
         this.speed = speed;
         this.image = new ImageIcon(this.getClass().getResource("../resources/bomberman.png")).getImage();
+    }
+
+    public void draw(Graphics2D g) {
+        g.drawImage(image, posX, posY, null);
     }
 
     public void keyPressed(int key) {
@@ -46,14 +53,15 @@ public class Player extends MovableObject {
     }
 
     public void keyReleased(int key) {
-
         if (key == KeyEvent.VK_LEFT) {
             deltaX = 0;
         } else if (key == KeyEvent.VK_RIGHT) {
             deltaX = 0;
         } else if (key == KeyEvent.VK_UP) {
+            System.out.println("CALLEDLEDLED");
             deltaY = 0;
         } else if (key == KeyEvent.VK_DOWN) {
+            System.out.println("CALLEDLEDLED");
             deltaY = 0;
         }
     }
