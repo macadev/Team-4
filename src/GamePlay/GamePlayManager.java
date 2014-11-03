@@ -22,6 +22,7 @@ public class GamePlayManager extends GameState implements ActionListener {
     private Player player;
     private Camera camera;
     private boolean cameraMoving;
+    private boolean secondCameraRegion;
 
     //TODO: remove after demo, these are for temporary pause feature
     private Color titleColor;
@@ -67,9 +68,17 @@ public class GamePlayManager extends GameState implements ActionListener {
                 tileMap.drawBlocks(g);
                 g.translate(-camera.getPosX(), 0);
             } else {
-                player.draw(g);
-                player.drawBombs(g);
-                tileMap.drawBlocks(g);
+                if (secondCameraRegion) {
+                    g.translate(-(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.WIDTH_OF_TILE), 0);
+                    player.draw(g);
+                    player.drawBombs(g);
+                    tileMap.drawBlocks(g);
+                    g.translate(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.WIDTH_OF_TILE, 0);
+                } else {
+                    player.draw(g);
+                    player.drawBombs(g);
+                    tileMap.drawBlocks(g);
+                }
             }
 
         }
@@ -77,10 +86,15 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     public void updateCamera() {
         int playerPosX = player.getPosX();
-        if (playerPosX > tileMap.CAMERA_MOVING_LIMIT && playerPosX < 768) {
+        int secondCameraThreshold = 733;
+        if (playerPosX > tileMap.CAMERA_MOVING_LIMIT && playerPosX < secondCameraThreshold) {
             cameraMoving = true;
         } else {
             cameraMoving = false;
+            secondCameraRegion = false;
+            if (playerPosX >= secondCameraThreshold) {
+                secondCameraRegion = true;
+            }
         }
     }
 
