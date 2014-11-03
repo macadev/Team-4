@@ -17,7 +17,7 @@ public class Camera {
     }
 
     public void adjustPosition() {
-        posX = -player.getPosX() + GameController.WIDTH/2;
+        posX = -player.getPosX() + GameController.WIDTH/2 - 18;
     }
 
     public int getPosX() {
