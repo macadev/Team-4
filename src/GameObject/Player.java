@@ -57,7 +57,8 @@ public class Player extends MovableObject {
     }
 
     private void placeBomb() {
-        Bomb bomb = new Bomb(posX, posY);
+        //The % allows the bombs to snap to the center of the tiles where they are placed
+        Bomb bomb = new Bomb(posX - posX % 32, posY - posY % 32);
         bombsPlaced.add(bomb);
     }
 

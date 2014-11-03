@@ -57,7 +57,6 @@ public class GamePlayManager extends GameState implements ActionListener {
             //updateCamera();
 
             player.move();
-            player.timeBombDetonation();
             checkCollisions();
             updateCamera();
             camera.adjustPosition();
