@@ -10,6 +10,11 @@ The prototype as of November 2nd, 2014.
 - Game can be paused by pressing the space bar.
 - Player can move using the arrow keys. Camera will follow if at the center of the screen.
 - Bombs can be placed by pressing the x key (preliminary prototype).
+<<<<<<< HEAD
 
 
 Test Florent
+=======
+- Testing 1 2 3
+
+>>>>>>> a1139fa760c92056c0970445b952d9f9c2a8bbd9
