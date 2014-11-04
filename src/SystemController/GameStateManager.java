@@ -16,6 +16,7 @@ public class GameStateManager {
 
     public static final int MENUSTATE = 0;
     public static final int GAMEPLAY = 1;
+    public static final int LOGINMENU = 2;
 
     public GameStateManager() {
 

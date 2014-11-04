@@ -26,13 +26,13 @@ public class MenuManager extends GameState {
             MenuState.MODIFYACCOUNT
     };
 
-
     public MenuManager(GameStateManager gsm) {
 
         this.gsm = gsm;
         menuStates = new Hashtable<MenuState, MenuTemplate>();
         menuStates.put(MenuState.MAIN, new MainMenu(this, gsm));
-        currentMenu = MenuState.MAIN;
+        menuStates.put(MenuState.LOGIN, new Login(this));
+        currentMenu = MenuState.LOGIN;
 
     }
 
