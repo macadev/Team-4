@@ -100,7 +100,7 @@ public class GamePlayManager extends GameState implements ActionListener {
     public void checkCollisions() {
         Rectangle playerRectangle = player.getBounds();
         StaticObject[][] walls = tileMap.getConcreteWalls();
-
+        ArrayList<Bomb> bombsPlaced = player.getBombsPlaced();
 
         for (StaticObject[] row : walls) {
             for (StaticObject wall : row) {
@@ -113,6 +113,16 @@ public class GamePlayManager extends GameState implements ActionListener {
             }
         }
 
+        for (Bomb bomb : bombsPlaced) {
+            Rectangle bombRectangle = bomb.getBounds();
+            if (playerRectangle.intersects(bombRectangle)) {
+                if (!bomb.isFirstCollision()) {
+                    player.restorePreviousPosition();
+                }
+            } else {
+                bomb.setFirstCollision(false);
+            }
+        }
 
     }
 

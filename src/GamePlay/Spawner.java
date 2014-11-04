@@ -70,6 +70,7 @@ public class Spawner {
         while (bricksLeft > 0) {
 
             randomCol = getRandom(1, 30);
+            //TODO: change x = 1, so that the first row can be populated as well
             randomRow = getRandom(2, 12);
 
             if (gridLayout[randomCol][randomRow] == null) {

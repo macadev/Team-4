@@ -98,6 +98,14 @@ public class Player extends MovableObject {
         }
     }
 
+    public ArrayList<Bomb> getBombsPlaced() {
+        return bombsPlaced;
+    }
+
+    public void setBombsPlaced(ArrayList<Bomb> bombsPlaced) {
+        this.bombsPlaced = bombsPlaced;
+    }
+
     public GamePlayState getCurrentGamePlayState() {
         return this.currentState;
     }
