@@ -38,6 +38,8 @@ public class GameObject {
         this.posY = posY;
     }
 
+
+
     public int getPreviousX() {
         return previousX;
     }
