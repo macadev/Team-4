@@ -38,16 +38,16 @@ public class Player extends MovableObject {
 
     public void drawBombs(Graphics2D g) {
         if (bombsPlaced.isEmpty()) return;
-        for (Bomb bomb : bombsPlaced) {
-            if (!bomb.isVisible()) bombsPlaced.remove(bomb);
-            else bomb.draw(g);
-        }
-    }
-
-    public void timeBombDetonation() {
-        if (bombsPlaced.isEmpty()) return;
-        for (Bomb bomb : bombsPlaced) {
-            bomb.detonationCountDown();
+        int length = bombsPlaced.size();
+        for (int i = 0; i < length; i ++) {
+            Bomb bomb = bombsPlaced.get(i);
+            synchronized (bomb) {
+                if (!bomb.isVisible()) {
+                    bombsPlaced.remove(bomb);
+                    length = bombsPlaced.size();
+                }
+                else bomb.draw(g);
+            }
         }
     }
 
