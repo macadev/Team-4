@@ -27,11 +27,11 @@ public class Player extends MovableObject {
         this.previousY = posY;
         this.visible = visible;
         this.speed = speed;
-        this.image = new ImageIcon(this.getClass().getResource("../resources/bomberman5.png")).getImage();
+        this.image = new ImageIcon(this.getClass().getResource("../resources/bomberman7.png")).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
-        this.bombsAllowed = 1;
+        this.bombsAllowed = 20;
     }
 
     public void draw(Graphics2D g) {
@@ -55,6 +55,14 @@ public class Player extends MovableObject {
 
     public void restorePreviousPosition() {
         posX = previousX;
+        posY = previousY;
+    }
+
+    public void restorePreviousXPosition() {
+        posX = previousX;
+    }
+
+    public void restorePreviousYPosition() {
         posY = previousY;
     }
 

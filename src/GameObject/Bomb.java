@@ -38,7 +38,7 @@ public class Bomb extends StaticObject {
     }
 
     public void initiateCountdownToDetonation() {
-        Timer bombTimer = new Timer(1500, listener);
+        Timer bombTimer = new Timer(2500, listener);
         bombTimer.start();
     }
 

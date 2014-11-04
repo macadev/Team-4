@@ -3,15 +3,12 @@ package GamePlay;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import GameObject.*;
 import SystemController.GameState;
 import SystemController.GameStateManager;
-import GameObject.ConcreteWall;
 
 /**
  * Created by danielmacario on 14-10-29.
@@ -30,7 +27,7 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     public GamePlayManager(GameStateManager gsm) {
         this.gsm = gsm;
-        this.player = new Player(35, 35, true, 2);
+        this.player = new Player(35, 35, true, 3);
         this.cameraMoving = false;
         this.tileMap = new TileMap(player.getSpeed());
         this.camera = new Camera(player.getPosX(), player);
@@ -99,7 +96,7 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     public void checkCollisions() {
         Rectangle playerRectangle = player.getBounds();
-        StaticObject[][] walls = tileMap.getConcreteWalls();
+        StaticObject[][] walls = tileMap.getWalls();
         ArrayList<Bomb> bombsPlaced = player.getBombsPlaced();
 
         for (StaticObject[] row : walls) {
@@ -107,7 +104,27 @@ public class GamePlayManager extends GameState implements ActionListener {
                 if (wall != null) {
                     Rectangle wallRectangle = wall.getBounds();
                     if (playerRectangle.intersects(wallRectangle)) {
-                        player.restorePreviousPosition();
+
+                        int playerPosX = player.getPosX();
+                        int playerPosY = player.getPosY();
+                        int wallPosX = wall.getPosX();
+                        int wallPosY = wall.getPosY();
+
+                        if (playerPosY <= wallPosY && (playerPosX >= wallPosX && playerPosX <= (wallPosX + 32))) {
+                            //Collision on top of box
+                            player.restorePreviousYPosition();
+                        } else if (playerPosY >= wallPosY /*migh want to check this twice*/  && (playerPosX >= wallPosX && playerPosX <= wallPosX + 32)) {
+                            //Collision on bottom of box
+                            player.restorePreviousYPosition();
+                        } else if (playerPosY >= wallPosY && playerPosY <= (wallPosY + 32) && (playerPosX >= wallPosX)) {
+                            //Collision on right side of box
+                            player.restorePreviousXPosition();
+                        } else {
+                            //collision on left side of box
+                            player.restorePreviousXPosition();
+                        }
+
+                        //player.restorePreviousPosition();
                     }
                 }
             }

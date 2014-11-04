@@ -70,7 +70,7 @@ public class TileMap {
         return deltaX;
     }
 
-    public StaticObject[][] getConcreteWalls() {
+    public StaticObject[][] getWalls() {
         return walls;
     }
 
