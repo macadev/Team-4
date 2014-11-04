@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class Player extends MovableObject {
 
     private int score;
+    private int bombsAllowed;
     ArrayList<Bomb> bombsPlaced;
     private GamePlayState currentState;
 
@@ -30,6 +31,7 @@ public class Player extends MovableObject {
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
+        this.bombsAllowed = 1;
     }
 
     public void draw(Graphics2D g) {
@@ -57,9 +59,11 @@ public class Player extends MovableObject {
     }
 
     private void placeBomb() {
-        //The % allows the bombs to snap to the center of the tiles where they are placed
-        Bomb bomb = new Bomb(posX - posX % 32, posY - posY % 32);
-        bombsPlaced.add(bomb);
+        if (bombsPlaced.size() < bombsAllowed) {
+            //The % allows the bombs to snap to the center of the tiles where they are placed
+            Bomb bomb = new Bomb(posX - posX % 32, posY - posY % 32);
+            bombsPlaced.add(bomb);
+        }
     }
 
     public void keyPressed(int key) {
@@ -110,4 +114,11 @@ public class Player extends MovableObject {
         return this.currentState;
     }
 
+    public int getBombsAllowed() {
+        return bombsAllowed;
+    }
+
+    public void setBombsAllowed(int bombsAllowed) {
+        this.bombsAllowed = bombsAllowed;
+    }
 }
