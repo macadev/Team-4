@@ -1,4 +1,5 @@
 package Menu;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -7,15 +8,24 @@ import java.awt.event.KeyEvent;
  */
 public class Login extends MenuTemplate {
 
-    private String[] options = {"Login",
-                                "Create Account",
-                                "Quit"};
+    //Creating JTextFiled[] object array
+    private JTextField[] information;
+
+    private String[] options = {"Login","Create Account","Exit"};
     private int currentChoice = 0;
     private Color titleColor;
     private Font titleFont;
     private Font font;
 
     public Login (MenuManager menuManager) {
+
+        //Constructor for username and passwords
+        this.information = new JTextField[2];
+        JTextField username = new JTextField(100);
+        JPasswordField password = new JPasswordField(100);
+        this.information[0] = username;
+        this.information[1] = password;
+
         this.menuManager = menuManager;
         titleColor = new Color(230, 200, 0);
         titleFont = new Font("Century Gothic", Font.PLAIN, 28);
@@ -45,12 +55,19 @@ public class Login extends MenuTemplate {
         g.setFont(font);
         for(int i = 0; i < options.length; i++) {
             if (i == currentChoice) {
-                g.setColor(Color.GREEN);
+                g.setColor(Color.WHITE);
             } else {
                 g.setColor(Color.RED);
             }
+
+
+
             // pass horizontal distance, then vertical distance
             g.drawString(options[i], 95, 120 + i * 15);
+            information[0].paint(g);
+            for(JTextField tF: information){
+                tF.paint(g);
+            }
         }
     }
 
@@ -61,7 +78,7 @@ public class Login extends MenuTemplate {
         if (currentChoice == 1) {
             //load game
         }
-        if (currentChoice == 2) {
+        if (currentChoice == 1) {
             //terminate the game
             System.exit(0);
         }
