@@ -105,26 +105,30 @@ public class GamePlayManager extends GameState implements ActionListener {
                     Rectangle wallRectangle = wall.getBounds();
                     if (playerRectangle.intersects(wallRectangle)) {
 
-                        int playerPosX = player.getPosX();
-                        int playerPosY = player.getPosY();
-                        int wallPosX = wall.getPosX();
-                        int wallPosY = wall.getPosY();
+                        Rectangle playerLeftSide = player.getBoundsLeft();
+                        Rectangle playerRightSide = player.getBoundsRight();
+                        Rectangle playerTopSide = player.getBoundsTop();
+                        Rectangle playerBottomSide = player.getBoundsBottom();
 
-                        if (playerPosY <= wallPosY && (playerPosX >= wallPosX && playerPosX <= (wallPosX + 32))) {
-                            //Collision on top of box
+                        Rectangle cornerTopRight = playerTopSide.intersection(playerRightSide);
+                        Rectangle cornerTopLeft = playerTopSide.intersection(playerLeftSide);
+                        Rectangle cornerBottomRight = playerBottomSide.intersection(playerRightSide);
+                        Rectangle cornerBottomLeft = playerBottomSide.intersection(playerLeftSide);
+
+                        boolean longTest = (cornerTopRight.intersects(wallRectangle) || cornerTopLeft.intersects(wallRectangle) ||
+                                            cornerBottomLeft.intersects(wallRectangle) || cornerBottomRight.intersects(wallRectangle));
+
+                        if (longTest) {
+                            player.restorePreviousPosition();
+                            System.out.println("corner");
+                        } else if (playerTopSide.intersects(wallRectangle) || playerBottomSide.intersects(wallRectangle)) {
                             player.restorePreviousYPosition();
-                        } else if (playerPosY >= wallPosY /*migh want to check this twice*/  && (playerPosX >= wallPosX && playerPosX <= wallPosX + 32)) {
-                            //Collision on bottom of box
-                            player.restorePreviousYPosition();
-                        } else if (playerPosY >= wallPosY && playerPosY <= (wallPosY + 32) && (playerPosX >= wallPosX)) {
-                            //Collision on right side of box
+                            System.out.println("collision top or bottom");
+                        } else if (playerRightSide.intersects(wallRectangle) || playerLeftSide.intersects(wallRectangle)) {
                             player.restorePreviousXPosition();
-                        } else {
-                            //collision on left side of box
-                            player.restorePreviousXPosition();
+                            System.out.println("collision left or right");
+                            //player.restorePreviousPosition();
                         }
-
-                        //player.restorePreviousPosition();
                     }
                 }
             }

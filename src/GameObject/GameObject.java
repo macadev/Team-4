@@ -22,6 +22,26 @@ public class GameObject {
         return new Rectangle(posX, posY, width, height);
     }
 
+    public Rectangle getBoundsBottom() {
+        return new Rectangle(posX + 2, posY + (height) - 5, width - 4, 5);
+    }
+
+    public Rectangle getBoundsTop() {
+        return new Rectangle(posX + 2, posY, width - 4, 5);
+    }
+
+    public Rectangle getBoundsRight() {
+        return new Rectangle(posX + width - 5, posY + 2, 5, height - 4);
+    }
+
+    public Rectangle getBoundsLeft() {
+        return new Rectangle(posX, posY + 2, 5, height - 4);
+    }
+
+    public Rectangle getBoundsTopRightCorner() {
+        return new Rectangle(posX, posY + 4, 5, height - 8);
+    }
+
     public int getPosX() {
         return posX;
     }

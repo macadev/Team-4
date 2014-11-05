@@ -36,6 +36,11 @@ public class Player extends MovableObject {
 
     public void draw(Graphics2D g) {
         g.drawImage(image, posX, posY, null);
+        g.setColor(Color.RED);
+        g.draw(this.getBoundsBottom());
+        g.draw(this.getBoundsRight());
+        g.draw(this.getBoundsLeft());
+        g.draw(this.getBoundsTop());
     }
 
     public void drawBombs(Graphics2D g) {
