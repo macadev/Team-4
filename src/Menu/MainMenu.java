@@ -1,6 +1,5 @@
 package Menu;
 
-import SystemController.GameState;
 import SystemController.GameStateManager;
 
 import java.awt.*;
@@ -32,11 +31,6 @@ public class MainMenu extends MenuTemplate {
 
     @Override
     public void init() {
-
-    }
-
-    @Override
-    public void update() {
 
     }
 

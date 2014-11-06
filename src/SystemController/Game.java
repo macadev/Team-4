@@ -8,6 +8,11 @@ import javax.swing.JFrame;
 
 public class Game {
 
+    /**
+     * Creates the JFrame object where all the views will be rendered
+     * and where the user will interact with the application.
+     * @param args
+     */
     public static void main(String[] args) {
         JFrame window = new JFrame("Bomberman");
         window.setContentPane(new GameController());

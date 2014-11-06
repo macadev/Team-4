@@ -16,6 +16,7 @@ public class Player extends MovableObject {
     private int bombsAllowed;
     ArrayList<Bomb> bombsPlaced;
     private GamePlayState currentState;
+    private boolean wallPass;
 
     public Player(int posX, int posY, boolean visible, int speed) {
         this.currentState = GamePlayState.INGAME;
@@ -31,7 +32,8 @@ public class Player extends MovableObject {
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
-        this.bombsAllowed = 20;
+        this.bombsAllowed = 1;
+        this.wallPass = false;
     }
 
     public void draw(Graphics2D g) {
@@ -113,6 +115,14 @@ public class Player extends MovableObject {
         } else if (key == KeyEvent.VK_DOWN) {
             deltaY = 0;
         }
+    }
+
+    public boolean isWallPass() {
+        return wallPass;
+    }
+
+    public void setWallPass(boolean wallPass) {
+        this.wallPass = wallPass;
     }
 
     public ArrayList<Bomb> getBombsPlaced() {

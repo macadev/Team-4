@@ -1,7 +1,11 @@
+/**
+ * Created by danielmacario on 14-10-31.
+ */
 package GameObject;
 
 /**
- * Created by danielmacario on 14-10-31.
+ * Defines the commmon functionality shared by all the objects that can move
+ * on the grid.
  */
 public class MovableObject extends GameObject {
 
@@ -20,12 +24,25 @@ public class MovableObject extends GameObject {
         posY += deltaY;
     }
 
+
     public void moveVertically() {
         posY += deltaY;
         previousY = posY;
     }
 
+    /**
+     * Retrieve the speed attribute of the movable object
+     * @return
+     */
     public int getSpeed() {
         return this.speed;
+    }
+
+    /**
+     * Modify the speed attribute of the movable object
+     * @param speed
+     */
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 }

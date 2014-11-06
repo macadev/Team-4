@@ -39,11 +39,6 @@ public class Login extends MenuTemplate {
     }
 
     @Override
-    public void update() {
-
-    }
-
-    @Override
     public void draw(Graphics2D g) {
         //draw the title
         g.setColor(titleColor);

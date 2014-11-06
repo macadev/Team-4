@@ -4,7 +4,6 @@ import SystemController.GameState;
 import SystemController.GameStateManager;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
@@ -39,11 +38,6 @@ public class MenuManager extends GameState {
     public void setMenuState(MenuState state) {
         currentMenu = state;
         menuStates.get(currentMenu).init();
-    }
-
-    @Override
-    public void update() {
-        menuStates.get(currentMenu).update();
     }
 
     @Override

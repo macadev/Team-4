@@ -166,11 +166,6 @@ public class GamePlayManager extends GameState implements ActionListener {
     }
 
     @Override
-    public void update() {
-
-    }
-
-    @Override
     public void actionPerformed(ActionEvent actionEvent) {
         //TODO: not 100% sure this will be used
     }
