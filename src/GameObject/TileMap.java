@@ -80,9 +80,8 @@ public class TileMap {
         int posYOfExplosion = posY / 32;
 
         //Place a flame object at the center of the explosion
-        if (!(walls[posXOfExplosion][posYOfExplosion] instanceof ConcreteWall)) {
-            flames.add(new Flame(posXOfExplosion * 32, posYOfExplosion * 32, true));
-        }
+        flames.add(new Flame(posXOfExplosion * 32, posYOfExplosion * 32, true));
+
 
 
         boolean hasConcreteWallNorth = false;
@@ -94,12 +93,21 @@ public class TileMap {
 
             if (!hasConcreteWallEast) {
 
-                isConcreteWall = (walls[posXOfExplosion + i][posYOfExplosion] instanceof ConcreteWall);
-
+                isConcreteWall = ((walls[posXOfExplosion + i][posYOfExplosion]) instanceof ConcreteWall);
                 if (!isConcreteWall) {
-                    flames.add(new Flame((posXOfExplosion + i) * 32, posYOfExplosion * 32, true));
+                    flames.add(new Flame((posXOfExplosion + i) * 32, (posYOfExplosion) * 32, true));
                 } else if (isConcreteWall) {
                     hasConcreteWallEast = true;
+                }
+            }
+
+            if (!hasConcreteWallWest) {
+
+                isConcreteWall = (walls[posXOfExplosion - i][posYOfExplosion] instanceof ConcreteWall);
+                if (!isConcreteWall) {
+                    flames.add(new Flame((posXOfExplosion - i) * 32, (posYOfExplosion) * 32, true));
+                } else if (isConcreteWall) {
+                    hasConcreteWallWest = true;
                 }
             }
 
@@ -108,31 +116,20 @@ public class TileMap {
                 isConcreteWall = (walls[posXOfExplosion][posYOfExplosion + i] instanceof ConcreteWall);
 
                 if (!isConcreteWall) {
-                    flames.add(new Flame(posXOfExplosion * 32, (posYOfExplosion + i) * 32, true));
+                    flames.add(new Flame((posXOfExplosion) * 32, (posYOfExplosion + i) * 32, true));
                 } else if (!isConcreteWall){
                     hasConcreteWallSouth = true;
                 }
             }
 
-            if (!hasConcreteWallWest) {
-
-                isConcreteWall = (walls[posXOfExplosion - i][posYOfExplosion] instanceof ConcreteWall);
-
-                if (!isConcreteWall) {
-                    flames.add(new Flame((posXOfExplosion - i) * 32, posYOfExplosion * 32, true));
-                } else if (isConcreteWall) {
-                    hasConcreteWallWest = true;
-                }
-            }
-
-            if (!hasConcreteWallEast) {
+            if (!hasConcreteWallNorth) {
 
                 isConcreteWall = (walls[posXOfExplosion][posYOfExplosion - i] instanceof ConcreteWall);
 
                 if (!isConcreteWall) {
                     flames.add(new Flame((posXOfExplosion) * 32, (posYOfExplosion - i) * 32, true));
                 } else if (isConcreteWall) {
-                    hasConcreteWallEast = true;
+                    hasConcreteWallNorth = true;
                 }
             }
         }
