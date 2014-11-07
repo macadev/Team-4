@@ -45,4 +45,20 @@ public class MovableObject extends GameObject {
     public void setSpeed(int speed) {
         this.speed = speed;
     }
+
+    public int getDeltaX() {
+        return deltaX;
+    }
+
+    public void setDeltaX(int deltaX) {
+        this.deltaX = deltaX;
+    }
+
+    public int getDeltaY() {
+        return deltaY;
+    }
+
+    public void setDeltaY(int deltaY) {
+        this.deltaY = deltaY;
+    }
 }

@@ -105,30 +105,27 @@ public class GamePlayManager extends GameState implements ActionListener {
                     Rectangle wallRectangle = wall.getBounds();
                     if (playerRectangle.intersects(wallRectangle)) {
 
-                        Rectangle playerLeftSide = player.getBoundsLeft();
-                        Rectangle playerRightSide = player.getBoundsRight();
-                        Rectangle playerTopSide = player.getBoundsTop();
-                        Rectangle playerBottomSide = player.getBoundsBottom();
+                        int x = player.getPosX();
+                        int y = player.getPosY();
 
-                        Rectangle cornerTopRight = playerTopSide.intersection(playerRightSide);
-                        Rectangle cornerTopLeft = playerTopSide.intersection(playerLeftSide);
-                        Rectangle cornerBottomRight = playerBottomSide.intersection(playerRightSide);
-                        Rectangle cornerBottomLeft = playerBottomSide.intersection(playerLeftSide);
+                        player.restorePreviousXPosition();
 
-                        boolean longTest = (cornerTopRight.intersects(wallRectangle) || cornerTopLeft.intersects(wallRectangle) ||
-                                            cornerBottomLeft.intersects(wallRectangle) || cornerBottomRight.intersects(wallRectangle));
-
-                        if (longTest) {
-                            player.restorePreviousPosition();
-                            System.out.println("corner");
-                        } else if (playerTopSide.intersects(wallRectangle) || playerBottomSide.intersects(wallRectangle)) {
-                            player.restorePreviousYPosition();
-                            System.out.println("collision top or bottom");
-                        } else if (playerRightSide.intersects(wallRectangle) || playerLeftSide.intersects(wallRectangle)) {
-                            player.restorePreviousXPosition();
-                            System.out.println("collision left or right");
-                            //player.restorePreviousPosition();
+                        if (player.getBounds().intersects(wallRectangle)) {
+                            player.restorePositionTo(x,y);
+                        } else {
+                            break;
                         }
+
+                        player.restorePreviousYPosition();
+
+                        if (player.getBounds().intersects(wallRectangle)) {
+                            player.restorePositionTo(x,y);
+                        } else {
+                            break;
+                        }
+
+                        player.restorePreviousPosition();
+                        break;
                     }
                 }
             }

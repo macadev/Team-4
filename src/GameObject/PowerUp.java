@@ -48,6 +48,12 @@ public class PowerUp extends StaticObject {
 
     }
 
+    /**
+     * Based on the PowerUpType associated with this instance, we modify gameplay logic according to the specific
+     * functionality of each powerup
+     * @param player
+     * @param powerUp
+     */
     public void enablePowerUp(Player player, PowerUpType powerUp) {
         switch (powerUp) {
             case BOMBPASS:

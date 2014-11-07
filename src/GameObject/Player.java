@@ -36,15 +36,6 @@ public class Player extends MovableObject {
         this.wallPass = false;
     }
 
-    public void draw(Graphics2D g) {
-        g.drawImage(image, posX, posY, null);
-        g.setColor(Color.RED);
-        g.draw(this.getBoundsBottom());
-        g.draw(this.getBoundsRight());
-        g.draw(this.getBoundsLeft());
-        g.draw(this.getBoundsTop());
-    }
-
     public void drawBombs(Graphics2D g) {
         if (bombsPlaced.isEmpty()) return;
         int length = bombsPlaced.size();
@@ -71,6 +62,11 @@ public class Player extends MovableObject {
 
     public void restorePreviousYPosition() {
         posY = previousY;
+    }
+
+    public void restorePositionTo(int x, int y) {
+        posX = x;
+        posY = y;
     }
 
     private void placeBomb() {

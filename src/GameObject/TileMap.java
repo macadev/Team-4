@@ -40,7 +40,7 @@ public class TileMap {
         for (StaticObject[] row : walls) {
             for (StaticObject wall : row) {
                 if (wall != null)
-                    g.drawImage(wall.getImage(), wall.getPosX(), wall.getPosY(), null);
+                    wall.draw(g);
             }
         }
     }
