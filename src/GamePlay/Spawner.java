@@ -41,22 +41,22 @@ public class Spawner {
             for (int row = 0; row < tileMap.NUM_OF_ROWS; row++) {
 
                 //Generate top row of tiles
-                if (row == 0) gridLayout[col][row] = new ConcreteWall(col * tileMap.WIDTH_OF_TILE, 0, true);
+                if (row == 0) gridLayout[col][row] = new ConcreteWall(col * tileMap.WIDTH_OF_TILE, 0);
 
                 //Generate bottom row of tiles
                 if (row == 12) gridLayout[col][row] = new ConcreteWall(col * tileMap.WIDTH_OF_TILE,
-                        tileMap.HEIGHT_OF_TILE * (row), true);
+                        tileMap.HEIGHT_OF_TILE * (row));
                 //Generate first column of tiles
                 if (col == 0 && row >= 1 && row < 12)
-                    gridLayout[col][row] = new ConcreteWall(col, row * tileMap.HEIGHT_OF_TILE, true);
+                    gridLayout[col][row] = new ConcreteWall(col, row * tileMap.HEIGHT_OF_TILE);
 
                 //Generate last column of tiles
                 if (col == 30 && row >= 1 && row < 12)
-                    gridLayout[col][row] = new ConcreteWall(col * tileMap.WIDTH_OF_TILE, row * tileMap.HEIGHT_OF_TILE, true);
+                    gridLayout[col][row] = new ConcreteWall(col * tileMap.WIDTH_OF_TILE, row * tileMap.HEIGHT_OF_TILE);
 
                 //Generate alternating tiles present inside the grid
                 if (row >= 2 && row <= 10 && (row % 2) == 0 && col >= 2 && col <= 28 && (col % 2) == 0) {
-                    gridLayout[col][row] = new ConcreteWall(col * tileMap.WIDTH_OF_TILE, row * tileMap.WIDTH_OF_TILE, true);
+                    gridLayout[col][row] = new ConcreteWall(col * tileMap.WIDTH_OF_TILE, row * tileMap.WIDTH_OF_TILE);
                 }
             }
         }
@@ -71,7 +71,7 @@ public class Spawner {
 
             randomCol = getRandom(1, 30);
             //TODO: change x = 1, so that the first row can be populated as well
-            randomRow = getRandom(2, 12);
+            randomRow = getRandom(1, 12);
 
             if (gridLayout[randomCol][randomRow] == null) {
                 gridLayout[randomCol][randomRow] = new BrickWall(randomCol * tileMap.WIDTH_OF_TILE,

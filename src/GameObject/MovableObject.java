@@ -32,7 +32,7 @@ public class MovableObject extends GameObject {
 
     /**
      * Retrieve the speed attribute of the movable object
-     * @return
+     * @return an integer representing the speed of the MovableObject
      */
     public int getSpeed() {
         return this.speed;
@@ -40,7 +40,7 @@ public class MovableObject extends GameObject {
 
     /**
      * Modify the speed attribute of the movable object
-     * @param speed
+     * @param speed Set the speed of the movable object instance
      */
     public void setSpeed(int speed) {
         this.speed = speed;

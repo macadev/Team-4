@@ -1,9 +1,13 @@
+/**
+ * Created by danielmacario on 14-11-06.
+ */
 package GameObject;
 
 import javax.swing.*;
 
+//TODO: finish comment
 /**
- * Created by danielmacario on 14-11-06.
+ * Flame Class. Used to represent the flame object placed on the grid....
  */
 public class Flame extends StaticObject {
 
