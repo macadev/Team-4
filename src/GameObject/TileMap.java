@@ -23,7 +23,9 @@ public class TileMap {
 
     private StaticObject[][] walls;
     private Spawner spawner;
+    private ArrayList<Flame> flames;
     private int speed;
+    private int bombRadius;
 
     private int deltaX;
 
@@ -33,15 +35,21 @@ public class TileMap {
         this.deltaX = 0;
         this.speed = speed;
         this.spawner = new Spawner();
+        this.flames = new ArrayList<Flame>();
+        this.bombRadius = 2;
         populateGridWithBlocks();
     }
 
-    public void drawBlocks(Graphics2D g) {
+    public void drawTiles(Graphics2D g) {
         for (StaticObject[] row : walls) {
             for (StaticObject wall : row) {
                 if (wall != null)
                     wall.draw(g);
             }
+        }
+
+        for (Flame flame : flames) {
+            flame.draw(g);
         }
     }
 
@@ -66,6 +74,70 @@ public class TileMap {
         }
     }
 
+    public void addFlames(int posX, int posY) {
+
+        int posXOfExplosion = posX / 32;
+        int posYOfExplosion = posY / 32;
+
+        //Place a flame object at the center of the explosion
+        if (!(walls[posXOfExplosion][posYOfExplosion] instanceof ConcreteWall)) {
+            flames.add(new Flame(posXOfExplosion * 32, posYOfExplosion * 32, true));
+        }
+
+
+        boolean hasConcreteWallNorth = false;
+        boolean hasConcreteWallSouth = false;
+        boolean hasConcreteWallEast = false;
+        boolean hasConcreteWallWest = false;
+        boolean isConcreteWall;
+        for (int i = 1; i < bombRadius + 1; i++) {
+
+            if (!hasConcreteWallEast) {
+
+                isConcreteWall = (walls[posXOfExplosion + i][posYOfExplosion] instanceof ConcreteWall);
+
+                if (!isConcreteWall) {
+                    flames.add(new Flame((posXOfExplosion + i) * 32, posYOfExplosion * 32, true));
+                } else if (isConcreteWall) {
+                    hasConcreteWallEast = true;
+                }
+            }
+
+            if (!hasConcreteWallSouth) {
+
+                isConcreteWall = (walls[posXOfExplosion][posYOfExplosion + i] instanceof ConcreteWall);
+
+                if (!isConcreteWall) {
+                    flames.add(new Flame(posXOfExplosion * 32, (posYOfExplosion + i) * 32, true));
+                } else if (!isConcreteWall){
+                    hasConcreteWallSouth = true;
+                }
+            }
+
+            if (!hasConcreteWallWest) {
+
+                isConcreteWall = (walls[posXOfExplosion - i][posYOfExplosion] instanceof ConcreteWall);
+
+                if (!isConcreteWall) {
+                    flames.add(new Flame((posXOfExplosion - i) * 32, posYOfExplosion * 32, true));
+                } else if (isConcreteWall) {
+                    hasConcreteWallWest = true;
+                }
+            }
+
+            if (!hasConcreteWallEast) {
+
+                isConcreteWall = (walls[posXOfExplosion][posYOfExplosion - i] instanceof ConcreteWall);
+
+                if (!isConcreteWall) {
+                    flames.add(new Flame((posXOfExplosion) * 32, (posYOfExplosion - i) * 32, true));
+                } else if (isConcreteWall) {
+                    hasConcreteWallEast = true;
+                }
+            }
+        }
+    }
+
     public int getDeltaX() {
         return deltaX;
     }
@@ -74,4 +146,11 @@ public class TileMap {
         return walls;
     }
 
+    public ArrayList<Flame> getFlames() {
+        return flames;
+    }
+
+    public void setFlames(ArrayList<Flame> flames) {
+        this.flames = flames;
+    }
 }

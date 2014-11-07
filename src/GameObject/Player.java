@@ -17,6 +17,7 @@ public class Player extends MovableObject {
     ArrayList<Bomb> bombsPlaced;
     private GamePlayState currentState;
     private boolean wallPass;
+    private TileMap tileMap;
 
     public Player(int posX, int posY, boolean visible, int speed) {
         this.currentState = GamePlayState.INGAME;
@@ -28,7 +29,7 @@ public class Player extends MovableObject {
         this.previousY = posY;
         this.visible = visible;
         this.speed = speed;
-        this.image = new ImageIcon(this.getClass().getResource("../resources/bomberman7.png")).getImage();
+        this.image = new ImageIcon(this.getClass().getResource("../resources/bomberman5.png")).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
@@ -43,6 +44,7 @@ public class Player extends MovableObject {
             Bomb bomb = bombsPlaced.get(i);
             synchronized (bomb) {
                 if (!bomb.isVisible()) {
+                    tileMap.addFlames(bomb.getPosX(), bomb.getPosY());
                     bombsPlaced.remove(bomb);
                     length = bombsPlaced.size();
                 }
@@ -111,6 +113,14 @@ public class Player extends MovableObject {
         } else if (key == KeyEvent.VK_DOWN) {
             deltaY = 0;
         }
+    }
+
+    public TileMap getTileMap() {
+        return tileMap;
+    }
+
+    public void setTileMap(TileMap tileMap) {
+        this.tileMap = tileMap;
     }
 
     public boolean isWallPass() {

@@ -30,6 +30,7 @@ public class GamePlayManager extends GameState implements ActionListener {
         this.player = new Player(35, 35, true, 3);
         this.cameraMoving = false;
         this.tileMap = new TileMap(player.getSpeed());
+        this.player.setTileMap(tileMap);
         this.camera = new Camera(player.getPosX(), player);
     }
 
@@ -61,19 +62,19 @@ public class GamePlayManager extends GameState implements ActionListener {
                 g.translate(camera.getPosX(), 0);
                 player.draw(g);
                 player.drawBombs(g);
-                tileMap.drawBlocks(g);
+                tileMap.drawTiles(g);
                 g.translate(-camera.getPosX(), 0);
             } else {
                 if (secondCameraRegion) {
                     g.translate(-(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.WIDTH_OF_TILE), 0);
                     player.draw(g);
                     player.drawBombs(g);
-                    tileMap.drawBlocks(g);
+                    tileMap.drawTiles(g);
                     g.translate(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.WIDTH_OF_TILE, 0);
                 } else {
                     player.draw(g);
                     player.drawBombs(g);
-                    tileMap.drawBlocks(g);
+                    tileMap.drawTiles(g);
                 }
             }
 
