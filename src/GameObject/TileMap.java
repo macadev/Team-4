@@ -113,14 +113,12 @@ public class TileMap {
             //TODO: come up with a better solution that this hack
             if (!hasConcreteWallSouth) {
 
-                if (!(posYOfExplosion + i >= 13)) {
-                    isConcreteWall = (walls[posXOfExplosion][posYOfExplosion + i] instanceof ConcreteWall);
+                isConcreteWall = (walls[posXOfExplosion][posYOfExplosion + i] instanceof ConcreteWall);
 
-                    if (!isConcreteWall) {
-                        flames.add(new Flame((posXOfExplosion) * 32, (posYOfExplosion + i) * 32, true));
-                    } else if (!isConcreteWall){
-                        hasConcreteWallSouth = true;
-                    }
+                if (!isConcreteWall) {
+                    flames.add(new Flame((posXOfExplosion) * 32, (posYOfExplosion + i) * 32, true));
+                } else if (isConcreteWall){
+                    hasConcreteWallSouth = true;
                 }
             }
 
