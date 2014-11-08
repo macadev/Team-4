@@ -27,37 +27,7 @@ public class Login extends MenuTemplate {
         font = new Font("Arial", Font.PLAIN, 12);
 
     }
-
-    //Initializes all UI components
-    private void createView(){
-        JPanel panel = new JPanel();
-        getContentPane().add(panel);
-
-        JLabel label = new JLabel("Please enter your name: ");
-        panel.add(label);
-
-        fieldName = new JTextField();
-        fieldName.setPreferredSize(new Dimension(150, 30));
-        panel.add(fieldName);
-
-        buttonSubmit = new JButton("Submit");
-        buttonSubmit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                String name = fieldName.getText();
-                if (name.isEmpty()){
-                    labelMessage.setText("Where dafuq is your name?");
-                } else {
-                    labelMessage.setText("Hello there, " + name + ". How are you?");
-                }
-            }
-        });
-        panel.add(buttonSubmit);
-
-        labelMessage = new JLabel("Enter your name!");
-        panel.add(labelMessage);
-    }
-
+    
 
     @Override
     public void init() {
