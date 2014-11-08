@@ -9,6 +9,10 @@ package GameObject;
  */
 public class MovableObject extends GameObject {
 
+    public static final int SLOWSPEED = 2;
+    public static final int NORMALSPEED = 3;
+    public static final int FASTSPEED= 4;
+
     protected int speed;
     protected int deltaX;
     protected int deltaY;

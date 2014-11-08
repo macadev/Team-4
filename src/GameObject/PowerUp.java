@@ -8,6 +8,7 @@ import javax.swing.*;
 public class PowerUp extends StaticObject {
 
     private PowerUpType powerUpType;
+    private boolean keptAfterDeath;
 
     /**
      * PowerUp Constructor. We group the entire functionality of all powerups within a single class
@@ -22,27 +23,35 @@ public class PowerUp extends StaticObject {
         switch (powerUpType) {
             case BOMBPASS:
                 this.image = new ImageIcon(this.getClass().getResource("../resources/PowerUps/bombpass.png")).getImage();
+                keptAfterDeath = false;
                 break;
             case BOMBS:
                 this.image = new ImageIcon(this.getClass().getResource("../resources/PowerUps/bombs.png")).getImage();
+                keptAfterDeath = true;
                 break;
             case DETONATOR:
                 this.image = new ImageIcon(this.getClass().getResource("../resources/PowerUps/detonator.png")).getImage();
+                keptAfterDeath = false;
                 break;
             case FLAMEPASS:
                 this.image = new ImageIcon(this.getClass().getResource("../resources/PowerUps/flamepass.png")).getImage();
+                keptAfterDeath = false;
                 break;
             case FLAMES:
                 this.image = new ImageIcon(this.getClass().getResource("../resources/PowerUps/flames.png")).getImage();
+                keptAfterDeath = true;
                 break;
             case MYSTERY:
                 this.image = new ImageIcon(this.getClass().getResource("../resources/PowerUps/mystery.png")).getImage();
+                //kept after death doesn't apply to this powerup
                 break;
             case SPEED:
                 this.image = new ImageIcon(this.getClass().getResource("../resources/PowerUps/speed.png")).getImage();
+                keptAfterDeath = true;
                 break;
             case WALLPASS:
                 this.image = new ImageIcon(this.getClass().getResource("../resources/PowerUps/wallpass.png")).getImage();
+                keptAfterDeath = false;
                 break;
         }
 
@@ -57,21 +66,25 @@ public class PowerUp extends StaticObject {
     public void enablePowerUp(Player player, PowerUpType powerUp) {
         switch (powerUp) {
             case BOMBPASS:
+                player.setBombPass(true);
                 break;
             case BOMBS:
-                player.setBombsAllowed(2);
+                player.incrementBombsAllowed();
                 break;
             case DETONATOR:
+                player.setDetonatorEnabled(true);
                 break;
             case FLAMEPASS:
+                player.setFlamePass(true);
                 break;
             case FLAMES:
+                player.incrementBombRadius();
                 break;
             case MYSTERY:
                 break;
             case SPEED:
                 //TODO: define speed attributes
-                player.setSpeed(player.getSpeed() + 1);
+                player.incrementSpeed();
                 break;
             case WALLPASS:
                 player.setWallPass(true);

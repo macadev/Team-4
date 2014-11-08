@@ -19,16 +19,7 @@ public class Bomb extends StaticObject {
     //only when he is standing over it during the initial
     //placement
     private boolean firstCollision;
-
-    /**
-     * Action listener used to trigger the bomb explosion after a specific amount
-     * of time has passed since its placement.
-     */
-    private ActionListener listener = new ActionListener(){
-        public void actionPerformed(ActionEvent event){
-            explode();
-        }
-    };
+    private int framesOnGrid;
 
     /**
      * Bomb constructor. Contains the image that represents the structure
@@ -44,7 +35,14 @@ public class Bomb extends StaticObject {
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.firstCollision = true;
-        initiateCountdownToDetonation();
+        this.framesOnGrid = 0;
+    }
+
+    public void timeExplosion() {
+        framesOnGrid++;
+        if (framesOnGrid > 50) {
+            explode();
+        }
     }
 
     /**
@@ -56,19 +54,11 @@ public class Bomb extends StaticObject {
     }
 
     /**
-     * Starts the timer of 2500 miliseconds after which an explosion
-     * event will be emitted to trigger the bomb explosion logic.
-     */
-    public void initiateCountdownToDetonation() {
-        Timer bombTimer = new Timer(2500, listener);
-        bombTimer.start();
-    }
-
-    /**
      * draw the bomb on the game grid.
      * @param g Graphics object used to render the images
      */
     public void draw(Graphics2D g) {
+        timeExplosion();
         if (visible) g.drawImage(image, posX, posY, null);
     }
 

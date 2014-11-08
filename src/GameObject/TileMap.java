@@ -5,6 +5,7 @@ import SystemController.GameController;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Iterator;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -36,7 +37,7 @@ public class TileMap {
         this.speed = speed;
         this.spawner = new Spawner();
         this.flames = new ArrayList<Flame>();
-        this.bombRadius = 2;
+        this.bombRadius = 1;
         populateGridWithBlocks();
     }
 
@@ -48,9 +49,15 @@ public class TileMap {
             }
         }
 
-        for (Flame flame : flames) {
+        Flame flame;
+        for (Iterator<Flame> iterator = flames.iterator(); iterator.hasNext();) {
+            flame = iterator.next();
             flame.incrementTimeOnGrid();
-            if (flame.isVisible()) flame.draw(g);
+            if (!flame.isVisible()) {
+                iterator.remove();
+            } else {
+                flame.draw(g);
+            }
         }
     }
 
@@ -58,6 +65,9 @@ public class TileMap {
         walls = spawner.generateWalls();
     }
 
+    public void incrementBombRadius() {
+        bombRadius++;
+    }
 
     public void keyPressed(int k) {
         if (k == KeyEvent.VK_LEFT) {
@@ -96,34 +106,41 @@ public class TileMap {
             for (int i = 1; i < bombRadius + 1; i++) {
 
                 if (direction == Direction.EAST) {
+
                     posXofWall = posXOfExplosion + i;
                     posYofWall = posYOfExplosion;
                     wall = walls[posXofWall][posYofWall];
                     posXofFlame = (posXofWall) * 32;
                     posYofFlame = (posYofWall) * 32;
+
                 } else if (direction == Direction.WEST) {
+
                     posXofWall = posXOfExplosion - i;
                     posYofWall = posYOfExplosion;
                     wall = walls[posXofWall][posYofWall];
                     posXofFlame = (posXofWall) * 32;
                     posYofFlame = (posYofWall) * 32;
+
                 } else if (direction == Direction.NORTH) {
+
                     posXofWall = posXOfExplosion;
                     posYofWall = posYOfExplosion - i;
                     wall = walls[posXofWall][posYofWall];
                     posXofFlame = (posXofWall) * 32;
                     posYofFlame = (posYofWall) * 32;
+
                 } else {
+
                     posXofWall = posXOfExplosion;
                     posYofWall = posYOfExplosion + i;
                     wall = walls[posXofWall][posYofWall];
                     posXofFlame = (posXofWall) * 32;
                     posYofFlame = (posYofWall) * 32;
+
                 }
 
                 isConcreteWall = wall instanceof ConcreteWall;
                 isBrickWall = wall instanceof BrickWall;
-                System.out.println(isBrickWall);
 
                 if (isBrickWall || isConcreteWall) {
                     if (isBrickWall) {
@@ -133,8 +150,6 @@ public class TileMap {
                 } else if (!isConcreteWall) {
                     flames.add(new Flame(posXofFlame, posYofFlame, true));
                 }
-
-
             }
         }
     }
@@ -154,4 +169,5 @@ public class TileMap {
     public void setFlames(ArrayList<Flame> flames) {
         this.flames = flames;
     }
+
 }

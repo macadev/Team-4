@@ -13,11 +13,16 @@ import java.util.ArrayList;
 public class Player extends MovableObject {
 
     private int score;
-    private int bombsAllowed;
+    private TileMap tileMap;
     ArrayList<Bomb> bombsPlaced;
     private GamePlayState currentState;
+
+    //powerup logic data
+    private int bombsAllowed;
     private boolean wallPass;
-    private TileMap tileMap;
+    private boolean bombPass;
+    private boolean flamePass;
+    private boolean detonatorEnabled;
 
     public Player(int posX, int posY, boolean visible, int speed) {
         this.currentState = GamePlayState.INGAME;
@@ -35,6 +40,9 @@ public class Player extends MovableObject {
         this.bombsPlaced = new ArrayList<Bomb>();
         this.bombsAllowed = 3;
         this.wallPass = false;
+        this.bombPass = false;
+        this.flamePass = false;
+        this.detonatorEnabled = true;
     }
 
     public void drawBombs(Graphics2D g) {
@@ -42,15 +50,35 @@ public class Player extends MovableObject {
         int length = bombsPlaced.size();
         for (int i = 0; i < length; i ++) {
             Bomb bomb = bombsPlaced.get(i);
-            synchronized (bomb) {
-                if (!bomb.isVisible()) {
-                    tileMap.addFlames(bomb.getPosX(), bomb.getPosY());
-                    bombsPlaced.remove(bomb);
-                    length = bombsPlaced.size();
-                }
-                else bomb.draw(g);
+
+            if (!bomb.isVisible()) {
+                tileMap.addFlames(bomb.getPosX(), bomb.getPosY());
+                bombsPlaced.remove(bomb);
+                length = bombsPlaced.size();
+            }
+            else bomb.draw(g);
+
+        }
+    }
+
+    public void detonateLastBomb() {
+
+        boolean detonated = false;
+        int i = 1;
+        while (!detonated) {
+            if (bombsPlaced.get(bombsPlaced.size()-1).isVisible() == false) {
+                i++;
+            } else {
+                bombsPlaced.get(bombsPlaced.size()-1).setVisible(false);
+                detonated = true;
             }
         }
+    }
+
+    public void incrementBombRadius() {
+
+        tileMap.incrementBombRadius();
+
     }
 
     public void restorePreviousPosition() {
@@ -79,6 +107,17 @@ public class Player extends MovableObject {
         }
     }
 
+    public void incrementSpeed() {
+        if (speed == NORMALSPEED) {
+            speed = FASTSPEED;
+        }
+    }
+
+    public void death() {
+        posX = 35;
+        posY = 35;
+    }
+
     public void keyPressed(int key) {
 
         if (key == KeyEvent.VK_UP) {
@@ -99,6 +138,10 @@ public class Player extends MovableObject {
 
         } else if (key == KeyEvent.VK_X) {
             placeBomb();
+        } else if (key == KeyEvent.VK_Z) {
+            if (detonatorEnabled && !bombsPlaced.isEmpty()) {
+                detonateLastBomb();
+            }
         }
 
     }
@@ -150,4 +193,35 @@ public class Player extends MovableObject {
     public void setBombsAllowed(int bombsAllowed) {
         this.bombsAllowed = bombsAllowed;
     }
+
+    public void incrementBombsAllowed() {
+        if (bombsAllowed < 10) {
+            bombsAllowed++;
+        }
+    }
+
+    public boolean hasBombPass() {
+        return bombPass;
+    }
+
+    public void setBombPass(boolean bombPass) {
+        this.bombPass = bombPass;
+    }
+
+    public boolean isDetonatorEnabled() {
+        return detonatorEnabled;
+    }
+
+    public void setDetonatorEnabled(boolean detonatorEnabled) {
+        this.detonatorEnabled = detonatorEnabled;
+    }
+
+    public boolean hasFlamePass() {
+        return flamePass;
+    }
+
+    public void setFlamePass(boolean flamePass) {
+        this.flamePass = flamePass;
+    }
+
 }

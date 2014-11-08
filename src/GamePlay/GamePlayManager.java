@@ -27,7 +27,7 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     public GamePlayManager(GameStateManager gsm) {
         this.gsm = gsm;
-        this.player = new Player(35, 35, true, 3);
+        this.player = new Player(35, 35, true, MovableObject.NORMALSPEED);
         this.cameraMoving = false;
         this.tileMap = new TileMap(player.getSpeed());
         this.player.setTileMap(tileMap);
@@ -132,14 +132,27 @@ public class GamePlayManager extends GameState implements ActionListener {
             }
         }
 
-        for (Bomb bomb : bombsPlaced) {
-            Rectangle bombRectangle = bomb.getBounds();
-            if (playerRectangle.intersects(bombRectangle)) {
-                if (!bomb.isFirstCollision()) {
-                    player.restorePreviousPosition();
+        if (!player.hasBombPass()) {
+            for (Bomb bomb : bombsPlaced) {
+                Rectangle bombRectangle = bomb.getBounds();
+                if (playerRectangle.intersects(bombRectangle)) {
+                    if (!bomb.isFirstCollision()) {
+                        player.restorePreviousPosition();
+                    }
+                } else {
+                    bomb.setFirstCollision(false);
                 }
-            } else {
-                bomb.setFirstCollision(false);
+            }
+        }
+
+        if(!player.hasFlamePass()) {
+            ArrayList<Flame> flames = tileMap.getFlames();
+            Rectangle flameRectangle;
+            for (Flame flame : flames) {
+                flameRectangle = flame.getBounds();
+                if (playerRectangle.intersects(flameRectangle)) {
+                    player.death();
+                }
             }
         }
 
