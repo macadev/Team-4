@@ -78,10 +78,7 @@ public class Spawner {
                         randomRow * tileMap.HEIGHT_OF_TILE, true, false);
                 bricksLeft--;
             }
-
         }
-
-
     }
 
     /**

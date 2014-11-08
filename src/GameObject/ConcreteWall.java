@@ -24,6 +24,7 @@ public class ConcreteWall extends StaticObject {
         this.image = new ImageIcon(this.getClass().getResource("../resources/concreteBlock.png")).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
+        this.visible = true;
     }
 
 }

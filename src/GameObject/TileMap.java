@@ -22,8 +22,8 @@ public class TileMap {
     public static final int CAMERA_MOVING_LIMIT = 224;
 
     private StaticObject[][] walls;
-    private Spawner spawner;
     private ArrayList<Flame> flames;
+    private Spawner spawner;
     private int speed;
     private int bombRadius;
 
@@ -43,13 +43,14 @@ public class TileMap {
     public void drawTiles(Graphics2D g) {
         for (StaticObject[] row : walls) {
             for (StaticObject wall : row) {
-                if (wall != null)
+                if (wall != null && wall.isVisible())
                     wall.draw(g);
             }
         }
 
         for (Flame flame : flames) {
-            flame.draw(g);
+            flame.incrementTimeOnGrid();
+            if (flame.isVisible()) flame.draw(g);
         }
     }
 
@@ -82,55 +83,58 @@ public class TileMap {
         //Place a flame object at the center of the explosion
         flames.add(new Flame(posXOfExplosion * 32, posYOfExplosion * 32, true));
 
-
-
-        boolean hasConcreteWallNorth = false;
-        boolean hasConcreteWallSouth = false;
-        boolean hasConcreteWallEast = false;
-        boolean hasConcreteWallWest = false;
         boolean isConcreteWall;
-        for (int i = 1; i < bombRadius + 1; i++) {
+        boolean isBrickWall;
+        int posXofFlame;
+        int posYofFlame;
+        int posXofWall;
+        int posYofWall;
+        StaticObject wall;
+        Direction[] directions = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
-            if (!hasConcreteWallEast) {
+        for (Direction direction : directions) {
+            for (int i = 1; i < bombRadius + 1; i++) {
 
-                isConcreteWall = ((walls[posXOfExplosion + i][posYOfExplosion]) instanceof ConcreteWall);
-                if (!isConcreteWall) {
-                    flames.add(new Flame((posXOfExplosion + i) * 32, (posYOfExplosion) * 32, true));
-                } else if (isConcreteWall) {
-                    hasConcreteWallEast = true;
+                if (direction == Direction.EAST) {
+                    posXofWall = posXOfExplosion + i;
+                    posYofWall = posYOfExplosion;
+                    wall = walls[posXofWall][posYofWall];
+                    posXofFlame = (posXofWall) * 32;
+                    posYofFlame = (posYofWall) * 32;
+                } else if (direction == Direction.WEST) {
+                    posXofWall = posXOfExplosion - i;
+                    posYofWall = posYOfExplosion;
+                    wall = walls[posXofWall][posYofWall];
+                    posXofFlame = (posXofWall) * 32;
+                    posYofFlame = (posYofWall) * 32;
+                } else if (direction == Direction.NORTH) {
+                    posXofWall = posXOfExplosion;
+                    posYofWall = posYOfExplosion - i;
+                    wall = walls[posXofWall][posYofWall];
+                    posXofFlame = (posXofWall) * 32;
+                    posYofFlame = (posYofWall) * 32;
+                } else {
+                    posXofWall = posXOfExplosion;
+                    posYofWall = posYOfExplosion + i;
+                    wall = walls[posXofWall][posYofWall];
+                    posXofFlame = (posXofWall) * 32;
+                    posYofFlame = (posYofWall) * 32;
                 }
-            }
 
-            if (!hasConcreteWallWest) {
+                isConcreteWall = wall instanceof ConcreteWall;
+                isBrickWall = wall instanceof BrickWall;
+                System.out.println(isBrickWall);
 
-                isConcreteWall = (walls[posXOfExplosion - i][posYOfExplosion] instanceof ConcreteWall);
-                if (!isConcreteWall) {
-                    flames.add(new Flame((posXOfExplosion - i) * 32, (posYOfExplosion) * 32, true));
-                } else if (isConcreteWall) {
-                    hasConcreteWallWest = true;
+                if (isBrickWall || isConcreteWall) {
+                    if (isBrickWall) {
+                        walls[posXofWall][posYofWall] = null;
+                    }
+                    break;
+                } else if (!isConcreteWall) {
+                    flames.add(new Flame(posXofFlame, posYofFlame, true));
                 }
-            }
-            //TODO: come up with a better solution that this hack
-            if (!hasConcreteWallSouth) {
 
-                isConcreteWall = (walls[posXOfExplosion][posYOfExplosion + i] instanceof ConcreteWall);
 
-                if (!isConcreteWall) {
-                    flames.add(new Flame((posXOfExplosion) * 32, (posYOfExplosion + i) * 32, true));
-                } else if (isConcreteWall){
-                    hasConcreteWallSouth = true;
-                }
-            }
-
-            if (!hasConcreteWallNorth) {
-
-                isConcreteWall = (walls[posXOfExplosion][posYOfExplosion - i] instanceof ConcreteWall);
-
-                if (!isConcreteWall) {
-                    flames.add(new Flame((posXOfExplosion) * 32, (posYOfExplosion - i) * 32, true));
-                } else if (isConcreteWall) {
-                    hasConcreteWallNorth = true;
-                }
             }
         }
     }

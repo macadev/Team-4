@@ -1,3 +1,6 @@
+/**
+ * Created by danielmacario on 14-10-31.
+ */
 package GameObject;
 
 import GamePlay.GamePlayState;
@@ -7,9 +10,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-/**
- * Created by danielmacario on 14-10-31.
- */
 public class Player extends MovableObject {
 
     private int score;
@@ -33,7 +33,7 @@ public class Player extends MovableObject {
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
-        this.bombsAllowed = 1;
+        this.bombsAllowed = 3;
         this.wallPass = false;
     }
 

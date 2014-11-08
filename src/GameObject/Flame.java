@@ -11,6 +11,8 @@ import javax.swing.*;
  */
 public class Flame extends StaticObject {
 
+    private int timeOnGrid;
+
     public Flame(int posX, int posY, boolean visible) {
         this.posX = posX;
         this.posY = posY;
@@ -19,5 +21,14 @@ public class Flame extends StaticObject {
         this.image = new ImageIcon(this.getClass().getResource("../resources/flames.png")).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
+        this.timeOnGrid = 0;
     }
+
+    public void incrementTimeOnGrid() {
+        this.timeOnGrid++;
+        if (timeOnGrid > 20) {
+            this.visible = false;
+        }
+    }
+
 }
