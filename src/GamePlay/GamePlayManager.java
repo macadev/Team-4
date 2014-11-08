@@ -100,33 +100,36 @@ public class GamePlayManager extends GameState implements ActionListener {
         StaticObject[][] walls = tileMap.getWalls();
         ArrayList<Bomb> bombsPlaced = player.getBombsPlaced();
 
-        for (StaticObject[] row : walls) {
-            for (StaticObject wall : row) {
-                if (wall != null) {
-                    Rectangle wallRectangle = wall.getBounds();
-                    if (playerRectangle.intersects(wallRectangle)) {
+        if (!player.hasWallPass()) {
 
-                        int x = player.getPosX();
-                        int y = player.getPosY();
+            for (StaticObject[] row : walls) {
+                for (StaticObject wall : row) {
+                    if (wall != null) {
+                        Rectangle wallRectangle = wall.getBounds();
+                        if (playerRectangle.intersects(wallRectangle)) {
 
-                        player.restorePreviousXPosition();
+                            int x = player.getPosX();
+                            int y = player.getPosY();
 
-                        if (player.getBounds().intersects(wallRectangle)) {
-                            player.restorePositionTo(x,y);
-                        } else {
+                            player.restorePreviousXPosition();
+
+                            if (player.getBounds().intersects(wallRectangle)) {
+                                player.restorePositionTo(x,y);
+                            } else {
+                                break;
+                            }
+
+                            player.restorePreviousYPosition();
+
+                            if (player.getBounds().intersects(wallRectangle)) {
+                                player.restorePositionTo(x,y);
+                            } else {
+                                break;
+                            }
+
+                            player.restorePreviousPosition();
                             break;
                         }
-
-                        player.restorePreviousYPosition();
-
-                        if (player.getBounds().intersects(wallRectangle)) {
-                            player.restorePositionTo(x,y);
-                        } else {
-                            break;
-                        }
-
-                        player.restorePreviousPosition();
-                        break;
                     }
                 }
             }

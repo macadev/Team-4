@@ -166,7 +166,7 @@ public class Player extends MovableObject {
         this.tileMap = tileMap;
     }
 
-    public boolean isWallPass() {
+    public boolean hasWallPass() {
         return wallPass;
     }
 
