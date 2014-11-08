@@ -1,6 +1,8 @@
 package Menu;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 /**
@@ -8,8 +10,8 @@ import java.awt.event.KeyEvent;
  */
 public class Login extends MenuTemplate {
 
-    //Creating JTextFiled[] object array
-    private JTextField[] information;
+
+
 
     private String[] options = {"Login","Create Account","Exit"};
     private int currentChoice = 0;
@@ -19,17 +21,41 @@ public class Login extends MenuTemplate {
 
     public Login (MenuManager menuManager) {
 
-        //Constructor for username and passwords
-        this.information = new JTextField[2];
-        JTextField username = new JTextField(100);
-        JPasswordField password = new JPasswordField(100);
-        this.information[0] = username;
-        this.information[1] = password;
-
         this.menuManager = menuManager;
         titleColor = new Color(230, 200, 0);
         titleFont = new Font("Century Gothic", Font.PLAIN, 28);
         font = new Font("Arial", Font.PLAIN, 12);
+
+    }
+
+    //Initializes all UI components
+    private void createView(){
+        JPanel panel = new JPanel();
+        getContentPane().add(panel);
+
+        JLabel label = new JLabel("Please enter your name: ");
+        panel.add(label);
+
+        fieldName = new JTextField();
+        fieldName.setPreferredSize(new Dimension(150, 30));
+        panel.add(fieldName);
+
+        buttonSubmit = new JButton("Submit");
+        buttonSubmit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                String name = fieldName.getText();
+                if (name.isEmpty()){
+                    labelMessage.setText("Where dafuq is your name?");
+                } else {
+                    labelMessage.setText("Hello there, " + name + ". How are you?");
+                }
+            }
+        });
+        panel.add(buttonSubmit);
+
+        labelMessage = new JLabel("Enter your name!");
+        panel.add(labelMessage);
     }
 
 
@@ -44,7 +70,7 @@ public class Login extends MenuTemplate {
         g.setColor(titleColor);
         g.setFont(titleFont);
         g.setPaint(new Color(255,255,255));
-        g.drawString("Login Menu!", 80, 70);
+        g.drawString("Bomberman Login Menu", 80, 70);
 
         //draw menu options
         g.setFont(font);
@@ -59,10 +85,9 @@ public class Login extends MenuTemplate {
 
             // pass horizontal distance, then vertical distance
             g.drawString(options[i], 95, 120 + i * 15);
-            information[0].paint(g);
-            for(JTextField tF: information){
-                tF.paint(g);
-            }
+
+
+
         }
     }
 
