@@ -1,17 +1,19 @@
+package Menu;
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class Login extends JFrame{
+public class LoginTest extends JFrame {
 	
 		private JTextField fieldName;
 		private JPasswordField fieldPass;
 		private JLabel labelMessage;
 		private JButton buttonSubmit;
 	
-		public Login(){
+		public LoginTest(){
 			createView();
 			
 			//Exit Option
@@ -80,7 +82,7 @@ public class Login extends JFrame{
 			SwingUtilities.invokeLater(new Runnable(){
 				@Override
 				public void run(){
-					new Login().setVisible(true);
+					new LoginTest().setVisible(true);
 				}
 			});
 
