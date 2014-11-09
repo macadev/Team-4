@@ -20,7 +20,7 @@ public class Game {
             System.out.println("Database succesfully initialized");
             db.createNewUser();
             System.out.println("Users succesfully added");
-            if(db.authenticateUser("John Doe","Johnpass")) {
+            if(db.authenticateUser("m","d")) {
                 System.out.println("Authentication Succesful");
             }
             else {
