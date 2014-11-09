@@ -41,7 +41,7 @@ public class MainMenu extends MenuTemplate {
         g.setColor(titleColor);
         g.setFont(titleFont);
         g.setPaint(new Color(255,255,255));
-        g.drawString("Bomberman!", 80, 70);
+        g.drawString("Bomberman", 80, 70);
 
         //draw menu options
         g.setFont(font);
