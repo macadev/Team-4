@@ -1,4 +1,6 @@
 package Menu;
+import SystemController.GameStateManager;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -17,7 +19,7 @@ public class AccountCreationMenu extends MenuTemplate{
 
 
     //Constructor
-    public AccountCreationMenu (MenuManager menuManager) {
+    public AccountCreationMenu (MenuManager menuManager, GameStateManager gsm) {
 
         this.menuManager = menuManager;
         this.gsm = gsm;
@@ -39,7 +41,7 @@ public class AccountCreationMenu extends MenuTemplate{
         g.setColor(titleColor);
         g.setFont(titleFont);
         g.setPaint(new Color(255,255,255));
-        g.drawString("Bomberman Account Creation", 80, 70);
+        g.drawString("Account Creation", 80, 70);
 
         //Options
         g.setFont(font);
