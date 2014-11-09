@@ -158,6 +158,12 @@ public class GamePlayManager extends GameState implements ActionListener {
                 if (playerRectangle.intersects(flameRectangle)) {
                     player.death();
                 }
+                for (Bomb bomb : bombsPlaced) {
+                    Rectangle bombRectangle = bomb.getBounds();
+                    if (flameRectangle.intersects(bombRectangle)) {
+                        bomb.setVisible(false);
+                    }
+                }
             }
         }
 
