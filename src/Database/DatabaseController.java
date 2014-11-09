@@ -14,25 +14,23 @@ public class DatabaseController {
         // load the sqlite-JDBC driver using the current class loader
         Class.forName("org.sqlite.JDBC");
         Connection connection = null;
+
         try {
             // create a database connection
             connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
             Statement stmt = connection.createStatement();
             stmt.executeUpdate("drop table if exists Users");
             stmt.executeUpdate("create table Users (username String ,password String)");
-            ResultSet rs = stmt.executeQuery("select * from Users");
-            while (rs.next()) {
-                // read the result set
-                System.out.println("username = " + rs.getString("username"));
-                System.out.println("password = " + rs.getString("password"));
-            }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             System.err.println(e.getMessage());
-        } finally {
+        }
+        finally {
             try {
                 if (connection != null)
                     connection.close();
-            } catch (SQLException e) {
+            }
+            catch (SQLException e) {
                 // connection close failed.
                 System.err.println(e);
             }
@@ -40,7 +38,27 @@ public class DatabaseController {
     }
 
 
-    public void createNewUser() {
+    public void createNewUser()throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        Connection connection = null;
+
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+            connection.setAutoCommit(false);
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate("insert into Users values('John Doe','Johnpass')");
+            stmt.executeUpdate("insert into Users values('Jane Doe','Janepass')");
+            ResultSet rs = stmt.executeQuery("select * from Users");
+            while (rs.next()) {
+                // read the result set
+                System.out.println("username = " + rs.getString("username"));
+                System.out.println("password = " + rs.getString("password"));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
     }
 }

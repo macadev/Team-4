@@ -17,11 +17,13 @@ public class Game {
         DatabaseController db = new DatabaseController();
         try {
             db.initializeDatabase();
+            db.createNewUser();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         //test code for database
         System.out.println("Database succesfully initialized");
+        System.out.println("Users succesfully added");
         JFrame window = new JFrame("Bomberman");
         window.setContentPane(new GameController());
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
