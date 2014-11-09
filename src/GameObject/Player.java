@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Player extends MovableObject {
-
+    //TODO: logic for bombs detonating other bombs
     private int score;
     private TileMap tileMap;
     ArrayList<Bomb> bombsPlaced;

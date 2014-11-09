@@ -18,6 +18,8 @@ public class GameStateManager {
 
     private ArrayList<GameState> gameStates;
     private int currentState;
+    private MenuManager menuManager;
+    private GamePlayManager gamePlayManager;
 
     /**
      * This integers are used as constants to represent the state the game can be in at
@@ -31,9 +33,8 @@ public class GameStateManager {
      * fundamental controllers of the game: the MenuManager and the GamePlayManager
      */
     public GameStateManager() {
-        gameStates = new ArrayList<GameState>();
-        gameStates.add(new MenuManager(this));
-        gameStates.add(new GamePlayManager(this));
+        menuManager = new MenuManager(this);
+        gamePlayManager = new GamePlayManager(this);
         currentState = MENUSTATE;
     }
 
@@ -41,10 +42,14 @@ public class GameStateManager {
      * Toggle the state of the game between Menu and GamePlay
      * @param state
      */
-    public void setState(int state) {
+    public void setState(int state, MenuState menuState) {
         //current state is set to 0 by default
-        currentState = state;
-        gameStates.get(currentState).init();
+        if (state == GAMEPLAY) {
+            currentState = state;
+        } else {
+            currentState = MENUSTATE;
+            menuManager.setMenuState(menuState);
+        }
     }
 
     /**
@@ -53,7 +58,11 @@ public class GameStateManager {
      * @param g
      */
     public void draw(Graphics2D g) {
-        gameStates.get(currentState).draw(g);
+        if (currentState == GAMEPLAY) {
+            gamePlayManager.draw(g);
+        } else {
+            menuManager.draw(g);
+        }
     }
 
     /**
@@ -62,7 +71,11 @@ public class GameStateManager {
      * @param k
      */
     public void keyPressed(int k) {
-        gameStates.get(currentState).keyPressed(k);
+        if (currentState == GAMEPLAY) {
+            gamePlayManager.keyPressed(k);
+        } else {
+            menuManager.keyPressed(k);
+        }
     }
 
     /**
@@ -71,7 +84,11 @@ public class GameStateManager {
      * @param k
      */
     public void keyReleased(int k) {
-        gameStates.get(currentState).keyReleased(k);
+        if (currentState == GAMEPLAY) {
+            gamePlayManager.keyReleased(k);
+        } else {
+            menuManager.keyPressed(k);
+        }
     }
 
 }

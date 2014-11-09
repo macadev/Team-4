@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import GameObject.*;
 import SystemController.GameState;
 import SystemController.GameStateManager;
+import Menu.MenuState;
 
 /**
  * Created by danielmacario on 14-10-29.
@@ -40,12 +41,13 @@ public class GamePlayManager extends GameState implements ActionListener {
 
         if (currentState == GamePlayState.PAUSE) {
 
-            //This section is just for the demo.
-            //TODO: remove after demo
-            titleFont = new Font("Century Gothic", Font.PLAIN, 28);
-            g.setFont(titleFont);
-            g.setPaint(new Color(255,255,255));
-            g.drawString("Game Paused", 80, 70);
+//            //This section is just for the demo.
+//            //TODO: remove after demo
+//            titleFont = new Font("Century Gothic", Font.PLAIN, 28);
+//            g.setFont(titleFont);
+//            g.setPaint(new Color(255,255,255));
+//            g.drawString("Game Paused", 80, 70);
+            gsm.setState(gsm.MENUSTATE, MenuState.INGAME);
 
         } else if (currentState == GamePlayState.INGAME) {
 

@@ -32,6 +32,8 @@ public class MenuManager extends GameState {
         menuStates.put(MenuState.MAIN, new MainMenu(this, gsm));
         menuStates.put(MenuState.ACCOUNTCREATION, new AccountCreationMenu(this, gsm));
         menuStates.put(MenuState.LOGIN, new Login(this));
+        //TODO: uncomment this to enable the login menu once it is ready
+        //menuStates.put(MenuState.INGAME, new InGameMenu(this));
         currentMenu = MenuState.LOGIN;
 
     }

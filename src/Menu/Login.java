@@ -10,9 +10,6 @@ import java.awt.event.KeyEvent;
  */
 public class Login extends MenuTemplate {
 
-
-
-
     private String[] options = {"Login","Create Account","Exit"};
     private int currentChoice = 0;
     private Color titleColor;

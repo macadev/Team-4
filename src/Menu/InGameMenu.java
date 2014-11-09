@@ -14,10 +14,10 @@ public class InGameMenu extends MenuTemplate{
     private Font titleFont;
     private Font font;
     
-public InGameMenu() {
-    titleColor = new Color(230, 200, 0);
-    titleFont = new Font("Century Gothic", Font.PLAIN, 28);
-    font = new Font("Arial", Font.PLAIN, 12);
+    public InGameMenu() {
+        titleColor = new Color(230, 200, 0);
+        titleFont = new Font("Century Gothic", Font.PLAIN, 28);
+        font = new Font("Arial", Font.PLAIN, 12);
 	}
 
 	@Override
@@ -29,21 +29,19 @@ public InGameMenu() {
 	@Override
 	public void draw(Graphics2D g1) {
 		 g1.setColor(titleColor);
-	        g1.setFont(titleFont);
-	        g1.setPaint(new Color(255,255,255));
-	        g1.drawString("", 80, 70);
+        g1.setFont(titleFont);
+        g1.setPaint(new Color(255,255,255));
+        g1.drawString("", 80, 70);
 
-	        //draw menu options
-	        g1.setFont(font);
-	        for(int i = 0; i < choice.length; i++) {
-	            if (i == selectedChoice) {
-	                g1.setColor(Color.WHITE);
-	            } else {
-	                g1.setColor(Color.RED);
-	            }
-	        }
-
-
+        //draw menu options
+        g1.setFont(font);
+        for(int i = 0; i < choice.length; i++) {
+            if (i == selectedChoice) {
+                g1.setColor(Color.WHITE);
+            } else {
+                g1.setColor(Color.RED);
+            }
+        }
 	}
 
 	@Override
@@ -57,8 +55,7 @@ public InGameMenu() {
 		// TODO Auto-generated method stub
 
 	}
-	
-	@Override
+
 	public void select() {
 		
 	}

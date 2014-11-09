@@ -60,7 +60,7 @@ public class MainMenu extends MenuTemplate {
 
     private void select() {
         if (currentChoice == 0) {
-            gsm.setState(GameStateManager.GAMEPLAY);
+            gsm.setState(GameStateManager.GAMEPLAY, null);
         }
         if (currentChoice == 1) {
           //sbxb
