@@ -2,7 +2,7 @@ package SystemController; /**
  * Created by danielmacario on 14-10-29.
  */
 
-import SystemController.GameController;
+import Database.DatabaseController;
 
 import javax.swing.JFrame;
 
@@ -14,6 +14,12 @@ public class Game {
      * @param args
      */
     public static void main(String[] args) {
+        DatabaseController db = new DatabaseController();
+        try {
+            db.testDatabaseConnection();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         JFrame window = new JFrame("Bomberman");
         window.setContentPane(new GameController());
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
