@@ -17,13 +17,21 @@ public class Game {
         DatabaseController db = new DatabaseController();
         try {
             db.initializeDatabase();
+            System.out.println("Database succesfully initialized");
             db.createNewUser();
+            System.out.println("Users succesfully added");
+            if(db.authenticateUser("John Doe","Johnpass")) {
+                System.out.println("Authentication Succesful");
+            }
+            else {
+                System.out.println("User not found");
+            }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         //test code for database
-        System.out.println("Database succesfully initialized");
-        System.out.println("Users succesfully added");
+
+
         JFrame window = new JFrame("Bomberman");
         window.setContentPane(new GameController());
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
