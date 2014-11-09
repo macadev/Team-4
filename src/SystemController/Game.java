@@ -16,10 +16,11 @@ public class Game {
     public static void main(String[] args) {
         DatabaseController db = new DatabaseController();
         try {
-            db.testDatabaseConnection();
+            db.initializeDatabase();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        System.out.println("Database succesfully initialized");
         JFrame window = new JFrame("Bomberman");
         window.setContentPane(new GameController());
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
