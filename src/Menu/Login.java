@@ -66,10 +66,9 @@ public class Login extends MenuTemplate {
             menuManager.setMenuState(MenuState.MAIN);
         }
         if (currentChoice == 1) {
-            //load game
+            menuManager.setMenuState(MenuState.ACCOUNTCREATION);
         }
-        if (currentChoice == 1) {
-            //terminate the game
+        if (currentChoice == 2) {
             System.exit(0);
         }
     }
