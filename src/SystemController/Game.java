@@ -20,6 +20,7 @@ public class Game {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        //test code for database
         System.out.println("Database succesfully initialized");
         JFrame window = new JFrame("Bomberman");
         window.setContentPane(new GameController());

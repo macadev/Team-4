@@ -17,9 +17,30 @@ public class DatabaseController {
         try {
             // create a database connection
             connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate("drop table if exists Users");
+            stmt.executeUpdate("create table Users (username String ,password String)");
+            ResultSet rs = stmt.executeQuery("select * from Users");
+            while (rs.next()) {
+                // read the result set
+                System.out.println("username = " + rs.getString("username"));
+                System.out.println("password = " + rs.getString("password"));
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } finally {
+            try {
+                if (connection != null)
+                    connection.close();
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e);
+            }
         }
+    }
+
+
+    public void createNewUser() {
+
     }
 }
