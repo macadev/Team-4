@@ -21,7 +21,7 @@ public class DatabaseController {
                 connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
                 stmt = connection.createStatement();
                 stmt.executeUpdate("drop table if exists Users");
-                stmt.executeUpdate("create table Users (username String ,password String)");
+                stmt.executeUpdate("create table Users (username String ,password String, realName String, Highscore int)");
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
             } finally {
@@ -41,15 +41,15 @@ public class DatabaseController {
     }
 
 
-    public boolean createNewUser(String Uname, String pass) throws ClassNotFoundException {
+    public boolean createNewUser(String Uname, String pass, String rName) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         try {
             Connection connection = null;
             PreparedStatement stmt = null;
             ResultSet rsUserCheck = null;
             String sql = "INSERT INTO Users"
-                    + "(USERNAME, PASSWORD) VALUES"
-                    + "(?,?)";
+                    + "(USERNAME, PASSWORD, REALNAME, HIGHSCORE) VALUES"
+                    + "(?,?,?,?)";
             String verify = "select * from Users where username = ?";
 
             try {
@@ -64,6 +64,7 @@ public class DatabaseController {
                 stmt = connection.prepareStatement(sql);
                 stmt.setString(1, Uname);
                 stmt.setString(2, pass);
+                stmt.setString(3, rName);
                 stmt.executeUpdate();
                 System.out.println("User is inserted into database");
 

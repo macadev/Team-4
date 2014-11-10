@@ -18,9 +18,9 @@ public class Game {
         try {
             db.initializeDatabase();
             System.out.println("Database succesfully initialized");
-            db.createNewUser("testNewUser", "testNewPass");
-            db.createNewUser("testNewUser2", "testNewPass2");
-            if(db.authenticateUser("testNewUser3","testNewPass")) {
+            db.createNewUser("testNewUser", "testNewPass","John");
+            db.createNewUser("testNewUser2", "testNewPass2","Jane");
+            if(db.authenticateUser("testNewUser","testNewPass")) {
                 System.out.println("Authentication Succesful");
             }
             else {
