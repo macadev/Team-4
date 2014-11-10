@@ -138,7 +138,7 @@ public class ACPopUp extends JFrame {
                 setVisible(false);
                 dispose();
             } else {
-                labelMessage.setText("Error. Username may already be in use or invalid characters entered for username and password.");
+                labelMessage.setText("Error. Username may already be in use or invalid entry for username and password.");
             }
         }
     }
@@ -152,7 +152,7 @@ public class ACPopUp extends JFrame {
         String[] partialRegexChecks = {".*[a-z]+.*", // lower
                 ".*[A-Z]+.*", // upper
                 ".*[\\d]+.*", // digits
-                ".*[@#$%]+.*" // symbols
+                ".*[$&+,:;=?@#|'<>.-^*()%!]+.*" // symbols
         };
 
 
