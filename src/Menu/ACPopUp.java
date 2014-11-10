@@ -152,7 +152,7 @@ public class ACPopUp extends JFrame {
         String[] partialRegexChecks = {".*[a-z]+.*", // lower
                 ".*[A-Z]+.*", // upper
                 ".*[\\d]+.*", // digits
-                ".*[@#$%]+.*" // symbols
+                ".*[$&+,:;=?@#|'<>.^*()%!-]+.*" // symbols
         };
 
 
