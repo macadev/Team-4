@@ -14,14 +14,12 @@ public class DatabaseController {
         try {
             Connection connection = null;
             Statement stmt = null;
-            ResultSet rs = null;
 
             try {
                 // create a database connection
                 connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
                 stmt = connection.createStatement();
-                stmt.executeUpdate("drop table if exists Users");
-                stmt.executeUpdate("create table Users (username String ,password String, realName String, Highscore int)");
+                stmt.executeUpdate("create table if not exists  Users (username String ,password String, realName String, Highscore int)");
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
             } finally {
@@ -30,7 +28,7 @@ public class DatabaseController {
                     stmt.close();
                 }
 
-                if (connection != null){
+                if (connection != null) {
                     connection.close();
                 }
 
@@ -57,7 +55,7 @@ public class DatabaseController {
                 stmt = connection.prepareStatement(verify);
                 stmt.setString(1, Uname);
                 rsUserCheck = stmt.executeQuery();
-                if (rsUserCheck.isBeforeFirst() ) {
+                if (rsUserCheck.isBeforeFirst()) {
                     System.out.println("User already exists");
                     return true;
                 }
@@ -82,15 +80,6 @@ public class DatabaseController {
     }
 
 
-
-
-
-
-
-
-
-
-
     public boolean authenticateUser(String Uname, String pass) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
 
@@ -110,26 +99,24 @@ public class DatabaseController {
                 stmt.setString(2, pass);
                 rsUser = stmt.executeQuery();
 
-                if (!rsUser.isBeforeFirst() ) {
+                if (!rsUser.isBeforeFirst()) {
                     System.out.println("Username/Password does not exist");
                 }
 
                 while (rsUser.next()) {
                     usernameOnDB = rsUser.getString("username");
                     passwordOnDB = rsUser.getString("password");
-                    System.out.println("Verified Username : " +usernameOnDB);
-                    System.out.println("Verified Password : " +passwordOnDB);
+                    System.out.println("Verified Username : " + usernameOnDB);
+                    System.out.println("Verified Password : " + passwordOnDB);
                 }
 
 
                 if (usernameOnDB != null && passwordOnDB != null) {
                     return true;
                 }
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
                 if (rsUser != null) {
                     rsUser.close();
                 }
@@ -142,14 +129,17 @@ public class DatabaseController {
                     connection.close();
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return false;
     }
 }
+
+
+
+
 
 
 
