@@ -9,6 +9,8 @@ import java.awt.event.KeyEvent;
  */
 
 
+//TODO: possibly delete this class entirely
+
 public class AccountCreationMenu extends MenuTemplate{
 
     private String[] options = {"Fill in details","Exit"};

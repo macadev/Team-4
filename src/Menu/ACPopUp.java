@@ -132,6 +132,7 @@ public class ACPopUp extends JFrame {
 
             if (creationSuccessful) {
                 labelMessage.setText("Account Created");
+                System.out.println();
                 menuManager.associatePlayerUserName(uName);
                 redirectToMainMenu();
                 setVisible(false);

@@ -62,7 +62,9 @@ public class Login extends MenuTemplate {
 
         }
         if (currentChoice == 1) {
-            menuManager.setMenuState(MenuState.ACCOUNTCREATION);
+            //menuManager.setMenuState(MenuState.ACCOUNTCREATION);
+            ACPopUp acp = new ACPopUp(menuManager);
+            acp.setVisible(true);
         }
         if (currentChoice == 2) {
             System.exit(0);

@@ -19,7 +19,7 @@ public class DatabaseController {
                 // create a database connection
                 connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
                 stmt = connection.createStatement();
-                stmt.executeUpdate("create table if not exists  Users (username String ,password String, realName String, Highscore int)");
+                stmt.executeUpdate("create table if not exists  Users (username String , password String, realName String, highScore int)");
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
             } finally {
@@ -89,8 +89,8 @@ public class DatabaseController {
         Class.forName("org.sqlite.JDBC");
         try {
             Connection connection = null;
-            PreparedStatement stmt = null;
-            ResultSet rsUserCheck = null;
+            PreparedStatement stmt;
+            ResultSet rsUserCheck;
             String sql = "INSERT INTO Users"
                     + "(USERNAME, PASSWORD, REALNAME, HIGHSCORE) VALUES"
                     + "(?,?,?,?)";
@@ -103,14 +103,15 @@ public class DatabaseController {
                 rsUserCheck = stmt.executeQuery();
                 if (rsUserCheck.isBeforeFirst()) {
                     System.out.println("User already exists");
-                    return true;
+                    return false;
                 }
                 stmt = connection.prepareStatement(sql);
                 stmt.setString(1, Uname);
                 stmt.setString(2, pass);
                 stmt.setString(3, rName);
+                stmt.setInt(4, 0);
                 stmt.executeUpdate();
-                System.out.println("User is inserted into database");
+                System.out.println("New User inserted into database");
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -187,8 +188,8 @@ public class DatabaseController {
         Class.forName("org.sqlite.JDBC");
         try {
             Connection connection = null;
-            PreparedStatement updatePasswordStmt = null;
-            PreparedStatement updateRealNameStmt = null;
+            PreparedStatement updatePasswordStmt;
+            PreparedStatement updateRealNameStmt;
             PreparedStatement updateStmt;
             String sql = "update Users set password = ? where username = ?;";
             String sqlUpdateRealName = "update Users set realName = ? where username = ?;";

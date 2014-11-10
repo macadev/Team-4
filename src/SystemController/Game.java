@@ -1,9 +1,9 @@
-package SystemController; /**
+/**
  * Created by danielmacario on 14-10-29.
  */
+package SystemController;
 
 import Database.DatabaseController;
-
 import javax.swing.JFrame;
 
 public class Game {
@@ -17,22 +17,9 @@ public class Game {
         try {
             DatabaseController.initializeDatabase();
             System.out.println("Database succesfully initialized");
-            DatabaseController.createNewUser("m", "a","John");
-            DatabaseController.createNewUser("testNewUser", "testNewPass","John");
-            DatabaseController.createNewUser("testNewUser2", "testNewPass2","Jane");
-            if (DatabaseController.authenticateUser("m","a")) {
-                System.out.println("Authentication Succesful");
-            }
-            else {
-                System.out.println("User not found");
-            }
-
-            DatabaseController.printDBContents();
-
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        //test code for database
 
 
         JFrame window = new JFrame("Bomberman");
