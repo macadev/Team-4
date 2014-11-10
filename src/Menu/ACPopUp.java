@@ -98,47 +98,66 @@ public class ACPopUp extends JFrame {
         String rPass = retypePass.getText();
 
         boolean creationSuccessful = false;
-        boolean validateUName = false;
-        boolean validatePass = false;
 
-        //Authentication will be done but if-else method put in as a placeholder
+        /*Put in the basic checks. Username validation and password validation checks still to be included*/
         if (rName.isEmpty() || uName.isEmpty() || pass.isEmpty() || rPass.isEmpty() ){
             labelMessage.setText("Please fill out all the information");
-        } else if (!(pass.equals(rPass))){
+        } else if (!(pass.equals(rPass))) {
             labelMessage.setText("Passwords do not match");
-        } /*else {
+        } else if (uName.length() < 6){
+            labelMessage.setText("Username must be at least 6 characters");
+        } else if (passStrength(pass)){
+            labelMessage.setText("The password is too weak. Enter at least two types from: Capital letters, Small letters, Digits and Symbols");
+        } else {
             try {
-                loginSuccessful = DatabaseController.authenticateUser(name, password);
+                creationSuccessful = DatabaseController.createNewUser(uName, pass, rName);
             } catch (ClassNotFoundException e1) {
                 e1.printStackTrace();
             }
 
-            if (loginSuccessful) {
-                labelMessage.setText("Success");
-                menuManager.associatePlayerUserName(name);
+            if (creationSuccessful) {
+                labelMessage.setText("Account Created");
+                menuManager.associatePlayerUserName(uName);
                 redirectToMainMenu();
                 setVisible(false);
                 dispose();
             } else {
-                labelMessage.setText("Username-Password combination invalid");
+                labelMessage.setText("Error. Username may already be in use or invalid characters entered for username and password.");
             }
-        } */
+        }
     }
 
-    private Pattern pattern;
-    private Matcher matcher;
-
-    private static final String USERNAME_PATTERN = "^[a-z0-9._-]{2,25}$";
-
-    public UsernameValidator(){
-        this.pattern = Pattern.compile(USERNAME_PATTERN);
+    public void redirectToMainMenu() {
+        menuManager.setMenuState(MenuState.MAIN);
     }
 
-    public boolean validateUser(final String password){
+    private boolean passStrength(String password) {
+        int passwordStrength = 0;
+        String[] partialRegexChecks = {".*[a-z]+.*", // lower
+                ".*[A-Z]+.*", // upper
+                ".*[\\d]+.*", // digits
+                ".*[@#$%]+.*" // symbols
+        };
 
-        matcher = pattern.matcher(password);
-        return matcher.matches();
 
+        if (password.matches(partialRegexChecks[0])) {
+            passwordStrength += 25;
+        }
+        if (password.matches(partialRegexChecks[1])) {
+            passwordStrength += 25;
+        }
+        if (password.matches(partialRegexChecks[2])) {
+            passwordStrength += 25;
+        }
+        if (password.matches(partialRegexChecks[3])) {
+            passwordStrength += 25;
+        }
+
+        if (passwordStrength < 50){
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
