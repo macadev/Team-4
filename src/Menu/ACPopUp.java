@@ -1,10 +1,6 @@
 package Menu;
 
 import Database.DatabaseController;
-import SystemController.GameStateManager;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -119,11 +115,11 @@ public class ACPopUp extends JFrame {
             labelMessage.setText("Passwords do not match");
         } else if (uName.length() < 6){
             labelMessage.setText("Username must be at least 6 characters");
-        } else if (!passStrength(pass)) {
+        } else if (!isValidPassword(pass)) {
             labelMessage.setText("The password is too weak. Enter one of each type from: Capital letters, Small letters, Digits and Symbols");
         } else if(pass.length() < 8) {
             labelMessage.setText("Password must be at least 8 characters");
-        } else if(!isAlphaNumeric(uName)){ //Needs to consider latin characters
+        } else if(!isValidUsername(uName)){ //Needs to consider latin characters
             labelMessage.setText("Username has to be alphanumeric");
         } else {
             try {
@@ -149,7 +145,7 @@ public class ACPopUp extends JFrame {
         menuManager.setMenuState(MenuState.MAIN);
     }
 
-    private boolean passStrength(String password) {
+    private boolean isValidPassword(String password) {
         int passwordStrength = 0;
         String[] partialRegexChecks = {".*[a-z]+.*", // lower
                 ".*[A-Z]+.*", // upper
@@ -178,8 +174,8 @@ public class ACPopUp extends JFrame {
         }
     }
 
-    //Check for alphanumeric. Accented characters to be added in
-    public boolean isAlphaNumeric(String s){
+    public boolean isValidUsername(String s){
+
         String pattern= "^[a-zA-Z0-9]*$";
         if(s.matches(pattern)){
             return true;
