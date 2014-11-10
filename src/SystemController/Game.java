@@ -14,18 +14,21 @@ public class Game {
      * @param args
      */
     public static void main(String[] args) {
-        DatabaseController db = new DatabaseController();
         try {
-            db.initializeDatabase();
+            DatabaseController.initializeDatabase();
             System.out.println("Database succesfully initialized");
-            db.createNewUser("testNewUser", "testNewPass","John");
-            db.createNewUser("testNewUser2", "testNewPass2","Jane");
-            if(db.authenticateUser("testNewUser","testNewPass")) {
+            DatabaseController.createNewUser("m", "a","John");
+            DatabaseController.createNewUser("testNewUser", "testNewPass","John");
+            DatabaseController.createNewUser("testNewUser2", "testNewPass2","Jane");
+            if (DatabaseController.authenticateUser("m","a")) {
                 System.out.println("Authentication Succesful");
             }
             else {
                 System.out.println("User not found");
             }
+
+            DatabaseController.printDBContents();
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

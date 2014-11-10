@@ -5,7 +5,7 @@ package SystemController;
 
 import GamePlay.GamePlayManager;
 import Menu.*;
-
+import Database.DatabaseController;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -20,6 +20,7 @@ public class GameStateManager {
     private int currentState;
     private MenuManager menuManager;
     private GamePlayManager gamePlayManager;
+    private String playerUserName;
 
     /**
      * This integers are used as constants to represent the state the game can be in at
@@ -87,8 +88,15 @@ public class GameStateManager {
         if (currentState == GAMEPLAY) {
             gamePlayManager.keyReleased(k);
         } else {
-            menuManager.keyPressed(k);
+            menuManager.keyReleased(k);
         }
     }
 
+    public String getPlayerUserName() {
+        return playerUserName;
+    }
+
+    public void setPlayerUserName(String playerUserName) {
+        this.playerUserName = playerUserName;
+    }
 }
