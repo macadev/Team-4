@@ -135,6 +135,61 @@ public class DatabaseController {
 
         return false;
     }
+
+
+    public boolean updateInformation(String newPass, String newRealName, String Uname) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        try {
+            Connection connection = null;
+            PreparedStatement updatePasswordStmt = null;
+            PreparedStatement updateRealNameStmt = null;
+            PreparedStatement updateStmt;
+            String sql = "update Users set password = ? where username = ?;";
+            String sqlUpdateRealName = "update Users set realName = ? where username = ?;";
+            String updateRecords = "SELECT * from Users where username = ?;";
+            ResultSet rsUpdate = null;
+
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                //connection.setAutoCommit(false);
+                updatePasswordStmt = connection.prepareStatement(sql);
+                updatePasswordStmt.setString(1, newPass);
+                updatePasswordStmt.setString(2, Uname);
+                updatePasswordStmt.executeUpdate();
+
+                updateRealNameStmt = connection.prepareStatement(sqlUpdateRealName);
+                updateRealNameStmt.setString(1, newRealName);
+                updateRealNameStmt.setString(2, Uname);
+                updateRealNameStmt.executeUpdate();
+
+
+                updateStmt = connection.prepareStatement(updateRecords);
+                updateStmt.setString(1,Uname);
+                rsUpdate = updateStmt.executeQuery();
+                while (rsUpdate.next()) {
+                    String updatedPassword = rsUpdate.getString("password");
+                    String updatedRealName = rsUpdate.getString("realName");
+                    System.out.println("Updated Password to : " + updatedPassword);
+                    System.out.println("Updated Real Name to : " + updatedRealName);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (rsUpdate != null) {
+                    rsUpdate.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
 }
 
 

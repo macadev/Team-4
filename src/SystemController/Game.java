@@ -18,15 +18,21 @@ public class Game {
         try {
             db.initializeDatabase();
             System.out.println("Database succesfully initialized");
-            db.createNewUser("testNewUser", "testNewPass","John");
-            db.createNewUser("testNewUser2", "testNewPass2","Jane");
-            if(db.authenticateUser("testNewUser","testNewPass")) {
+            db.createNewUser("John", "Johnpass","JohnRealName");
+            db.createNewUser("Jane", "Janepass","JaneRealName");
+            db.createNewUser("Bob","Bobpass","BobRealName");
+            if(db.authenticateUser("John","Johnpass")) {
                 System.out.println("Authentication Succesful");
             }
             else {
                 System.out.println("User not found");
             }
-        } catch (ClassNotFoundException e) {
+            if (db.updateInformation("johnNewPass","Johnny","John")); {
+                System.out.println("User info updated");
+            }
+        }
+
+        catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         //test code for database
