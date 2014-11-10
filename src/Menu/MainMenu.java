@@ -83,6 +83,7 @@ public class MainMenu extends MenuTemplate {
     @Override
     public void keyPressed(int k) {
         if (k == KeyEvent.VK_ENTER) {
+            System.out.println("IM BEING PRESSED!");
             select();
         }
         if (k == KeyEvent.VK_UP) {

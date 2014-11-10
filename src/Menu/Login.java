@@ -1,8 +1,8 @@
 package Menu;
-import javax.swing.*;
+
+import Database.DatabaseController;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 /**
@@ -48,19 +48,18 @@ public class Login extends MenuTemplate {
                 g.setColor(Color.RED);
             }
 
-
-
             // pass horizontal distance, then vertical distance
             g.drawString(options[i], 95, 120 + i * 15);
-
-
 
         }
     }
 
     private void select() {
         if (currentChoice == 0) {
-            menuManager.setMenuState(MenuState.MAIN);
+
+            LoginPopup loginPopUp = new LoginPopup(menuManager);
+            loginPopUp.setVisible(true);
+
         }
         if (currentChoice == 1) {
             menuManager.setMenuState(MenuState.ACCOUNTCREATION);

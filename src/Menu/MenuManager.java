@@ -43,6 +43,10 @@ public class MenuManager extends GameState {
         menuStates.get(currentMenu).init();
     }
 
+    public void associatePlayerUserName (String username) {
+        gsm.setPlayerUserName(username);
+    }
+
     @Override
     public void draw(Graphics2D g) {
         menuStates.get(currentMenu).draw(g);
