@@ -121,7 +121,7 @@ public class ACPopUp extends JFrame {
             labelMessage.setText("Username must be at least 6 characters");
         } else if (!passStrength(pass)) {
             labelMessage.setText("The password is too weak. Enter one of each type from: Capital letters, Small letters, Digits and Symbols");
-        } else if(pass.length() < 9){
+        } else if(pass.length() < 8){
             labelMessage.setText("Password must be at least 8 characters");
         } else {
             try {
