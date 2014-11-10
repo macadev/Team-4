@@ -41,36 +41,24 @@ public class DatabaseController {
     }
 
 
-    public void createNewUser() throws ClassNotFoundException {
+    public void createNewUser(String Uname, String pass) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         try {
             Connection connection = null;
-            Statement stmt = null;
-            ResultSet rs = null;
-
+            String sql = "INSERT INTO Users"
+                    + "(USERNAME, PASSWORD) VALUES"
+                    + "(?,?)";
             try {
                 connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
-                stmt = connection.createStatement();
-                stmt.executeUpdate("insert into Users values('John Doe','Johnpass')");
-                stmt.executeUpdate("insert into Users values('m','d')");
-                stmt.executeUpdate("insert into Users values('Jane Doe','Janepass')");
-                rs = stmt.executeQuery("select * from Users");
-                while (rs.next()) {
-                    // read the result set
-                    System.out.println("username = " + rs.getString("username"));
-                    System.out.println("password = " + rs.getString("password"));
-                }
+                PreparedStatement stmt = connection.prepareStatement(sql);
+                stmt.setString(1, Uname);
+                stmt.setString(2, pass);
+                stmt.executeUpdate();
+                System.out.println("User is inserted into database");
+
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                if (rs != null) {
-                    rs.close();
-                }
-
-                if (stmt != null) {
-                    stmt.close();
-                }
-
                 if (connection != null) {
                     connection.close();
                 }
@@ -79,6 +67,16 @@ public class DatabaseController {
             e.printStackTrace();
         }
     }
+
+
+
+
+
+
+
+
+
+
 
     public boolean authenticateUser(String Uname, String pass) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
@@ -115,9 +113,11 @@ public class DatabaseController {
                 if (usernameOnDB != null && passwordOnDB != null) {
                     return true;
                 }
-            } catch (SQLException e) {
+            }
+            catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
+            }
+            finally {
                 if (rsUser != null) {
                     rsUser.close();
                 }
@@ -130,7 +130,8 @@ public class DatabaseController {
                     connection.close();
                 }
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
 
