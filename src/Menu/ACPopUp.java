@@ -178,6 +178,7 @@ public class ACPopUp extends JFrame {
         }
     }
 
+    //Check for alphanumeric. Accented characters to be added in
     public boolean isAlphaNumeric(String s){
         String pattern= "^[a-zA-Z0-9]*$";
         if(s.matches(pattern)){
