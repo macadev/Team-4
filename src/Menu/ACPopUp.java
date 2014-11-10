@@ -23,6 +23,7 @@ public class ACPopUp extends JFrame {
     private JPasswordField retypePass;
     private JLabel labelMessage;
     private JButton buttonSubmit;
+    private JButton buttonExit;
     private MenuManager menuManager;
 
     public ACPopUp(MenuManager menuManager){
@@ -76,6 +77,7 @@ public class ACPopUp extends JFrame {
         panel.add(retypePass);
 
         buttonSubmit = new JButton("Submit");
+        buttonExit  = new JButton("Go back to Login Menu");
 
 
         buttonSubmit.addActionListener(new ActionListener() {
@@ -85,12 +87,24 @@ public class ACPopUp extends JFrame {
             }
         });
 
+        buttonExit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                exitClicked();
+            }
+        });
+
         panel.add(buttonSubmit);
+        panel.add(buttonExit);
 
         labelMessage = new JLabel("");
         panel.add(labelMessage);
     }
-
+    public void exitClicked(){
+        menuManager.setMenuState(MenuState.LOGIN);
+        setVisible(false);
+        dispose();
+    }
     public void submitClicked() {
         String rName = realName.getText();
         String uName = userName.getText();
