@@ -121,8 +121,10 @@ public class ACPopUp extends JFrame {
             labelMessage.setText("Username must be at least 6 characters");
         } else if (!passStrength(pass)) {
             labelMessage.setText("The password is too weak. Enter one of each type from: Capital letters, Small letters, Digits and Symbols");
-        } else if(pass.length() < 8){
+        } else if(pass.length() < 8) {
             labelMessage.setText("Password must be at least 8 characters");
+        } else if(!isAlphaNumeric(uName)){ //Needs to consider latin characters
+            labelMessage.setText("Username has to be alphanumeric");
         } else {
             try {
                 creationSuccessful = DatabaseController.createNewUser(uName, pass, rName);
@@ -174,6 +176,14 @@ public class ACPopUp extends JFrame {
         } else {
             return true;
         }
+    }
+
+    public boolean isAlphaNumeric(String s){
+        String pattern= "^[a-zA-Z0-9]*$";
+        if(s.matches(pattern)){
+            return true;
+        }
+        return false;
     }
 
 }
