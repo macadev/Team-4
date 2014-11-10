@@ -41,16 +41,27 @@ public class DatabaseController {
     }
 
 
-    public void createNewUser(String Uname, String pass) throws ClassNotFoundException {
+    public boolean createNewUser(String Uname, String pass) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         try {
             Connection connection = null;
+            PreparedStatement stmt = null;
+            ResultSet rsUserCheck = null;
             String sql = "INSERT INTO Users"
                     + "(USERNAME, PASSWORD) VALUES"
                     + "(?,?)";
+            String verify = "select * from Users where username = ?";
+
             try {
                 connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
-                PreparedStatement stmt = connection.prepareStatement(sql);
+                stmt = connection.prepareStatement(verify);
+                stmt.setString(1, Uname);
+                rsUserCheck = stmt.executeQuery();
+                if (rsUserCheck.isBeforeFirst() ) {
+                    System.out.println("User already exists");
+                    return true;
+                }
+                stmt = connection.prepareStatement(sql);
                 stmt.setString(1, Uname);
                 stmt.setString(2, pass);
                 stmt.executeUpdate();
@@ -66,6 +77,7 @@ public class DatabaseController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return true;
     }
 
 
@@ -89,7 +101,6 @@ public class DatabaseController {
             String passwordOnDB = null;
             String sql = "select * from Users where username = ? and password = ? ";
 
-
             try {
                 connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
                 //connection.setAutoCommit(false);
@@ -99,14 +110,14 @@ public class DatabaseController {
                 rsUser = stmt.executeQuery();
 
                 if (!rsUser.isBeforeFirst() ) {
-                    System.out.println("No data");
+                    System.out.println("Username/Password does not exist");
                 }
 
                 while (rsUser.next()) {
                     usernameOnDB = rsUser.getString("username");
                     passwordOnDB = rsUser.getString("password");
-                    System.out.println(usernameOnDB);
-                    System.out.println(passwordOnDB);
+                    System.out.println("Verified Username : " +usernameOnDB);
+                    System.out.println("Verified Password : " +passwordOnDB);
                 }
 
 
