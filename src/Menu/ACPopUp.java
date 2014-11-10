@@ -119,8 +119,8 @@ public class ACPopUp extends JFrame {
             labelMessage.setText("Passwords do not match");
         } else if (uName.length() < 6){
             labelMessage.setText("Username must be at least 6 characters");
-        } else if (passStrength(pass)) {
-            labelMessage.setText("The password is too weak. Enter at least two types from: Capital letters, Small letters, Digits and Symbols");
+        } else if (!passStrength(pass)) {
+            labelMessage.setText("The password is too weak. Enter one of each type from: Capital letters, Small letters, Digits and Symbols");
         } else if(pass.length() < 6){
             labelMessage.setText("Password must be at least 6 characters");
         } else {
@@ -169,10 +169,10 @@ public class ACPopUp extends JFrame {
             passwordStrength += 25;
         }
 
-        if (passwordStrength < 50){
-            return true;
-        } else {
+        if (passwordStrength != 100){
             return false;
+        } else {
+            return true;
         }
     }
 
