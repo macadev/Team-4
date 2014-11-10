@@ -24,7 +24,7 @@ public class LoginPopup extends JFrame {
         //Exit Option
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         //Display Size
-        setSize(800, 400);
+        setSize(600, 100);
         //Setting it to the middle of the screen
         setLocationRelativeTo(null);
         //Disable resize
@@ -43,7 +43,6 @@ public class LoginPopup extends JFrame {
         fieldName.setPreferredSize(new Dimension(150, 30));
         panel.add(fieldName);
 
-
         JLabel label2 = new JLabel("Password: ");
         panel.add(label2);
 
@@ -53,7 +52,6 @@ public class LoginPopup extends JFrame {
 
 
         buttonSubmit = new JButton("Login");
-        //Note: Create Account and Exit not put in as it already exists in the main structure of the game
 
         buttonSubmit.addActionListener(new ActionListener() {
             @Override
@@ -70,11 +68,11 @@ public class LoginPopup extends JFrame {
 
     public void loginClicked() {
         String name = fieldName.getText();
-        System.out.println(name);
+        //System.out.println(name);
         String password = fieldPass.getText();
-        System.out.println(password);
+        //System.out.println(password);
         boolean loginSuccessful = false;
-        //Authentication will be done but if-else method put in as a placeholder
+
         if (name.isEmpty()){
             labelMessage.setText("Username cannot be blank");
         } else if (password.isEmpty()){
@@ -93,7 +91,7 @@ public class LoginPopup extends JFrame {
                 setVisible(false);
                 dispose();
             } else {
-                labelMessage.setText("Username or Password combination invalid");
+                labelMessage.setText("Username-Password Combination Invalid");
             }
         }
     }

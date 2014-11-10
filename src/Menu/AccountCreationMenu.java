@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
 
 public class AccountCreationMenu extends MenuTemplate{
 
-    private String[] options = {"Submit","Exit"};
+    private String[] options = {"Fill in details","Exit"};
     private int currentChoice = 0;
     private Color titleColor;
     private Font titleFont;
@@ -58,7 +58,8 @@ public class AccountCreationMenu extends MenuTemplate{
 
     private void select() {
         if (currentChoice == 0) {
-            //Create Account
+            ACPopUp acp = new ACPopUp(menuManager);
+            acp.setVisible(true);
         }
         if (currentChoice == 1) {
             //Exit the Game
