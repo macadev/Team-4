@@ -99,15 +99,16 @@ public class ACPopUp extends JFrame {
 
         boolean creationSuccessful = false;
 
-        /*Put in the basic checks. Username validation and password validation checks still to be included*/
         if (rName.isEmpty() || uName.isEmpty() || pass.isEmpty() || rPass.isEmpty() ){
             labelMessage.setText("Please fill out all the information");
         } else if (!(pass.equals(rPass))) {
             labelMessage.setText("Passwords do not match");
         } else if (uName.length() < 6){
             labelMessage.setText("Username must be at least 6 characters");
-        } else if (passStrength(pass)){
+        } else if (passStrength(pass)) {
             labelMessage.setText("The password is too weak. Enter at least two types from: Capital letters, Small letters, Digits and Symbols");
+        } else if(pass.length() < 6){
+            labelMessage.setText("Password must be at least 6 characters");
         } else {
             try {
                 creationSuccessful = DatabaseController.createNewUser(uName, pass, rName);
