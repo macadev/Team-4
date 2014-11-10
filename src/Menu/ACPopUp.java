@@ -175,6 +175,7 @@ public class ACPopUp extends JFrame {
     }
 
     public boolean isValidUsername(String s){
+
         String pattern= "^[a-zA-Z0-9]*$";
         if(s.matches(pattern)){
             return true;
