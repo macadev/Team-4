@@ -2,6 +2,7 @@ package Menu;
 
 import Database.DatabaseController;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -15,6 +16,11 @@ public class Login extends MenuTemplate {
     private Color titleColor;
     private Font titleFont;
     private Font font;
+    private JLabel labelMessage;
+    private JTextField fieldName;
+    private JPasswordField fieldPass;
+    private MenuManager menuManager;
+
 
     public Login (MenuManager menuManager) {
 
@@ -22,6 +28,11 @@ public class Login extends MenuTemplate {
         titleColor = new Color(230, 200, 0);
         titleFont = new Font("Century Gothic", Font.PLAIN, 28);
         font = new Font("Arial", Font.PLAIN, 12);
+        labelMessage = new JLabel("");
+        fieldName = new JPlaceHolderTextField();
+        fieldName.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
+        fieldPass = new JPlaceHolderPasswordField();
+        fieldPass.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
 
     }
 
@@ -57,9 +68,7 @@ public class Login extends MenuTemplate {
     private void select() {
         if (currentChoice == 0) {
 
-            LoginPopup loginPopUp = new LoginPopup(menuManager);
-            loginPopUp.setVisible(true);
-
+            loginClicked();
         }
         if (currentChoice == 1) {
             //menuManager.setMenuState(MenuState.ACCOUNTCREATION);
@@ -90,4 +99,40 @@ public class Login extends MenuTemplate {
     public void keyReleased(int k) {
 
     }
+
+    public void loginClicked() {
+        String name = fieldName.getText();
+        //System.out.println(name);
+        String password = fieldPass.getText();
+        //System.out.println(password);
+        boolean loginSuccessful = false;
+
+        if (name.isEmpty()){
+            labelMessage.setText("Username cannot be blank");
+        } else if (password.isEmpty()){
+            labelMessage.setText("Password cannot be blank");
+        } else {
+            try {
+                loginSuccessful = DatabaseController.authenticateUser(name, password);
+            } catch (ClassNotFoundException e1) {
+                e1.printStackTrace();
+            }
+
+            if (loginSuccessful) {
+                labelMessage.setText("Success");
+                menuManager.associatePlayerUserName(name);
+                redirectToMainMenu();
+                setVisible(false);
+                dispose();
+            } else {
+                labelMessage.setText("Username-Password Combination Invalid");
+            }
+        }
+    }
+
+    public void redirectToMainMenu() {
+        menuManager.setMenuState(MenuState.MAIN);
+    }
+
 }
+
