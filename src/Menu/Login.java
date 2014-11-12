@@ -61,7 +61,7 @@ public class Login extends MenuTemplate {
         }
         if (currentChoice == 1) {
             //menuManager.setMenuState(MenuState.ACCOUNTCREATION);
-            Menu.AccountCreationMenuPopUp acp = new Menu.AccountCreationMenuPopUp(menuManager);
+            AccountCreationMenuPopUp acp = new AccountCreationMenuPopUp(menuManager);
             acp.setVisible(true);
         }
         if (currentChoice == 2) {

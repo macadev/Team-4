@@ -9,6 +9,7 @@ import java.util.Random;
  */
 public class Spawner {
 
+    private Random random = new Random();
     private ArrayList<ConcreteWall> concreteWalls;
     private TileMap tileMap;
 
@@ -67,18 +68,32 @@ public class Spawner {
         int bricksLeft = 30;
         int randomRow;
         int randomCol;
-        while (bricksLeft > 0) {
 
-            randomCol = getRandom(1, 30);
-            //TODO: change x = 1, so that the first row can be populated as well
-            randomRow = getRandom(1, 12);
+        for (int col = 0; col < tileMap.NUM_OF_COLS; col++) {
 
-            if (gridLayout[randomCol][randomRow] == null) {
-                gridLayout[randomCol][randomRow] = new BrickWall(randomCol * tileMap.WIDTH_OF_TILE,
-                        randomRow * tileMap.HEIGHT_OF_TILE, true, false);
-                bricksLeft--;
+            for (int row = 0; row < tileMap.NUM_OF_ROWS; row++) {
+
+                if (gridLayout[row][col] == null && getRandomBoolean() && isInValidPosition(row, col)) {
+
+                    gridLayout[row][col] = new BrickWall(col * tileMap.WIDTH_OF_TILE,
+                            row * tileMap.HEIGHT_OF_TILE, true, false);
+                }
             }
         }
+    }
+
+    /**
+     * Returns true if the passed coordinate is not in the area where the player spawns
+     * @param row
+     * @param col
+     * @return
+     */
+    public boolean isInValidPosition(int row, int col) {
+        return ((row != 0 && col != 0) && (row != 1 && col != 0) && (row != 0 && col != 1));
+    }
+
+    public boolean getRandomBoolean() {
+        return random.nextFloat() < 0.1;
     }
 
     /**
