@@ -1,12 +1,10 @@
 package GameObject;
 
 import GamePlay.Spawner;
-import SystemController.GameController;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -22,30 +20,38 @@ public class TileMap {
     public static final int HEIGHT_OF_TILE = 32;
     public static final int CAMERA_MOVING_LIMIT = 224;
 
-    private StaticObject[][] walls;
+    private GameObject[][] walls;
     private ArrayList<Flame> flames;
     private Spawner spawner;
     private int speed;
     private int bombRadius;
 
+    //keep track of the current stage
+    private int currentStage;
+
     private int deltaX;
 
-    public TileMap() {}
+    public TileMap() {
+        this.currentStage = 1;
+    }
 
     public TileMap(int speed) {
+        this.currentStage = 1;
         this.deltaX = 0;
         this.speed = speed;
+        this.bombRadius = 1;
         this.spawner = new Spawner();
         this.flames = new ArrayList<Flame>();
-        this.bombRadius = 1;
         populateGridWithBlocks();
     }
 
     public void drawTiles(Graphics2D g) {
-        for (StaticObject[] row : walls) {
-            for (StaticObject wall : row) {
-                if (wall != null && wall.isVisible())
-                    wall.draw(g);
+
+        //Draw the walls and the enemies
+        for (GameObject[] row : walls) {
+            for (GameObject object : row) {
+                if (object != null && object.isVisible())
+                    object.draw(g);
             }
         }
 
@@ -67,6 +73,12 @@ public class TileMap {
 
     public void incrementBombRadius() {
         bombRadius++;
+    }
+
+    public StageData getCurrentStage() {
+
+        return Stages.gameStages[this.currentStage];
+
     }
 
     public void keyPressed(int k) {
@@ -99,7 +111,7 @@ public class TileMap {
         int posYofFlame;
         int posXofWall;
         int posYofWall;
-        StaticObject wall;
+        GameObject wall;
         Direction[] directions = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
         for (Direction direction : directions) {
@@ -158,7 +170,7 @@ public class TileMap {
         return deltaX;
     }
 
-    public StaticObject[][] getWalls() {
+    public GameObject[][] getWalls() {
         return walls;
     }
 

@@ -9,11 +9,11 @@ import java.util.Random;
  */
 public class Spawner {
 
-    private Random random = new Random();
+    private Random randomGenerator = new Random();
     private ArrayList<Coordinate> possibleEnemyCoordinates;
     private TileMap tileMap;
 
-    private StaticObject[][] gridLayout;
+    private GameObject[][] gridLayout;
 
     //private ArrayList<BrickWall> brickWalls;
     //private <Enemy> enemies;
@@ -21,15 +21,17 @@ public class Spawner {
     public Spawner() {
         int numRows = 13;
         int numCols = 31;
-        gridLayout = new StaticObject[numCols][numRows];
+        gridLayout = new GameObject[numCols][numRows];
         tileMap = new TileMap();
         possibleEnemyCoordinates = new ArrayList<Coordinate>();
     }
 
-    public StaticObject[][] generateWalls() {
+    public GameObject[][] generateWalls() {
 
+        StageData stageData = tileMap.getCurrentStage();
         generateConcreteWalls();
         generateBrickWalls();
+        generateEnemies(stageData.getEnemiesPresent());
 
         return gridLayout;
     }
@@ -83,6 +85,32 @@ public class Spawner {
         }
     }
 
+    public void generateEnemies(Tuple[] enemiesPresent) {
+
+        for (Tuple enemySet : enemiesPresent) {
+
+            EnemyType currentSetType = enemySet.getEnemyType();
+            int setSize = enemySet.getNumberPresent();
+            Coordinate positionOnGrid;
+
+            for (int i = 0; i < setSize; i++) {
+                positionOnGrid = getRandomEnemyCoordinate();
+                int row = positionOnGrid.getRow();
+                int col = positionOnGrid.getCol();
+
+                gridLayout[col][row] = new Enemy(currentSetType, col * tileMap.WIDTH_OF_TILE, row * tileMap.HEIGHT_OF_TILE);
+            }
+
+        }
+
+    }
+
+    public Coordinate getRandomEnemyCoordinate() {
+        int index = randomGenerator.nextInt(possibleEnemyCoordinates.size());
+        Coordinate coordinate = possibleEnemyCoordinates.remove(index);
+        return coordinate;
+    }
+
     /**
      * Returns true if the passed coordinate is not in the area where the player spawns
      * @param row
@@ -94,7 +122,7 @@ public class Spawner {
     }
 
     public boolean getRandomBoolean() {
-        return random.nextFloat() <= 0.1;
+        return randomGenerator.nextFloat() <= 0.1;
     }
 
     /**
@@ -109,10 +137,6 @@ public class Spawner {
 
         //number range is low <= x < high
         return result;
-    }
-
-    public void generateEnemies() {
-
     }
 
     public void generateSetOfHarderEnemies() {

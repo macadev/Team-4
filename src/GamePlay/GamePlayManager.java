@@ -41,12 +41,6 @@ public class GamePlayManager extends GameState implements ActionListener {
 
         if (currentState == GamePlayState.PAUSE) {
 
-//            //This section is just for the demo.
-//            //TODO: remove after demo
-//            titleFont = new Font("Century Gothic", Font.PLAIN, 28);
-//            g.setFont(titleFont);
-//            g.setPaint(new Color(255,255,255));
-//            g.drawString("Game Paused", 80, 70);
             gsm.setState(gsm.MENUSTATE, MenuState.INGAME);
 
         } else if (currentState == GamePlayState.INGAME) {
@@ -62,21 +56,21 @@ public class GamePlayManager extends GameState implements ActionListener {
             camera.adjustPosition();
             if (cameraMoving) {
                 g.translate(camera.getPosX(), 0);
-                player.draw(g);
                 player.drawBombs(g);
                 tileMap.drawTiles(g);
+                player.draw(g);
                 g.translate(-camera.getPosX(), 0);
             } else {
                 if (secondCameraRegion) {
                     g.translate(-(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.WIDTH_OF_TILE), 0);
-                    player.draw(g);
                     player.drawBombs(g);
                     tileMap.drawTiles(g);
+                    player.draw(g);
                     g.translate(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.WIDTH_OF_TILE, 0);
                 } else {
-                    player.draw(g);
                     player.drawBombs(g);
                     tileMap.drawTiles(g);
+                    player.draw(g);
                 }
             }
 
@@ -99,13 +93,13 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     public void checkCollisions() {
         Rectangle playerRectangle = player.getBounds();
-        StaticObject[][] walls = tileMap.getWalls();
+        GameObject[][] walls = tileMap.getWalls();
         ArrayList<Bomb> bombsPlaced = player.getBombsPlaced();
 
 
 
-        for (StaticObject[] row : walls) {
-            for (StaticObject wall : row) {
+        for (GameObject[] row : walls) {
+            for (GameObject wall : row) {
                 if (wall != null) {
 
                     boolean playerHasWallPass = player.hasWallPass();
