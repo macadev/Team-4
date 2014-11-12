@@ -16,6 +16,9 @@ public class MovableObject extends GameObject {
     protected int speed;
     protected int deltaX;
     protected int deltaY;
+    protected int score;
+    protected boolean wallPass;
+
 
     /**
      * Displaces the object on the grid in the specified motion.

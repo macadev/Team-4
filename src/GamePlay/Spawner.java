@@ -10,7 +10,7 @@ import java.util.Random;
 public class Spawner {
 
     private Random random = new Random();
-    private ArrayList<ConcreteWall> concreteWalls;
+    private ArrayList<Coordinate> possibleEnemyCoordinates;
     private TileMap tileMap;
 
     private StaticObject[][] gridLayout;
@@ -22,9 +22,8 @@ public class Spawner {
         int numRows = 13;
         int numCols = 31;
         gridLayout = new StaticObject[numCols][numRows];
-
         tileMap = new TileMap();
-        concreteWalls = new ArrayList<ConcreteWall>();
+        possibleEnemyCoordinates = new ArrayList<Coordinate>();
     }
 
     public StaticObject[][] generateWalls() {
@@ -73,15 +72,14 @@ public class Spawner {
 
             for (int row = 0; row < tileMap.NUM_OF_ROWS; row++) {
 
-                if (gridLayout[col][row] == null && getRandomBoolean() && isInValidPosition(row, col)) {
+                boolean isPositionNull = (gridLayout[col][row] == null);
 
-                    gridLayout[col][row] = new BrickWall(col * tileMap.WIDTH_OF_TILE,
-                            row * tileMap.HEIGHT_OF_TILE, true, false);
-
+                if (isPositionNull && getRandomBoolean() && isInValidPosition(row, col)) {
+                    gridLayout[col][row] = new BrickWall(col * tileMap.WIDTH_OF_TILE, row * tileMap.HEIGHT_OF_TILE, true, false);
+                } else if (isPositionNull) {
+                    possibleEnemyCoordinates.add(new Coordinate(row, col));
                 }
-
             }
-
         }
     }
 
