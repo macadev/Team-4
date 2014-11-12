@@ -1,7 +1,5 @@
 package Menu;
 
-import Database.DatabaseController;
-
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -63,7 +61,7 @@ public class Login extends MenuTemplate {
         }
         if (currentChoice == 1) {
             //menuManager.setMenuState(MenuState.ACCOUNTCREATION);
-            ACPopUp acp = new ACPopUp(menuManager);
+            Menu.AccountCreationMenuPopUp acp = new Menu.AccountCreationMenuPopUp(menuManager);
             acp.setVisible(true);
         }
         if (currentChoice == 2) {

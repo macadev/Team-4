@@ -60,7 +60,7 @@ public class AccountCreationMenu extends MenuTemplate{
 
     private void select() {
         if (currentChoice == 0) {
-            ACPopUp acp = new ACPopUp(menuManager);
+            Menu.AccountCreationMenuPopUp acp = new Menu.AccountCreationMenuPopUp(menuManager);
             acp.setVisible(true);
         }
         if (currentChoice == 1) {
