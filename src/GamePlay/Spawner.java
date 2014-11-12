@@ -73,12 +73,15 @@ public class Spawner {
 
             for (int row = 0; row < tileMap.NUM_OF_ROWS; row++) {
 
-                if (gridLayout[row][col] == null && getRandomBoolean() && isInValidPosition(row, col)) {
+                if (gridLayout[col][row] == null && getRandomBoolean() && isInValidPosition(row, col)) {
 
-                    gridLayout[row][col] = new BrickWall(col * tileMap.WIDTH_OF_TILE,
+                    gridLayout[col][row] = new BrickWall(col * tileMap.WIDTH_OF_TILE,
                             row * tileMap.HEIGHT_OF_TILE, true, false);
+
                 }
+
             }
+
         }
     }
 
@@ -89,11 +92,11 @@ public class Spawner {
      * @return
      */
     public boolean isInValidPosition(int row, int col) {
-        return ((row != 0 && col != 0) && (row != 1 && col != 0) && (row != 0 && col != 1));
+        return (row + col != 3 && row + col != 2);
     }
 
     public boolean getRandomBoolean() {
-        return random.nextFloat() < 0.1;
+        return random.nextFloat() <= 0.1;
     }
 
     /**
