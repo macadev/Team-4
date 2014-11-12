@@ -5,6 +5,8 @@ import Database.DatabaseController;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.Normalizer;
+import java.util.regex.Pattern;
 
 import javax.swing.*;
 
@@ -174,13 +176,19 @@ public class ACPopUp extends JFrame {
         }
     }
 
-    public boolean isValidUsername(String s){
-
+    public boolean isValidUsername(String sI){
+        String s = removeAccent(sI);
         String pattern= "^[a-zA-Z0-9]*$";
         if(s.matches(pattern)){
             return true;
         }
         return false;
+    }
+
+    public String removeAccent(String str) {
+        String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
+        Pattern pat = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pat.matcher(nfdNormalizedString).replaceAll("");
     }
 
 }
