@@ -102,11 +102,15 @@ public class GamePlayManager extends GameState implements ActionListener {
         StaticObject[][] walls = tileMap.getWalls();
         ArrayList<Bomb> bombsPlaced = player.getBombsPlaced();
 
-        if (!player.hasWallPass()) {
 
-            for (StaticObject[] row : walls) {
-                for (StaticObject wall : row) {
-                    if (wall != null) {
+
+        for (StaticObject[] row : walls) {
+            for (StaticObject wall : row) {
+                if (wall != null) {
+
+                    boolean playerHasWallPass = player.hasWallPass();
+
+                    if (!playerHasWallPass || (playerHasWallPass && (wall instanceof ConcreteWall))) {
                         Rectangle wallRectangle = wall.getBounds();
                         if (playerRectangle.intersects(wallRectangle)) {
 
@@ -136,6 +140,7 @@ public class GamePlayManager extends GameState implements ActionListener {
                 }
             }
         }
+
 
         if (!player.hasBombPass()) {
             for (Bomb bomb : bombsPlaced) {

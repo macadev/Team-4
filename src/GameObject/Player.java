@@ -38,7 +38,7 @@ public class Player extends MovableObject {
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
         this.bombsAllowed = 3;
-        this.wallPass = false;
+        this.wallPass = true;
         this.bombPass = false;
         this.flamePass = false;
         this.detonatorEnabled = true;
