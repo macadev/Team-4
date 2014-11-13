@@ -31,7 +31,7 @@ public class AccountCreationMenuPopUp extends JFrame {
         //Exit Option
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         //Display Size
-        setSize(400, 250);
+        setSize(660, 260);
         //Setting it to the middle of the screen
         setLocationRelativeTo(null);
         //Disable resize
@@ -45,40 +45,49 @@ public class AccountCreationMenuPopUp extends JFrame {
         JPanel panel = new JPanel();
         getContentPane().add(panel);
 
-        //panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JLabel label = new JLabel("Real Name: ");
+        label.setBounds(10, 10, 80, 25);
         panel.add(label);
 
-        realName = new JTextField();
-        realName.setPreferredSize(new Dimension(150, 30));
+        realName = new JTextField(20);
+        realName.setBounds(100, 10, 160, 25);
+        //realName.setPreferredSize(new Dimension(150, 30));
         panel.add(realName);
 
         JLabel label3 = new JLabel("User Name: ");
+        label3.setBounds(10, 40, 80, 25);
         panel.add(label3);
 
-        userName = new JTextField();
-        userName.setPreferredSize(new Dimension(150, 30));
+        userName = new JTextField(20);
+        userName.setBounds(100, 40, 160, 25);
+        //userName.setPreferredSize(new Dimension(150, 30));
         panel.add(userName);
 
 
         JLabel label2 = new JLabel("Password: ");
+        label2.setBounds(10, 70, 80, 25);
         panel.add(label2);
 
-        fieldPass = new JPasswordField();
-        fieldPass.setPreferredSize(new Dimension(150, 30));
+        fieldPass = new JPasswordField(20);
+        userName.setBounds(100, 70, 160, 25);
+        //fieldPass.setPreferredSize(new Dimension(150, 30));
         panel.add(fieldPass);
 
         JLabel label4 = new JLabel("Re-enter Password: ");
+        label4.setBounds(10, 100, 80, 25);
         panel.add(label4);
 
-        retypePass = new JPasswordField();
-        retypePass.setPreferredSize(new Dimension(150, 30));
+        retypePass = new JPasswordField(20);
+        userName.setBounds(100, 100, 160, 25);
+        //retypePass.setPreferredSize(new Dimension(150, 30));
         panel.add(retypePass);
 
         buttonSubmit = new JButton("Submit");
+        buttonSubmit.setBounds(10, 140, 80, 25);
         buttonExit  = new JButton("Go back to Login Menu");
-
+        buttonExit.setBounds(10, 170, 80, 25);
 
         buttonSubmit.addActionListener(new ActionListener() {
             @Override
