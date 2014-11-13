@@ -42,15 +42,15 @@ public class MainMenu extends MenuTemplate {
         g.setColor(titleColor);
         g.setFont(titleFont);
         g.setPaint(new Color(255,255,255));
-        g.drawString("Bomberman", 80, 70);
+        g.drawString("BOMBERMAN", 80, 70);
 
         //draw menu options
         g.setFont(font);
         for(int i = 0; i < options.length; i++) {
             if (i == currentChoice) {
-                g.setColor(Color.GREEN);
+                g.setColor(Color.WHITE);
             } else {
-                g.setColor(Color.RED);
+                g.setColor(Color.YELLOW);
             }
             // pass horizontal distance, then vertical distance
             g.drawString(options[i], 95, 120 + i * 15);

@@ -35,7 +35,7 @@ public class Login extends MenuTemplate {
         g.setColor(titleColor);
         g.setFont(titleFont);
         g.setPaint(new Color(255,255,255));
-        g.drawString("Bomberman Login Menu", 80, 70);
+        g.drawString("BOMBERMAN", 80, 70);
 
         //draw menu options
         g.setFont(font);
@@ -43,7 +43,7 @@ public class Login extends MenuTemplate {
             if (i == currentChoice) {
                 g.setColor(Color.WHITE);
             } else {
-                g.setColor(Color.RED);
+                g.setColor(Color.YELLOW);
             }
 
             // pass horizontal distance, then vertical distance
@@ -55,9 +55,9 @@ public class Login extends MenuTemplate {
     private void select() {
         if (currentChoice == 0) {
 
-            LoginPopup loginPopUp = new LoginPopup(menuManager);
-            loginPopUp.setVisible(true);
-            //menuManager.setMenuState(MenuState.MAIN);
+            //LoginPopup loginPopUp = new LoginPopup(menuManager);
+            //loginPopUp.setVisible(true);
+            menuManager.setMenuState(MenuState.MAIN);
 
         }
         if (currentChoice == 1) {
