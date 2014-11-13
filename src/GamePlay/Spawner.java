@@ -9,10 +9,12 @@ import java.util.Random;
  */
 public class Spawner {
 
-    private ArrayList<ConcreteWall> concreteWalls;
+    private Random randomGenerator = new Random();
+    private ArrayList<Coordinate> possibleEnemyCoordinates;
     private TileMap tileMap;
+    private StageData stageData;
 
-    private StaticObject[][] gridLayout;
+    private GameObject[][] gridLayout;
 
     //private ArrayList<BrickWall> brickWalls;
     //private <Enemy> enemies;
@@ -20,17 +22,16 @@ public class Spawner {
     public Spawner() {
         int numRows = 13;
         int numCols = 31;
-        gridLayout = new StaticObject[numCols][numRows];
-
+        gridLayout = new GameObject[numCols][numRows];
         tileMap = new TileMap();
-        concreteWalls = new ArrayList<ConcreteWall>();
+        possibleEnemyCoordinates = new ArrayList<Coordinate>();
     }
 
-    public StaticObject[][] generateWalls() {
+    public GameObject[][] generateWalls() {
 
+        this.stageData = tileMap.getCurrentStage();
         generateConcreteWalls();
         generateBrickWalls();
-
         return gridLayout;
     }
 
@@ -67,18 +68,66 @@ public class Spawner {
         int bricksLeft = 30;
         int randomRow;
         int randomCol;
-        while (bricksLeft > 0) {
 
-            randomCol = getRandom(1, 30);
-            //TODO: change x = 1, so that the first row can be populated as well
-            randomRow = getRandom(1, 12);
+        for (int col = 0; col < tileMap.NUM_OF_COLS; col++) {
 
-            if (gridLayout[randomCol][randomRow] == null) {
-                gridLayout[randomCol][randomRow] = new BrickWall(randomCol * tileMap.WIDTH_OF_TILE,
-                        randomRow * tileMap.HEIGHT_OF_TILE, true, false);
-                bricksLeft--;
+            for (int row = 0; row < tileMap.NUM_OF_ROWS; row++) {
+
+                boolean isPositionNull = (gridLayout[col][row] == null);
+
+                if (isPositionNull && getRandomBoolean() && isInValidPosition(row, col)) {
+                    gridLayout[col][row] = new BrickWall(col * tileMap.WIDTH_OF_TILE, row * tileMap.HEIGHT_OF_TILE, true, false);
+                } else if (isPositionNull) {
+                    possibleEnemyCoordinates.add(new Coordinate(row, col));
+                }
             }
         }
+    }
+
+    public ArrayList<Enemy> generateEnemies() {
+
+        Tuple[] enemiesPresent = stageData.getEnemiesPresent();
+
+        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+
+        for (Tuple enemySet : enemiesPresent) {
+
+            EnemyType currentSetType = enemySet.getEnemyType();
+            int setSize = enemySet.getNumberPresent();
+            Coordinate positionOnGrid;
+
+            for (int i = 0; i < setSize; i++) {
+                positionOnGrid = getRandomEnemyCoordinate();
+                int row = positionOnGrid.getRow();
+                int col = positionOnGrid.getCol();
+
+                enemies.add(new Enemy(currentSetType, col * tileMap.WIDTH_OF_TILE + 1, row * tileMap.HEIGHT_OF_TILE + 1));
+            }
+
+        }
+
+        return enemies;
+
+    }
+
+    public Coordinate getRandomEnemyCoordinate() {
+        int index = randomGenerator.nextInt(possibleEnemyCoordinates.size());
+        Coordinate coordinate = possibleEnemyCoordinates.remove(index);
+        return coordinate;
+    }
+
+    /**
+     * Returns true if the passed coordinate is not in the area where the player spawns
+     * @param row
+     * @param col
+     * @return
+     */
+    public boolean isInValidPosition(int row, int col) {
+        return (row + col != 3 && row + col != 2);
+    }
+
+    public boolean getRandomBoolean() {
+        return randomGenerator.nextFloat() <= 0.1;
     }
 
     /**
@@ -93,10 +142,6 @@ public class Spawner {
 
         //number range is low <= x < high
         return result;
-    }
-
-    public void generateEnemies() {
-
     }
 
     public void generateSetOfHarderEnemies() {

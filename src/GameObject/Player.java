@@ -12,10 +12,10 @@ import java.util.ArrayList;
 
 public class Player extends MovableObject {
     //TODO: logic for bombs detonating other bombs
-    private int score;
     private TileMap tileMap;
     ArrayList<Bomb> bombsPlaced;
     private GamePlayState currentState;
+    private int respawnCount = 0;
 
     //powerup logic data
     private int bombsAllowed;
@@ -25,6 +25,7 @@ public class Player extends MovableObject {
     private boolean detonatorEnabled;
 
     public Player(int posX, int posY, boolean visible, int speed) {
+        this.score = 0;
         this.currentState = GamePlayState.INGAME;
         this.deltaX = 0;
         this.deltaY = 0;
@@ -39,10 +40,18 @@ public class Player extends MovableObject {
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
         this.bombsAllowed = 3;
-        this.wallPass = false;
+        this.wallPass = true;
         this.bombPass = false;
         this.flamePass = false;
         this.detonatorEnabled = true;
+    }
+
+    public void draw(Graphics2D g) {
+        if (visible /*not dead*/) {
+            g.drawImage(image, posX, posY, null);
+        } else {
+            countDownToRespawn();
+        }
     }
 
     public void drawBombs(Graphics2D g) {
@@ -81,24 +90,6 @@ public class Player extends MovableObject {
 
     }
 
-    public void restorePreviousPosition() {
-        posX = previousX;
-        posY = previousY;
-    }
-
-    public void restorePreviousXPosition() {
-        posX = previousX;
-    }
-
-    public void restorePreviousYPosition() {
-        posY = previousY;
-    }
-
-    public void restorePositionTo(int x, int y) {
-        posX = x;
-        posY = y;
-    }
-
     private void placeBomb() {
         if (bombsPlaced.size() < bombsAllowed) {
             //The % allows the bombs to snap to the center of the tiles where they are placed
@@ -114,36 +105,47 @@ public class Player extends MovableObject {
     }
 
     public void death() {
-        posX = 35;
-        posY = 35;
+        this.visible = false;
+    }
+
+    public void countDownToRespawn() {
+        if (this.respawnCount == 60) {
+            visible = true;
+            posX = 35;
+            posY = 35;
+            respawnCount = 0;
+        } else {
+            respawnCount++;
+        }
     }
 
     public void keyPressed(int key) {
+        //disable the controls if the player is dead
+        if (visible) {
+            if (key == KeyEvent.VK_UP) {
+                deltaY = -speed;
+            } else if (key == KeyEvent.VK_DOWN) {
+                deltaY = speed;
+            } else if (key == KeyEvent.VK_LEFT) {
+                deltaX = -speed;
+            } else if (key == KeyEvent.VK_RIGHT) {
+                deltaX = speed;
+            } else if (key == KeyEvent.VK_SPACE) {
 
-        if (key == KeyEvent.VK_UP) {
-            deltaY = -speed;
-        } else if (key == KeyEvent.VK_DOWN) {
-            deltaY = speed;
-        } else if (key == KeyEvent.VK_LEFT) {
-            deltaX = -speed;
-        } else if (key == KeyEvent.VK_RIGHT) {
-            deltaX = speed;
-        } else if (key == KeyEvent.VK_SPACE) {
+                if (currentState == GamePlayState.INGAME) {
+                    currentState = GamePlayState.PAUSE;
+                } else {
+                    currentState = GamePlayState.INGAME;
+                }
 
-            if (currentState == GamePlayState.INGAME) {
-                currentState = GamePlayState.PAUSE;
-            } else {
-                currentState = GamePlayState.INGAME;
-            }
-
-        } else if (key == KeyEvent.VK_X) {
-            placeBomb();
-        } else if (key == KeyEvent.VK_Z) {
-            if (detonatorEnabled && !bombsPlaced.isEmpty()) {
-                detonateLastBomb();
+            } else if (key == KeyEvent.VK_X) {
+                placeBomb();
+            } else if (key == KeyEvent.VK_Z) {
+                if (detonatorEnabled && !bombsPlaced.isEmpty()) {
+                    detonateLastBomb();
+                }
             }
         }
-
     }
 
     public void keyReleased(int key) {
@@ -164,14 +166,6 @@ public class Player extends MovableObject {
 
     public void setTileMap(TileMap tileMap) {
         this.tileMap = tileMap;
-    }
-
-    public boolean hasWallPass() {
-        return wallPass;
-    }
-
-    public void setWallPass(boolean wallPass) {
-        this.wallPass = wallPass;
     }
 
     public ArrayList<Bomb> getBombsPlaced() {
@@ -222,6 +216,10 @@ public class Player extends MovableObject {
 
     public void setFlamePass(boolean flamePass) {
         this.flamePass = flamePass;
+    }
+
+    public void addToScore(int enemyScore) {
+        this.score += enemyScore;
     }
 
 }

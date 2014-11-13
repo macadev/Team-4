@@ -13,7 +13,7 @@ import javax.swing.*;
 /**
  * Created by Shabab Ahmed on 10/11/2014.
  */
-public class ACPopUp extends JFrame {
+public class AccountCreationMenuPopUp extends JFrame {
 
     private JTextField realName;
     private JTextField userName;
@@ -24,7 +24,7 @@ public class ACPopUp extends JFrame {
     private JButton buttonExit;
     private MenuManager menuManager;
 
-    public ACPopUp(MenuManager menuManager){
+    public AccountCreationMenuPopUp(MenuManager menuManager){
         this.menuManager = menuManager;
         createView();
 

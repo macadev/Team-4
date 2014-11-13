@@ -16,6 +16,9 @@ public class MovableObject extends GameObject {
     protected int speed;
     protected int deltaX;
     protected int deltaY;
+    protected int score;
+    protected boolean wallPass;
+
 
     /**
      * Displaces the object on the grid in the specified motion.
@@ -32,6 +35,24 @@ public class MovableObject extends GameObject {
     public void moveVertically() {
         posY += deltaY;
         previousY = posY;
+    }
+
+    public void restorePreviousPosition() {
+        posX = previousX;
+        posY = previousY;
+    }
+
+    public void restorePreviousXPosition() {
+        posX = previousX;
+    }
+
+    public void restorePreviousYPosition() {
+        posY = previousY;
+    }
+
+    public void restorePositionTo(int x, int y) {
+        posX = x;
+        posY = y;
     }
 
     /**
@@ -64,5 +85,21 @@ public class MovableObject extends GameObject {
 
     public void setDeltaY(int deltaY) {
         this.deltaY = deltaY;
+    }
+
+    public boolean hasWallPass() {
+        return wallPass;
+    }
+
+    public void setWallPass(boolean wallPass) {
+        this.wallPass = wallPass;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

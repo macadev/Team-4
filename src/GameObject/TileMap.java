@@ -1,12 +1,10 @@
 package GameObject;
 
 import GamePlay.Spawner;
-import SystemController.GameController;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -22,30 +20,45 @@ public class TileMap {
     public static final int HEIGHT_OF_TILE = 32;
     public static final int CAMERA_MOVING_LIMIT = 224;
 
-    private StaticObject[][] walls;
+    private GameObject[][] walls;
     private ArrayList<Flame> flames;
+    private ArrayList<Enemy> enemies;
     private Spawner spawner;
     private int speed;
     private int bombRadius;
 
+    //keep track of the current stage
+    private int currentStage;
+
     private int deltaX;
 
-    public TileMap() {}
+    public TileMap() {
+        this.currentStage = 1;
+    }
 
     public TileMap(int speed) {
+        this.currentStage = 1;
         this.deltaX = 0;
         this.speed = speed;
+        this.bombRadius = 1;
         this.spawner = new Spawner();
         this.flames = new ArrayList<Flame>();
-        this.bombRadius = 1;
         populateGridWithBlocks();
+        createEnemySet();
+    }
+
+    public void drawObjects(Graphics2D g) {
+        drawTiles(g);
+        drawEnemies(g);
     }
 
     public void drawTiles(Graphics2D g) {
-        for (StaticObject[] row : walls) {
-            for (StaticObject wall : row) {
-                if (wall != null && wall.isVisible())
-                    wall.draw(g);
+
+        //Draw the walls and the enemies
+        for (GameObject[] row : walls) {
+            for (GameObject object : row) {
+                if (object != null && object.isVisible())
+                    object.draw(g);
             }
         }
 
@@ -61,27 +74,32 @@ public class TileMap {
         }
     }
 
+    public void drawEnemies(Graphics2D g) {
+        if (enemies.isEmpty()) return;
+        int enemyCount = enemies.size();
+        for (int i = 0; i < enemyCount; i++) {
+            Enemy enemy = enemies.get(i);
+            if (enemy.isVisible()) {
+                enemy.draw(g);
+            } else {
+                enemies.remove(enemy);
+                enemyCount = enemies.size();
+            }
+        }
+
+    }
+
     public void populateGridWithBlocks() {
         walls = spawner.generateWalls();
     }
 
-    public void incrementBombRadius() {
-        bombRadius++;
+    public void createEnemySet() {
+        enemies = spawner.generateEnemies();
     }
 
-    public void keyPressed(int k) {
-        if (k == KeyEvent.VK_LEFT) {
-            deltaX = speed;
-        } else if (k == KeyEvent.VK_RIGHT) {
-            deltaX = - speed;
-        }
-    }
-
-    public void keyReleased(int k) {
-        if (k == KeyEvent.VK_LEFT) {
-            deltaX = 0;
-        } else if (k == KeyEvent.VK_RIGHT) {
-            deltaX = 0;
+    public void moveEnemies() {
+        for (Enemy enemy : enemies) {
+            enemy.move();
         }
     }
 
@@ -99,7 +117,7 @@ public class TileMap {
         int posYofFlame;
         int posXofWall;
         int posYofWall;
-        StaticObject wall;
+        GameObject wall;
         Direction[] directions = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
         for (Direction direction : directions) {
@@ -154,11 +172,46 @@ public class TileMap {
         }
     }
 
+    public void keyPressed(int k) {
+        if (k == KeyEvent.VK_LEFT) {
+            deltaX = speed;
+        } else if (k == KeyEvent.VK_RIGHT) {
+            deltaX = - speed;
+        }
+    }
+
+    public void keyReleased(int k) {
+        if (k == KeyEvent.VK_LEFT) {
+            deltaX = 0;
+        } else if (k == KeyEvent.VK_RIGHT) {
+            deltaX = 0;
+        }
+    }
+
+    public void incrementBombRadius() {
+        bombRadius++;
+    }
+
+    public StageData getCurrentStage() {
+
+        return Stages.gameStages[this.currentStage];
+
+    }
+
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public void setEnemies(ArrayList<Enemy> enemies) {
+        this.enemies = enemies;
+    }
+
     public int getDeltaX() {
         return deltaX;
     }
 
-    public StaticObject[][] getWalls() {
+    public GameObject[][] getObjects() {
         return walls;
     }
 

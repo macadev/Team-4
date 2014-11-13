@@ -41,12 +41,6 @@ public class GamePlayManager extends GameState implements ActionListener {
 
         if (currentState == GamePlayState.PAUSE) {
 
-//            //This section is just for the demo.
-//            //TODO: remove after demo
-//            titleFont = new Font("Century Gothic", Font.PLAIN, 28);
-//            g.setFont(titleFont);
-//            g.setPaint(new Color(255,255,255));
-//            g.drawString("Game Paused", 80, 70);
             gsm.setState(gsm.MENUSTATE, MenuState.INGAME);
 
         } else if (currentState == GamePlayState.INGAME) {
@@ -57,26 +51,27 @@ public class GamePlayManager extends GameState implements ActionListener {
             //updateCamera();
 
             player.move();
+            tileMap.moveEnemies();
             checkCollisions();
             updateCamera();
             camera.adjustPosition();
             if (cameraMoving) {
                 g.translate(camera.getPosX(), 0);
-                player.draw(g);
                 player.drawBombs(g);
-                tileMap.drawTiles(g);
+                tileMap.drawObjects(g);
+                player.draw(g);
                 g.translate(-camera.getPosX(), 0);
             } else {
                 if (secondCameraRegion) {
                     g.translate(-(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.WIDTH_OF_TILE), 0);
-                    player.draw(g);
                     player.drawBombs(g);
-                    tileMap.drawTiles(g);
+                    tileMap.drawObjects(g);
+                    player.draw(g);
                     g.translate(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.WIDTH_OF_TILE, 0);
                 } else {
-                    player.draw(g);
                     player.drawBombs(g);
-                    tileMap.drawTiles(g);
+                    tileMap.drawObjects(g);
+                    player.draw(g);
                 }
             }
 
@@ -99,74 +94,136 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     public void checkCollisions() {
         Rectangle playerRectangle = player.getBounds();
-        StaticObject[][] walls = tileMap.getWalls();
+        GameObject[][] objects = tileMap.getObjects();
         ArrayList<Bomb> bombsPlaced = player.getBombsPlaced();
+        ArrayList<Enemy> enemies = tileMap.getEnemies();
+        boolean playerCollisionResolved = false;
 
-        if (!player.hasWallPass()) {
 
-            for (StaticObject[] row : walls) {
-                for (StaticObject wall : row) {
-                    if (wall != null) {
-                        Rectangle wallRectangle = wall.getBounds();
-                        if (playerRectangle.intersects(wallRectangle)) {
+        //Check for collision of the player and the enemies with walls
+        for (GameObject[] row : objects) {
+            for (GameObject wall : row) {
+                if (wall != null) {
 
-                            int x = player.getPosX();
-                            int y = player.getPosY();
+                    boolean playerHasWallPass = player.hasWallPass();
+                    Rectangle wallRectangle = wall.getBounds();
 
-                            player.restorePreviousXPosition();
+                    //Check for collision of the player with the targeted wall
+                    //Upon resolving the collision, we stop checking this for loop
+                    //To reduce computation
+                    if (!playerCollisionResolved) {
 
-                            if (player.getBounds().intersects(wallRectangle)) {
-                                player.restorePositionTo(x,y);
-                            } else {
-                                break;
+                        if (!playerHasWallPass || (playerHasWallPass && (wall instanceof ConcreteWall))) {
+                            if (playerRectangle.intersects(wallRectangle)) {
+                                restoreToBeforeCollision(player, wallRectangle);
+                                playerCollisionResolved = true;
                             }
+                        }
+                    }
 
-                            player.restorePreviousYPosition();
-
-                            if (player.getBounds().intersects(wallRectangle)) {
-                                player.restorePositionTo(x,y);
-                            } else {
-                                break;
+                    //Check for collisions of the enemies with the walls
+                    boolean enemyHasWallPass;
+                    for (Enemy enemy : enemies) {
+                        enemyHasWallPass = enemy.hasWallPass();
+                        Rectangle enemyRectangle = enemy.getBounds();
+                        if (!enemyHasWallPass || (enemyHasWallPass && (wall instanceof ConcreteWall))) {
+                            if (enemyRectangle.intersects(wallRectangle)) {
+                                enemy.reverseDirection();
+                                restoreToBeforeCollision(enemy, wallRectangle);
                             }
-
-                            player.restorePreviousPosition();
-                            break;
                         }
                     }
                 }
             }
         }
 
-        if (!player.hasBombPass()) {
-            for (Bomb bomb : bombsPlaced) {
-                Rectangle bombRectangle = bomb.getBounds();
-                if (playerRectangle.intersects(bombRectangle)) {
-                    if (!bomb.isFirstCollision()) {
-                        player.restorePreviousPosition();
-                    }
-                } else {
-                    bomb.setFirstCollision(false);
+        //Check for collisions of the player with the bombs
+        for (Bomb bomb : bombsPlaced) {
+            Rectangle bombRectangle = bomb.getBounds();
+            if (playerRectangle.intersects(bombRectangle)) {
+                if (!bomb.isFirstCollision()) {
+                    player.restorePreviousPosition();
+                }
+            } else {
+                bomb.setFirstCollision(false);
+            }
+
+            for (Enemy enemy : enemies) {
+                Rectangle enemyRectangle = enemy.getBounds();
+                if (enemyRectangle.intersects(bombRectangle)) {
+                    enemy.reverseDirection();
+                    restoreToBeforeCollision(enemy, bombRectangle);
                 }
             }
+
         }
 
-        if(!player.hasFlamePass()) {
-            ArrayList<Flame> flames = tileMap.getFlames();
-            Rectangle flameRectangle;
-            for (Flame flame : flames) {
-                flameRectangle = flame.getBounds();
+
+        //Check for collision between player/bombs/enemies with flames
+        ArrayList<Flame> flames = tileMap.getFlames();
+        Rectangle flameRectangle;
+        for (Flame flame : flames) {
+            flameRectangle = flame.getBounds();
+
+            if(!player.hasFlamePass()) {
                 if (playerRectangle.intersects(flameRectangle)) {
                     player.death();
                 }
-                for (Bomb bomb : bombsPlaced) {
-                    Rectangle bombRectangle = bomb.getBounds();
-                    if (flameRectangle.intersects(bombRectangle)) {
-                        bomb.setVisible(false);
-                    }
+            }
+
+            for (Bomb bomb : bombsPlaced) {
+                Rectangle bombRectangle = bomb.getBounds();
+                if (flameRectangle.intersects(bombRectangle)) {
+                    bomb.setVisible(false);
                 }
             }
+
+            for (Enemy enemy : enemies) {
+                Rectangle enemyRectangle = enemy.getBounds();
+                if (enemyRectangle.intersects(flameRectangle)) {
+                    enemy.death();
+                    player.addToScore(enemy.getScore());
+                }
+            }
+
         }
 
+
+        //check for collisions between the player and the enemies
+        for (Enemy enemy : enemies) {
+            Rectangle enemyRectangle = enemy.getBounds();
+            if (playerRectangle.intersects(enemyRectangle)) {
+                player.death();
+            }
+
+        }
+
+
+
+    }
+
+    public void restoreToBeforeCollision(MovableObject object, Rectangle wallRectangle) {
+        int x = object.getPosX();
+        int y = object.getPosY();
+
+        object.restorePreviousXPosition();
+
+        if (object.getBounds().intersects(wallRectangle)) {
+            object.restorePositionTo(x,y);
+        } else {
+            return;
+        }
+
+        object.restorePreviousYPosition();
+
+        if (object.getBounds().intersects(wallRectangle)) {
+            object.restorePositionTo(x,y);
+        } else {
+            return;
+        }
+
+        object.restorePreviousPosition();
+        return;
     }
 
     @Override
