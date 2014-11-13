@@ -10,10 +10,11 @@ import java.util.Random;
  */
 public enum Direction {
     NORTH, SOUTH, EAST, WEST;
-    private static Random random = new Random();
+    public static Random random = new Random();
 
     /**
-     * Get a random Direction. Used to determine the motion of enemies upon spawning.
+     * Get a random Direction. Used to determine the motion of enemies upon spawning,
+     * and also when their artifical intelligence requirements are met.
      * @return
      */
     public static Direction getRandomDirection() {

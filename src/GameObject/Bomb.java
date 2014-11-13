@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Bomb Class. This class creates an object used to represent the bombs placed by the player
+ * This class creates an object used to represent the bombs placed by the player
  * during gameplay. It includes the logic relevant to triggering an explosion, and the timing of
  * that same event.
  */
@@ -22,7 +22,7 @@ public class Bomb extends StaticObject {
     private int framesOnGrid;
 
     /**
-     * Bomb constructor. Contains the image that represents the structure
+     * Contains the image that represents the structure
      * and it defines the logic that is modified after placement.
      * @param posX Position X of the robot on the grid
      * @param posY Position Y of the robot on the grid

@@ -6,14 +6,14 @@ package GameObject;
 import javax.swing.*;
 
 /**
- * ConcreteWall Class. Used to represent the ConcreteWall objects placed on the grid at fixed
+ * Used to represent the ConcreteWall objects placed on the grid at fixed
  * positions during GamePlay. Note that this object falls in the category of static objects,
  * and it provides no other logic than the one needed for collision detection.
  */
 public class ConcreteWall extends StaticObject {
 
     /**
-     * ConcreteWall constructor. Contains position attributes of the object.
+     * Contains position attributes of the object.
      * @param posX x position of the ConcreteWall on the grid
      * @param posY y position of the ConcreteWall on the grid
      */

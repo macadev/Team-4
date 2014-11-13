@@ -6,7 +6,7 @@ package GameObject;
 import javax.swing.*;
 
 /**
- * BrickWall Class. Used to represent the BrickWall objects placed on the grid at fixed
+ * Used to represent the BrickWall objects placed on the grid at fixed
  * positions during GamePlay. Note that this object falls in the category of static objects,
  * and it provides no other logic than the one needed for collision detection and disappearance once
  * it is hit by a bomb explosion.
