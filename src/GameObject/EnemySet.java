@@ -3,13 +3,13 @@
  */
 package GameObject;
 
-public class Tuple {
+public class EnemySet {
 
     private EnemyType enemyType;
     private int numberPresent;
 
 
-    public Tuple(EnemyType enemyType, int numberPresent) {
+    public EnemySet(EnemyType enemyType, int numberPresent) {
         this.enemyType = enemyType;
         this.numberPresent = numberPresent;
     }
