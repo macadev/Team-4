@@ -15,6 +15,7 @@ public class Player extends MovableObject {
     private TileMap tileMap;
     ArrayList<Bomb> bombsPlaced;
     private GamePlayState currentState;
+    private int respawnCount = 0;
 
     //powerup logic data
     private int bombsAllowed;
@@ -43,6 +44,14 @@ public class Player extends MovableObject {
         this.bombPass = false;
         this.flamePass = false;
         this.detonatorEnabled = true;
+    }
+
+    public void draw(Graphics2D g) {
+        if (visible /*not dead*/) {
+            g.drawImage(image, posX, posY, null);
+        } else {
+            countDownToRespawn();
+        }
     }
 
     public void drawBombs(Graphics2D g) {
@@ -96,36 +105,47 @@ public class Player extends MovableObject {
     }
 
     public void death() {
-        posX = 35;
-        posY = 35;
+        this.visible = false;
+    }
+
+    public void countDownToRespawn() {
+        if (this.respawnCount == 60) {
+            visible = true;
+            posX = 35;
+            posY = 35;
+            respawnCount = 0;
+        } else {
+            respawnCount++;
+        }
     }
 
     public void keyPressed(int key) {
+        //disable the controls if the player is dead
+        if (visible) {
+            if (key == KeyEvent.VK_UP) {
+                deltaY = -speed;
+            } else if (key == KeyEvent.VK_DOWN) {
+                deltaY = speed;
+            } else if (key == KeyEvent.VK_LEFT) {
+                deltaX = -speed;
+            } else if (key == KeyEvent.VK_RIGHT) {
+                deltaX = speed;
+            } else if (key == KeyEvent.VK_SPACE) {
 
-        if (key == KeyEvent.VK_UP) {
-            deltaY = -speed;
-        } else if (key == KeyEvent.VK_DOWN) {
-            deltaY = speed;
-        } else if (key == KeyEvent.VK_LEFT) {
-            deltaX = -speed;
-        } else if (key == KeyEvent.VK_RIGHT) {
-            deltaX = speed;
-        } else if (key == KeyEvent.VK_SPACE) {
+                if (currentState == GamePlayState.INGAME) {
+                    currentState = GamePlayState.PAUSE;
+                } else {
+                    currentState = GamePlayState.INGAME;
+                }
 
-            if (currentState == GamePlayState.INGAME) {
-                currentState = GamePlayState.PAUSE;
-            } else {
-                currentState = GamePlayState.INGAME;
-            }
-
-        } else if (key == KeyEvent.VK_X) {
-            placeBomb();
-        } else if (key == KeyEvent.VK_Z) {
-            if (detonatorEnabled && !bombsPlaced.isEmpty()) {
-                detonateLastBomb();
+            } else if (key == KeyEvent.VK_X) {
+                placeBomb();
+            } else if (key == KeyEvent.VK_Z) {
+                if (detonatorEnabled && !bombsPlaced.isEmpty()) {
+                    detonateLastBomb();
+                }
             }
         }
-
     }
 
     public void keyReleased(int key) {

@@ -50,8 +50,6 @@ public class GamePlayManager extends GameState implements ActionListener {
             //values of the MovableObject class
             //updateCamera();
 
-            System.out.println(player.getScore());
-
             player.move();
             tileMap.moveEnemies();
             checkCollisions();
