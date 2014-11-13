@@ -20,6 +20,7 @@ public class AccountCreationMenuPopUp extends JFrame {
     private JPasswordField fieldPass;
     private JPasswordField retypePass;
     private JLabel labelMessage;
+    private JLabel labelMessage2;
     private JButton buttonSubmit;
     private JButton buttonExit;
     private MenuManager menuManager;
@@ -31,7 +32,7 @@ public class AccountCreationMenuPopUp extends JFrame {
         //Exit Option
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         //Display Size
-        setSize(660, 150);
+        setSize(370, 230);
         //Setting it to the middle of the screen
         setLocationRelativeTo(null);
         //Disable resize
@@ -57,37 +58,37 @@ public class AccountCreationMenuPopUp extends JFrame {
         panel.add(realName);
 
         JLabel label3 = new JLabel("User Name: ");
-        label3.setBounds(10, 40, 80, 25);
+        label3.setBounds(10, 50, 80, 25);
         panel.add(label3);
 
         userName = new JTextField(20);
-        userName.setBounds(100, 40, 160, 25);
+        userName.setBounds(100, 50, 160, 25);
         //userName.setPreferredSize(new Dimension(150, 30));
         panel.add(userName);
 
 
         JLabel label2 = new JLabel("Password: ");
-        label2.setBounds(10, 70, 80, 25);
+        label2.setBounds(10, 90, 80, 25);
         panel.add(label2);
 
         fieldPass = new JPasswordField(20);
-        fieldPass.setBounds(100, 70, 160, 25);
+        fieldPass.setBounds(100, 90, 160, 25);
         //fieldPass.setPreferredSize(new Dimension(150, 30));
         panel.add(fieldPass);
 
         JLabel label4 = new JLabel("Re-enter Password: ");
-        label4.setBounds(10, 100, 80, 25);
+        label4.setBounds(10, 130, 80, 25);
         panel.add(label4);
 
         retypePass = new JPasswordField(20);
-        retypePass.setBounds(100, 100, 160, 25);
+        retypePass.setBounds(100, 130, 160, 25);
         //retypePass.setPreferredSize(new Dimension(150, 30));
         panel.add(retypePass);
 
         buttonSubmit = new JButton("Submit");
-        buttonSubmit.setBounds(10, 140, 80, 25);
+        buttonSubmit.setBounds(10, 170, 80, 25);
         buttonExit  = new JButton("Go back to Login Menu");
-        buttonExit.setBounds(10, 170, 80, 25);
+        buttonExit.setBounds(50, 170, 80, 25);
 
         buttonSubmit.addActionListener(new ActionListener() {
             @Override
@@ -107,7 +108,11 @@ public class AccountCreationMenuPopUp extends JFrame {
         panel.add(buttonExit);
 
         labelMessage = new JLabel("");
+        labelMessage.setBounds(10, 190, 160, 25);
         panel.add(labelMessage);
+        labelMessage2 = new JLabel("");
+        labelMessage2.setBounds(10, 210, 160, 25);
+        panel.add(labelMessage2);
     }
     public void exitClicked(){
         menuManager.setMenuState(MenuState.LOGIN);
@@ -129,7 +134,8 @@ public class AccountCreationMenuPopUp extends JFrame {
         } else if (uName.length() < 6){
             labelMessage.setText("Username must be at least 6 characters");
         } else if (!isValidPassword(pass)) {
-            labelMessage.setText("The password is too weak. Enter one of each type from: Capital letters, Small letters, Digits and Symbols");
+            labelMessage.setText("The password is too weak. Enter one of each type from:");
+            labelMessage2.setText("Capital letters, Small letters, Digits and Symbols");
         } else if(pass.length() < 8) {
             labelMessage.setText("Password must be at least 8 characters");
         } else if(!isValidUsername(uName)){ //Needs to consider latin characters
@@ -149,7 +155,8 @@ public class AccountCreationMenuPopUp extends JFrame {
                 setVisible(false);
                 dispose();
             } else {
-                labelMessage.setText("Error. Username may already be in use or invalid entry for username and password.");
+                labelMessage.setText("Error: Username may already be in use or");
+                labelMessage2.setText("invalid entry for username and password.");
             }
         }
     }
