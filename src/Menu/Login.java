@@ -16,10 +16,11 @@ public class Login extends MenuTemplate {
 
     public Login (MenuManager menuManager) {
 
+
         this.menuManager = menuManager;
         titleColor = new Color(230, 200, 0);
-        titleFont = new Font("Century Gothic", Font.PLAIN, 28);
-        font = new Font("Arial", Font.PLAIN, 12);
+        titleFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 28);
+        font = new Font("Gill Sans Ultra Bold", Font.PLAIN, 12);
 
     }
 
@@ -29,6 +30,7 @@ public class Login extends MenuTemplate {
 
     }
 
+
     @Override
     public void draw(Graphics2D g) {
         //draw the title
@@ -36,18 +38,19 @@ public class Login extends MenuTemplate {
         g.setFont(titleFont);
         g.setPaint(new Color(255,255,255));
         g.drawString("BOMBERMAN", 80, 70);
+        g.drawString("Login Menu", 80, 100);
 
         //draw menu options
         g.setFont(font);
         for(int i = 0; i < options.length; i++) {
             if (i == currentChoice) {
-                g.setColor(Color.WHITE);
+                g.setColor(Color.RED);
             } else {
                 g.setColor(Color.YELLOW);
             }
 
             // pass horizontal distance, then vertical distance
-            g.drawString(options[i], 95, 120 + i * 15);
+            g.drawString(options[i], 95, 140 + i * 15);
 
         }
     }
