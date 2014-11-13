@@ -12,6 +12,7 @@ public class Spawner {
     private Random randomGenerator = new Random();
     private ArrayList<Coordinate> possibleEnemyCoordinates;
     private TileMap tileMap;
+    private StageData stageData;
 
     private GameObject[][] gridLayout;
 
@@ -28,11 +29,9 @@ public class Spawner {
 
     public GameObject[][] generateWalls() {
 
-        StageData stageData = tileMap.getCurrentStage();
+        this.stageData = tileMap.getCurrentStage();
         generateConcreteWalls();
         generateBrickWalls();
-        generateEnemies(stageData.getEnemiesPresent());
-
         return gridLayout;
     }
 
@@ -85,7 +84,11 @@ public class Spawner {
         }
     }
 
-    public void generateEnemies(Tuple[] enemiesPresent) {
+    public ArrayList<Enemy> generateEnemies() {
+
+        Tuple[] enemiesPresent = stageData.getEnemiesPresent();
+
+        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
         for (Tuple enemySet : enemiesPresent) {
 
@@ -98,10 +101,12 @@ public class Spawner {
                 int row = positionOnGrid.getRow();
                 int col = positionOnGrid.getCol();
 
-                gridLayout[col][row] = new Enemy(currentSetType, col * tileMap.WIDTH_OF_TILE, row * tileMap.HEIGHT_OF_TILE);
+                enemies.add(new Enemy(currentSetType, col * tileMap.WIDTH_OF_TILE - 1, row * tileMap.HEIGHT_OF_TILE - 1));
             }
 
         }
+
+        return enemies;
 
     }
 

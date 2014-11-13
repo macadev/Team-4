@@ -57,19 +57,19 @@ public class GamePlayManager extends GameState implements ActionListener {
             if (cameraMoving) {
                 g.translate(camera.getPosX(), 0);
                 player.drawBombs(g);
-                tileMap.drawTiles(g);
+                tileMap.drawObjects(g);
                 player.draw(g);
                 g.translate(-camera.getPosX(), 0);
             } else {
                 if (secondCameraRegion) {
                     g.translate(-(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.WIDTH_OF_TILE), 0);
                     player.drawBombs(g);
-                    tileMap.drawTiles(g);
+                    tileMap.drawObjects(g);
                     player.draw(g);
                     g.translate(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.WIDTH_OF_TILE, 0);
                 } else {
                     player.drawBombs(g);
-                    tileMap.drawTiles(g);
+                    tileMap.drawObjects(g);
                     player.draw(g);
                 }
             }
@@ -93,12 +93,12 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     public void checkCollisions() {
         Rectangle playerRectangle = player.getBounds();
-        GameObject[][] walls = tileMap.getWalls();
+        GameObject[][] objects = tileMap.getObjects();
         ArrayList<Bomb> bombsPlaced = player.getBombsPlaced();
 
 
 
-        for (GameObject[] row : walls) {
+        for (GameObject[] row : objects) {
             for (GameObject wall : row) {
                 if (wall != null) {
 
