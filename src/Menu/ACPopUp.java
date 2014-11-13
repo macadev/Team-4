@@ -31,7 +31,7 @@ public class ACPopUp extends JFrame {
         //Exit Option
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         //Display Size
-        setSize(1000, 100);
+        setSize(400, 250);
         //Setting it to the middle of the screen
         setLocationRelativeTo(null);
         //Disable resize
@@ -44,6 +44,8 @@ public class ACPopUp extends JFrame {
     private void createView(){
         JPanel panel = new JPanel();
         getContentPane().add(panel);
+
+        //panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JLabel label = new JLabel("Real Name: ");
         panel.add(label);
