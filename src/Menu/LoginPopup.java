@@ -24,7 +24,7 @@ public class LoginPopup extends JFrame {
         //Exit Option
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         //Display Size
-        setSize(600, 100);
+        setSize(350, 150);
         //Setting it to the middle of the screen
         setLocationRelativeTo(null);
         //Disable resize
@@ -37,21 +37,26 @@ public class LoginPopup extends JFrame {
         getContentPane().add(panel);
 
         JLabel label = new JLabel("Username: ");
+        label.setBounds(10, 10, 80, 25);
         panel.add(label);
 
-        fieldName = new JTextField();
-        fieldName.setPreferredSize(new Dimension(150, 30));
+        fieldName = new JTextField(20);
+        fieldName.setBounds(100, 10, 160, 25);
+        //fieldName.setPreferredSize(new Dimension(150, 30));
         panel.add(fieldName);
 
         JLabel label2 = new JLabel("Password: ");
+        label2.setBounds(10, 40, 80, 25);
         panel.add(label2);
 
-        fieldPass = new JPasswordField();
-        fieldPass.setPreferredSize(new Dimension(150, 30));
+        fieldPass = new JPasswordField(20);
+        fieldPass.setBounds(100, 40, 160, 25);
+        //fieldPass.setPreferredSize(new Dimension(150, 30));
         panel.add(fieldPass);
 
 
         buttonSubmit = new JButton("Login");
+        buttonSubmit.setBounds(10, 80, 80, 25);
 
         buttonSubmit.addActionListener(new ActionListener() {
             @Override
