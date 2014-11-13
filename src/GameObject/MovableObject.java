@@ -94,4 +94,12 @@ public class MovableObject extends GameObject {
     public void setWallPass(boolean wallPass) {
         this.wallPass = wallPass;
     }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 }

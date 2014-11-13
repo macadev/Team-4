@@ -24,6 +24,7 @@ public class Player extends MovableObject {
     private boolean detonatorEnabled;
 
     public Player(int posX, int posY, boolean visible, int speed) {
+        this.score = 0;
         this.currentState = GamePlayState.INGAME;
         this.deltaX = 0;
         this.deltaY = 0;
@@ -195,6 +196,10 @@ public class Player extends MovableObject {
 
     public void setFlamePass(boolean flamePass) {
         this.flamePass = flamePass;
+    }
+
+    public void addToScore(int enemyScore) {
+        this.score += enemyScore;
     }
 
 }

@@ -75,10 +75,16 @@ public class TileMap {
     }
 
     public void drawEnemies(Graphics2D g) {
-
-        for (Enemy enemy : enemies) {
-            if (enemy != null && enemy.isVisible())
+        if (enemies.isEmpty()) return;
+        int enemyCount = enemies.size();
+        for (int i = 0; i < enemyCount; i++) {
+            Enemy enemy = enemies.get(i);
+            if (enemy.isVisible()) {
                 enemy.draw(g);
+            } else {
+                enemies.remove(enemy);
+                enemyCount = enemies.size();
+            }
         }
 
     }

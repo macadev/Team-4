@@ -111,5 +111,10 @@ public class Enemy extends MovableObject {
                 break;
         }
     }
+
+    public void death() {
+        this.visible = false;
+    }
+
 }
 
