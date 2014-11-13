@@ -1,6 +1,7 @@
 package GameObject;
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * Created by danielmacario on 14-10-31.

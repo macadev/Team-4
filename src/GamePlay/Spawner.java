@@ -101,7 +101,7 @@ public class Spawner {
                 int row = positionOnGrid.getRow();
                 int col = positionOnGrid.getCol();
 
-                enemies.add(new Enemy(currentSetType, col * tileMap.WIDTH_OF_TILE - 1, row * tileMap.HEIGHT_OF_TILE - 1));
+                enemies.add(new Enemy(currentSetType, col * tileMap.WIDTH_OF_TILE + 1, row * tileMap.HEIGHT_OF_TILE + 1));
             }
 
         }

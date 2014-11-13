@@ -80,24 +80,6 @@ public class Player extends MovableObject {
 
     }
 
-    public void restorePreviousPosition() {
-        posX = previousX;
-        posY = previousY;
-    }
-
-    public void restorePreviousXPosition() {
-        posX = previousX;
-    }
-
-    public void restorePreviousYPosition() {
-        posY = previousY;
-    }
-
-    public void restorePositionTo(int x, int y) {
-        posX = x;
-        posY = y;
-    }
-
     private void placeBomb() {
         if (bombsPlaced.size() < bombsAllowed) {
             //The % allows the bombs to snap to the center of the tiles where they are placed
@@ -163,14 +145,6 @@ public class Player extends MovableObject {
 
     public void setTileMap(TileMap tileMap) {
         this.tileMap = tileMap;
-    }
-
-    public boolean hasWallPass() {
-        return wallPass;
-    }
-
-    public void setWallPass(boolean wallPass) {
-        this.wallPass = wallPass;
     }
 
     public ArrayList<Bomb> getBombsPlaced() {

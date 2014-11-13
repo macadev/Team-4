@@ -91,14 +91,10 @@ public class TileMap {
         enemies = spawner.generateEnemies();
     }
 
-    public void incrementBombRadius() {
-        bombRadius++;
-    }
-
-    public StageData getCurrentStage() {
-
-        return Stages.gameStages[this.currentStage];
-
+    public void moveEnemies() {
+        for (Enemy enemy : enemies) {
+            enemy.move();
+        }
     }
 
     public void addFlames(int posX, int posY) {
@@ -185,6 +181,17 @@ public class TileMap {
             deltaX = 0;
         }
     }
+
+    public void incrementBombRadius() {
+        bombRadius++;
+    }
+
+    public StageData getCurrentStage() {
+
+        return Stages.gameStages[this.currentStage];
+
+    }
+
 
     public ArrayList<Enemy> getEnemies() {
         return enemies;

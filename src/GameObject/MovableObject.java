@@ -37,6 +37,24 @@ public class MovableObject extends GameObject {
         previousY = posY;
     }
 
+    public void restorePreviousPosition() {
+        posX = previousX;
+        posY = previousY;
+    }
+
+    public void restorePreviousXPosition() {
+        posX = previousX;
+    }
+
+    public void restorePreviousYPosition() {
+        posY = previousY;
+    }
+
+    public void restorePositionTo(int x, int y) {
+        posX = x;
+        posY = y;
+    }
+
     /**
      * Retrieve the speed attribute of the movable object
      * @return an integer representing the speed of the MovableObject
@@ -67,5 +85,13 @@ public class MovableObject extends GameObject {
 
     public void setDeltaY(int deltaY) {
         this.deltaY = deltaY;
+    }
+
+    public boolean hasWallPass() {
+        return wallPass;
+    }
+
+    public void setWallPass(boolean wallPass) {
+        this.wallPass = wallPass;
     }
 }

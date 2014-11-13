@@ -1,6 +1,7 @@
 package GameObject;
 
 import javax.swing.*;
+import java.util.Random;
 
 /**
  * Created by danielmacario on 14-11-12.
@@ -8,6 +9,12 @@ import javax.swing.*;
 public class Enemy extends MovableObject {
 
     private EnemyType enemyType;
+    private Direction directionOfMovement;
+    private static final int NORTH = 0;
+    private static final int SOUTH = 1;
+    private static final int EAST = 2;
+    private static final int WEST = 3;
+
 
     public Enemy(EnemyType type, int posX, int posY) {
 
@@ -16,6 +23,7 @@ public class Enemy extends MovableObject {
         this.previousX = posX;
         this.previousY = posY;
         this.visible = true;
+        this.directionOfMovement = Direction.getRandomDirection();
 
         switch (type) {
             case BALLOOM:
@@ -64,10 +72,44 @@ public class Enemy extends MovableObject {
 
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
-
     }
 
+    public void move() {
+        switch (directionOfMovement) {
+            case NORTH:
+                previousY = posY;
+                posY -= speed;
+                break;
+            case SOUTH:
+                previousY = posY;
+                posY += speed;
+                break;
+            case EAST:
+                previousX = posX;
+                posX += speed;
+                break;
+            case WEST:
+                previousX = posX;
+                posX -= speed;
+                break;
+        }
+    }
 
-
-
+    public void reverseDirection() {
+        switch (directionOfMovement) {
+            case NORTH:
+                directionOfMovement = Direction.SOUTH;
+                break;
+            case SOUTH:
+                directionOfMovement = Direction.NORTH;
+                break;
+            case EAST:
+                directionOfMovement = Direction.WEST;
+                break;
+            case WEST:
+                directionOfMovement = Direction.EAST;
+                break;
+        }
+    }
 }
+
