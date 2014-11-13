@@ -7,22 +7,17 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**
- * Created by danielmacario on 14-10-31.
+ * Created by Shabab Ahmed on 13/11/2014.
  */
-public class MainMenu extends MenuTemplate {
+public class LoadGame extends MenuTemplate {
 
-    private String[] options = {"Start Game",
-            "Load Game",
-            "View Leaderboards",
-            "Modify Account Information",
-            "Logout",
-            "Quit"};
+    private String[] options = {"Load", "Back to Main Menu"};
     private int currentChoice = 0;
     private Color titleColor;
     private Font titleFont;
     private Font font;
 
-    public MainMenu (MenuManager menuManager, GameStateManager gsm) {
+    public LoadGame (MenuManager menuManager, GameStateManager gsm) {
         this.menuManager = menuManager;
         this.gsm = gsm;
         titleColor = new Color(230, 200, 0);
@@ -43,7 +38,7 @@ public class MainMenu extends MenuTemplate {
         g.setFont(titleFont);
         g.setPaint(new Color(255,255,255));
         g.drawString("BOMBERMAN", 80, 70);
-        g.drawString("Main Menu", 80, 100);
+        g.drawString("Load Game", 80, 100);
 
         //draw menu options
         g.setFont(font);
@@ -61,23 +56,10 @@ public class MainMenu extends MenuTemplate {
 
     private void select() {
         if (currentChoice == 0) {
-            gsm.setState(GameStateManager.GAMEPLAY, null);
+            //Load Game
         }
         if (currentChoice == 1) {
-            menuManager.setMenuState(MenuState.LOADGAME);
-        }
-        if (currentChoice == 2) {
-            //view leaderboards
-        }
-        if (currentChoice == 3) {
-            //Modify account info
-        }
-        if (currentChoice == 4) {
-            //logout
-        }
-        if (currentChoice == 5) {
-            //terminate the game
-            System.exit(0);
+            menuManager.setMenuState(MenuState.MAIN);
         }
     }
 
@@ -103,3 +85,4 @@ public class MainMenu extends MenuTemplate {
 
 
 }
+
