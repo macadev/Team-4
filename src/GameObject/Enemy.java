@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.util.Random;
 
 /**
- * Used to represent the enemy objects present in the game. Note that there are 8 differnt enemy types in the game.
+ * Used to represent the enemy objects present in the game. Note that there are 8 different enemy types in the game.
  * Instead of creating 8 different classes to represent each enemy, we have a single dynamic structure that creates
  * an enemy object based on the EnemyType passed to the constructor.
  *

@@ -6,7 +6,7 @@ package GameObject;
 import javax.swing.*;
 
 /**
- * Flame Class. Used to represent the flame object that appears once a bomb explodes.
+ * Used to represent the flame object that appears once a bomb explodes.
  */
 public class Flame extends StaticObject {
 

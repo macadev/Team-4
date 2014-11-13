@@ -10,11 +10,17 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+/**
+ * Used to represent the Player object on the Game Grid. The Player class inherits most of its
+ * functionality from MovableObject, but it also implements the logic that enables the user to
+ * interact with GamePlay. Specifically, the player class defines the logic for: dropping bombs,
+ * activating powerups, and detonating bombs. It is also the final link in the keyPressed and
+ * keyReleased chain during the GamePlay state, which starts with the GameStateManager.
+ */
 public class Player extends MovableObject {
-    //TODO: logic for bombs detonating other bombs
+    private GamePlayState currentState;
     private TileMap tileMap;
     ArrayList<Bomb> bombsPlaced;
-    private GamePlayState currentState;
     private int respawnCount = 0;
 
     //powerup logic data

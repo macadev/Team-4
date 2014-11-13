@@ -86,11 +86,11 @@ public class Spawner {
 
     public ArrayList<Enemy> generateEnemies() {
 
-        Tuple[] enemiesPresent = stageData.getEnemiesPresent();
+        EnemySet[] enemiesPresent = stageData.getEnemiesPresent();
 
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
-        for (Tuple enemySet : enemiesPresent) {
+        for (EnemySet enemySet : enemiesPresent) {
 
             EnemyType currentSetType = enemySet.getEnemyType();
             int setSize = enemySet.getNumberPresent();

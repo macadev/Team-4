@@ -21,8 +21,8 @@ public class MovableObject extends GameObject {
 
 
     /**
-     * Displaces the object on the grid in the specified motion.
-     * The size of the displacement depends on the speed.
+     * Displaces the object on the grid based on the values of the deltaX
+     * and the deltaY variables.
      */
     public void move() {
         previousX = posX;
@@ -31,25 +31,43 @@ public class MovableObject extends GameObject {
         posY += deltaY;
     }
 
-
+    /**
+     * Displaces the object on the y axis based on the value of the posY variable.
+     */
     public void moveVertically() {
         posY += deltaY;
         previousY = posY;
     }
 
+    /**
+     * Restores the position of the Movable Object to what it was in the previous frame.
+     */
     public void restorePreviousPosition() {
         posX = previousX;
         posY = previousY;
     }
 
+    /**
+     * Restores the x position of the Movable Object to what it was in the previous frame.
+     */
     public void restorePreviousXPosition() {
         posX = previousX;
     }
 
+    /**
+     * Restores the y position of the Movable Object to what it was in the previous frame.
+     */
     public void restorePreviousYPosition() {
         posY = previousY;
     }
 
+    /**
+     * Restores the position of the object to a specific set of coordinates
+     * @param x An integer representing the x coordinate on the grid where the Movable Object
+     *          will be rendered.
+     * @param y An integer representing the y coordinate on the grid where the Movable Object
+     *          will be placed.
+     */
     public void restorePositionTo(int x, int y) {
         posX = x;
         posY = y;
@@ -87,10 +105,20 @@ public class MovableObject extends GameObject {
         this.deltaY = deltaY;
     }
 
+    /**
+     * Get the wallPass attribute associated with the MovableObject
+     * @return A boolean specifying whether the object can pass through
+     * brick walls or not.
+     */
     public boolean hasWallPass() {
         return wallPass;
     }
 
+    /**
+     * Set the wallPass atttribute associated with the MovableObject
+     * @param wallPass A boolean specifying whether the object can pass
+     *                 through brick walls or not.
+     */
     public void setWallPass(boolean wallPass) {
         this.wallPass = wallPass;
     }
