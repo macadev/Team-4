@@ -12,15 +12,27 @@ public enum Direction {
     NORTH, SOUTH, EAST, WEST;
     public static Random random = new Random();
 
+    public static final Direction[] DIRECTIONS = {NORTH, SOUTH, EAST, WEST};
+    public static final Direction[] NSDIRECTIONS = {NORTH, SOUTH};
+    public static final Direction[] EWDIRECTIONS = {EAST, WEST};
+
     /**
      * Get a random Direction. Used to determine the motion of enemies upon spawning,
      * and also when their artifical intelligence requirements are met.
      * @return
      */
     public static Direction getRandomDirection() {
-        Direction[] directions = {NORTH, SOUTH, EAST, WEST};
-        int index = random.nextInt(directions.length);
-        return directions[index];
+        int index = random.nextInt(DIRECTIONS.length);
+        return DIRECTIONS[index];
+    }
+
+    public static Direction getRandomPerpendicularDirection(Direction direction) {
+        int index = random.nextInt(2);
+        if (direction == NORTH || direction == SOUTH) {
+            return EWDIRECTIONS[index];
+        } else {
+            return NSDIRECTIONS[index];
+        }
     }
 
 

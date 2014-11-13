@@ -31,6 +31,7 @@ public class GameObject {
      */
     public void draw(Graphics2D g) {
         g.drawImage(image, posX, posY, null);
+        Rectangle rec = getBounds();
     }
 
     /**
