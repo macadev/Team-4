@@ -113,6 +113,7 @@ public class Player extends MovableObject {
     }
 
     public void death() {
+        disablePowerUpsOnDeath();
         this.visible = false;
         decrementLifesRemaining();
     }
@@ -165,6 +166,13 @@ public class Player extends MovableObject {
                 wallPass = true;
                 break;
         }
+    }
+
+    public void disablePowerUpsOnDeath() {
+        bombPass = false;
+        flamePass = false;
+        wallPass = false;
+        detonatorEnabled = false;
     }
 
     public void keyPressed(int key) {
