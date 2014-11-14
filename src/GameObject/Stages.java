@@ -42,11 +42,21 @@ public class Stages {
             new EnemySet(EnemyType.DOLL, 3)},
         PowerUpType.BOMBS, false
         ),
+
         new StageData(new EnemySet[] {
             new EnemySet(EnemyType.BALLOOM, 1)},
             null,
             true
-        )
+        ),
+
+        new StageData(new EnemySet[] {
+            new EnemySet(EnemyType.ONEAL, 2),
+            new EnemySet(EnemyType.DOLL, 3),
+            new EnemySet(EnemyType.MINVO, 2)},
+            PowerUpType.BOMBS, false
+        ),
+
+
     };
 
 }

@@ -179,13 +179,7 @@ public class Player extends MovableObject {
             } else if (key == KeyEvent.VK_RIGHT) {
                 deltaX = speed;
             } else if (key == KeyEvent.VK_SPACE) {
-
-                if (currentState == GamePlayState.INGAME) {
-                    currentState = GamePlayState.PAUSE;
-                } else {
-                    currentState = GamePlayState.INGAME;
-                }
-
+                currentState = GamePlayState.PAUSE;
             } else if (key == KeyEvent.VK_X) {
                 placeBomb();
             } else if (key == KeyEvent.VK_Z) {

@@ -30,7 +30,6 @@ public class CollisionManager {
 
         if (powerUp.isVisible()) {
             if (playerRectangle.intersects(powerUpRectangle)) {
-                System.out.println("INTERSECTTT");
                 player.enablePowerUp(powerUp.getPowerUpType());
                 powerUp.setVisible(false);
             }
