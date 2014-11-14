@@ -283,4 +283,12 @@ public class GamePlayManager extends GameState implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         //TODO: not 100% sure this will be used
     }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
 }
