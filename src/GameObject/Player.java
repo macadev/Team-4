@@ -48,7 +48,7 @@ public class Player extends MovableObject {
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
         this.bombsAllowed = 3;
-        this.wallPass = true;
+        this.wallPass = false;
         this.bombPass = false;
         this.flamePass = false;
         this.detonatorEnabled = true;
@@ -131,6 +131,40 @@ public class Player extends MovableObject {
     public void decrementLifesRemaining() {
         this.livesRemaining--;
         if (livesRemaining < 0) currentState = GamePlayState.GAMEOVER;
+    }
+
+    /**
+     * Based on the PowerUpType associated with this instance, we modify gameplay logic according to the specific
+     * functionality of each powerUp
+     * @param powerUpType
+     */
+    public void enablePowerUp(PowerUpType powerUpType) {
+        switch (powerUpType) {
+            case BOMBPASS:
+                bombPass = true;
+                break;
+            case BOMBS:
+                bombsAllowed++;
+                break;
+            case DETONATOR:
+                detonatorEnabled = true;
+                break;
+            case FLAMEPASS:
+                flamePass = true;
+                break;
+            case FLAMES:
+                incrementBombRadius();
+                break;
+            case MYSTERY:
+                break;
+            case SPEED:
+                //TODO: define speed attributes
+                incrementSpeed();
+                break;
+            case WALLPASS:
+                wallPass = true;
+                break;
+        }
     }
 
     public void keyPressed(int key) {

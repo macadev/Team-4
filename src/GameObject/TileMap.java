@@ -23,6 +23,7 @@ public class TileMap {
     private GameObject[][] walls;
     private ArrayList<Flame> flames;
     private ArrayList<Enemy> enemies;
+    private PowerUp powerUp;
     private Spawner spawner;
     private int speed;
     private int bombRadius;
@@ -45,11 +46,17 @@ public class TileMap {
         this.flames = new ArrayList<Flame>();
         populateGridWithBlocks();
         createEnemySet();
+        generatePowerUp();
     }
 
     public void drawObjects(Graphics2D g) {
+        drawPowerUp(g);
         drawTiles(g);
         drawEnemies(g);
+    }
+
+    private void drawPowerUp(Graphics2D g) {
+        if (powerUp.isVisible()) powerUp.draw(g);
     }
 
     public void drawTiles(Graphics2D g) {
@@ -95,6 +102,10 @@ public class TileMap {
 
     public void createEnemySet() {
         enemies = spawner.generateEnemies();
+    }
+
+    public void generatePowerUp() {
+        this.powerUp = spawner.generatePowerUp();
     }
 
     public void moveEnemies(int posX, int posY, boolean playerIsVisible) {
@@ -196,9 +207,7 @@ public class TileMap {
     }
 
     public StageData getCurrentStage() {
-
         return Stages.gameStages[this.currentStage];
-
     }
 
 
@@ -226,4 +235,11 @@ public class TileMap {
         this.flames = flames;
     }
 
+    public PowerUp getPowerUp() {
+        return powerUp;
+    }
+
+    public void setPowerUp(PowerUp powerUp) {
+        this.powerUp = powerUp;
+    }
 }

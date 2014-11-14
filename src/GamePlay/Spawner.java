@@ -11,6 +11,7 @@ public class Spawner {
 
     private Random randomGenerator = new Random();
     private ArrayList<Coordinate> possibleEnemyCoordinates;
+    private ArrayList<Coordinate> possiblePowerUpCoordinates;
     private TileMap tileMap;
     private StageData stageData;
 
@@ -25,11 +26,11 @@ public class Spawner {
         gridLayout = new GameObject[numCols][numRows];
         tileMap = new TileMap();
         possibleEnemyCoordinates = new ArrayList<Coordinate>();
+        possiblePowerUpCoordinates = new ArrayList<Coordinate>();
+        this.stageData = tileMap.getCurrentStage();
     }
 
     public GameObject[][] generateWalls() {
-
-        this.stageData = tileMap.getCurrentStage();
         generateConcreteWalls();
         generateBrickWalls();
         return gridLayout;
@@ -65,10 +66,6 @@ public class Spawner {
 
     public void generateBrickWalls() {
 
-        int bricksLeft = 30;
-        int randomRow;
-        int randomCol;
-
         for (int col = 0; col < tileMap.NUM_OF_COLS; col++) {
 
             for (int row = 0; row < tileMap.NUM_OF_ROWS; row++) {
@@ -77,6 +74,7 @@ public class Spawner {
 
                 if (isPositionNull && getRandomBoolean() && isInValidPosition(row, col)) {
                     gridLayout[col][row] = new BrickWall(col * tileMap.WIDTH_OF_TILE, row * tileMap.HEIGHT_OF_TILE, true, false);
+                    possiblePowerUpCoordinates.add(new Coordinate(row, col));
                 } else if (isPositionNull) {
                     possibleEnemyCoordinates.add(new Coordinate(row, col));
                 }
@@ -97,7 +95,7 @@ public class Spawner {
             Coordinate positionOnGrid;
 
             for (int i = 0; i < setSize; i++) {
-                positionOnGrid = getRandomEnemyCoordinate();
+                positionOnGrid = getRandomCoordinateFromSet(possibleEnemyCoordinates);
                 int row = positionOnGrid.getRow();
                 int col = positionOnGrid.getCol();
 
@@ -110,10 +108,19 @@ public class Spawner {
 
     }
 
-    public Coordinate getRandomEnemyCoordinate() {
-        int index = randomGenerator.nextInt(possibleEnemyCoordinates.size());
-        Coordinate coordinate = possibleEnemyCoordinates.remove(index);
+    public Coordinate getRandomCoordinateFromSet(ArrayList<Coordinate> coordinates) {
+        int index = randomGenerator.nextInt(coordinates.size());
+        Coordinate coordinate = coordinates.remove(index);
         return coordinate;
+    }
+
+    public PowerUp generatePowerUp() {
+        PowerUpType powerUpType = stageData.getPowerUpPresent();
+        Coordinate positionOnGrid = getRandomCoordinateFromSet(possiblePowerUpCoordinates);
+        int row = positionOnGrid.getRow();
+        int col = positionOnGrid.getCol();
+        PowerUp powerUp = new PowerUp(powerUpType, col * tileMap.WIDTH_OF_TILE + 1, row * tileMap.HEIGHT_OF_TILE + 1);
+        return powerUp;
     }
 
     /**

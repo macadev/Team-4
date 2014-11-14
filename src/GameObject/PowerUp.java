@@ -9,6 +9,7 @@ public class PowerUp extends StaticObject {
 
     private PowerUpType powerUpType;
     private boolean keptAfterDeath;
+    private boolean firstCollision;
 
     /**
      * PowerUp Constructor. We group the entire functionality of all powerups within a single class
@@ -17,7 +18,11 @@ public class PowerUp extends StaticObject {
      * specific functionality of the powerup once the player has collided with it
      * @param powerUpType
      */
-    public PowerUp(PowerUpType powerUpType) {
+    public PowerUp(PowerUpType powerUpType, int posX, int posY) {
+        this.posX = posX;
+        this.posY = posY;
+        this.visible = true;
+        this.firstCollision = true;
         this.powerUpType = powerUpType;
 
         switch (powerUpType) {
@@ -54,46 +59,24 @@ public class PowerUp extends StaticObject {
                 keptAfterDeath = false;
                 break;
         }
+        this.width = image.getWidth(null);
+        this.height = image.getHeight(null);
 
-    }
-
-    /**
-     * Based on the PowerUpType associated with this instance, we modify gameplay logic according to the specific
-     * functionality of each powerup
-     * @param player
-     * @param powerUp
-     */
-    public void enablePowerUp(Player player, PowerUpType powerUp) {
-        switch (powerUp) {
-            case BOMBPASS:
-                player.setBombPass(true);
-                break;
-            case BOMBS:
-                player.incrementBombsAllowed();
-                break;
-            case DETONATOR:
-                player.setDetonatorEnabled(true);
-                break;
-            case FLAMEPASS:
-                player.setFlamePass(true);
-                break;
-            case FLAMES:
-                player.incrementBombRadius();
-                break;
-            case MYSTERY:
-                break;
-            case SPEED:
-                //TODO: define speed attributes
-                player.incrementSpeed();
-                break;
-            case WALLPASS:
-                player.setWallPass(true);
-                break;
-        }
     }
 
     public void hitByExplosion() {
-
+        //TODO: spawn harder wave of enemies....
     }
 
+    public boolean isFirstCollision() {
+        return firstCollision;
+    }
+
+    public void setFirstCollision(boolean firstCollision) {
+        this.firstCollision = firstCollision;
+    }
+
+    public PowerUpType getPowerUpType() {
+        return powerUpType;
+    }
 }
