@@ -27,7 +27,9 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     //TODO: remove after demo, these are for temporary pause feature
     private Color titleColor = new Color(255, 0, 21);
+    private Color hudColor = new Color(255, 255, 255);
     private Font titleFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 48);
+    private Font hudFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 12);
 
     public GamePlayManager(GameStateManager gsm) {
         this.gsm = gsm;
@@ -91,7 +93,17 @@ public class GamePlayManager extends GameState implements ActionListener {
                     player.draw(g);
                 }
             }
+            drawHUD(g);
         }
+    }
+
+    private void drawHUD(Graphics2D g) {
+
+        String hudInformation = "Lives Left: " + player.getLifesRemaining() + " | Score: " + player.getScore();
+        g.setColor(hudColor);
+        g.setFont(hudFont);
+        g.drawString(hudInformation, 340, 20);
+
     }
 
     private boolean updateGameOverScreenCount() {

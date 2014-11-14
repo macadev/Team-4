@@ -236,7 +236,7 @@ public class Player extends MovableObject {
         this.score += enemyScore;
     }
 
-    public int getLivesRemaining() {
+    public int getLifesRemaining() {
         return livesRemaining;
     }
 }
