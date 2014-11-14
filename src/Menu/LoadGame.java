@@ -28,19 +28,19 @@ public class LoadGame extends MenuTemplate {
     public void draw(Graphics2D g) {
 
         //draw the title
-        g.setColor(titleColor);
-        g.setFont(titleFont);
+        g.setColor(TITLE_COLOR);
+        g.setFont(TITLE_FONT);
         g.setPaint(new Color(255,255,255));
         g.drawString("BOMBERMAN", 80, 70);
         g.drawString("Load Game", 80, 100);
 
         //draw menu options
-        g.setFont(font);
+        g.setFont(BODY_FONT);
         for(int i = 0; i < options.length; i++) {
             if (i == currentChoice) {
-                g.setColor(Color.RED);
+                g.setColor(BODY_SELECTED_COLOR);
             } else {
-                g.setColor(Color.YELLOW);
+                g.setColor(BODY_COLOR);
             }
             // pass horizontal distance, then vertical distance
             g.drawString(options[i], 95, 140 + i * 15);

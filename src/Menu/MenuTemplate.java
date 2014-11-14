@@ -10,9 +10,6 @@ import java.awt.*;
  */
 public abstract class MenuTemplate extends JFrame {
 
-    protected Color titleColor = new Color(230, 200, 0);
-    protected Font titleFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 28);
-    protected Font font = new Font("Gill Sans Ultra Bold", Font.PLAIN, 12);
     protected MenuManager menuManager;
     protected GameStateManager gsm;
 
@@ -32,8 +29,8 @@ public abstract class MenuTemplate extends JFrame {
     public static final Color TITLE_COLOR = new Color(230, 200, 0);
     //Body
     public static final Font BODY_FONT = new Font("Arial", Font.PLAIN, 12);
-    public static final Color BODY_COLOR = new Color(230, 200, 0);
-    public static final Color BODY_SELECTED_COLOR = new Color (230, 200, 0);
+    public static final Color BODY_COLOR = new Color(0, 35, 230);
+    public static final Color BODY_SELECTED_COLOR = new Color (230, 0, 15);
 
     //Background
     public static final Color BACKGROUND_COLOR = new Color(0, 0, 0);

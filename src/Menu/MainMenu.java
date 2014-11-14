@@ -18,14 +18,14 @@ public class MainMenu extends MenuTemplate {
             "Logout",
             "Quit"};
     private int currentChoice = 0;
+    private Color titleColor = MenuTemplate.TITLE_COLOR;
+    private Font titleFont = MenuTemplate.TITLE_FONT;
+    private Font font = MenuTemplate.BODY_FONT;
 
     public MainMenu (MenuManager menuManager, GameStateManager gsm) {
         this.menuManager = menuManager;
         this.gsm = gsm;
 
-        titleColor = MenuTemplate.TITLE_COLOR;
-        titleFont = MenuTemplate.TITLE_FONT;
-        font = MenuTemplate.BODY_FONT;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class MainMenu extends MenuTemplate {
         //draw the title
         g.setColor(titleColor);
         g.setFont(titleFont);
-        g.setPaint(MenuTemplate.TITLE_COLOR);
+        g.setPaint(titleColor);
         g.drawString("BOMBERMAN", 80, 70);
         g.drawString("Main Menu", 80, 100);
 

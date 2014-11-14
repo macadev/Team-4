@@ -2,6 +2,7 @@ package Menu;
 
 
 import Database.DatabaseController;
+import SystemController.GameStateManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -78,8 +79,8 @@ public class Login extends MenuTemplate {
 
     private void select() {
         if (currentChoice == 0) {
-
-            loginClicked();
+            redirectToMainMenu();
+            //loginClicked();
         }
         if (currentChoice == 1) {
             AccountCreationMenuPopUp acp = new AccountCreationMenuPopUp(menuManager);

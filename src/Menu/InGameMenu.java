@@ -23,18 +23,18 @@ public class InGameMenu extends MenuTemplate{
 
 	@Override
 	public void draw(Graphics2D g) {
-        g.setColor(titleColor);
-        g.setFont(titleFont);
+        g.setColor(TITLE_COLOR);
+        g.setFont(TITLE_FONT);
         g.setPaint(new Color(255,255,255));
         g.drawString("", 80, 70);
 
         //draw menu options
-        g.setFont(font);
+        g.setFont(TITLE_FONT);
         for(int i = 0; i < options.length; i++) {
             if (i == currentChoice) {
-                g.setColor(Color.WHITE);
+                g.setColor(BODY_SELECTED_COLOR);
             } else {
-                g.setColor(Color.RED);
+                g.setColor(BODY_COLOR);
             }
             // pass horizontal distance, then vertical distance
             g.drawString(options[i], 95, 120 + i * 15);

@@ -66,6 +66,4 @@ public class MenuManager extends GameState {
     public void init() {
 
     }
-
-
 }
