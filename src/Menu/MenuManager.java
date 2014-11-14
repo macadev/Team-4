@@ -22,7 +22,7 @@ public class MenuManager extends GameState {
             MenuState.LEADERBOARD,
             MenuState.LOADGAME,
             MenuState.SAVEGAME,
-            MenuState.MODIFYACCOUNT
+            MenuState.MODIFYACCOUNT,
     };
 
     public MenuManager(GameStateManager gsm) {
@@ -34,7 +34,7 @@ public class MenuManager extends GameState {
         menuStates.put(MenuState.SAVEGAME, new SaveGame(this, gsm));
         menuStates.put(MenuState.LOGIN, new Login(this));
         menuStates.put(MenuState.INGAME, new InGameMenu(this));
-        menuStates.put(MenuState.MODIFYACCOUNT, )
+        menuStates.put(MenuState.MODIFYACCOUNT, new ModifyAccount(this));
         currentMenu = MenuState.LOGIN;
 
     }
