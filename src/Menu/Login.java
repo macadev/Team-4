@@ -31,6 +31,7 @@ public class Login extends MenuTemplate {
         labelMessage = new JLabel("");
         fieldName = new JPlaceHolderTextField();
         fieldName.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
+        fieldName.setBounds( 40, 40, FIELD_WIDTH, FIELD_HEIGHT);
         fieldPass = new JPlaceHolderPasswordField();
         fieldPass.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
 
@@ -49,6 +50,10 @@ public class Login extends MenuTemplate {
         g.setFont(titleFont);
         g.setPaint(new Color(255,255,255));
         g.drawString("Bomberman Login Menu", 80, 70);
+
+        //draw text fields
+        fieldName.paint(g);
+        fieldPass.paint(g);
 
         //draw menu options
         g.setFont(font);
