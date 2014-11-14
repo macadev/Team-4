@@ -4,7 +4,7 @@ package GamePlay;
  * Created by danielmacario on 14-11-01.
  */
 public enum GamePlayState {
-    LOADING,
+    GAMEOVER,
     PAUSE,
     INGAME
 }

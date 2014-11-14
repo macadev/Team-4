@@ -31,22 +31,22 @@ public InGameMenu(MenuManager menuManager) {
 
 	@Override
 	public void draw(Graphics2D g) {
-		 g.setColor(titleColor);
-	        g.setFont(titleFont);
-	        g.setPaint(new Color(255,255,255));
-	        g.drawString("", 80, 70);
+        g.setColor(titleColor);
+        g.setFont(titleFont);
+        g.setPaint(new Color(255,255,255));
+        g.drawString("", 80, 70);
 
-	        //draw menu options
-	        g.setFont(font);
-	        for(int i = 0; i < options.length; i++) {
-	            if (i == currentChoice) {
-	                g.setColor(Color.WHITE);
-	            } else {
-	                g.setColor(Color.RED);
-	            }
-	            // pass horizontal distance, then vertical distance
-	            g.drawString(options[i], 95, 120 + i * 15);
-	        }
+        //draw menu options
+        g.setFont(font);
+        for(int i = 0; i < options.length; i++) {
+            if (i == currentChoice) {
+                g.setColor(Color.WHITE);
+            } else {
+                g.setColor(Color.RED);
+            }
+            // pass horizontal distance, then vertical distance
+            g.drawString(options[i], 95, 120 + i * 15);
+        }
 
 
 	}

@@ -66,11 +66,8 @@ public class MediumIntelligence extends ArtificialIntelligence {
                     enemy.setDirectionOfMovement(Direction.NORTH);
                     System.out.println("going north");
                 }
-                //enemy.setPosY(enemy.getPosY() - enemy.getPosY() % 32);
             }
-
         }
-
     }
 
     public boolean randomTurnOnIntersection(int posX, int posY) {

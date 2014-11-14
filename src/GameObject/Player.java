@@ -22,6 +22,7 @@ public class Player extends MovableObject {
     private TileMap tileMap;
     ArrayList<Bomb> bombsPlaced;
     private int respawnCount = 0;
+    private int livesRemaining;
 
     //powerup logic data
     private int bombsAllowed;
@@ -32,6 +33,7 @@ public class Player extends MovableObject {
 
     public Player(int posX, int posY, boolean visible, int speed) {
         this.score = 0;
+        this.livesRemaining = 2;
         this.currentState = GamePlayState.INGAME;
         this.deltaX = 0;
         this.deltaY = 0;
@@ -112,6 +114,7 @@ public class Player extends MovableObject {
 
     public void death() {
         this.visible = false;
+        decrementLifesRemaining();
     }
 
     public void countDownToRespawn() {
@@ -123,6 +126,11 @@ public class Player extends MovableObject {
         } else {
             respawnCount++;
         }
+    }
+
+    public void decrementLifesRemaining() {
+        this.livesRemaining--;
+        if (livesRemaining < 0) currentState = GamePlayState.GAMEOVER;
     }
 
     public void keyPressed(int key) {
@@ -228,4 +236,7 @@ public class Player extends MovableObject {
         this.score += enemyScore;
     }
 
+    public int getLivesRemaining() {
+        return livesRemaining;
+    }
 }
