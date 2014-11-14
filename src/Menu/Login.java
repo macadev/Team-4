@@ -10,18 +10,9 @@ public class Login extends MenuTemplate {
 
     private String[] options = {"Login","Create Account","Exit"};
     private int currentChoice = 0;
-    private Color titleColor;
-    private Font titleFont;
-    private Font font;
 
     public Login (MenuManager menuManager) {
-
-
         this.menuManager = menuManager;
-        titleColor = new Color(230, 200, 0);
-        titleFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 28);
-        font = new Font("Gill Sans Ultra Bold", Font.PLAIN, 12);
-
     }
 
 

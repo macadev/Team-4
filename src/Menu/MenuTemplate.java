@@ -9,6 +9,9 @@ import java.awt.*;
  */
 public abstract class MenuTemplate {
 
+    protected Color titleColor = new Color(230, 200, 0);
+    protected Font titleFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 28);
+    protected Font font = new Font("Gill Sans Ultra Bold", Font.PLAIN, 12);
     protected MenuManager menuManager;
     protected GameStateManager gsm;
 

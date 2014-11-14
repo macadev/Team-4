@@ -18,16 +18,10 @@ public class MainMenu extends MenuTemplate {
             "Logout",
             "Quit"};
     private int currentChoice = 0;
-    private Color titleColor;
-    private Font titleFont;
-    private Font font;
 
     public MainMenu (MenuManager menuManager, GameStateManager gsm) {
         this.menuManager = menuManager;
         this.gsm = gsm;
-        titleColor = new Color(230, 200, 0);
-        titleFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 28);
-        font = new Font("Gill Sans Ultra Bold", Font.PLAIN, 12);
     }
 
     @Override
