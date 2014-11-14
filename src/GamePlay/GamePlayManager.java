@@ -138,9 +138,7 @@ public class GamePlayManager extends GameState implements ActionListener {
         ArrayList<Flame> flames = tileMap.getFlames();
         PowerUp powerUp = tileMap.getPowerUp();
 
-        boolean playerCollisionResolved = false;
-
-        collisionManager.handleCollisions(objects, playerCollisionResolved,
+        collisionManager.handleCollisions(objects,
                                           playerRectangle, enemies,
                                           bombsPlaced, flames,
                                           powerUp);

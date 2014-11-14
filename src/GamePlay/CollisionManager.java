@@ -15,14 +15,16 @@ public class CollisionManager {
         this.player = player;
     }
 
-    public void handleCollisions(GameObject[][] objects, boolean playerCollisionResolved,
+    public void handleCollisions(GameObject[][] objects,
                                  Rectangle playerRectangle, ArrayList<Enemy> enemies, ArrayList<Bomb> bombsPlaced,
                                  ArrayList<Flame> flames, PowerUp powerUp) {
+
         checkCollisionWithPowerUp(playerRectangle, powerUp);
-        checkCollisionsWithWalls(objects, playerCollisionResolved, playerRectangle, enemies);
+        checkCollisionsWithWalls(objects, playerRectangle, enemies);
         checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
         checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp);
         checkCollisionsWithEnemies(playerRectangle, enemies);
+
     }
 
     private void checkCollisionWithPowerUp(Rectangle playerRectangle, PowerUp powerUp) {
@@ -36,8 +38,7 @@ public class CollisionManager {
         }
     }
 
-    public void checkCollisionsWithWalls(GameObject[][] objects, boolean playerCollisionResolved,
-                                         Rectangle playerRectangle, ArrayList<Enemy> enemies) {
+    public void checkCollisionsWithWalls(GameObject[][] objects, Rectangle playerRectangle, ArrayList<Enemy> enemies) {
         //Check for collision of the player and the enemies with walls
         for (GameObject[] row : objects) {
             for (GameObject wall : row) {
@@ -49,13 +50,9 @@ public class CollisionManager {
                     //Check for collision of the player with the targeted wall
                     //Upon resolving the collision, we stop checking this for loop
                     //To reduce computation
-                    if (!playerCollisionResolved) {
-
-                        if (!playerHasWallPass || (playerHasWallPass && (wall instanceof ConcreteWall))) {
-                            if (playerRectangle.intersects(wallRectangle)) {
-                                restoreToBeforeCollision(player, wallRectangle);
-                                playerCollisionResolved = true;
-                            }
+                    if (!playerHasWallPass || (playerHasWallPass && (wall instanceof ConcreteWall))) {
+                        if (playerRectangle.intersects(wallRectangle)) {
+                            restoreToBeforeCollision(player, wallRectangle);
                         }
                     }
 
