@@ -7,6 +7,7 @@ import GameObject.ArtificialIntelligence.ArtificialIntelligence;
 import GameObject.ArtificialIntelligence.HighIntelligence;
 import GameObject.ArtificialIntelligence.LowIntelligence;
 import GameObject.ArtificialIntelligence.MediumIntelligence;
+import GamePlay.Coordinate;
 
 import javax.swing.*;
 
@@ -49,7 +50,7 @@ public class Enemy extends MovableObject {
                 this.score = 100;
                 this.speed = MovableObject.SLOWSPEED;
                 this.wallPass = false;
-                this.intelligence = new LowIntelligence();
+                this.intelligence = new MediumIntelligence();
                 break;
             case DOLL:
                 this.score = 400;
@@ -107,6 +108,10 @@ public class Enemy extends MovableObject {
 
     public void reverseDirection() {
         intelligence.reverseDirection(this);
+    }
+
+    public void chasePlayer(int playerPosX, int playerPosY) {
+        intelligence.chasePlayer(playerPosX, playerPosY, this);
     }
 
     /**

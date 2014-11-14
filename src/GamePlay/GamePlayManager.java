@@ -51,7 +51,8 @@ public class GamePlayManager extends GameState implements ActionListener {
             //updateCamera();
 
             player.move();
-            tileMap.moveEnemies();
+            tileMap.moveEnemies(player.getPosX(), player.getPosY(), player.isVisible());
+
             checkCollisions();
             updateCamera();
             camera.adjustPosition();
@@ -190,12 +191,14 @@ public class GamePlayManager extends GameState implements ActionListener {
 
 
         //check for collisions between the player and the enemies
-        for (Enemy enemy : enemies) {
-            Rectangle enemyRectangle = enemy.getBounds();
-            if (playerRectangle.intersects(enemyRectangle)) {
-                player.death();
-            }
+        if (player.isVisible()) {
+            for (Enemy enemy : enemies) {
+                Rectangle enemyRectangle = enemy.getBounds();
+                if (playerRectangle.intersects(enemyRectangle)) {
+                    player.death();
+                }
 
+            }
         }
 
 

@@ -28,4 +28,9 @@ public class Coordinate {
     public void setCol(int col) {
         this.col = col;
     }
+
+    public int distanceTo(Coordinate coordinate) {
+        return (int) Math.sqrt( (row - coordinate.getRow()) *  (row - coordinate.getRow()) + (col - coordinate.getCol()) *  (col - coordinate.getCol()));
+    }
+
 }
