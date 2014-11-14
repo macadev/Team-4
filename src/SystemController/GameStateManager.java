@@ -46,6 +46,9 @@ public class GameStateManager {
     public void setState(int state, MenuState menuState) {
         //current state is set to 0 by default
         if (state == GAMEPLAY) {
+            if (gamePlayManager.isGameOver()) {
+                gamePlayManager = new GamePlayManager(this);
+            }
             currentState = state;
         } else {
             currentState = MENUSTATE;

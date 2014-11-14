@@ -97,9 +97,12 @@ public class TileMap {
         enemies = spawner.generateEnemies();
     }
 
-    public void moveEnemies() {
+    public void moveEnemies(int posX, int posY, boolean playerIsVisible) {
         for (Enemy enemy : enemies) {
             enemy.move();
+            if (playerIsVisible){
+                enemy.chasePlayer(posX, posY);
+            }
         }
     }
 

@@ -21,10 +21,15 @@ public class GamePlayManager extends GameState implements ActionListener {
     private Camera camera;
     private boolean cameraMoving;
     private boolean secondCameraRegion;
+    private boolean gameOver;
+    private int gameOverScreenCount = 0;
+
 
     //TODO: remove after demo, these are for temporary pause feature
-    private Color titleColor;
-    private Font titleFont;
+    private Color titleColor = new Color(255, 0, 21);
+    private Color hudColor = new Color(255, 255, 255);
+    private Font titleFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 48);
+    private Font hudFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 12);
 
     public GamePlayManager(GameStateManager gsm) {
         this.gsm = gsm;
@@ -33,13 +38,26 @@ public class GamePlayManager extends GameState implements ActionListener {
         this.tileMap = new TileMap(player.getSpeed());
         this.player.setTileMap(tileMap);
         this.camera = new Camera(player.getPosX(), player);
+        this.gameOver = false;
     }
 
     @Override
     public void draw(Graphics2D g) {
         GamePlayState currentState = player.getCurrentGamePlayState();
 
-        if (currentState == GamePlayState.PAUSE) {
+        if (currentState == GamePlayState.GAMEOVER) {
+            gameOver = true;
+
+            g.setColor(titleColor);
+            g.setFont(titleFont);
+            g.drawString("Game Over", 100, 200);
+
+            boolean redirectToGameOverMenu = updateGameOverScreenCount();
+            if (redirectToGameOverMenu) {
+                //TODO: redirect to the gameover menu!
+                gsm.setState(gsm.MENUSTATE, MenuState.MAIN);
+            }
+        } else if (currentState == GamePlayState.PAUSE) {
 
             gsm.setState(gsm.MENUSTATE, MenuState.INGAME);
 
@@ -51,7 +69,8 @@ public class GamePlayManager extends GameState implements ActionListener {
             //updateCamera();
 
             player.move();
-            tileMap.moveEnemies();
+            tileMap.moveEnemies(player.getPosX(), player.getPosY(), player.isVisible());
+
             checkCollisions();
             updateCamera();
             camera.adjustPosition();
@@ -74,8 +93,25 @@ public class GamePlayManager extends GameState implements ActionListener {
                     player.draw(g);
                 }
             }
-
+            drawHUD(g);
         }
+    }
+
+    private void drawHUD(Graphics2D g) {
+
+        String hudInformation = "Lives Left: " + player.getLifesRemaining() + " | Score: " + player.getScore();
+        g.setColor(hudColor);
+        g.setFont(hudFont);
+        g.drawString(hudInformation, 305, 20);
+
+    }
+
+    private boolean updateGameOverScreenCount() {
+        gameOverScreenCount++;
+        if (gameOverScreenCount > 50) {
+            return true;
+        }
+        return false;
     }
 
     public void updateCamera() {
@@ -99,7 +135,13 @@ public class GamePlayManager extends GameState implements ActionListener {
         ArrayList<Enemy> enemies = tileMap.getEnemies();
         boolean playerCollisionResolved = false;
 
+        checkCollisionsWithWalls(objects, playerCollisionResolved, playerRectangle, enemies);
+        checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
+        checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies);
+        checkCollisionsWithEnemies(playerRectangle, enemies);
+    }
 
+    public void checkCollisionsWithWalls(GameObject[][] objects, boolean playerCollisionResolved, Rectangle playerRectangle, ArrayList<Enemy> enemies) {
         //Check for collision of the player and the enemies with walls
         for (GameObject[] row : objects) {
             for (GameObject wall : row) {
@@ -136,7 +178,9 @@ public class GamePlayManager extends GameState implements ActionListener {
                 }
             }
         }
+    }
 
+    public void checkCollisionsWithBombs(ArrayList<Bomb> bombsPlaced, Rectangle playerRectangle, ArrayList<Enemy> enemies) {
         //Check for collisions of the player with the bombs
         for (Bomb bomb : bombsPlaced) {
             Rectangle bombRectangle = bomb.getBounds();
@@ -157,17 +201,20 @@ public class GamePlayManager extends GameState implements ActionListener {
             }
 
         }
+    }
 
-
+    public void checkCollisionsWithFlames(ArrayList<Bomb> bombsPlaced, Rectangle playerRectangle, ArrayList<Enemy> enemies) {
         //Check for collision between player/bombs/enemies with flames
         ArrayList<Flame> flames = tileMap.getFlames();
         Rectangle flameRectangle;
         for (Flame flame : flames) {
             flameRectangle = flame.getBounds();
 
-            if(!player.hasFlamePass()) {
-                if (playerRectangle.intersects(flameRectangle)) {
-                    player.death();
+            if (player.isVisible()) {
+                if(!player.hasFlamePass()) {
+                    if (playerRectangle.intersects(flameRectangle)) {
+                        player.death();
+                    }
                 }
             }
 
@@ -187,19 +234,19 @@ public class GamePlayManager extends GameState implements ActionListener {
             }
 
         }
+    }
 
-
+    public void checkCollisionsWithEnemies(Rectangle playerRectangle, ArrayList<Enemy> enemies) {
         //check for collisions between the player and the enemies
-        for (Enemy enemy : enemies) {
-            Rectangle enemyRectangle = enemy.getBounds();
-            if (playerRectangle.intersects(enemyRectangle)) {
-                player.death();
+        if (player.isVisible()) {
+            for (Enemy enemy : enemies) {
+                Rectangle enemyRectangle = enemy.getBounds();
+                if (playerRectangle.intersects(enemyRectangle)) {
+                    player.death();
+                }
+
             }
-
         }
-
-
-
     }
 
     public void restoreToBeforeCollision(MovableObject object, Rectangle wallRectangle) {
@@ -247,5 +294,13 @@ public class GamePlayManager extends GameState implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         //TODO: not 100% sure this will be used
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
 }

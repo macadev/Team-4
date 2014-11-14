@@ -12,4 +12,9 @@ public class LowIntelligence extends ArtificialIntelligence {
         moveEnemyOnBoard(enemy);
     }
 
+    @Override
+    public void chasePlayer(int playerPosX, int playerPosY, Enemy enemy) {
+
+    }
+
 }

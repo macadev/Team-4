@@ -64,4 +64,6 @@ public abstract class ArtificialIntelligence {
                 break;
         }
     }
+
+    public abstract void chasePlayer(int playerPosX, int playerPosY, Enemy enemy);
 }

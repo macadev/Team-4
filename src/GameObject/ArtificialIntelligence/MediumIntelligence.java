@@ -5,6 +5,7 @@ package GameObject.ArtificialIntelligence;
 
 import GameObject.Direction;
 import GameObject.Enemy;
+import GamePlay.Coordinate;
 
 public class MediumIntelligence extends ArtificialIntelligence {
 
@@ -21,6 +22,51 @@ public class MediumIntelligence extends ArtificialIntelligence {
             enemy.setPosX(posX - posX % 32);
             enemy.setPosY(posY - posY % 32);
 
+        }
+    }
+
+    @Override
+    public void chasePlayer(int playerPosX, int playerPosY, Enemy enemy) {
+
+        /**
+         * this is in principle what we want, but we need the row and column the player is on
+         */
+
+        boolean playerAndEnemyOnSameRow = playerPosY - enemy.getPosY() < 1 && playerPosY - enemy.getPosY() > -1;
+        boolean playerAndEnemyOnSameCol = playerPosX - enemy.getPosX() < 2 && playerPosX - enemy.getPosX() > -2;
+
+        if (!(playerAndEnemyOnSameCol || playerAndEnemyOnSameRow)) {
+            return;
+        }
+
+        int enemyPosX = enemy.getPosX();
+        int enemyPosY = enemy.getPosY();
+
+        Coordinate centerOfPlayerObject = new Coordinate(playerPosX + 15, playerPosY + 15);
+        Coordinate centerOfEnemyObject = new Coordinate(enemy.getPosX() + 15, enemy.getPosY() + 15);
+
+        int distance = centerOfPlayerObject.distanceTo(centerOfEnemyObject);
+        System.out.println(distance);
+
+        if (distance < 45) {
+            System.out.println("chase enabled");
+            if (playerAndEnemyOnSameRow) {
+                if (playerPosX > enemyPosX) {
+                    enemy.setDirectionOfMovement(Direction.EAST);
+                    System.out.println("going east");
+                } else {
+                    enemy.setDirectionOfMovement(Direction.WEST);
+                    System.out.println("going west");
+                }
+            } else {
+                if (playerPosY > enemyPosY) {
+                    enemy.setDirectionOfMovement(Direction.SOUTH);
+                    System.out.println("going south");
+                } else {
+                    enemy.setDirectionOfMovement(Direction.NORTH);
+                    System.out.println("going north");
+                }
+            }
         }
     }
 

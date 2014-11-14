@@ -14,6 +14,7 @@ public class Login extends MenuTemplate {
 
     private String[] options = {"Login","Create Account","Exit"};
     private int currentChoice = 0;
+
     private Color titleColor;
     private Font titleFont;
     private Font font;
@@ -24,9 +25,8 @@ public class Login extends MenuTemplate {
 
 
     public Login (MenuManager menuManager) {
-
-
         this.menuManager = menuManager;
+
         titleColor = new Color(230, 200, 0);
 
         titleFont = new Font("Century Gothic", Font.PLAIN, 28);
@@ -37,6 +37,7 @@ public class Login extends MenuTemplate {
         fieldName.setBounds( 40, 40, FIELD_WIDTH, FIELD_HEIGHT);
         fieldPass = new JPlaceHolderPasswordField();
         fieldPass.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
+
 
     }
 
