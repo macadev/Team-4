@@ -102,7 +102,7 @@ public class GamePlayManager extends GameState implements ActionListener {
         String hudInformation = "Lives Left: " + player.getLifesRemaining() + " | Score: " + player.getScore();
         g.setColor(hudColor);
         g.setFont(hudFont);
-        g.drawString(hudInformation, 340, 20);
+        g.drawString(hudInformation, 305, 20);
 
     }
 
