@@ -32,8 +32,8 @@ public class MediumIntelligence extends ArtificialIntelligence {
          * this is in principle what we want, but we need the row and column the player is on
          */
 
-        boolean playerAndEnemyOnSameRow = playerPosY - enemy.getPosY() < 1 && playerPosY - enemy.getPosY() > -1;
-        boolean playerAndEnemyOnSameCol = playerPosX - enemy.getPosX() < 2 && playerPosX - enemy.getPosX() > -2;
+        boolean playerAndEnemyOnSameRow = playerPosY - enemy.getPosY() < 3 && playerPosY - enemy.getPosY() > -3;
+        boolean playerAndEnemyOnSameCol = playerPosX - enemy.getPosX() < 3 && playerPosX - enemy.getPosX() > -3;
 
         if (!(playerAndEnemyOnSameCol || playerAndEnemyOnSameRow)) {
             return;
