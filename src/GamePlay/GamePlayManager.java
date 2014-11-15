@@ -137,11 +137,12 @@ public class GamePlayManager extends GameState implements ActionListener {
         ArrayList<Enemy> enemies = tileMap.getEnemies();
         ArrayList<Flame> flames = tileMap.getFlames();
         PowerUp powerUp = tileMap.getPowerUp();
+        Door door = tileMap.getDoor();
 
         collisionManager.handleCollisions(objects,
                                           playerRectangle, enemies,
                                           bombsPlaced, flames,
-                                          powerUp);
+                                          powerUp, door);
 
     }
 

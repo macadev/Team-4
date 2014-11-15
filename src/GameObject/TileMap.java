@@ -24,6 +24,7 @@ public class TileMap {
     private ArrayList<Flame> flames;
     private ArrayList<Enemy> enemies;
     private PowerUp powerUp;
+    private Door door;
     private Spawner spawner;
     private int speed;
     private int bombRadius;
@@ -41,22 +42,28 @@ public class TileMap {
         this.currentStage = 1;
         this.deltaX = 0;
         this.speed = speed;
-        this.bombRadius = 1;
+        this.bombRadius = 5;
         this.spawner = new Spawner();
         this.flames = new ArrayList<Flame>();
         populateGridWithBlocks();
         createEnemySet();
         generatePowerUp();
+        generateDoor();
     }
 
     public void drawObjects(Graphics2D g) {
         drawPowerUp(g);
+        drawDoor(g);
         drawTiles(g);
         drawEnemies(g);
     }
 
     private void drawPowerUp(Graphics2D g) {
         if (powerUp.isVisible()) powerUp.draw(g);
+    }
+
+    private void drawDoor(Graphics2D g) {
+        if (door.isVisible()) door.draw(g);
     }
 
     public void drawTiles(Graphics2D g) {
@@ -93,7 +100,15 @@ public class TileMap {
                 enemyCount = enemies.size();
             }
         }
+    }
 
+    public void nextStage() {
+        currentStage++;
+        spawner.nextStage(Stages.gameStages[this.currentStage]);
+        populateGridWithBlocks();
+        createEnemySet();
+        generatePowerUp();
+        generateDoor();
     }
 
     public void populateGridWithBlocks() {
@@ -106,6 +121,10 @@ public class TileMap {
 
     public void generatePowerUp() {
         this.powerUp = spawner.generatePowerUp();
+    }
+
+    public void generateDoor() {
+        this.door = spawner.generateDoor();
     }
 
     public void moveEnemies(int posX, int posY, boolean playerIsVisible) {
@@ -241,5 +260,13 @@ public class TileMap {
 
     public void setPowerUp(PowerUp powerUp) {
         this.powerUp = powerUp;
+    }
+
+    public Door getDoor() {
+        return door;
+    }
+
+    public void setDoor(Door door) {
+        this.door = door;
     }
 }

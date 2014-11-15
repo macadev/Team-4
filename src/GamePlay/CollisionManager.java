@@ -17,9 +17,10 @@ public class CollisionManager {
 
     public void handleCollisions(GameObject[][] objects,
                                  Rectangle playerRectangle, ArrayList<Enemy> enemies, ArrayList<Bomb> bombsPlaced,
-                                 ArrayList<Flame> flames, PowerUp powerUp) {
+                                 ArrayList<Flame> flames, PowerUp powerUp, Door door) {
 
         checkCollisionWithPowerUp(playerRectangle, powerUp);
+        checkCollisionWithDoor(playerRectangle, door, enemies);
         checkCollisionsWithWalls(objects, playerRectangle, enemies);
         checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
         checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp);
@@ -34,6 +35,18 @@ public class CollisionManager {
             if (playerRectangle.intersects(powerUpRectangle)) {
                 player.enablePowerUp(powerUp.getPowerUpType());
                 powerUp.setVisible(false);
+            }
+        }
+    }
+
+    private void checkCollisionWithDoor(Rectangle playerRectangle, Door door, ArrayList<Enemy> enemies) {
+        if (enemies.size() == 0) {
+            Rectangle doorRectangle = door.getBounds();
+            if (door.isVisible()) {
+                if (playerRectangle.intersects(doorRectangle)){
+                    System.out.println("advancing to next stage!");
+                    player.nextStage();
+                }
             }
         }
     }

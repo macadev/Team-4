@@ -11,7 +11,7 @@ public class Spawner {
 
     private Random randomGenerator = new Random();
     private ArrayList<Coordinate> possibleEnemyCoordinates;
-    private ArrayList<Coordinate> possiblePowerUpCoordinates;
+    private ArrayList<Coordinate> possiblePowerUpAndDoorCoordinates;
     private TileMap tileMap;
     private StageData stageData;
 
@@ -26,7 +26,7 @@ public class Spawner {
         gridLayout = new GameObject[numCols][numRows];
         tileMap = new TileMap();
         possibleEnemyCoordinates = new ArrayList<Coordinate>();
-        possiblePowerUpCoordinates = new ArrayList<Coordinate>();
+        possiblePowerUpAndDoorCoordinates = new ArrayList<Coordinate>();
         this.stageData = tileMap.getCurrentStage();
     }
 
@@ -74,7 +74,7 @@ public class Spawner {
 
                 if (isPositionNull && getRandomBoolean() && isInValidPosition(row, col)) {
                     gridLayout[col][row] = new BrickWall(col * tileMap.WIDTH_OF_TILE, row * tileMap.HEIGHT_OF_TILE, true, false);
-                    possiblePowerUpCoordinates.add(new Coordinate(row, col));
+                    possiblePowerUpAndDoorCoordinates.add(new Coordinate(row, col));
                 } else if (isPositionNull) {
                     possibleEnemyCoordinates.add(new Coordinate(row, col));
                 }
@@ -108,19 +108,31 @@ public class Spawner {
 
     }
 
+    public PowerUp generatePowerUp() {
+        PowerUpType powerUpType = stageData.getPowerUpPresent();
+        Coordinate positionOnGrid = getRandomCoordinateFromSet(possiblePowerUpAndDoorCoordinates);
+        int row = positionOnGrid.getRow();
+        int col = positionOnGrid.getCol();
+        PowerUp powerUp = new PowerUp(powerUpType, col * tileMap.WIDTH_OF_TILE, row * tileMap.HEIGHT_OF_TILE);
+        return powerUp;
+    }
+
+    public Door generateDoor() {
+        Coordinate positionOnGrid = getRandomCoordinateFromSet(possiblePowerUpAndDoorCoordinates);
+        int row = positionOnGrid.getRow();
+        int col = positionOnGrid.getCol();
+        Door door = new Door(col * tileMap.WIDTH_OF_TILE, row * tileMap.HEIGHT_OF_TILE);
+        return door;
+    }
+
+    public void nextStage(StageData stageData) {
+        this.stageData = stageData;
+    }
+
     public Coordinate getRandomCoordinateFromSet(ArrayList<Coordinate> coordinates) {
         int index = randomGenerator.nextInt(coordinates.size());
         Coordinate coordinate = coordinates.remove(index);
         return coordinate;
-    }
-
-    public PowerUp generatePowerUp() {
-        PowerUpType powerUpType = stageData.getPowerUpPresent();
-        Coordinate positionOnGrid = getRandomCoordinateFromSet(possiblePowerUpCoordinates);
-        int row = positionOnGrid.getRow();
-        int col = positionOnGrid.getCol();
-        PowerUp powerUp = new PowerUp(powerUpType, col * tileMap.WIDTH_OF_TILE + 1, row * tileMap.HEIGHT_OF_TILE + 1);
-        return powerUp;
     }
 
     /**
@@ -154,5 +166,4 @@ public class Spawner {
     public void generateSetOfHarderEnemies() {
 
     }
-
 }

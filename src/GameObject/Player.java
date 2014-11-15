@@ -48,9 +48,9 @@ public class Player extends MovableObject {
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
         this.bombsAllowed = 3;
-        this.wallPass = false;
-        this.bombPass = false;
-        this.flamePass = false;
+        this.wallPass = true;
+        this.bombPass = true;
+        this.flamePass = true;
         this.detonatorEnabled = true;
     }
 
@@ -173,6 +173,12 @@ public class Player extends MovableObject {
         flamePass = false;
         wallPass = false;
         detonatorEnabled = false;
+    }
+
+    public void nextStage() {
+        tileMap.nextStage();
+        posX = 35;
+        posY = 35;
     }
 
     public void keyPressed(int key) {
