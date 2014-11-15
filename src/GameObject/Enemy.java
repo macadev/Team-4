@@ -53,42 +53,49 @@ public class Enemy extends MovableObject {
                 this.intelligence = new MediumIntelligence();
                 break;
             case DOLL:
+                this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/doll.png")).getImage();
                 this.score = 400;
                 this.speed = MovableObject.SLOWSPEED;
                 this.wallPass = false;
                 this.intelligence = new LowIntelligence();
                 break;
             case MINVO:
+                this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/minvo.png")).getImage();
                 this.score = 800;
                 this.speed = MovableObject.NORMALSPEED;
                 this.wallPass = false;
                 this.intelligence = new MediumIntelligence();
                 break;
             case OVAPI:
+                this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/ovapi.png")).getImage();
                 this.score = 2000;
                 this.speed = MovableObject.SLOWSPEED;
                 this.wallPass = true;
                 this.intelligence = new MediumIntelligence();
                 break;
             case ONEAL:
+                this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/oneal.png")).getImage();
                 this.score = 200;
                 this.speed = MovableObject.NORMALSPEED;
                 this.wallPass = false;
                 this.intelligence = new MediumIntelligence();
                 break;
             case PASS:
+                this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/pass.png")).getImage();
                 this.score = 4000;
                 this.speed = MovableObject.FASTSPEED;
                 this.wallPass = false;
                 this.intelligence = new HighIntelligence();
                 break;
             case PONTAN:
+                this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/pontan.png")).getImage();
                 this.score = 8000;
                 this.speed = MovableObject.FASTSPEED;
                 this.wallPass = true;
                 this.intelligence = new HighIntelligence();
                 break;
             case KONDORIA:
+                this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/kondoria.png")).getImage();
                 this.score = 1000;
                 //TODO: define 'slowest' speed
                 this.speed = MovableObject.SLOWSPEED;
