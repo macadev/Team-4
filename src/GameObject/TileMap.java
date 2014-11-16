@@ -42,7 +42,7 @@ public class TileMap {
         this.currentStage = 1;
         this.deltaX = 0;
         this.speed = speed;
-        this.bombRadius = 5;
+        this.bombRadius = 1;
         this.spawner = new Spawner();
         this.flames = new ArrayList<Flame>();
         populateGridWithBlocks();
