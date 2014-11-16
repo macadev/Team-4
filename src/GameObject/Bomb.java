@@ -38,6 +38,9 @@ public class Bomb extends StaticObject {
         this.framesOnGrid = 0;
     }
 
+    /**
+     *
+     */
     public void timeExplosion() {
         framesOnGrid++;
         if (framesOnGrid > 50) {
