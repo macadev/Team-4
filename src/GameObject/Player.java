@@ -43,15 +43,15 @@ public class Player extends MovableObject {
         this.previousY = posY;
         this.visible = visible;
         this.speed = speed;
-        this.image = new ImageIcon(this.getClass().getResource("../resources/bomberman9.png")).getImage();
+        this.image = new ImageIcon(this.getClass().getResource("../resources/anaman.png")).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
-        this.bombsAllowed = 3;
+        this.bombsAllowed = 1;
         this.wallPass = false;
         this.bombPass = false;
         this.flamePass = false;
-        this.detonatorEnabled = true;
+        this.detonatorEnabled = false;
     }
 
     public void draw(Graphics2D g) {
@@ -176,7 +176,9 @@ public class Player extends MovableObject {
     }
 
     public void nextStage() {
-        tileMap.nextStage();
+        if (tileMap != null) {
+            tileMap.nextStage();
+        }
         posX = 35;
         posY = 35;
     }
@@ -248,6 +250,14 @@ public class Player extends MovableObject {
         if (bombsAllowed < 10) {
             bombsAllowed++;
         }
+    }
+
+    public boolean isWallPass() {
+        return wallPass;
+    }
+
+    public void setWallPass(boolean wallPass) {
+        this.wallPass = wallPass;
     }
 
     public boolean hasBombPass() {
