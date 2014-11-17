@@ -1,4 +1,4 @@
-package Menu;
+/*package Menu;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -8,7 +8,7 @@ import javax.swing.JTextField;
 
 /**
  * Created by Vasu on 16/11/2014.
- */
+
 public class ModifyAccount extends MenuTemplate {
 
     private String[] options = {"Change Password","Change Real Name", "Delete Account" };
@@ -69,7 +69,7 @@ public class ModifyAccount extends MenuTemplate {
     public void select() {
 
         if (currentChoice == 0) {
-            menuManager.
+            //
         }
         if (currentChoice == 1) {
             //save game
@@ -79,20 +79,10 @@ public class ModifyAccount extends MenuTemplate {
             //start new game
             menuManager.setMenuState(MenuState.LOADGAME);
         }
-        if (currentChoice == 3) {
-            //quit game
-            menuManager.setMenuState(MenuState.GAMEOVER);
-        }
-        if (currentChoice == 4) {
-            //exit to main menu
-            menuManager.setMenuState(MenuState.MAIN);
-        }
-        if (currentChoice == 5) {
-            //view leaderboard
-            menuManager.setMenuState(MenuState.LEADERBOARD);
-        }
+
 
     }
 
 
-}
+}*/
+
