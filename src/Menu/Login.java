@@ -79,6 +79,8 @@ public class Login extends MenuTemplate {
 
     private void select() {
         if (currentChoice == 0) {
+//            LoginPopup lg = new LoginPopup(menuManager);
+//            lg.setVisible(true);
             redirectToMainMenu();
             //loginClicked();
         }
