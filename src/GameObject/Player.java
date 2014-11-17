@@ -43,7 +43,7 @@ public class Player extends MovableObject {
         this.previousY = posY;
         this.visible = visible;
         this.speed = speed;
-        this.image = new ImageIcon(this.getClass().getResource("../resources/anaman.png")).getImage();
+        this.image = new ImageIcon(this.getClass().getResource("../resources/bomberman9.png")).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
@@ -116,6 +116,8 @@ public class Player extends MovableObject {
         disablePowerUpsOnDeath();
         this.visible = false;
         decrementLifesRemaining();
+        this.deltaX = 0;
+        this.deltaY = 0;
     }
 
     public void countDownToRespawn() {
