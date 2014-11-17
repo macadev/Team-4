@@ -20,7 +20,6 @@ public class PlayerTest {
 
     @Test
     public void testDeath() throws Exception {
-        Player player = new Player(35, 35, true, MovableObject.NORMALSPEED);
         assertTrue("Player is Visible upon creation", player.isVisible());
         player.death();
         assertFalse("Player is no longer visible after dying", player.isVisible());
