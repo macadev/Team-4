@@ -31,6 +31,7 @@ public class Player extends MovableObject {
     private boolean flamePass;
     private boolean detonatorEnabled;
 
+    //player constructor
     public Player(int posX, int posY, boolean visible, int speed) {
         this.score = 0;
         this.livesRemaining = 2;
