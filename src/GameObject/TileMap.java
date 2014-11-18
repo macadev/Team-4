@@ -137,7 +137,7 @@ public class TileMap {
     }
 
     public void addFlames(int posX, int posY) {
-
+        System.out.println("Flame x = " + posX + " y = " + posY);
         int posXOfExplosion = posX / 32;
         int posYOfExplosion = posY / 32;
 
@@ -200,7 +200,7 @@ public class TileMap {
                     }
                     break;
                 } else if (!isConcreteWall) {
-                    flames.add(new Flame(posXofFlame, posYofFlame, true, posXOfExplosion, posYOfExplosion));
+                    flames.add(new Flame(posXofFlame, posYofFlame, true, posX, posY));
                 }
             }
         }

@@ -60,6 +60,10 @@ public class ScoreManager {
             }
         });
 
+        for (KillSet kill : kills) {
+            System.out.println("Is distance sorted : " + kill.getDistanceToBombOrigin());
+        }
+
 
         if (kills.size() == 2) {
             System.out.println("Killed two enemies");
@@ -78,10 +82,11 @@ public class ScoreManager {
         for (KillSet deadEnemy : kills) {
             if (multiplier == 0) {
                 score += deadEnemy.getScore();
+                multiplier = 1;
             } else {
                 score += (deadEnemy.getScore() * multiplier);
             }
-            multiplier += 2;
+            multiplier *= 2;
         }
 
 

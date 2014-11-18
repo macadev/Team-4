@@ -29,7 +29,7 @@ public class Coordinate {
 
     @Override
     public int hashCode() {
-        return row * col;
+        return row * col + row - 4;
     }
 
     public int getRow() {
