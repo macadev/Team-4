@@ -42,7 +42,7 @@ public class TileMap {
         this.currentStage = 1;
         this.deltaX = 0;
         this.speed = speed;
-        this.bombRadius = 1;
+        this.bombRadius = 3;
         this.spawner = new Spawner();
         this.flames = new ArrayList<Flame>();
         populateGridWithBlocks();
@@ -142,7 +142,8 @@ public class TileMap {
         int posYOfExplosion = posY / 32;
 
         //Place a flame object at the center of the explosion
-        flames.add(new Flame(posXOfExplosion * 32, posYOfExplosion * 32, true));
+        //TODO: INTRODUCE CONSTANTS EVERYWHERE!
+        flames.add(new Flame(posXOfExplosion * 32, posYOfExplosion * 32, true, posX, posY));
 
         boolean isConcreteWall;
         boolean isBrickWall;
@@ -199,7 +200,7 @@ public class TileMap {
                     }
                     break;
                 } else if (!isConcreteWall) {
-                    flames.add(new Flame(posXofFlame, posYofFlame, true));
+                    flames.add(new Flame(posXofFlame, posYofFlame, true, posXOfExplosion, posYOfExplosion));
                 }
             }
         }

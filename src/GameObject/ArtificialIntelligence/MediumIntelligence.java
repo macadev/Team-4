@@ -46,7 +46,6 @@ public class MediumIntelligence extends ArtificialIntelligence {
         Coordinate centerOfEnemyObject = new Coordinate(enemy.getPosX() + 15, enemy.getPosY() + 15);
 
         int distance = centerOfPlayerObject.distanceTo(centerOfEnemyObject);
-        System.out.println(distance);
 
         if (distance < 45) {
             System.out.println("chase enabled");

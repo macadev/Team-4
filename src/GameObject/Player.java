@@ -48,11 +48,11 @@ public class Player extends MovableObject {
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
-        this.bombsAllowed = 1;
+        this.bombsAllowed = 3;
         this.wallPass = false;
         this.bombPass = false;
-        this.flamePass = false;
-        this.detonatorEnabled = false;
+        this.flamePass = true;
+        this.detonatorEnabled = true;
     }
 
     public void draw(Graphics2D g) {

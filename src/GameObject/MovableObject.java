@@ -3,6 +3,8 @@
  */
 package GameObject;
 
+import GamePlay.Coordinate;
+
 /**
  * Defines the commmon functionality shared by all the objects that can move
  * on the grid.

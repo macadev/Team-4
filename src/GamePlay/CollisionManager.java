@@ -14,6 +14,7 @@ public class CollisionManager {
     public CollisionManager(Player player) {
         this.player = player;
     }
+    private ScoreManager scoreManager = new ScoreManager();
 
     public void handleCollisions(GameObject[][] objects,
                                  Rectangle playerRectangle, ArrayList<Enemy> enemies, ArrayList<Bomb> bombsPlaced,
@@ -114,6 +115,9 @@ public class CollisionManager {
         //Check for collision between player/bombs/enemies with flames
         Rectangle powerUpRectangle = powerUp.getBounds();
         Rectangle flameRectangle;
+        ArrayList<KillSet> enemiesKilled = new ArrayList<KillSet>();
+
+
         for (Flame flame : flames) {
             flameRectangle = flame.getBounds();
 
@@ -136,7 +140,13 @@ public class CollisionManager {
                 Rectangle enemyRectangle = enemy.getBounds();
                 if (enemyRectangle.intersects(flameRectangle)) {
                     enemy.death();
-                    player.addToScore(enemy.getScore());
+                    Coordinate positionOfDeath = enemy.getCenterOfEnemyAsCoordinate();
+                    Coordinate locationOfBomb = flame.getExplosionOriginAsCoordinate();
+                    System.out.println(positionOfDeath.distanceTo(locationOfBomb));
+                    if (!enemy.isHitByFlames()) {
+                        enemiesKilled.add(new KillSet(positionOfDeath, locationOfBomb, enemy));
+                    }
+                    enemy.setHitByFlames(true);
                 }
             }
 
@@ -146,10 +156,16 @@ public class CollisionManager {
                 }
                 powerUp.setFirstCollision(false);
             }
-
-
-
         }
+        if (enemiesKilled.size() > 0)
+            System.out.println("SIZE = " + enemiesKilled.size());
+        calculateScoreFromKills(enemiesKilled);
+    }
+
+    private void calculateScoreFromKills(ArrayList<KillSet> enemiesKilled) {
+        if (enemiesKilled.isEmpty()) return;
+        int scoreObtained = scoreManager.determineScoreFromKills(enemiesKilled);
+        player.addToScore(scoreObtained);
     }
 
     public void checkCollisionsWithEnemies(Rectangle playerRectangle, ArrayList<Enemy> enemies) {
@@ -160,7 +176,6 @@ public class CollisionManager {
                 if (playerRectangle.intersects(enemyRectangle)) {
                     player.death();
                 }
-
             }
         }
     }

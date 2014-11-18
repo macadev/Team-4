@@ -13,6 +13,25 @@ public class Coordinate {
         this.col = col;
     }
 
+    @Override
+    public boolean equals(Object other) {
+
+        if (this == other) {
+            return true;
+        } else if (!(other instanceof Coordinate)) {
+            return false;
+        }
+
+        Coordinate modifiedOther = (Coordinate) other;
+        if (row == modifiedOther.getRow() && col == modifiedOther.getCol()) return true;
+        else return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return row * col;
+    }
+
     public int getRow() {
         return row;
     }

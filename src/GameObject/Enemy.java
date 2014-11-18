@@ -24,6 +24,7 @@ public class Enemy extends MovableObject {
     private EnemyType enemyType;
     private Direction directionOfMovement;
     private ArtificialIntelligence intelligence = null;
+    private boolean hitByFlames = false;
 
     /**
      * Dynamically generate the enemy object based on the EnemyType passed as argument.
@@ -48,7 +49,7 @@ public class Enemy extends MovableObject {
             case BALLOOM:
                 this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/balloom.png")).getImage();
                 this.score = 100;
-                this.speed = MovableObject.SLOWSPEED;
+                this.speed = 0;
                 this.wallPass = false;
                 this.intelligence = new MediumIntelligence();
                 break;
@@ -135,6 +136,22 @@ public class Enemy extends MovableObject {
 
     public void setDirectionOfMovement(Direction directionOfMovement) {
         this.directionOfMovement = directionOfMovement;
+    }
+
+    public EnemyType getEnemyType() {
+        return enemyType;
+    }
+
+    public Coordinate getCenterOfEnemyAsCoordinate() {
+        return new Coordinate(posX + 15, posY + 15);
+    }
+
+    public boolean isHitByFlames() {
+        return hitByFlames;
+    }
+
+    public void setHitByFlames(boolean hitByFlames) {
+        this.hitByFlames = hitByFlames;
     }
 }
 

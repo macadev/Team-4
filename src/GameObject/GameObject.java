@@ -3,6 +3,8 @@
  */
 package GameObject;
 
+import GamePlay.Coordinate;
+
 import java.awt.*;
 
 /**
@@ -168,5 +170,13 @@ public class GameObject {
      */
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    /**
+     * Get the position of the object as an instance of Coordinate
+     * @return A coordinate object containing the x and y position of the enemy
+     */
+    public Coordinate getPositionAsCoordinate() {
+        return new Coordinate(posX, posY);
     }
 }

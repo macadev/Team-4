@@ -3,6 +3,8 @@
  */
 package GameObject;
 
+import GamePlay.Coordinate;
+
 import javax.swing.*;
 
 /**
@@ -11,6 +13,8 @@ import javax.swing.*;
 public class Flame extends StaticObject {
 
     private int timeOnGrid;
+    private int explosionOriginX;
+    private int explosionOriginY;
 
     /**
      * A Flame object is defined by a position on the grid, and a boolean representing whether it is
@@ -19,8 +23,10 @@ public class Flame extends StaticObject {
      * @param posX
      * @param posY
      * @param visible
+     * @param explosionOriginX
+     * @param explosionOriginY
      */
-    public Flame(int posX, int posY, boolean visible) {
+    public Flame(int posX, int posY, boolean visible, int explosionOriginX, int explosionOriginY) {
         this.posX = posX;
         this.posY = posY;
         this.previousX = posX;
@@ -29,6 +35,8 @@ public class Flame extends StaticObject {
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.timeOnGrid = 0;
+        this.explosionOriginX = explosionOriginX;
+        this.explosionOriginY = explosionOriginY;
     }
 
     /**
@@ -42,4 +50,23 @@ public class Flame extends StaticObject {
         }
     }
 
+    public int getExplosionOriginX() {
+        return explosionOriginX;
+    }
+
+    public void setExplosionOriginX(int explosionOriginX) {
+        this.explosionOriginX = explosionOriginX;
+    }
+
+    public int getExplosionOriginY() {
+        return explosionOriginY;
+    }
+
+    public void setExplosionOriginY(int explosionOriginY) {
+        this.explosionOriginY = explosionOriginY;
+    }
+
+    public Coordinate getExplosionOriginAsCoordinate() {
+        return new Coordinate(explosionOriginX + 14, explosionOriginY + 14);
+    }
 }

@@ -36,7 +36,7 @@ public class MenuManager extends GameState {
         menuStates.put(MenuState.INGAME, new InGameMenu(this));
         //menuStates.put(MenuState.MODIFYACCOUNT,new ModifyAccount(this) );
         menuStates.put(MenuState.GAMEOVER, new GameOverMenu(this) );
-        currentMenu = MenuState.INGAME;
+        currentMenu = MenuState.LOGIN;
 
     }
 
