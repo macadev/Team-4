@@ -49,11 +49,13 @@ public class Enemy extends MovableObject {
             case BALLOOM:
                 this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/balloom.png")).getImage();
                 this.score = 100;
-                this.speed = 0;
+                this.speed = MovableObject.SLOWSPEED;
                 this.wallPass = false;
                 this.intelligence = new MediumIntelligence();
                 break;
             case DOLL:
+
+
                 this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/doll.png")).getImage();
                 this.score = 400;
                 this.speed = MovableObject.SLOWSPEED;

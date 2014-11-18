@@ -127,12 +127,18 @@ public class Spawner {
 
     public void nextStage(StageData stageData) {
         this.stageData = stageData;
+        clearPossibleCoordinates();
     }
 
     public Coordinate getRandomCoordinateFromSet(ArrayList<Coordinate> coordinates) {
         int index = randomGenerator.nextInt(coordinates.size());
         Coordinate coordinate = coordinates.remove(index);
         return coordinate;
+    }
+
+    public void clearPossibleCoordinates() {
+        possibleEnemyCoordinates = new ArrayList<Coordinate>();
+        possiblePowerUpAndDoorCoordinates = new ArrayList<Coordinate>();
     }
 
     /**

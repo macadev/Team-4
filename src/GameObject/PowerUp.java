@@ -61,7 +61,6 @@ public class PowerUp extends StaticObject {
         }
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
-
     }
 
     public void hitByExplosion() {

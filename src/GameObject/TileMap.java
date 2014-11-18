@@ -35,14 +35,14 @@ public class TileMap {
     private int deltaX;
 
     public TileMap() {
-        this.currentStage = 1;
+        this.currentStage = 5;
     }
 
     public TileMap(int speed) {
-        this.currentStage = 1;
+        this.currentStage = 5;
         this.deltaX = 0;
         this.speed = speed;
-        this.bombRadius = 3;
+        this.bombRadius = 11;
         this.spawner = new Spawner();
         this.flames = new ArrayList<Flame>();
         populateGridWithBlocks();
