@@ -129,6 +129,11 @@ public class TileMap {
         enemies = spawner.generateEnemies();
     }
 
+    public void addNewEnemy() {
+        Enemy bonusEnemy = spawner.createBonusStageEnemy();
+        enemies.add(bonusEnemy);
+    }
+
     public void generatePowerUp() {
         this.powerUp = spawner.generatePowerUp();
     }
