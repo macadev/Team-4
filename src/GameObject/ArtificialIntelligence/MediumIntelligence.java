@@ -47,7 +47,7 @@ public class MediumIntelligence extends ArtificialIntelligence {
 
         int distance = centerOfPlayerObject.distanceTo(centerOfEnemyObject);
 
-        if (distance < 45) {
+        if (distance < 60) {
             System.out.println("chase enabled");
             if (playerAndEnemyOnSameRow) {
                 if (playerPosX > enemyPosX) {

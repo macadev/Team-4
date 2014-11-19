@@ -121,6 +121,18 @@ public class Spawner {
         return enemies;
     }
 
+    public Enemy createBonusStageEnemy() {
+        Coordinate positionOnGrid = getRandomCoordinateFromSet(possibleEnemyCoordinates);
+        int row = positionOnGrid.getRow();
+        int col = positionOnGrid.getCol();
+
+        //In the case of a bonus stage, the enemiesPresent array will only contain one enemySet
+        //We retrieve the only type to create new enemies of that same type.
+        EnemyType type = stageData.getEnemiesPresent()[0].getEnemyType();
+        Enemy bonusEnemy = new Enemy(type, col * tileMap.WIDTH_OF_TILE + 1, row * tileMap.HEIGHT_OF_TILE + 1);
+        return bonusEnemy;
+    }
+
     public PowerUp generatePowerUp() {
 
         if (stageData.isBonusStage()) return null;
@@ -191,4 +203,5 @@ public class Spawner {
     public void generateSetOfHarderEnemies() {
 
     }
+
 }

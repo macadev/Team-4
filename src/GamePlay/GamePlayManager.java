@@ -24,7 +24,8 @@ public class GamePlayManager extends GameState implements ActionListener {
     private boolean secondCameraRegion;
     private boolean gameOver;
     private int gameOverScreenCount = 0;
-    private int bonusStageCountDown = 100;
+    private int bonusStageCountDown = 900;
+    private int bonusStageNewEnemyCountDown = 30;
 
 
     //TODO: remove after demo, these are for temporary pause feature
@@ -73,6 +74,7 @@ public class GamePlayManager extends GameState implements ActionListener {
 
             if (tileMap.isBonusStage()) {
                 countDownToNextStage();
+                countDownToSpawnNewEnemy();
             }
 
             player.move();
@@ -100,15 +102,22 @@ public class GamePlayManager extends GameState implements ActionListener {
                     player.draw(g);
                 }
             }
-            drawHUD(g);
+            drawHUD(g, tileMap.isBonusStage());
         }
     }
 
-    private void drawHUD(Graphics2D g) {
-        String hudInformation = "Lives Left: " + player.getLifesRemaining() + " | Score: " + player.getScore();
+    private void drawHUD(Graphics2D g, boolean bonusStage) {
+        String hudInformation;
         g.setColor(hudColor);
         g.setFont(hudFont);
-        g.drawString(hudInformation, 305, 20);
+        if (bonusStage) {
+            hudInformation = "Time Remaining: " + bonusStageCountDown/30 +
+                    " | Lives Left: " + player.getLifesRemaining() + " | Score: " + player.getScore();
+            g.drawString(hudInformation, 160, 20);
+        } else {
+            hudInformation = "Lives Left: " + player.getLifesRemaining() + " | Score: " + player.getScore();
+            g.drawString(hudInformation, 305, 20);
+        }
     }
 
     private boolean updateGameOverScreenCount() {
@@ -154,6 +163,14 @@ public class GamePlayManager extends GameState implements ActionListener {
             player.nextStage();
         }
         bonusStageCountDown--;
+    }
+
+    private void countDownToSpawnNewEnemy() {
+        if (bonusStageNewEnemyCountDown == 0) {
+            bonusStageNewEnemyCountDown = 30;
+            tileMap.addNewEnemy();
+        }
+        bonusStageNewEnemyCountDown--;
     }
 
     @Override

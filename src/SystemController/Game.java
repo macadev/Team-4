@@ -5,6 +5,7 @@ package SystemController;
 
 import Database.DatabaseController;
 import javax.swing.JFrame;
+import java.io.File;
 
 public class Game {
 
@@ -20,7 +21,6 @@ public class Game {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
 
         JFrame window = new JFrame("Bomberman");
         window.setContentPane(new GameController());
