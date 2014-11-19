@@ -9,9 +9,9 @@ package GameObject;
  */
 public class StageData {
 
-    EnemySet[] enemiesPresent;
-    PowerUpType powerUpPresent;
-    boolean isBonusStage;
+    private EnemySet[] enemiesPresent;
+    private PowerUpType powerUpPresent;
+    private boolean isBonusStage;
 
     /**
      * The constructor used to define the Data elements present in a given stage, specifically,
@@ -60,7 +60,7 @@ public class StageData {
      * @return A boolean representing whether a the stage is a bonus stage or not.
      */
     public boolean isBonusStage() {
-        return isBonusStage;
+        return this.isBonusStage;
     }
 
     public void setBonusStage(boolean isBonusStage) {

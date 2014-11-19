@@ -132,6 +132,9 @@ public class Player extends MovableObject {
         }
     }
 
+    /**
+     * Reduces the number of lifes the player has remaining by 1.
+     */
     public void decrementLifesRemaining() {
         this.livesRemaining--;
         if (livesRemaining < 0) currentState = GamePlayState.GAMEOVER;
@@ -179,11 +182,14 @@ public class Player extends MovableObject {
     }
 
     public void nextStage() {
+        previousX = 35;
+        previousY = 35;
+        posX = 35;
+        posY = 35;
+        bombsPlaced = new ArrayList<Bomb>();
         if (tileMap != null) {
             tileMap.nextStage();
         }
-        posX = 35;
-        posY = 35;
     }
 
     public void keyPressed(int key) {

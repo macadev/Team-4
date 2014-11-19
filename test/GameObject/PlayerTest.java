@@ -44,6 +44,7 @@ public class PlayerTest {
     public void testDecrementLifesRemaining() throws Exception {
         int lifesRemaining = player.getLifesRemaining();
         GamePlayState gps = player.getCurrentGamePlayState();
+        assertEquals("Upon spawing, the player has 2 lifes", 2, lifesRemaining);
         assertEquals("Upon spawing, the current state is set to in game", GamePlayState.INGAME, gps);
         player.decrementLifesRemaining();
         assertEquals("Decrement lifes remaining reduces lifes by one", lifesRemaining - 1, player.getLifesRemaining());
@@ -69,6 +70,7 @@ public class PlayerTest {
         assertEquals("flame pass should be disabled", false, player.hasFlamePass());
         assertEquals("bomb pass should be disabled", false, player.hasBombPass());
         assertEquals("detonator should be disabled", false, player.isDetonatorEnabled());
+
     }
 
     @Test

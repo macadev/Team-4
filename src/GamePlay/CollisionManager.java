@@ -18,18 +18,26 @@ public class CollisionManager {
 
     public void handleCollisions(GameObject[][] objects,
                                  Rectangle playerRectangle, ArrayList<Enemy> enemies, ArrayList<Bomb> bombsPlaced,
-                                 ArrayList<Flame> flames, PowerUp powerUp, Door door) {
+                                 ArrayList<Flame> flames, PowerUp powerUp, Door door, boolean isBonusStage) {
 
-        checkCollisionWithPowerUp(playerRectangle, powerUp);
-        checkCollisionWithDoor(playerRectangle, door, enemies);
-        checkCollisionsWithWalls(objects, playerRectangle, enemies);
-        checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
-        checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp);
-        checkCollisionsWithEnemies(playerRectangle, enemies);
+        if (isBonusStage) {
+            checkCollisionsWithWalls(objects, playerRectangle, enemies);
+            checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
+            checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp, isBonusStage);
+        } else {
+            checkCollisionWithPowerUp(playerRectangle, powerUp);
+            checkCollisionWithDoor(playerRectangle, door, enemies);
+            checkCollisionsWithWalls(objects, playerRectangle, enemies);
+            checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
+            checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp, isBonusStage);
+            checkCollisionsWithEnemies(playerRectangle, enemies);
+        }
+
 
     }
 
     private void checkCollisionWithPowerUp(Rectangle playerRectangle, PowerUp powerUp) {
+        if (powerUp == null) return;
         Rectangle powerUpRectangle = powerUp.getBounds();
 
         if (powerUp.isVisible()) {
@@ -41,6 +49,8 @@ public class CollisionManager {
     }
 
     private void checkCollisionWithDoor(Rectangle playerRectangle, Door door, ArrayList<Enemy> enemies) {
+        if (door == null) return;
+
         if (enemies.size() == 0) {
             Rectangle doorRectangle = door.getBounds();
             if (door.isVisible()) {
@@ -111,9 +121,8 @@ public class CollisionManager {
     }
 
     public void checkCollisionsWithFlames(ArrayList<Bomb> bombsPlaced, Rectangle playerRectangle, ArrayList<Enemy> enemies,
-                                          ArrayList<Flame> flames, PowerUp powerUp) {
+                                          ArrayList<Flame> flames, PowerUp powerUp, boolean isBonusStage) {
         //Check for collision between player/bombs/enemies with flames
-        Rectangle powerUpRectangle = powerUp.getBounds();
         Rectangle flameRectangle;
         ArrayList<KillSet> enemiesKilled = new ArrayList<KillSet>();
 
@@ -152,12 +161,16 @@ public class CollisionManager {
                 }
             }
 
-            if (powerUpRectangle.intersects(flameRectangle)) {
-                if (!powerUp.isFirstCollision()) {
-                     powerUp.hitByExplosion();
+            if (!isBonusStage) {
+                Rectangle powerUpRectangle = powerUp.getBounds();
+                if (powerUpRectangle.intersects(flameRectangle)) {
+                    if (!powerUp.isFirstCollision()) {
+                         powerUp.hitByExplosion();
+                    }
+                    powerUp.setFirstCollision(false);
                 }
-                powerUp.setFirstCollision(false);
             }
+
         }
         if (enemiesKilled.size() > 0) System.out.println("SIZE = " + enemiesKilled.size());
 

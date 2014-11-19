@@ -28,23 +28,27 @@ public class TileMap {
     private Spawner spawner;
     private int speed;
     private int bombRadius;
+    private boolean isBonusStage;
 
     //keep track of the current stage
     private int currentStage;
+    private int bonusStageCountDown;
 
     private int deltaX;
 
     public TileMap() {
-        this.currentStage = 5;
+        this.currentStage = 6;
     }
 
     public TileMap(int speed) {
-        this.currentStage = 5;
+        this.currentStage = 6;
         this.deltaX = 0;
         this.speed = speed;
         this.bombRadius = 11;
         this.spawner = new Spawner();
         this.flames = new ArrayList<Flame>();
+        this.isBonusStage = Stages.gameStages[currentStage].isBonusStage();
+        this.bonusStageCountDown = 0;
         populateGridWithBlocks();
         createEnemySet();
         generatePowerUp();
@@ -59,10 +63,12 @@ public class TileMap {
     }
 
     private void drawPowerUp(Graphics2D g) {
+        if (powerUp == null) return;
         if (powerUp.isVisible()) powerUp.draw(g);
     }
 
     private void drawDoor(Graphics2D g) {
+        if (powerUp == null) return;
         if (door.isVisible()) door.draw(g);
     }
 
@@ -104,12 +110,16 @@ public class TileMap {
 
     public void nextStage() {
         currentStage++;
-        spawner.nextStage(Stages.gameStages[this.currentStage]);
+        StageData newStage = Stages.gameStages[this.currentStage];
+        this.isBonusStage = newStage.isBonusStage();
+        this.flames = new ArrayList<Flame>();
+        spawner.nextStage(newStage);
         populateGridWithBlocks();
         createEnemySet();
         generatePowerUp();
         generateDoor();
     }
+
 
     public void populateGridWithBlocks() {
         walls = spawner.generateWalls();
@@ -269,5 +279,13 @@ public class TileMap {
 
     public void setDoor(Door door) {
         this.door = door;
+    }
+
+    public boolean isBonusStage() {
+        return isBonusStage;
+    }
+
+    public void setBonusStage(boolean isBonusStage) {
+        this.isBonusStage = isBonusStage;
     }
 }

@@ -24,6 +24,7 @@ public class GamePlayManager extends GameState implements ActionListener {
     private boolean secondCameraRegion;
     private boolean gameOver;
     private int gameOverScreenCount = 0;
+    private int bonusStageCountDown = 100;
 
 
     //TODO: remove after demo, these are for temporary pause feature
@@ -70,6 +71,10 @@ public class GamePlayManager extends GameState implements ActionListener {
             //values of the MovableObject class
             //updateCamera();
 
+            if (tileMap.isBonusStage()) {
+                countDownToNextStage();
+            }
+
             player.move();
             tileMap.moveEnemies(player.getPosX(), player.getPosY(), player.isVisible());
 
@@ -100,12 +105,10 @@ public class GamePlayManager extends GameState implements ActionListener {
     }
 
     private void drawHUD(Graphics2D g) {
-
         String hudInformation = "Lives Left: " + player.getLifesRemaining() + " | Score: " + player.getScore();
         g.setColor(hudColor);
         g.setFont(hudFont);
         g.drawString(hudInformation, 305, 20);
-
     }
 
     private boolean updateGameOverScreenCount() {
@@ -138,12 +141,19 @@ public class GamePlayManager extends GameState implements ActionListener {
         ArrayList<Flame> flames = tileMap.getFlames();
         PowerUp powerUp = tileMap.getPowerUp();
         Door door = tileMap.getDoor();
-
         collisionManager.handleCollisions(objects,
                                           playerRectangle, enemies,
                                           bombsPlaced, flames,
-                                          powerUp, door);
+                                          powerUp, door, this.tileMap.isBonusStage());
 
+    }
+
+    public void countDownToNextStage() {
+        if (bonusStageCountDown == 0) {
+            bonusStageCountDown = 900;
+            player.nextStage();
+        }
+        bonusStageCountDown--;
     }
 
     @Override
