@@ -1,13 +1,15 @@
 package GamePlay;
 
 import GameObject.*;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
  * Created by danielmacario on 14-11-01.
  */
-public class Spawner {
+public class Spawner implements Serializable {
 
     private Random randomGenerator = new Random();
     private ArrayList<Coordinate> possibleEnemyCoordinates;
@@ -29,7 +31,6 @@ public class Spawner {
         possibleEnemyCoordinates = new ArrayList<Coordinate>();
         possiblePowerUpAndDoorCoordinates = new ArrayList<Coordinate>();
         this.stageData = tileMap.getCurrentStage();
-        System.out.println("IS BONUS SPAWENER " + stageData.isBonusStage() );
     }
 
     public GameObject[][] generateWalls() {

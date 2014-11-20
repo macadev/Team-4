@@ -8,6 +8,7 @@ import GamePlay.GamePlayState;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +18,8 @@ import java.util.ArrayList;
  * activating powerups, and detonating bombs. It is also the final link in the keyPressed and
  * keyReleased chain during the GamePlay state, which starts with the GameStateManager.
  */
-public class Player extends MovableObject {
+public class Player extends MovableObject implements Serializable {
+
     private GamePlayState currentState;
     private TileMap tileMap;
     ArrayList<Bomb> bombsPlaced;
@@ -33,6 +35,7 @@ public class Player extends MovableObject {
 
     //player constructor
     public Player(int posX, int posY, boolean visible, int speed) {
+        this.imagePath = "../resources/bomberman9.png";
         this.score = 0;
         this.livesRemaining = 2;
         this.currentState = GamePlayState.INGAME;
@@ -44,7 +47,7 @@ public class Player extends MovableObject {
         this.previousY = posY;
         this.visible = visible;
         this.speed = speed;
-        this.image = new ImageIcon(this.getClass().getResource("../resources/bomberman9.png")).getImage();
+        this.image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
@@ -56,6 +59,10 @@ public class Player extends MovableObject {
     }
 
     public void draw(Graphics2D g) {
+        if (image == null) {
+            this.image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
+        }
+
         if (visible /*not dead*/) {
             g.drawImage(image, posX, posY, null);
         } else {
@@ -245,6 +252,10 @@ public class Player extends MovableObject {
 
     public GamePlayState getCurrentGamePlayState() {
         return this.currentState;
+    }
+
+    public void setCurrentGamePlayState(GamePlayState newState) {
+        this.currentState = newState;
     }
 
     public int getBombsAllowed() {

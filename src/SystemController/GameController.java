@@ -58,7 +58,7 @@ public class GameController extends JPanel implements Runnable, KeyListener {
 
     /**
      * Method called to start the main thread of the application.
-     * It controls the game loop that refreshes the screen at a set framerate
+     * It controls the game loop that refreshes the screen at a set frame rate
      */
     public void run() {
         long start;

@@ -10,6 +10,7 @@ import GameObject.ArtificialIntelligence.MediumIntelligence;
 import GamePlay.Coordinate;
 
 import javax.swing.*;
+import java.io.Serializable;
 
 /**
  * Used to represent the enemy objects present in the game. Note that there are 8 different enemy types in the game.
@@ -19,7 +20,7 @@ import javax.swing.*;
  * Enemies can have 4 different speed attributes, the capability of passing through walls, and also 3 different
  * levels of intelligence.
  */
-public class Enemy extends MovableObject {
+public class Enemy extends MovableObject implements Serializable {
 
     private EnemyType enemyType;
     private Direction directionOfMovement;
@@ -47,58 +48,56 @@ public class Enemy extends MovableObject {
         //and whether the enemy can pass through walls or not.
         switch (type) {
             case BALLOOM:
-                this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/balloom.png")).getImage();
+                this.imagePath = "../resources/Enemies/balloom.png";
                 this.score = 100;
                 this.speed = MovableObject.SLOWSPEED;
                 this.wallPass = false;
                 this.intelligence = new MediumIntelligence();
                 break;
             case DOLL:
-
-
-                this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/doll.png")).getImage();
+                this.imagePath = "../resources/Enemies/doll.png";
                 this.score = 400;
                 this.speed = MovableObject.SLOWSPEED;
                 this.wallPass = false;
                 this.intelligence = new LowIntelligence();
                 break;
             case MINVO:
-                this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/minvo.png")).getImage();
+                this.imagePath = "../resources/Enemies/minvo.png";
                 this.score = 800;
                 this.speed = MovableObject.NORMALSPEED;
                 this.wallPass = false;
                 this.intelligence = new MediumIntelligence();
                 break;
             case OVAPI:
-                this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/ovapi.png")).getImage();
+                this.imagePath = "../resources/Enemies/ovapi.png";
                 this.score = 2000;
                 this.speed = MovableObject.SLOWSPEED;
                 this.wallPass = true;
                 this.intelligence = new MediumIntelligence();
                 break;
             case ONEAL:
-                this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/oneal.png")).getImage();
+                this.imagePath = "../resources/Enemies/oneal.png";
                 this.score = 200;
                 this.speed = MovableObject.NORMALSPEED;
                 this.wallPass = false;
                 this.intelligence = new MediumIntelligence();
                 break;
             case PASS:
-                this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/pass.png")).getImage();
+                this.imagePath = "../resources/Enemies/pass.png";
                 this.score = 4000;
                 this.speed = MovableObject.FASTSPEED;
                 this.wallPass = false;
                 this.intelligence = new HighIntelligence();
                 break;
             case PONTAN:
-                this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/pontan.png")).getImage();
+                this.imagePath = "../resources/Enemies/pontan.png";
                 this.score = 8000;
                 this.speed = MovableObject.FASTSPEED;
                 this.wallPass = true;
                 this.intelligence = new HighIntelligence();
                 break;
             case KONDORIA:
-                this.image = new ImageIcon(this.getClass().getResource("../resources/Enemies/kondoria.png")).getImage();
+                this.imagePath = "../resources/Enemies/kondoria.png";
                 this.score = 1000;
                 //TODO: define 'slowest' speed
                 this.speed = MovableObject.SLOWSPEED;
@@ -106,7 +105,7 @@ public class Enemy extends MovableObject {
                 this.intelligence = new HighIntelligence();
                 break;
         }
-
+        this.image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
         this.intelligence = new MediumIntelligence();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);

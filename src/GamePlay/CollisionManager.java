@@ -5,9 +5,10 @@ package GamePlay;
 
 import GameObject.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CollisionManager {
+public class CollisionManager implements Serializable {
 
     private Player player;
 

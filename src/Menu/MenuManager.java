@@ -45,6 +45,10 @@ public class MenuManager extends GameState {
         menuStates.get(currentMenu).init();
     }
 
+    public void saveGame() {
+        gsm.saveGame();
+    }
+
     public void associatePlayerUserName (String username) {
         gsm.setPlayerUserName(username);
     }

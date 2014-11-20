@@ -6,15 +6,18 @@ package GameObject;
 import GamePlay.Coordinate;
 
 import java.awt.*;
+import javax.swing.ImageIcon;
+import java.io.Serializable;
 
 /**
  * Parent class to every object present in the game. Defines fundamental attributes present in every object
  * that is rendered on the game grid. Namely, position on the grid, visibility, the image object associated, and
  * the dimensions of the object.
  */
-public class GameObject {
+public class GameObject implements Serializable {
 
     //Actual coordinates on the grid
+    protected String imagePath;
     protected int posX;
     protected int posY;
     //Coordinates where the object was rendered on the last frame
@@ -23,7 +26,7 @@ public class GameObject {
     //Width and height of the image object used to represent the Game Object.
     protected int width;
     protected int height;
-    protected Image image;
+    protected transient Image image;
     //Boolean that specifies whether the Game Object should be rendered on the grid or not.
     protected boolean visible;
 
@@ -32,6 +35,11 @@ public class GameObject {
      * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
      */
     public void draw(Graphics2D g) {
+        if (image == null) {
+            image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
+            this.width = image.getWidth(null);
+            this.height = image.getHeight(null);
+        }
         g.drawImage(image, posX, posY, null);
     }
 

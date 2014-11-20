@@ -2,10 +2,12 @@ package GameObject;
 
 import GamePlay.Coordinate;
 
+import java.io.Serializable;
+
 /**
  * Created by danielmacario on 14-11-17.
  */
-public class KillSet {
+public class KillSet implements Serializable {
 
     private Coordinate locationOfDeath;
     private Coordinate locationOfBomb;

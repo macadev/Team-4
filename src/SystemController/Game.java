@@ -5,7 +5,6 @@ package SystemController;
 
 import Database.DatabaseController;
 import javax.swing.JFrame;
-import java.io.File;
 
 public class Game {
 

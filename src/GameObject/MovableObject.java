@@ -5,11 +5,13 @@ package GameObject;
 
 import GamePlay.Coordinate;
 
+import java.io.Serializable;
+
 /**
  * Defines the commmon functionality shared by all the objects that can move
  * on the grid.
  */
-public class MovableObject extends GameObject {
+public class MovableObject extends GameObject implements Serializable {
 
     public static final int SLOWSPEED = 2;
     public static final int NORMALSPEED = 3;

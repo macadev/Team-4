@@ -20,6 +20,7 @@ public class GameStateManager {
     private int currentState;
     private MenuManager menuManager;
     private GamePlayManager gamePlayManager;
+    private GameFileManager fileManager;
     private String playerUserName;
 
     /**
@@ -36,6 +37,7 @@ public class GameStateManager {
     public GameStateManager() {
         menuManager = new MenuManager(this);
         gamePlayManager = new GamePlayManager(this);
+        fileManager = new GameFileManager(playerUserName);
         currentState = MENUSTATE;
     }
 
@@ -54,6 +56,19 @@ public class GameStateManager {
             currentState = MENUSTATE;
             menuManager.setMenuState(menuState);
         }
+    }
+
+    public void loadGame() {
+        GamePlayManager loadedFile = fileManager.loadGame();
+        if (loadedFile != null) {
+            loadedFile.setGamePlayStateToInGame();
+            gamePlayManager = loadedFile;
+            currentState = GAMEPLAY;
+        }
+    }
+
+    public void saveGame() {
+        fileManager.saveGame(gamePlayManager);
     }
 
     /**

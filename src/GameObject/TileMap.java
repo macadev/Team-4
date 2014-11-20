@@ -4,13 +4,14 @@ import GamePlay.Spawner;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.ArrayList;
 
 /**
  * Created by danielmacario on 14-10-29.
  */
-public class TileMap {
+public class TileMap implements Serializable {
 
     public static final int TOTAL_WIDTH_OF_COLUMNS = 992;
     public static final int TOTAL_HEIGHT_OF_ROWS = 416;
@@ -37,11 +38,11 @@ public class TileMap {
     private int deltaX;
 
     public TileMap() {
-        this.currentStage = 6;
+        this.currentStage = 1;
     }
 
     public TileMap(int speed) {
-        this.currentStage = 6;
+        this.currentStage = 1;
         this.deltaX = 0;
         this.speed = speed;
         this.bombRadius = 11;
@@ -63,12 +64,16 @@ public class TileMap {
     }
 
     private void drawPowerUp(Graphics2D g) {
-        if (powerUp == null) return;
+        if (powerUp == null){
+            return;
+        }
+        //powerUp.setVisible(true);
         if (powerUp.isVisible()) powerUp.draw(g);
     }
 
     private void drawDoor(Graphics2D g) {
         if (powerUp == null) return;
+        //door.setVisible(true);
         if (door.isVisible()) door.draw(g);
     }
 

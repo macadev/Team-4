@@ -3,12 +3,13 @@
  */
 package GameObject;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
  * Defines the motions that a movable object can perform in the game
  */
-public enum Direction {
+public enum Direction implements Serializable {
     NORTH, SOUTH, EAST, WEST;
     public static Random random = new Random();
 

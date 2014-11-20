@@ -6,11 +6,13 @@ package GameObject;
 import GamePlay.Coordinate;
 
 import javax.swing.*;
+import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Used to represent the flame object that appears once a bomb explodes.
  */
-public class Flame extends StaticObject {
+public class Flame extends StaticObject implements Serializable {
 
     private int timeOnGrid;
     private int explosionOriginX;
@@ -27,11 +29,12 @@ public class Flame extends StaticObject {
      * @param explosionOriginY
      */
     public Flame(int posX, int posY, boolean visible, int explosionOriginX, int explosionOriginY) {
+        this.imagePath = "../resources/flames.png";
         this.posX = posX;
         this.posY = posY;
         this.previousX = posX;
         this.visible = visible;
-        this.image = new ImageIcon(this.getClass().getResource("../resources/flames.png")).getImage();
+        this.image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.timeOnGrid = 0;

@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import GameObject.*;
@@ -14,7 +15,7 @@ import Menu.MenuState;
 /**
  * Created by danielmacario on 14-10-29.
  */
-public class GamePlayManager extends GameState implements ActionListener {
+public class GamePlayManager extends GameState implements ActionListener, Serializable {
 
     private TileMap tileMap;
     private Player player;
@@ -24,9 +25,8 @@ public class GamePlayManager extends GameState implements ActionListener {
     private boolean secondCameraRegion;
     private boolean gameOver;
     private int gameOverScreenCount = 0;
-    private int bonusStageCountDown = 900;
+    public int bonusStageCountDown = 900;
     private int bonusStageNewEnemyCountDown = 30;
-
 
     //TODO: remove after demo, these are for temporary pause feature
     private Color titleColor = new Color(255, 0, 21);
@@ -165,7 +165,7 @@ public class GamePlayManager extends GameState implements ActionListener {
         bonusStageCountDown--;
     }
 
-    private void countDownToSpawnNewEnemy() {
+    public void countDownToSpawnNewEnemy() {
         if (bonusStageNewEnemyCountDown == 0) {
             bonusStageNewEnemyCountDown = 30;
             tileMap.addNewEnemy();
@@ -191,16 +191,20 @@ public class GamePlayManager extends GameState implements ActionListener {
 
     }
 
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        //TODO: not 100% sure this will be used
-    }
-
     public boolean isGameOver() {
         return gameOver;
     }
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
+    }
+
+    public void setGamePlayStateToInGame() {
+        this.player.setCurrentGamePlayState(GamePlayState.INGAME);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+
     }
 }
