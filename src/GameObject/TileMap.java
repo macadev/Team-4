@@ -33,6 +33,7 @@ public class TileMap implements Serializable {
     private int bombRadius;
     private boolean isBonusStage;
     private boolean harderSetAlreadyCreated;
+    private boolean nextStageTransition;
 
     //keep track of the current stage
     private int currentStage;
@@ -121,6 +122,7 @@ public class TileMap implements Serializable {
         currentStage++;
         StageData newStage = Stages.gameStages[this.currentStage];
         this.harderSetAlreadyCreated = false;
+        this.nextStageTransition = true;
         this.isBonusStage = newStage.isBonusStage();
         this.flames = new ArrayList<Flame>();
         spawner.nextStage(newStage);
@@ -351,5 +353,13 @@ public class TileMap implements Serializable {
 
     public void setHarderSetAlreadyCreated(boolean harderSetAlreadyCreated) {
         this.harderSetAlreadyCreated = harderSetAlreadyCreated;
+    }
+
+    public boolean isNextStageTransition() {
+        return nextStageTransition;
+    }
+
+    public void setNextStageTransition(boolean nextStageTransition) {
+        this.nextStageTransition = nextStageTransition;
     }
 }

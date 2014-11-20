@@ -17,6 +17,10 @@ import Menu.MenuState;
  */
 public class GamePlayManager extends GameState implements ActionListener, Serializable {
 
+    private enum CountDownNotification {
+        NEXTSTAGENOTIFICATION, GAMEOVERNOTIFICATION
+    }
+
     private TileMap tileMap;
     private Player player;
     private Camera camera;
@@ -24,7 +28,9 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
     private boolean cameraMoving;
     private boolean secondCameraRegion;
     private boolean gameOver;
-    private int gameOverScreenCount = 0;
+
+    private int gameOverScreenCount = 50;
+    private int nextStageTransitionCount = 50;
     public int bonusStageCountDown = 900;
     private int bonusStageNewEnemyCountDown = 30;
 
@@ -47,66 +53,85 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
 
     @Override
     public void draw(Graphics2D g) {
+
         GamePlayState currentState = player.getCurrentGamePlayState();
 
         if (currentState == GamePlayState.GAMEOVER) {
-            gameOver = true;
-
-            g.setColor(titleColor);
-            g.setFont(titleFont);
-            g.drawString("Game Over", 100, 200);
-
-            boolean redirectToGameOverMenu = updateGameOverScreenCount();
-            if (redirectToGameOverMenu) {
-                //TODO: redirect to the gameover menu!
-                gsm.setState(gsm.MENUSTATE, MenuState.MAIN);
-            }
+            executeGameOverStateLogic(g);
         } else if (currentState == GamePlayState.PAUSE) {
-
             gsm.setState(gsm.MENUSTATE, MenuState.INGAME);
-
         } else if (currentState == GamePlayState.INGAME) {
-
-            //Move the player each time we render again
-            //Movement depends on the deltaX and deltaY
-            //values of the MovableObject class
-            //updateCamera();
-
-            if (tileMap.isBonusStage()) {
-                countDownToNextStage();
-                countDownToSpawnNewEnemy();
-            }
-
-            player.move();
-            tileMap.moveEnemies(player.getPosX(), player.getPosY(), player.isVisible());
-
-            checkCollisions();
-            updateCamera();
-            camera.adjustPosition();
-            if (cameraMoving) {
-                g.translate(camera.getPosX(), 0);
-                player.drawBombs(g);
-                tileMap.drawObjects(g);
-                player.draw(g);
-                g.translate(-camera.getPosX(), 0);
-            } else {
-                if (secondCameraRegion) {
-                    g.translate(-(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.WIDTH_OF_TILE), 0);
-                    player.drawBombs(g);
-                    tileMap.drawObjects(g);
-                    player.draw(g);
-                    g.translate(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.WIDTH_OF_TILE, 0);
-                } else {
-                    player.drawBombs(g);
-                    tileMap.drawObjects(g);
-                    player.draw(g);
-                }
-            }
-            drawHUD(g, tileMap.isBonusStage());
+            executeInGameLogic(g);
         }
     }
 
-    private void drawHUD(Graphics2D g, boolean bonusStage) {
+    private void executeGameOverStateLogic(Graphics2D g) {
+        gameOver = true;
+
+        g.setColor(titleColor);
+        g.setFont(titleFont);
+        g.drawString("Game Over", 100, 200);
+
+        boolean redirectToGameOverMenu = countDownToNotification(CountDownNotification.GAMEOVERNOTIFICATION);
+        if (redirectToGameOverMenu) {
+            //TODO: redirect to the gameover menu!
+            gsm.setState(gsm.MENUSTATE, MenuState.MAIN);
+        }
+    }
+
+    public void executeInGameLogic(Graphics2D g) {
+        if (tileMap.isNextStageTransition()) {
+            inStageTransition(g);
+            return;
+        }
+
+        if (tileMap.isBonusStage()) {
+            initiateTimerToNextStage();
+            initateTimeToSpawnEnemy();
+        }
+
+        player.move();
+        tileMap.moveEnemies(player.getPosX(), player.getPosY(), player.isVisible());
+
+        checkCollisions();
+        updateCamera();
+        camera.adjustPosition();
+        if (cameraMoving) {
+            g.translate(camera.getPosX(), 0);
+            player.drawBombs(g);
+            tileMap.drawObjects(g);
+            player.draw(g);
+            g.translate(-camera.getPosX(), 0);
+        } else {
+            if (secondCameraRegion) {
+                g.translate(-(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.WIDTH_OF_TILE), 0);
+                player.drawBombs(g);
+                tileMap.drawObjects(g);
+                player.draw(g);
+                g.translate(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.WIDTH_OF_TILE, 0);
+            } else {
+                player.drawBombs(g);
+                tileMap.drawObjects(g);
+                player.draw(g);
+            }
+        }
+        drawHUD(g, tileMap.isBonusStage());
+    }
+
+    public void inStageTransition(Graphics2D g) {
+        boolean redirectToNextStage = countDownToNotification(CountDownNotification.NEXTSTAGENOTIFICATION);
+        if (redirectToNextStage) {
+            tileMap.setNextStageTransition(false);
+
+        } else {
+            g.setColor(titleColor);
+            g.setFont(titleFont);
+            g.drawString("Next Stage!", 100, 200);
+        }
+    }
+
+
+    public void drawHUD(Graphics2D g, boolean bonusStage) {
         String hudInformation;
         g.setColor(hudColor);
         g.setFont(hudFont);
@@ -120,12 +145,38 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         }
     }
 
-    private boolean updateGameOverScreenCount() {
-        gameOverScreenCount++;
-        if (gameOverScreenCount > 50) {
-            return true;
+    public boolean countDownToNotification(CountDownNotification action) {
+        if (action == CountDownNotification.GAMEOVERNOTIFICATION) {
+            gameOverScreenCount--;
+            if (gameOverScreenCount < 0) {
+                gameOverScreenCount = 50;
+                return true;
+            }
+            return false;
+        } else {
+            nextStageTransitionCount--;
+            if (nextStageTransitionCount < 0) {
+                nextStageTransitionCount = 50;
+                return true;
+            }
+            return false;
         }
-        return false;
+    }
+
+    public void initiateTimerToNextStage() {
+        if (bonusStageCountDown == 0) {
+            bonusStageCountDown = 900;
+            player.nextStage();
+        }
+        bonusStageCountDown--;
+    }
+
+    public void initateTimeToSpawnEnemy() {
+        if (bonusStageNewEnemyCountDown == 0) {
+            bonusStageNewEnemyCountDown = 30;
+            tileMap.addNewEnemy();
+        }
+        bonusStageNewEnemyCountDown--;
     }
 
     public void updateCamera() {
@@ -155,22 +206,6 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
                                           bombsPlaced, flames,
                                           powerUp, door, this.tileMap.isBonusStage());
 
-    }
-
-    public void countDownToNextStage() {
-        if (bonusStageCountDown == 0) {
-            bonusStageCountDown = 900;
-            player.nextStage();
-        }
-        bonusStageCountDown--;
-    }
-
-    public void countDownToSpawnNewEnemy() {
-        if (bonusStageNewEnemyCountDown == 0) {
-            bonusStageNewEnemyCountDown = 30;
-            tileMap.addNewEnemy();
-        }
-        bonusStageNewEnemyCountDown--;
     }
 
     @Override

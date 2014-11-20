@@ -33,6 +33,13 @@ public class GameFileManager {
     public GamePlayManager loadGame() {
         GamePlayManager loadedGame;
         try {
+
+            File f = new File("savedgames/mellamomelon"); // current directory
+            File[] files = f.listFiles();
+            for (File file : files) {
+                System.out.println(file.getPath());
+            }
+
             FileInputStream fileIn = new FileInputStream("savedgames/mellamomelon/savedGame.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
             loadedGame = (GamePlayManager) in.readObject();
@@ -47,6 +54,9 @@ public class GameFileManager {
             c.printStackTrace();
             return null;
         }
+
+
+
         return loadedGame;
     }
 }
