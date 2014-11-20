@@ -5,7 +5,7 @@ package SystemController;
 
 import GamePlay.GamePlayManager;
 import Menu.*;
-import Database.DatabaseController;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -63,6 +63,7 @@ public class GameStateManager {
         if (loadedFile != null) {
             loadedFile.setGamePlayStateToInGame();
             gamePlayManager = loadedFile;
+            gamePlayManager.setGameStateManager(this);
             currentState = GAMEPLAY;
         }
     }

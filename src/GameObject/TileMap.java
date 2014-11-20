@@ -293,7 +293,6 @@ public class TileMap implements Serializable {
         bombRadius++;
     }
 
-
     public StageData getCurrentStage() {
         return Stages.gameStages[this.currentStage];
     }

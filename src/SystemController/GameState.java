@@ -23,4 +23,7 @@ public abstract class GameState {
     public abstract void keyPressed(int k);
     public abstract void keyReleased(int k);
 
+    public void setGameStateManager(GameStateManager gsm) {
+        this.gsm = gsm;
+    }
 }
