@@ -122,7 +122,7 @@ public class Spawner implements Serializable {
         return enemies;
     }
 
-    public ArrayList<Enemy> spawnSetOfHarderEnemies(EnemyType harderEnemyType) {
+    public ArrayList<Enemy> createSetOfHarderEnemies(EnemyType harderEnemyType) {
         Coordinate positionOnGrid;
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
@@ -213,10 +213,6 @@ public class Spawner implements Serializable {
 
         //number range is low <= x < high
         return result;
-    }
-
-    public void generateSetOfHarderEnemies() {
-
     }
 
 }

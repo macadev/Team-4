@@ -232,8 +232,9 @@ public class TileMap implements Serializable {
     }
 
     public void spawnSetOfHarderEnemies() {
+        if (enemies.size() == 0) return;
         EnemyType harderEnemyType = determineHarderEnemyTypeToSpawn();
-        enemies = spawner.spawnSetOfHarderEnemies(harderEnemyType);
+        enemies = spawner.createSetOfHarderEnemies(harderEnemyType);
     }
 
     public EnemyType determineHarderEnemyTypeToSpawn() {
