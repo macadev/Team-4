@@ -11,9 +11,11 @@ import java.util.ArrayList;
 public class CollisionManager implements Serializable {
 
     private Player player;
+    private TileMap tileMap;
 
-    public CollisionManager(Player player) {
+    public CollisionManager(Player player, TileMap tileMap) {
         this.player = player;
+        this.tileMap = tileMap;
     }
     private ScoreManager scoreManager = new ScoreManager();
 
@@ -24,13 +26,13 @@ public class CollisionManager implements Serializable {
         if (isBonusStage) {
             checkCollisionsWithWalls(objects, playerRectangle, enemies);
             checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
-            checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp, isBonusStage);
+            checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp, door, isBonusStage);
         } else {
             checkCollisionWithPowerUp(playerRectangle, powerUp);
             checkCollisionWithDoor(playerRectangle, door, enemies);
             checkCollisionsWithWalls(objects, playerRectangle, enemies);
             checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
-            checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp, isBonusStage);
+            checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp, door, isBonusStage);
             checkCollisionsWithEnemies(playerRectangle, enemies);
         }
 
@@ -122,7 +124,7 @@ public class CollisionManager implements Serializable {
     }
 
     public void checkCollisionsWithFlames(ArrayList<Bomb> bombsPlaced, Rectangle playerRectangle, ArrayList<Enemy> enemies,
-                                          ArrayList<Flame> flames, PowerUp powerUp, boolean isBonusStage) {
+                                          ArrayList<Flame> flames, PowerUp powerUp, Door door, boolean isBonusStage) {
         //Check for collision between player/bombs/enemies with flames
         Rectangle flameRectangle;
         ArrayList<KillSet> enemiesKilled = new ArrayList<KillSet>();
@@ -163,19 +165,35 @@ public class CollisionManager implements Serializable {
             }
 
             if (!isBonusStage) {
-                Rectangle powerUpRectangle = powerUp.getBounds();
-                if (powerUpRectangle.intersects(flameRectangle)) {
-                    if (!powerUp.isFirstCollision()) {
-                         powerUp.hitByExplosion();
+                //check whether powerup is visible on the map, and if we haven't already spawned
+                //a harder set of enemies. For this logic, we are copying the same behaviour seen
+                //in the bomber game suggested by the specifications.
+                if (powerUp.isVisible()) {
+                    Rectangle powerUpRectangle = powerUp.getBounds();
+                    if (powerUpRectangle.intersects(flameRectangle)) {
+                        if (!tileMap.isHarderSetAlreadyCreated()) {
+                            spawnSetOfHarderEnemies();
+                        }
+                        powerUp.setVisible(false);
                     }
-                    powerUp.setFirstCollision(false);
+                }
+
+                Rectangle doorRectangle = door.getBounds();
+                if (doorRectangle.intersects(flameRectangle)) {
+                    if (!tileMap.isHarderSetAlreadyCreated()) {
+                        spawnSetOfHarderEnemies();
+                    }
                 }
             }
-
         }
         if (enemiesKilled.size() > 0) System.out.println("SIZE = " + enemiesKilled.size());
 
         calculateScoreFromKills(enemiesKilled);
+    }
+
+    public void spawnSetOfHarderEnemies() {
+        tileMap.spawnSetOfHarderEnemies();
+        tileMap.setHarderSetAlreadyCreated(true);
     }
 
     private void calculateScoreFromKills(ArrayList<KillSet> enemiesKilled) {
@@ -219,4 +237,5 @@ public class CollisionManager implements Serializable {
         object.restorePreviousPosition();
         return;
     }
+
 }

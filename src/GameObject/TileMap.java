@@ -5,6 +5,8 @@ import GamePlay.Spawner;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.ArrayList;
 
@@ -30,6 +32,7 @@ public class TileMap implements Serializable {
     private int speed;
     private int bombRadius;
     private boolean isBonusStage;
+    private boolean harderSetAlreadyCreated;
 
     //keep track of the current stage
     private int currentStage;
@@ -50,6 +53,7 @@ public class TileMap implements Serializable {
         this.flames = new ArrayList<Flame>();
         this.isBonusStage = Stages.gameStages[currentStage].isBonusStage();
         this.bonusStageCountDown = 0;
+        this.harderSetAlreadyCreated = false;
         populateGridWithBlocks();
         createEnemySet();
         generatePowerUp();
@@ -116,6 +120,7 @@ public class TileMap implements Serializable {
     public void nextStage() {
         currentStage++;
         StageData newStage = Stages.gameStages[this.currentStage];
+        this.harderSetAlreadyCreated = false;
         this.isBonusStage = newStage.isBonusStage();
         this.flames = new ArrayList<Flame>();
         spawner.nextStage(newStage);
@@ -226,6 +231,47 @@ public class TileMap implements Serializable {
         }
     }
 
+    public void spawnSetOfHarderEnemies() {
+        EnemyType harderEnemyType = determineHarderEnemyTypeToSpawn();
+        enemies = spawner.spawnSetOfHarderEnemies(harderEnemyType);
+    }
+
+    public EnemyType determineHarderEnemyTypeToSpawn() {
+
+        Collections.sort(enemies, new Comparator<Enemy>() {
+            @Override
+            public int compare(Enemy enemyA, Enemy enemyB) {
+                return enemyA.getDifficultyRanking() - enemyB.getDifficultyRanking(); // Ascending
+            }
+
+        });
+
+        //Get the most difficult enemy type present in the game
+        int hardestTypeDifficulty = enemies.get(enemies.size() - 1).getDifficultyRanking();
+
+        switch (hardestTypeDifficulty) {
+            case 0:
+                return EnemyType.ONEAL;
+            case 1:
+                return EnemyType.DOLL;
+            case 2:
+                return EnemyType.MINVO;
+            case 3:
+                return EnemyType.KONDORIA;
+            case 4:
+                return EnemyType.OVAPI;
+            case 5:
+                return EnemyType.PASS;
+            case 6:
+                return EnemyType.PONTAN;
+            case 7:
+                return EnemyType.PONTAN;
+        }
+
+        return null;
+
+    }
+
     public void keyPressed(int k) {
         if (k == KeyEvent.VK_LEFT) {
             deltaX = speed;
@@ -246,10 +292,10 @@ public class TileMap implements Serializable {
         bombRadius++;
     }
 
+
     public StageData getCurrentStage() {
         return Stages.gameStages[this.currentStage];
     }
-
 
     public ArrayList<Enemy> getEnemies() {
         return enemies;
@@ -297,5 +343,13 @@ public class TileMap implements Serializable {
 
     public void setBonusStage(boolean isBonusStage) {
         this.isBonusStage = isBonusStage;
+    }
+
+    public boolean isHarderSetAlreadyCreated() {
+        return harderSetAlreadyCreated;
+    }
+
+    public void setHarderSetAlreadyCreated(boolean harderSetAlreadyCreated) {
+        this.harderSetAlreadyCreated = harderSetAlreadyCreated;
     }
 }

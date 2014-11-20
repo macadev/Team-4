@@ -65,10 +65,6 @@ public class PowerUp extends StaticObject implements Serializable {
         this.height = image.getHeight(null);
     }
 
-    public void hitByExplosion() {
-        //TODO: spawn harder wave of enemies....
-    }
-
     public boolean isFirstCollision() {
         return firstCollision;
     }

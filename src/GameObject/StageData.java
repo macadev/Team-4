@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Defines a model used to specify how stages can be created, and the specific interface needed
  * to generate the enemy and powerup information on the Grid.
  */
-public class StageData implements Serializable  {
+public class StageData implements Serializable {
 
     private EnemySet[] enemiesPresent;
     private PowerUpType powerUpPresent;

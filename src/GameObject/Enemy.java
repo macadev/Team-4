@@ -25,6 +25,7 @@ public class Enemy extends MovableObject implements Serializable {
     private EnemyType enemyType;
     private Direction directionOfMovement;
     private ArtificialIntelligence intelligence = null;
+    private int difficultyRanking;
     private boolean hitByFlames = false;
 
     /**
@@ -53,27 +54,7 @@ public class Enemy extends MovableObject implements Serializable {
                 this.speed = MovableObject.SLOWSPEED;
                 this.wallPass = false;
                 this.intelligence = new MediumIntelligence();
-                break;
-            case DOLL:
-                this.imagePath = "../resources/Enemies/doll.png";
-                this.score = 400;
-                this.speed = MovableObject.SLOWSPEED;
-                this.wallPass = false;
-                this.intelligence = new LowIntelligence();
-                break;
-            case MINVO:
-                this.imagePath = "../resources/Enemies/minvo.png";
-                this.score = 800;
-                this.speed = MovableObject.NORMALSPEED;
-                this.wallPass = false;
-                this.intelligence = new MediumIntelligence();
-                break;
-            case OVAPI:
-                this.imagePath = "../resources/Enemies/ovapi.png";
-                this.score = 2000;
-                this.speed = MovableObject.SLOWSPEED;
-                this.wallPass = true;
-                this.intelligence = new MediumIntelligence();
+                this.difficultyRanking = 0;
                 break;
             case ONEAL:
                 this.imagePath = "../resources/Enemies/oneal.png";
@@ -81,20 +62,23 @@ public class Enemy extends MovableObject implements Serializable {
                 this.speed = MovableObject.NORMALSPEED;
                 this.wallPass = false;
                 this.intelligence = new MediumIntelligence();
+                this.difficultyRanking = 1;
                 break;
-            case PASS:
-                this.imagePath = "../resources/Enemies/pass.png";
-                this.score = 4000;
-                this.speed = MovableObject.FASTSPEED;
+            case DOLL:
+                this.imagePath = "../resources/Enemies/doll.png";
+                this.score = 400;
+                this.speed = MovableObject.SLOWSPEED;
                 this.wallPass = false;
-                this.intelligence = new HighIntelligence();
+                this.intelligence = new LowIntelligence();
+                this.difficultyRanking = 2;
                 break;
-            case PONTAN:
-                this.imagePath = "../resources/Enemies/pontan.png";
-                this.score = 8000;
-                this.speed = MovableObject.FASTSPEED;
-                this.wallPass = true;
-                this.intelligence = new HighIntelligence();
+            case MINVO:
+                this.imagePath = "../resources/Enemies/minvo.png";
+                this.score = 800;
+                this.speed = MovableObject.NORMALSPEED;
+                this.wallPass = false;
+                this.intelligence = new MediumIntelligence();
+                this.difficultyRanking = 3;
                 break;
             case KONDORIA:
                 this.imagePath = "../resources/Enemies/kondoria.png";
@@ -103,6 +87,31 @@ public class Enemy extends MovableObject implements Serializable {
                 this.speed = MovableObject.SLOWSPEED;
                 this.wallPass = true;
                 this.intelligence = new HighIntelligence();
+                this.difficultyRanking = 4;
+                break;
+            case OVAPI:
+                this.imagePath = "../resources/Enemies/ovapi.png";
+                this.score = 2000;
+                this.speed = MovableObject.SLOWSPEED;
+                this.wallPass = true;
+                this.intelligence = new MediumIntelligence();
+                this.difficultyRanking = 5;
+                break;
+            case PASS:
+                this.imagePath = "../resources/Enemies/pass.png";
+                this.score = 4000;
+                this.speed = MovableObject.FASTSPEED;
+                this.wallPass = false;
+                this.intelligence = new HighIntelligence();
+                this.difficultyRanking = 6;
+                break;
+            case PONTAN:
+                this.imagePath = "../resources/Enemies/pontan.png";
+                this.score = 8000;
+                this.speed = MovableObject.FASTSPEED;
+                this.wallPass = true;
+                this.intelligence = new HighIntelligence();
+                this.difficultyRanking = 7;
                 break;
         }
         this.image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
@@ -153,6 +162,10 @@ public class Enemy extends MovableObject implements Serializable {
 
     public void setHitByFlames(boolean hitByFlames) {
         this.hitByFlames = hitByFlames;
+    }
+
+    public int getDifficultyRanking() {
+        return difficultyRanking;
     }
 }
 

@@ -89,8 +89,8 @@ public class Spawner implements Serializable {
     public ArrayList<Enemy> generateEnemies() {
         Coordinate positionOnGrid;
         EnemySet[] enemiesPresent = stageData.getEnemiesPresent();
-
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+
         if (stageData.isBonusStage()) {
             EnemyType onlyTypePresent = enemiesPresent[0].getEnemyType();
 
@@ -119,6 +119,20 @@ public class Spawner implements Serializable {
 
         }
 
+        return enemies;
+    }
+
+    public ArrayList<Enemy> spawnSetOfHarderEnemies(EnemyType harderEnemyType) {
+        Coordinate positionOnGrid;
+        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+
+        for (int i = 0; i < 8; i++) {
+            positionOnGrid = getRandomCoordinateFromSet(possibleEnemyCoordinates);
+            int row = positionOnGrid.getRow();
+            int col = positionOnGrid.getCol();
+
+            enemies.add(new Enemy(harderEnemyType, col * tileMap.WIDTH_OF_TILE + 1, row * tileMap.HEIGHT_OF_TILE + 1));
+        }
         return enemies;
     }
 
