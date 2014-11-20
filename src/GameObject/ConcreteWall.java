@@ -4,13 +4,15 @@
 package GameObject;
 
 import javax.swing.*;
+import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Used to represent the ConcreteWall objects placed on the grid at fixed
  * positions during GamePlay. Note that this object falls in the category of static objects,
  * and it provides no other logic than the one needed for collision detection.
  */
-public class ConcreteWall extends StaticObject {
+public class ConcreteWall extends StaticObject implements Serializable {
 
     /**
      * Contains position attributes of the object.
@@ -18,10 +20,11 @@ public class ConcreteWall extends StaticObject {
      * @param posY y position of the ConcreteWall on the grid
      */
     public ConcreteWall(int posX, int posY) {
+        this.imagePath = "../resources/concreteBlock.png";
         this.posX = posX;
         this.posY = posY;
         this.previousX = posX;
-        this.image = new ImageIcon(this.getClass().getResource("../resources/concreteBlock.png")).getImage();
+        this.image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.visible = true;

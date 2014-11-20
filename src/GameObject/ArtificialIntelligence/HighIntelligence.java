@@ -6,6 +6,8 @@ package GameObject.ArtificialIntelligence;
 import GameObject.Direction;
 import GameObject.Enemy;
 
+import java.io.Serializable;
+
 public class HighIntelligence extends ArtificialIntelligence {
 
     @Override

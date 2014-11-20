@@ -1,11 +1,12 @@
 package GameObject;
 
 import javax.swing.*;
+import java.io.Serializable;
 
 /**
  * Created by danielmacario on 14-11-05.
  */
-public class PowerUp extends StaticObject {
+public class PowerUp extends StaticObject implements Serializable {
 
     private PowerUpType powerUpType;
     private boolean keptAfterDeath;
@@ -27,45 +28,41 @@ public class PowerUp extends StaticObject {
 
         switch (powerUpType) {
             case BOMBPASS:
-                this.image = new ImageIcon(this.getClass().getResource("../resources/PowerUps/bombpass.png")).getImage();
+                imagePath = "../resources/PowerUps/bombpass.png";
                 keptAfterDeath = false;
                 break;
             case BOMBS:
-                this.image = new ImageIcon(this.getClass().getResource("../resources/PowerUps/bombs.png")).getImage();
+                imagePath = "../resources/PowerUps/bombs.png";
                 keptAfterDeath = true;
                 break;
             case DETONATOR:
-                this.image = new ImageIcon(this.getClass().getResource("../resources/PowerUps/detonator.png")).getImage();
+                imagePath = "../resources/PowerUps/detonator.png";
                 keptAfterDeath = false;
                 break;
             case FLAMEPASS:
-                this.image = new ImageIcon(this.getClass().getResource("../resources/PowerUps/flamepass.png")).getImage();
+                imagePath = "../resources/PowerUps/flamepass.png";
                 keptAfterDeath = false;
                 break;
             case FLAMES:
-                this.image = new ImageIcon(this.getClass().getResource("../resources/PowerUps/flames.png")).getImage();
+                imagePath = "../resources/PowerUps/flames.png";
                 keptAfterDeath = true;
                 break;
             case MYSTERY:
-                this.image = new ImageIcon(this.getClass().getResource("../resources/PowerUps/mystery.png")).getImage();
+                imagePath = "../resources/PowerUps/mystery.png";
                 //kept after death doesn't apply to this powerup
                 break;
             case SPEED:
-                this.image = new ImageIcon(this.getClass().getResource("../resources/PowerUps/speed.png")).getImage();
+                imagePath = "../resources/PowerUps/speed.png";
                 keptAfterDeath = true;
                 break;
             case WALLPASS:
-                this.image = new ImageIcon(this.getClass().getResource("../resources/PowerUps/wallpass.png")).getImage();
+                imagePath = "../resources/PowerUps/wallpass.png";
                 keptAfterDeath = false;
                 break;
         }
+        this.image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
-
-    }
-
-    public void hitByExplosion() {
-        //TODO: spawn harder wave of enemies....
     }
 
     public boolean isFirstCollision() {

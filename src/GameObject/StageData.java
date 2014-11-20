@@ -3,15 +3,17 @@
  */
 package GameObject;
 
+import java.io.Serializable;
+
 /**
  * Defines a model used to specify how stages can be created, and the specific interface needed
  * to generate the enemy and powerup information on the Grid.
  */
-public class StageData {
+public class StageData implements Serializable {
 
-    EnemySet[] enemiesPresent;
-    PowerUpType powerUpPresent;
-    boolean isBonusStage;
+    private EnemySet[] enemiesPresent;
+    private PowerUpType powerUpPresent;
+    private boolean isBonusStage;
 
     /**
      * The constructor used to define the Data elements present in a given stage, specifically,
@@ -60,7 +62,7 @@ public class StageData {
      * @return A boolean representing whether a the stage is a bonus stage or not.
      */
     public boolean isBonusStage() {
-        return isBonusStage;
+        return this.isBonusStage;
     }
 
     public void setBonusStage(boolean isBonusStage) {

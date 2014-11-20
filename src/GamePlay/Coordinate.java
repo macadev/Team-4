@@ -1,9 +1,11 @@
 package GamePlay;
 
+import java.io.Serializable;
+
 /**
  * Created by danielmacario on 14-11-12.
  */
-public class Coordinate {
+public class Coordinate implements Serializable  {
 
     private int row;
     private int col;
@@ -11,6 +13,25 @@ public class Coordinate {
     public Coordinate(int row, int col) {
         this.row = row;
         this.col = col;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+
+        if (this == other) {
+            return true;
+        } else if (!(other instanceof Coordinate)) {
+            return false;
+        }
+
+        Coordinate modifiedOther = (Coordinate) other;
+        if (row == modifiedOther.getRow() && col == modifiedOther.getCol()) return true;
+        else return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return row * col + row - 4;
     }
 
     public int getRow() {

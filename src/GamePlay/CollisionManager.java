@@ -5,30 +5,42 @@ package GamePlay;
 
 import GameObject.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CollisionManager {
+public class CollisionManager implements Serializable {
 
     private Player player;
+    private TileMap tileMap;
 
-    public CollisionManager(Player player) {
+    public CollisionManager(Player player, TileMap tileMap) {
         this.player = player;
+        this.tileMap = tileMap;
     }
+    private ScoreManager scoreManager = new ScoreManager();
 
     public void handleCollisions(GameObject[][] objects,
                                  Rectangle playerRectangle, ArrayList<Enemy> enemies, ArrayList<Bomb> bombsPlaced,
-                                 ArrayList<Flame> flames, PowerUp powerUp, Door door) {
+                                 ArrayList<Flame> flames, PowerUp powerUp, Door door, boolean isBonusStage) {
 
-        checkCollisionWithPowerUp(playerRectangle, powerUp);
-        checkCollisionWithDoor(playerRectangle, door, enemies);
-        checkCollisionsWithWalls(objects, playerRectangle, enemies);
-        checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
-        checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp);
-        checkCollisionsWithEnemies(playerRectangle, enemies);
+        if (isBonusStage) {
+            checkCollisionsWithWalls(objects, playerRectangle, enemies);
+            checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
+            checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp, door, isBonusStage);
+        } else {
+            checkCollisionWithPowerUp(playerRectangle, powerUp);
+            checkCollisionWithDoor(playerRectangle, door, enemies);
+            checkCollisionsWithWalls(objects, playerRectangle, enemies);
+            checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
+            checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp, door, isBonusStage);
+            checkCollisionsWithEnemies(playerRectangle, enemies);
+        }
+
 
     }
 
     private void checkCollisionWithPowerUp(Rectangle playerRectangle, PowerUp powerUp) {
+        if (powerUp == null) return;
         Rectangle powerUpRectangle = powerUp.getBounds();
 
         if (powerUp.isVisible()) {
@@ -40,6 +52,8 @@ public class CollisionManager {
     }
 
     private void checkCollisionWithDoor(Rectangle playerRectangle, Door door, ArrayList<Enemy> enemies) {
+        if (door == null) return;
+
         if (enemies.size() == 0) {
             Rectangle doorRectangle = door.getBounds();
             if (door.isVisible()) {
@@ -110,10 +124,12 @@ public class CollisionManager {
     }
 
     public void checkCollisionsWithFlames(ArrayList<Bomb> bombsPlaced, Rectangle playerRectangle, ArrayList<Enemy> enemies,
-                                          ArrayList<Flame> flames, PowerUp powerUp) {
+                                          ArrayList<Flame> flames, PowerUp powerUp, Door door, boolean isBonusStage) {
         //Check for collision between player/bombs/enemies with flames
-        Rectangle powerUpRectangle = powerUp.getBounds();
         Rectangle flameRectangle;
+        ArrayList<KillSet> enemiesKilled = new ArrayList<KillSet>();
+
+
         for (Flame flame : flames) {
             flameRectangle = flame.getBounds();
 
@@ -136,20 +152,54 @@ public class CollisionManager {
                 Rectangle enemyRectangle = enemy.getBounds();
                 if (enemyRectangle.intersects(flameRectangle)) {
                     enemy.death();
-                    player.addToScore(enemy.getScore());
+                    Coordinate positionOfDeath = enemy.getCenterOfEnemyAsCoordinate();
+                    System.out.println("death x = "+ positionOfDeath.getRow() + " y = " + positionOfDeath.getCol());
+                    Coordinate locationOfBomb = flame.getExplosionOriginAsCoordinate();
+                    System.out.println("location of bomb x = "+ locationOfBomb.getRow() + " y = " + locationOfBomb.getCol());
+                    System.out.println("Distance = " + positionOfDeath.distanceTo(locationOfBomb));
+                    if (!enemy.isHitByFlames()) {
+                        enemiesKilled.add(new KillSet(positionOfDeath, locationOfBomb, enemy));
+                    }
+                    enemy.setHitByFlames(true);
                 }
             }
 
-            if (powerUpRectangle.intersects(flameRectangle)) {
-                if (!powerUp.isFirstCollision()) {
-                     powerUp.hitByExplosion();
+            if (!isBonusStage) {
+                //check whether powerup is visible on the map, and if we haven't already spawned
+                //a harder set of enemies. For this logic, we are copying the same behaviour seen
+                //in the bomber game suggested by the specifications.
+                if (powerUp.isVisible()) {
+                    Rectangle powerUpRectangle = powerUp.getBounds();
+                    if (powerUpRectangle.intersects(flameRectangle)) {
+                        if (!tileMap.isHarderSetAlreadyCreated()) {
+                            spawnSetOfHarderEnemies();
+                        }
+                        powerUp.setVisible(false);
+                    }
                 }
-                powerUp.setFirstCollision(false);
+
+                Rectangle doorRectangle = door.getBounds();
+                if (doorRectangle.intersects(flameRectangle)) {
+                    if (!tileMap.isHarderSetAlreadyCreated()) {
+                        spawnSetOfHarderEnemies();
+                    }
+                }
             }
-
-
-
         }
+        if (enemiesKilled.size() > 0) System.out.println("SIZE = " + enemiesKilled.size());
+
+        calculateScoreFromKills(enemiesKilled);
+    }
+
+    public void spawnSetOfHarderEnemies() {
+        tileMap.spawnSetOfHarderEnemies();
+        tileMap.setHarderSetAlreadyCreated(true);
+    }
+
+    private void calculateScoreFromKills(ArrayList<KillSet> enemiesKilled) {
+        if (enemiesKilled.isEmpty()) return;
+        int scoreObtained = scoreManager.determineScoreFromKills(enemiesKilled);
+        player.addToScore(scoreObtained);
     }
 
     public void checkCollisionsWithEnemies(Rectangle playerRectangle, ArrayList<Enemy> enemies) {
@@ -160,7 +210,6 @@ public class CollisionManager {
                 if (playerRectangle.intersects(enemyRectangle)) {
                     player.death();
                 }
-
             }
         }
     }
@@ -188,4 +237,5 @@ public class CollisionManager {
         object.restorePreviousPosition();
         return;
     }
+
 }

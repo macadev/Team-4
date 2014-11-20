@@ -72,7 +72,8 @@ public class InGameMenu extends MenuTemplate{
 	    }
 	    if (currentChoice == 1) {
             //save game
-            menuManager.setMenuState(MenuState.SAVEGAME);
+            //menuManager.setMenuState(MenuState.SAVEGAME);
+            menuManager.saveGame();
         }
         if (currentChoice == 2) {
             //start new game

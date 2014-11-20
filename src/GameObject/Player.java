@@ -8,6 +8,7 @@ import GamePlay.GamePlayState;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +18,8 @@ import java.util.ArrayList;
  * activating powerups, and detonating bombs. It is also the final link in the keyPressed and
  * keyReleased chain during the GamePlay state, which starts with the GameStateManager.
  */
-public class Player extends MovableObject {
+public class Player extends MovableObject implements Serializable {
+
     private GamePlayState currentState;
     private TileMap tileMap;
     ArrayList<Bomb> bombsPlaced;
@@ -31,7 +33,9 @@ public class Player extends MovableObject {
     private boolean flamePass;
     private boolean detonatorEnabled;
 
+    //player constructor
     public Player(int posX, int posY, boolean visible, int speed) {
+        this.imagePath = "../resources/bomberman9.png";
         this.score = 0;
         this.livesRemaining = 2;
         this.currentState = GamePlayState.INGAME;
@@ -43,18 +47,22 @@ public class Player extends MovableObject {
         this.previousY = posY;
         this.visible = visible;
         this.speed = speed;
-        this.image = new ImageIcon(this.getClass().getResource("../resources/bomberman9.png")).getImage();
+        this.image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
         this.bombsAllowed = 3;
         this.wallPass = false;
         this.bombPass = false;
-        this.flamePass = false;
+        this.flamePass = true;
         this.detonatorEnabled = true;
     }
 
     public void draw(Graphics2D g) {
+        if (image == null) {
+            this.image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
+        }
+
         if (visible /*not dead*/) {
             g.drawImage(image, posX, posY, null);
         } else {
@@ -116,6 +124,8 @@ public class Player extends MovableObject {
         disablePowerUpsOnDeath();
         this.visible = false;
         decrementLifesRemaining();
+        this.deltaX = 0;
+        this.deltaY = 0;
     }
 
     public void countDownToRespawn() {
@@ -129,6 +139,9 @@ public class Player extends MovableObject {
         }
     }
 
+    /**
+     * Reduces the number of lifes the player has remaining by 1.
+     */
     public void decrementLifesRemaining() {
         this.livesRemaining--;
         if (livesRemaining < 0) currentState = GamePlayState.GAMEOVER;
@@ -176,9 +189,14 @@ public class Player extends MovableObject {
     }
 
     public void nextStage() {
-        tileMap.nextStage();
+        previousX = 35;
+        previousY = 35;
         posX = 35;
         posY = 35;
+        bombsPlaced = new ArrayList<Bomb>();
+        if (tileMap != null) {
+            tileMap.nextStage();
+        }
     }
 
     public void keyPressed(int key) {
@@ -236,6 +254,10 @@ public class Player extends MovableObject {
         return this.currentState;
     }
 
+    public void setCurrentGamePlayState(GamePlayState newState) {
+        this.currentState = newState;
+    }
+
     public int getBombsAllowed() {
         return bombsAllowed;
     }
@@ -248,6 +270,14 @@ public class Player extends MovableObject {
         if (bombsAllowed < 10) {
             bombsAllowed++;
         }
+    }
+
+    public boolean isWallPass() {
+        return wallPass;
+    }
+
+    public void setWallPass(boolean wallPass) {
+        this.wallPass = wallPass;
     }
 
     public boolean hasBombPass() {

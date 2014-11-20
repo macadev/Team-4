@@ -1,6 +1,7 @@
 package Database;
 
 import javax.xml.transform.Result;
+import java.io.File;
 import java.sql.*;
 //2014
 /**
@@ -85,7 +86,7 @@ public class DatabaseController {
     }
 
 
-    public static boolean createNewUser(String Uname, String pass, String rName) throws ClassNotFoundException {
+    public static boolean createNewUser(String userName, String pass, String rName) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         try {
             Connection connection = null;
@@ -99,19 +100,21 @@ public class DatabaseController {
             try {
                 connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
                 stmt = connection.prepareStatement(verify);
-                stmt.setString(1, Uname);
+                stmt.setString(1, userName);
                 rsUserCheck = stmt.executeQuery();
                 if (rsUserCheck.isBeforeFirst()) {
                     System.out.println("User already exists");
                     return false;
                 }
                 stmt = connection.prepareStatement(sql);
-                stmt.setString(1, Uname);
+                stmt.setString(1, userName);
                 stmt.setString(2, pass);
                 stmt.setString(3, rName);
                 stmt.setInt(4, 0);
                 stmt.executeUpdate();
                 System.out.println("New User inserted into database");
+
+                createDirectoryForUserSavedFiles(userName);
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -124,6 +127,13 @@ public class DatabaseController {
             e.printStackTrace();
         }
         return true;
+    }
+
+    public static void createDirectoryForUserSavedFiles(String username) {
+        //Create directory in savegames folder where saved game data will be stored
+        //we follow the unix naming convention
+        File dir = new File("savedgames/" + username);
+        dir.mkdir();
     }
 
     public static boolean authenticateUser(String Uname, String pass) throws ClassNotFoundException {

@@ -4,13 +4,16 @@ import GamePlay.Spawner;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.ArrayList;
 
 /**
  * Created by danielmacario on 14-10-29.
  */
-public class TileMap {
+public class TileMap implements Serializable {
 
     public static final int TOTAL_WIDTH_OF_COLUMNS = 992;
     public static final int TOTAL_HEIGHT_OF_ROWS = 416;
@@ -28,9 +31,13 @@ public class TileMap {
     private Spawner spawner;
     private int speed;
     private int bombRadius;
+    private boolean isBonusStage;
+    private boolean harderSetAlreadyCreated;
+    private boolean nextStageTransition;
 
     //keep track of the current stage
     private int currentStage;
+    private int bonusStageCountDown;
 
     private int deltaX;
 
@@ -42,9 +49,12 @@ public class TileMap {
         this.currentStage = 1;
         this.deltaX = 0;
         this.speed = speed;
-        this.bombRadius = 1;
+        this.bombRadius = 11;
         this.spawner = new Spawner();
         this.flames = new ArrayList<Flame>();
+        this.isBonusStage = Stages.gameStages[currentStage].isBonusStage();
+        this.bonusStageCountDown = 0;
+        this.harderSetAlreadyCreated = false;
         populateGridWithBlocks();
         createEnemySet();
         generatePowerUp();
@@ -59,10 +69,16 @@ public class TileMap {
     }
 
     private void drawPowerUp(Graphics2D g) {
+        if (powerUp == null){
+            return;
+        }
+        //powerUp.setVisible(true);
         if (powerUp.isVisible()) powerUp.draw(g);
     }
 
     private void drawDoor(Graphics2D g) {
+        if (powerUp == null) return;
+        //door.setVisible(true);
         if (door.isVisible()) door.draw(g);
     }
 
@@ -104,12 +120,18 @@ public class TileMap {
 
     public void nextStage() {
         currentStage++;
-        spawner.nextStage(Stages.gameStages[this.currentStage]);
+        StageData newStage = Stages.gameStages[this.currentStage];
+        this.harderSetAlreadyCreated = false;
+        this.nextStageTransition = true;
+        this.isBonusStage = newStage.isBonusStage();
+        this.flames = new ArrayList<Flame>();
+        spawner.nextStage(newStage);
         populateGridWithBlocks();
         createEnemySet();
         generatePowerUp();
         generateDoor();
     }
+
 
     public void populateGridWithBlocks() {
         walls = spawner.generateWalls();
@@ -117,6 +139,11 @@ public class TileMap {
 
     public void createEnemySet() {
         enemies = spawner.generateEnemies();
+    }
+
+    public void addNewEnemy() {
+        Enemy bonusEnemy = spawner.createBonusStageEnemy();
+        enemies.add(bonusEnemy);
     }
 
     public void generatePowerUp() {
@@ -137,12 +164,13 @@ public class TileMap {
     }
 
     public void addFlames(int posX, int posY) {
-
+        System.out.println("Flame x = " + posX + " y = " + posY);
         int posXOfExplosion = posX / 32;
         int posYOfExplosion = posY / 32;
 
         //Place a flame object at the center of the explosion
-        flames.add(new Flame(posXOfExplosion * 32, posYOfExplosion * 32, true));
+        //TODO: INTRODUCE CONSTANTS EVERYWHERE!
+        flames.add(new Flame(posXOfExplosion * 32, posYOfExplosion * 32, true, posX, posY));
 
         boolean isConcreteWall;
         boolean isBrickWall;
@@ -199,10 +227,52 @@ public class TileMap {
                     }
                     break;
                 } else if (!isConcreteWall) {
-                    flames.add(new Flame(posXofFlame, posYofFlame, true));
+                    flames.add(new Flame(posXofFlame, posYofFlame, true, posX, posY));
                 }
             }
         }
+    }
+
+    public void spawnSetOfHarderEnemies() {
+        if (enemies.size() == 0) return;
+        EnemyType harderEnemyType = determineHarderEnemyTypeToSpawn();
+        enemies = spawner.createSetOfHarderEnemies(harderEnemyType);
+    }
+
+    public EnemyType determineHarderEnemyTypeToSpawn() {
+
+        Collections.sort(enemies, new Comparator<Enemy>() {
+            @Override
+            public int compare(Enemy enemyA, Enemy enemyB) {
+                return enemyA.getDifficultyRanking() - enemyB.getDifficultyRanking(); // Ascending
+            }
+
+        });
+
+        //Get the most difficult enemy type present in the game
+        int hardestTypeDifficulty = enemies.get(enemies.size() - 1).getDifficultyRanking();
+
+        switch (hardestTypeDifficulty) {
+            case 0:
+                return EnemyType.ONEAL;
+            case 1:
+                return EnemyType.DOLL;
+            case 2:
+                return EnemyType.MINVO;
+            case 3:
+                return EnemyType.KONDORIA;
+            case 4:
+                return EnemyType.OVAPI;
+            case 5:
+                return EnemyType.PASS;
+            case 6:
+                return EnemyType.PONTAN;
+            case 7:
+                return EnemyType.PONTAN;
+        }
+
+        return null;
+
     }
 
     public void keyPressed(int k) {
@@ -228,7 +298,6 @@ public class TileMap {
     public StageData getCurrentStage() {
         return Stages.gameStages[this.currentStage];
     }
-
 
     public ArrayList<Enemy> getEnemies() {
         return enemies;
@@ -268,5 +337,29 @@ public class TileMap {
 
     public void setDoor(Door door) {
         this.door = door;
+    }
+
+    public boolean isBonusStage() {
+        return isBonusStage;
+    }
+
+    public void setBonusStage(boolean isBonusStage) {
+        this.isBonusStage = isBonusStage;
+    }
+
+    public boolean isHarderSetAlreadyCreated() {
+        return harderSetAlreadyCreated;
+    }
+
+    public void setHarderSetAlreadyCreated(boolean harderSetAlreadyCreated) {
+        this.harderSetAlreadyCreated = harderSetAlreadyCreated;
+    }
+
+    public boolean isNextStageTransition() {
+        return nextStageTransition;
+    }
+
+    public void setNextStageTransition(boolean nextStageTransition) {
+        this.nextStageTransition = nextStageTransition;
     }
 }

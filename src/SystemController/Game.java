@@ -21,7 +21,6 @@ public class Game {
             e.printStackTrace();
         }
 
-
         JFrame window = new JFrame("Bomberman");
         window.setContentPane(new GameController());
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -3,10 +3,12 @@ package GamePlay;
 import GameObject.Player;
 import SystemController.GameController;
 
+import java.io.Serializable;
+
 /**
  * Created by danielmacario on 14-11-02.
  */
-public class Camera {
+public class Camera implements Serializable {
 
     private int posX;
     private Player player;

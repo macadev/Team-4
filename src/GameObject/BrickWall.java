@@ -4,6 +4,8 @@
 package GameObject;
 
 import javax.swing.*;
+import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Used to represent the BrickWall objects placed on the grid at fixed
@@ -11,7 +13,7 @@ import javax.swing.*;
  * and it provides no other logic than the one needed for collision detection and disappearance once
  * it is hit by a bomb explosion.
  */
-public class BrickWall extends StaticObject {
+public class BrickWall extends StaticObject implements Serializable {
 
     private boolean hasPowerUp;
 
@@ -25,11 +27,12 @@ public class BrickWall extends StaticObject {
      *                   or not
      */
     public BrickWall(int posX, int posY, boolean visible, boolean hasPowerUp) {
+        this.imagePath = "../resources/brickBlock2.png";
         this.posX = posX;
         this.posY = posY;
         this.previousX = posX;
         this.visible = visible;
-        this.image = new ImageIcon(this.getClass().getResource("../resources/brickBlock2.png")).getImage();
+        this.image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.hasPowerUp = hasPowerUp;

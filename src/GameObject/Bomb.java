@@ -7,13 +7,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 /**
  * This class creates an object used to represent the bombs placed by the player
  * during gameplay. It includes the logic relevant to triggering an explosion, and the timing of
  * that same event.
  */
-public class Bomb extends StaticObject {
+public class Bomb extends StaticObject implements Serializable {
 
     //Used to allow the player to walk over the bomb
     //only when he is standing over it during the initial
@@ -28,10 +29,11 @@ public class Bomb extends StaticObject {
      * @param posY Position Y of the robot on the grid
      */
     public Bomb(int posX, int posY) {
+        this.imagePath = "../resources/bomb2.png";
         this.posX = posX;
         this.posY = posY;
         this.visible = true;
-        this.image = new ImageIcon(this.getClass().getResource("../resources/bomb2.png")).getImage();
+        this.image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.firstCollision = true;
@@ -62,6 +64,9 @@ public class Bomb extends StaticObject {
      */
     public void draw(Graphics2D g) {
         timeExplosion();
+        if (image == null) {
+            this.image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
+        }
         if (visible) g.drawImage(image, posX, posY, null);
     }
 

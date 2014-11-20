@@ -1,19 +1,22 @@
 package GamePlay;
 
 import GameObject.*;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
  * Created by danielmacario on 14-11-01.
  */
-public class Spawner {
+public class Spawner implements Serializable {
 
     private Random randomGenerator = new Random();
     private ArrayList<Coordinate> possibleEnemyCoordinates;
     private ArrayList<Coordinate> possiblePowerUpAndDoorCoordinates;
     private TileMap tileMap;
     private StageData stageData;
+    private boolean isBonusStage;
 
     private GameObject[][] gridLayout;
 
@@ -31,6 +34,7 @@ public class Spawner {
     }
 
     public GameObject[][] generateWalls() {
+
         generateConcreteWalls();
         generateBrickWalls();
         return gridLayout;
@@ -72,7 +76,7 @@ public class Spawner {
 
                 boolean isPositionNull = (gridLayout[col][row] == null);
 
-                if (isPositionNull && getRandomBoolean() && isInValidPosition(row, col)) {
+                if (!stageData.isBonusStage() && isPositionNull && getRandomBoolean() && isInValidPosition(row, col)) {
                     gridLayout[col][row] = new BrickWall(col * tileMap.WIDTH_OF_TILE, row * tileMap.HEIGHT_OF_TILE, true, false);
                     possiblePowerUpAndDoorCoordinates.add(new Coordinate(row, col));
                 } else if (isPositionNull) {
@@ -83,16 +87,27 @@ public class Spawner {
     }
 
     public ArrayList<Enemy> generateEnemies() {
-
+        Coordinate positionOnGrid;
         EnemySet[] enemiesPresent = stageData.getEnemiesPresent();
-
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+
+        if (stageData.isBonusStage()) {
+            EnemyType onlyTypePresent = enemiesPresent[0].getEnemyType();
+
+            for (int i = 0; i < 8; i++) {
+                positionOnGrid = getRandomCoordinateFromSet(possibleEnemyCoordinates);
+                int row = positionOnGrid.getRow();
+                int col = positionOnGrid.getCol();
+
+                enemies.add(new Enemy(onlyTypePresent, col * tileMap.WIDTH_OF_TILE + 1, row * tileMap.HEIGHT_OF_TILE + 1));
+            }
+            return enemies;
+        }
 
         for (EnemySet enemySet : enemiesPresent) {
 
             EnemyType currentSetType = enemySet.getEnemyType();
             int setSize = enemySet.getNumberPresent();
-            Coordinate positionOnGrid;
 
             for (int i = 0; i < setSize; i++) {
                 positionOnGrid = getRandomCoordinateFromSet(possibleEnemyCoordinates);
@@ -105,10 +120,38 @@ public class Spawner {
         }
 
         return enemies;
+    }
 
+    public ArrayList<Enemy> createSetOfHarderEnemies(EnemyType harderEnemyType) {
+        Coordinate positionOnGrid;
+        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+
+        for (int i = 0; i < 8; i++) {
+            positionOnGrid = getRandomCoordinateFromSet(possibleEnemyCoordinates);
+            int row = positionOnGrid.getRow();
+            int col = positionOnGrid.getCol();
+
+            enemies.add(new Enemy(harderEnemyType, col * tileMap.WIDTH_OF_TILE + 1, row * tileMap.HEIGHT_OF_TILE + 1));
+        }
+        return enemies;
+    }
+
+    public Enemy createBonusStageEnemy() {
+        Coordinate positionOnGrid = getRandomCoordinateFromSet(possibleEnemyCoordinates);
+        int row = positionOnGrid.getRow();
+        int col = positionOnGrid.getCol();
+
+        //In the case of a bonus stage, the enemiesPresent array will only contain one enemySet
+        //We retrieve the only type to create new enemies of that same type.
+        EnemyType type = stageData.getEnemiesPresent()[0].getEnemyType();
+        Enemy bonusEnemy = new Enemy(type, col * tileMap.WIDTH_OF_TILE + 1, row * tileMap.HEIGHT_OF_TILE + 1);
+        return bonusEnemy;
     }
 
     public PowerUp generatePowerUp() {
+
+        if (stageData.isBonusStage()) return null;
+
         PowerUpType powerUpType = stageData.getPowerUpPresent();
         Coordinate positionOnGrid = getRandomCoordinateFromSet(possiblePowerUpAndDoorCoordinates);
         int row = positionOnGrid.getRow();
@@ -118,6 +161,9 @@ public class Spawner {
     }
 
     public Door generateDoor() {
+
+        if (stageData.isBonusStage()) return null;
+
         Coordinate positionOnGrid = getRandomCoordinateFromSet(possiblePowerUpAndDoorCoordinates);
         int row = positionOnGrid.getRow();
         int col = positionOnGrid.getCol();
@@ -127,12 +173,18 @@ public class Spawner {
 
     public void nextStage(StageData stageData) {
         this.stageData = stageData;
+        clearPossibleCoordinates();
     }
 
     public Coordinate getRandomCoordinateFromSet(ArrayList<Coordinate> coordinates) {
         int index = randomGenerator.nextInt(coordinates.size());
         Coordinate coordinate = coordinates.remove(index);
         return coordinate;
+    }
+
+    public void clearPossibleCoordinates() {
+        possibleEnemyCoordinates = new ArrayList<Coordinate>();
+        possiblePowerUpAndDoorCoordinates = new ArrayList<Coordinate>();
     }
 
     /**
@@ -163,7 +215,4 @@ public class Spawner {
         return result;
     }
 
-    public void generateSetOfHarderEnemies() {
-
-    }
 }

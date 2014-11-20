@@ -6,9 +6,10 @@ package GameObject.ArtificialIntelligence;
 import GameObject.Direction;
 import GameObject.Enemy;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public abstract class ArtificialIntelligence {
+public abstract class ArtificialIntelligence implements Serializable {
 
     public static final Random random = new Random();
 

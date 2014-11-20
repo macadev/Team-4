@@ -3,7 +3,9 @@
  */
 package GameObject;
 
-public class EnemySet {
+import java.io.Serializable;
+
+public class EnemySet implements Serializable {
 
     private EnemyType enemyType;
     private int numberPresent;
