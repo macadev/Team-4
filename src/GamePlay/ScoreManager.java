@@ -2,9 +2,6 @@
  * Created by danielmacario on 14-11-17.
  */
 package GamePlay;
-
-import GameObject.Enemy;
-import GameObject.EnemyType;
 import GameObject.KillSet;
 
 import java.io.Serializable;
