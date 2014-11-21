@@ -5,6 +5,7 @@ package SystemController;
 
 import Database.DatabaseController;
 import javax.swing.JFrame;
+import Menu.Music;
 
 public class Game {
 
@@ -27,6 +28,10 @@ public class Game {
         window.setResizable(false);
         window.pack();
         window.setVisible(true);
+
+        Music music = new Music();
+        music.start();
+
 
     }
 
