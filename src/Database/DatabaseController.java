@@ -194,7 +194,7 @@ public class DatabaseController {
     }
 
 
-    public boolean updateInformation(String newPass, String newRealName, String Uname) throws ClassNotFoundException {
+    public static boolean updateInformation(String newPass, String newRealName, String Uname) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         try {
             Connection connection = null;

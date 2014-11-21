@@ -55,7 +55,8 @@ public void draw(Graphics2D g) {
 
 private void select() {
         if (currentChoice == 0) {
-            //Update Information
+            ModifyAccountPopup map = new ModifyAccountPopup(menuManager);
+            map.setVisible(true);
         }
         if (currentChoice == 1) {
             //Delete Account
