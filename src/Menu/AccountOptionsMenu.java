@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
  */
 public class AccountOptionsMenu extends MenuTemplate {
 
-private String[] options = {"Change Real Name","Change Password", "Delete Account", "Return to Main Menu"};
+private String[] options = {"Update Information", "Delete Account", "Return to Main Menu"};
 private int currentChoice = 0;
 private Color titleColor = MenuTemplate.TITLE_COLOR;
 private Font titleFont = MenuTemplate.TITLE_FONT;
@@ -55,15 +55,12 @@ public void draw(Graphics2D g) {
 
 private void select() {
         if (currentChoice == 0) {
-        //Change Name
+            //Update Information
         }
         if (currentChoice == 1) {
-        //Change Password
+            //Delete Account
         }
         if (currentChoice == 2) {
-        //Delete Account
-        }
-        if (currentChoice == 3) {
             menuManager.setMenuState(MenuState.MAIN);
         }
         }
