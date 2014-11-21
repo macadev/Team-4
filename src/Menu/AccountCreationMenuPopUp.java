@@ -128,17 +128,22 @@ public class AccountCreationMenuPopUp extends JFrame {
 
         if (rName.isEmpty() || uName.isEmpty() || pass.isEmpty() || rPass.isEmpty() ){
             labelMessage.setText("Please fill out all the information");
+            labelMessage2.setText("");
         } else if (!(pass.equals(rPass))) {
             labelMessage.setText("Passwords do not match");
+            labelMessage2.setText("");
         } else if (uName.length() < 6){
             labelMessage.setText("Username must be at least 6 characters");
+            labelMessage2.setText("");
         } else if (!isValidPassword(pass)) {
             labelMessage.setText("The password is too weak. Enter one of each type from:");
             labelMessage2.setText("Capital letters, Small letters, Digits and Symbols");
         } else if(pass.length() < 8) {
             labelMessage.setText("Password must be at least 8 characters");
+            labelMessage2.setText("");
         } else if(!isValidUsername(uName)){ //Needs to consider latin characters
             labelMessage.setText("Username has to be alphanumeric");
+            labelMessage2.setText("");
         } else {
             try {
                 creationSuccessful = DatabaseController.createNewUser(uName, pass, rName);
@@ -148,6 +153,7 @@ public class AccountCreationMenuPopUp extends JFrame {
 
             if (creationSuccessful) {
                 labelMessage.setText("Account Created");
+                labelMessage2.setText("");
                 menuManager.associatePlayerUserName(uName);
                 redirectToMainMenu();
                 setVisible(false);
@@ -165,10 +171,10 @@ public class AccountCreationMenuPopUp extends JFrame {
 
     private boolean isValidPassword(String password) {
         int passwordStrength = 0;
-        String[] partialRegexChecks = {".*[a-z]+.*", // lower
-                ".*[A-Z]+.*", // upper
-                ".*[\\d]+.*", // digits
-                ".*[$&+,:;=?@#|'<>.-^*()%!]+.*" // symbols
+        String[] partialRegexChecks = {".*[a-z]+.*", // Lower Case
+                ".*[A-Z]+.*", // Upper Case
+                ".*[\\d]+.*", // Digits
+                ".*[$&+,:;=?@#|'<>.-^*()%!]+.*" // Symbols
         };
 
 

@@ -72,7 +72,7 @@ public class MainMenu extends MenuTemplate {
             //view leaderboards
         }
         if (currentChoice == 3) {
-            //Modify account info
+            menuManager.setMenuState(MenuState.MODIFYACCOUNT);
         }
         if (currentChoice == 4) {
             //logout
