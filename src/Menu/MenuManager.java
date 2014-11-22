@@ -31,9 +31,8 @@ public class MenuManager extends GameState {
         this.gsm = gsm;
         menuStates = new Hashtable<MenuState, MenuTemplate>();
         menuStates.put(MenuState.MAIN, new MainMenu(this, gsm));
-        menuStates.put(MenuState.LOGIN, new Login(this));
+        menuStates.put(MenuState.LOGIN, new LoginMenu(this));
         menuStates.put(MenuState.INGAME, new InGameMenu(this, gsm));
-        menuStates.put(MenuState.MODIFYACCOUNT, new AccountOptionsMenu(this, gsm));
         menuStates.put(MenuState.GAMEOVER, new GameOverMenu(this) );
         currentMenu = MenuState.LOGIN;
     }

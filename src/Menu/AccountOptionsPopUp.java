@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by Shabab Ahmed on 20/11/2014.
  */
-public class ModifyAccountPopUp extends JFrame {
+public class AccountOptionsPopUp extends JFrame {
 
     private JTextField realName;
     private JPasswordField fieldPass;
@@ -18,9 +18,10 @@ public class ModifyAccountPopUp extends JFrame {
     private JLabel labelMessage3;
     private JButton buttonSubmit;
     private JButton buttonExit;
+    private JButton buttonDeleteAccount;
     private MenuManager menuManager;
 
-    public ModifyAccountPopUp(MenuManager menuManager){
+    public AccountOptionsPopUp(MenuManager menuManager){
         this.menuManager = menuManager;
         createView();
 
@@ -69,6 +70,9 @@ public class ModifyAccountPopUp extends JFrame {
         buttonSubmit.setBounds(10, 170, 80, 25);
         buttonExit  = new JButton("Close");
         buttonExit.setBounds(50, 170, 80, 25);
+        buttonDeleteAccount = new JButton("Delete Account");
+        buttonDeleteAccount.setBounds(10, 170, 80, 25);
+
 
         buttonSubmit.addActionListener(new ActionListener() {
             @Override
@@ -84,8 +88,16 @@ public class ModifyAccountPopUp extends JFrame {
             }
         });
 
+        buttonDeleteAccount.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                deleteAccountClicked();
+            }
+        });
+
         panel.add(buttonSubmit);
         panel.add(buttonExit);
+        panel.add(buttonDeleteAccount);
 
         labelMessage = new JLabel("Leave field blank if no update is required");
         labelMessage.setBounds(10, 190, 160, 25);
@@ -98,11 +110,12 @@ public class ModifyAccountPopUp extends JFrame {
         panel.add(labelMessage3);
     }
     public void exitClicked(){
-        menuManager.setMenuState(MenuState.MODIFYACCOUNT);
         setVisible(false);
         dispose();
     }
+
     public void submitClicked() {
+        labelMessage.setText("");
         labelMessage3.setText("");
 
         String newRealName = realName.getText();
@@ -123,6 +136,10 @@ public class ModifyAccountPopUp extends JFrame {
                 submitNewRealName(newRealName);
             }
         }
+    }
+
+    public void deleteAccountClicked() {
+
     }
 
     public boolean submitNewPassWord(String newPassWord, String newPassWordDuplicate) {

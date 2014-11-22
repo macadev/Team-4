@@ -72,7 +72,7 @@ public class MainMenu extends MenuTemplate {
         }
         if (currentChoice == 3) {
            // menuManager.setMenuState(MenuState.MODIFYACCOUNT);
-            ModifyAccountPopUp modAccPop = new ModifyAccountPopUp(menuManager);
+            AccountOptionsPopUp modAccPop = new AccountOptionsPopUp(menuManager);
             modAccPop.setVisible(true);
         }
         if (currentChoice == 4) {
