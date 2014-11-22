@@ -107,7 +107,7 @@ public class ModifyAccountPopup extends JFrame {
         String rName = realName.getText();
         String pass = fieldPass.getText();
         String rPass = retypePass.getText();
-        String uName = "steven222";
+        String uName = "steven222"; //Needs to know current user
 
         boolean updateSuccessful = false;
 
