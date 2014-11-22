@@ -34,7 +34,7 @@ public class MenuManager extends GameState {
         menuStates.put(MenuState.LOADGAME, new LoadGame(this, gsm));
         menuStates.put(MenuState.SAVEGAME, new SaveGame(this, gsm));
         menuStates.put(MenuState.LOGIN, new Login(this));
-        menuStates.put(MenuState.INGAME, new InGameMenu(this));
+        menuStates.put(MenuState.INGAME, new InGameMenu(this, gsm));
         menuStates.put(MenuState.MODIFYACCOUNT, new AccountOptionsMenu(this, gsm));
         menuStates.put(MenuState.GAMEOVER, new GameOverMenu(this) );
         currentMenu = MenuState.LOGIN;
@@ -58,7 +58,8 @@ public class MenuManager extends GameState {
         gsm.setPlayerUserName(username);
     }
 
-    public String getPlayerUserName() {
+
+    public String getPlayerUserName(){
         return gsm.getPlayerUserName();
     }
 

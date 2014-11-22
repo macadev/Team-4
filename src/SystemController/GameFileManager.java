@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * Created by danielmacario on 14-11-19.
  */
 public class GameFileManager {
-
     private static String userName;
 
     public GameFileManager(String username) {
