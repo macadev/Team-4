@@ -29,7 +29,6 @@ public class Player extends MovableObject implements Serializable {
 
     //powerup logic data
     private int bombsAllowed;
-    private boolean wallPass;
     private boolean bombPass;
     private boolean flamePass;
     private boolean detonatorEnabled;
@@ -59,8 +58,8 @@ public class Player extends MovableObject implements Serializable {
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
         this.bombsAllowed = 3;
-        this.wallPass = false;
-        this.bombPass = false;
+        this.wallPass = true;
+        this.bombPass = true;
         this.flamePass = true;
         this.detonatorEnabled = true;
     }
@@ -360,14 +359,6 @@ public class Player extends MovableObject implements Serializable {
         if (bombsAllowed < 10) {
             bombsAllowed++;
         }
-    }
-
-    public boolean isWallPass() {
-        return wallPass;
-    }
-
-    public void setWallPass(boolean wallPass) {
-        this.wallPass = wallPass;
     }
 
     public boolean hasBombPass() {

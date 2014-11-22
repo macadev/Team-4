@@ -12,8 +12,6 @@ public class CollisionManager implements Serializable {
 
     private Player player;
     private TileMap tileMap;
-    private boolean flamesOnDoorOrPowerUp;
-    private boolean spawnNewEnemies;
 
     public CollisionManager(Player player, TileMap tileMap) {
         this.player = player;
@@ -25,16 +23,12 @@ public class CollisionManager implements Serializable {
                                  Rectangle playerRectangle, ArrayList<Enemy> enemies, ArrayList<Bomb> bombsPlaced,
                                  ArrayList<Flame> flames, PowerUp powerUp, Door door, boolean isBonusStage) {
 
-        if (isBonusStage) {
-            checkCollisionsWithWalls(objects, playerRectangle, enemies);
-            checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
-            checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp, door, isBonusStage);
-        } else {
+        checkCollisionsWithWalls(objects, playerRectangle, enemies);
+        checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
+        checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp, door, isBonusStage);
+        if (!isBonusStage) {
             checkCollisionWithPowerUp(playerRectangle, powerUp);
             checkCollisionWithDoor(playerRectangle, door, enemies);
-            checkCollisionsWithWalls(objects, playerRectangle, enemies);
-            checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
-            checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp, door, isBonusStage);
             checkCollisionsWithEnemies(playerRectangle, enemies);
         }
 
@@ -69,17 +63,17 @@ public class CollisionManager implements Serializable {
 
     public void checkCollisionsWithWalls(GameObject[][] objects, Rectangle playerRectangle, ArrayList<Enemy> enemies) {
         //Check for collision of the player and the enemies with walls
+        boolean playerHasWallPass = player.hasWallPass();
         for (GameObject[] row : objects) {
             for (GameObject wall : row) {
                 if (wall != null) {
 
-                    boolean playerHasWallPass = player.hasWallPass();
                     Rectangle wallRectangle = wall.getBounds();
 
                     //Check for collision of the player with the targeted wall
                     //Upon resolving the collision, we stop checking this for loop
                     //To reduce computation
-                    if (!playerHasWallPass || (playerHasWallPass && (wall instanceof ConcreteWall))) {
+                    if (!playerHasWallPass || (wall instanceof ConcreteWall)) {
                         if (playerRectangle.intersects(wallRectangle)) {
                             restoreToBeforeCollision(player, wallRectangle);
                         }
@@ -90,7 +84,7 @@ public class CollisionManager implements Serializable {
                     for (Enemy enemy : enemies) {
                         enemyHasWallPass = enemy.hasWallPass();
                         Rectangle enemyRectangle = enemy.getBounds();
-                        if (!enemyHasWallPass || (enemyHasWallPass && (wall instanceof ConcreteWall))) {
+                        if (!enemyHasWallPass || (wall instanceof ConcreteWall)) {
                             if (enemyRectangle.intersects(wallRectangle)) {
                                 enemy.reverseDirection();
                                 restoreToBeforeCollision(enemy, wallRectangle);
@@ -106,12 +100,15 @@ public class CollisionManager implements Serializable {
         //Check for collisions of the player with the bombs
         for (Bomb bomb : bombsPlaced) {
             Rectangle bombRectangle = bomb.getBounds();
-            if (playerRectangle.intersects(bombRectangle)) {
-                if (!bomb.isFirstCollision()) {
-                    player.restorePreviousPosition();
+
+            if (!player.hasBombPass()) {
+                if (playerRectangle.intersects(bombRectangle)) {
+                    if (!bomb.isFirstCollision()) {
+                        player.restorePreviousPosition();
+                    }
+                } else {
+                    bomb.setFirstCollision(false);
                 }
-            } else {
-                bomb.setFirstCollision(false);
             }
 
             for (Enemy enemy : enemies) {
