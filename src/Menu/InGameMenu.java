@@ -89,7 +89,8 @@ public class InGameMenu extends MenuTemplate{
         }
         if (currentChoice == 2) {
             //start new game
-            gsm.startNewGame();
+            LevelSelectionPopUp lsp = new LevelSelectionPopUp(menuManager);
+            lsp.setVisible(true);
         }
         if (currentChoice == 3) {
             //quit game

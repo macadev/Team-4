@@ -41,7 +41,7 @@ public class DatabaseController {
 
     public static void printDBContents() throws ClassNotFoundException {
         // load the sqlite-JDBC driver using the current class loader
-        System.out.println("DB Contents!!!!");
+        System.out.println("Database Contents: ");
         Class.forName("org.sqlite.JDBC");
         String verify = "select * from Users";
         try {
@@ -224,11 +224,6 @@ public class DatabaseController {
         }
         return currentLevel;
     }
-
-
-
-
-
 
     public static void createDirectoryForUserSavedFiles(String username) {
         //Create directory in savegames folder where saved game data will be stored

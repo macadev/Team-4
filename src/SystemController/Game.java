@@ -17,6 +17,7 @@ public class Game {
     public static void main(String[] args) {
         try {
             DatabaseController.initializeDatabase();
+            DatabaseController.printDBContents();
             System.out.println("Database succesfully initialized");
             DatabaseController.createNewUser("owentest","testpass","Owenli");
             DatabaseController.setLevelUnlocked("owentest", 61);

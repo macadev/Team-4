@@ -1,6 +1,7 @@
 package Menu;
 
 import GamePlay.GamePlayManager;
+import SystemController.GameFileManager;
 import SystemController.GameState;
 import SystemController.GameStateManager;
 
@@ -50,7 +51,13 @@ public class MenuManager extends GameState {
         gsm.loadGame(gamePlayManager);
     }
 
+    public void startGameFromSelectedStage(int stageSelected) {
+        GamePlayManager newGame = new GamePlayManager(gsm, stageSelected);
+        gsm.loadGame(newGame);
+    }
+
     public void associatePlayerUserName(String username) {
+        GameFileManager.setUserName(username);
         gsm.setPlayerUserName(username);
     }
 

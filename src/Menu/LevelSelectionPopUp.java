@@ -1,5 +1,6 @@
 package Menu;
 
+import Database.DatabaseController;
 import GamePlay.GamePlayManager;
 import SystemController.GameFileManager;
 
@@ -16,25 +17,21 @@ public class LevelSelectionPopUp extends JFrame {
 
     private JScrollPane scrollpane;
     private MenuManager menuManager;
-    private int numOfUnlockedLevels;
 
     public LevelSelectionPopUp(MenuManager menuManager) {
-        super("Load Game Menu");
+        super("Select Level Menu");
         this.menuManager = menuManager;
         setSize(200, 300);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
         setResizable(false);
-
-        numOfUnlockedLevels = 45;
-
         displayUnlockedLevels();
         setVisible(true);
     }
 
     public void displayUnlockedLevels() {
 
-        numOfUnlockedLevels = getNumberOfUnlockedLeves("maca");
+        int numOfUnlockedLevels = getNumberOfUnlockedLeves();
 
         JPanel view = new JPanel(new GridLayout(0,1,0,10));
         view.setSize(100, 100);
@@ -71,20 +68,24 @@ public class LevelSelectionPopUp extends JFrame {
 
     }
 
+    public int getNumberOfUnlockedLeves() {
+        int levelUnlocked = 1;
+        try {
+            levelUnlocked = DatabaseController.getLevelUnlocked(menuManager.getPlayerUserName());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return levelUnlocked;
+    }
+
     public void levelSelected(int levelNumber) {
-        //GamePlayManager loadedGame = GameFileManager.loadGame(fileName);
-        //menuManager.setUpLoadedGame(loadedGame);
-        //closeWindow();
         System.out.println(levelNumber);
+        menuManager.startGameFromSelectedStage(levelNumber);
+        closeWindow();
     }
 
     public void closeWindow() {
         setVisible(false);
         dispose();
-    }
-
-    public int getNumberOfUnlockedLeves(String username) {
-        numOfUnlockedLevels = 45;
-        return numOfUnlockedLevels;
     }
 }

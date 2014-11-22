@@ -76,10 +76,12 @@ public class GameOverMenu extends MenuTemplate {
 
         public void select() {
             if (currentChoice == 0) {
-                menuManager.setMenuState(MenuState.LOADGAME);
+                LevelSelectionPopUp lsp = new LevelSelectionPopUp(menuManager);
+                lsp.setVisible(true);
             }
             if (currentChoice == 1) {
-                menuManager.setMenuState(MenuState.SAVEGAME);
+                LoadGamePopUp acp = new LoadGamePopUp(menuManager);
+                acp.setVisible(true);
             }
             if (currentChoice == 2) {
                 menuManager.setMenuState(MenuState.LEADERBOARD);
@@ -87,10 +89,6 @@ public class GameOverMenu extends MenuTemplate {
             if (currentChoice == 3) {
                 menuManager.setMenuState(MenuState.MAIN);
             }
-
-
         }
-
-
     }
 

@@ -50,4 +50,7 @@ public class GameFileManager {
         return loadedGame;
     }
 
+    public static void setUserName(String userName) {
+        GameFileManager.userName = userName;
+    }
 }

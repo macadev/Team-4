@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import Database.DatabaseController;
 import GameObject.*;
 import SystemController.GameState;
 import SystemController.GameStateManager;
@@ -41,11 +42,11 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
     private Font subTitleFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 22);
     private Font hudFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 12);
 
-    public GamePlayManager(GameStateManager gsm) {
+    public GamePlayManager(GameStateManager gsm, int selectedStage) {
         this.gsm = gsm;
         this.player = new Player(35, 35, true, MovableObject.NORMALSPEED);
         this.cameraMoving = false;
-        this.tileMap = new TileMap(player);
+        this.tileMap = new TileMap(player, selectedStage, gsm.getPlayerUserName());
         this.collisionManager = new CollisionManager(player, tileMap);
         this.player.setTileMap(tileMap);
         this.camera = new Camera(player.getPosX(), player);
@@ -92,7 +93,6 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
 
         boolean redirectToGameOverMenu = notificationDurationCountDown();
         if (redirectToGameOverMenu) {
-            //TODO: redirect to the gameover menu!
             gsm.setState(gsm.MENUSTATE, MenuState.GAMEOVER);
         }
     }
@@ -138,9 +138,9 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
 
     public void inStageTransition(Graphics2D g) {
         boolean redirectToNextStage = notificationDurationCountDown();
+
         if (redirectToNextStage) {
             tileMap.setNextStageTransition(false);
-
         } else {
             g.setColor(titleColor);
             g.setFont(titleFont);
@@ -210,10 +210,14 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         ArrayList<Flame> flames = tileMap.getFlames();
         PowerUp powerUp = tileMap.getPowerUp();
         Door door = tileMap.getDoor();
-        collisionManager.handleCollisions(objects,
-                                          playerRectangle, enemies,
-                                          bombsPlaced, flames,
-                                          powerUp, door, this.tileMap.isBonusStage());
+        collisionManager.handleCollisions(
+            objects,
+            playerRectangle,
+            enemies,
+            bombsPlaced,
+            flames,
+            powerUp, door, this.tileMap.isBonusStage()
+        );
 
     }
 

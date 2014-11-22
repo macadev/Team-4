@@ -1,5 +1,6 @@
 package GameObject;
 
+import Database.DatabaseController;
 import GamePlay.GamePlayState;
 import GamePlay.Spawner;
 
@@ -31,6 +32,7 @@ public class TileMap implements Serializable {
     private PowerUp powerUp;
     private Door door;
     private Spawner spawner;
+    private String userName;
     private int bombRadius;
     private boolean isBonusStage;
     private boolean harderSetAlreadyCreated;
@@ -43,17 +45,14 @@ public class TileMap implements Serializable {
     private int currentStage;
     private int bonusStageCountDown;
 
-    public TileMap() {
-        this.currentStage = 1;
-    }
-
-    public TileMap(Player player) {
+    public TileMap(Player player, int selectedStage, String userName) {
         this.player = player;
-        this.currentStage = 1;
+        this.userName = userName;
+        this.currentStage = selectedStage;
         this.bombRadius = 11;
-        this.spawner = new Spawner();
+        this.spawner = new Spawner(getCurrentStage());
         this.flames = new ArrayList<Flame>();
-        this.isBonusStage = Stages.gameStages[currentStage].isBonusStage();
+        this.isBonusStage = getCurrentStage().isBonusStage();
         this.bonusStageCountDown = 0;
         this.harderSetAlreadyCreated = false;
         populateGridWithBlocks();
@@ -131,6 +130,8 @@ public class TileMap implements Serializable {
     public void nextStage() {
         currentStage++;
 
+        updateUnlockedStage(currentStage, userName);
+
         //player completed the game
         if (currentStage == 53) {
             player.setCurrentGamePlayState(GamePlayState.FINISHEDGAME);
@@ -147,6 +148,14 @@ public class TileMap implements Serializable {
         createEnemySet();
         generatePowerUp();
         generateDoor();
+    }
+
+    private void updateUnlockedStage(int currentStage, String username) {
+        try {
+            DatabaseController.setLevelUnlocked(username, currentStage);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void populateGridWithBlocks() {
@@ -298,6 +307,10 @@ public class TileMap implements Serializable {
 
     public StageData getCurrentStage() {
         return Stages.gameStages[this.currentStage];
+    }
+
+    public int getCurrentStageNumber() {
+        return currentStage;
     }
 
     public ArrayList<Enemy> getEnemies() {
