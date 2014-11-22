@@ -186,7 +186,9 @@ public class Player extends MovableObject implements Serializable {
      */
     public void decrementLifesRemaining() {
         this.livesRemaining--;
-        if (livesRemaining < 0) currentState = GamePlayState.GAMEOVER;
+        if (livesRemaining < 0) {
+            currentState = GamePlayState.GAMEOVER;
+        }
     }
 
     /**

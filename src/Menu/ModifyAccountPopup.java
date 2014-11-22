@@ -45,7 +45,7 @@ public class ModifyAccountPopup extends JFrame {
 
         //panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        JLabel label = new JLabel("New Name: ");
+        JLabel label = new JLabel("New Name:                 ");
         label.setBounds(10, 10, 80, 25);
         panel.add(label);
 
@@ -53,7 +53,7 @@ public class ModifyAccountPopup extends JFrame {
         realName.setBounds(100, 10, 160, 25);
         panel.add(realName);
 
-        JLabel label2 = new JLabel("New Password: ");
+        JLabel label2 = new JLabel("New Password:         ");
         label2.setBounds(10, 90, 80, 25);
         panel.add(label2);
 
@@ -71,7 +71,7 @@ public class ModifyAccountPopup extends JFrame {
 
         buttonSubmit = new JButton("Submit");
         buttonSubmit.setBounds(10, 170, 80, 25);
-        buttonExit  = new JButton("Exit");
+        buttonExit  = new JButton("Close");
         buttonExit.setBounds(50, 170, 80, 25);
 
         buttonSubmit.addActionListener(new ActionListener() {

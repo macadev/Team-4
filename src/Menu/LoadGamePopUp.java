@@ -90,7 +90,7 @@ public class LoadGamePopUp extends JFrame {
         String fileName;
         for (File file : files) {
             try {
-                fileName = file.getPath().replace(folderPath, "").replace(".ser", "");
+                fileName = file.getPath().replace("\\", "/").replace(folderPath, "").replace(".ser", "");
                 filePaths.add(fileName);
             } catch (Exception e) {
                 e.printStackTrace();

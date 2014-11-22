@@ -14,10 +14,14 @@ import javax.swing.JTextField;
  */
 public class GameOverMenu extends MenuTemplate {
 
-        private String[] options = {"Start New Game","Load Saved Game", "View Leaderboard", "Return to Main Menu"};
-        private int currentChoice = 0;
+    private String[] options = {"Start New Game","Load Saved Game", "View Leaderboard", "Return to Main Menu"};
+    private int currentChoice = 0;
+    private Color titleColor = MenuTemplate.TITLE_COLOR;
+    private Font titleFont = MenuTemplate.TITLE_FONT;
+    private Font font = MenuTemplate.BODY_FONT;
 
-        public GameOverMenu (MenuManager menuManager) {
+
+    public GameOverMenu (MenuManager menuManager) {
             this.menuManager = menuManager;
         }
 
@@ -28,27 +32,26 @@ public class GameOverMenu extends MenuTemplate {
 
         @Override
         public void draw(Graphics2D g) {
-            g.setColor(TITLE_COLOR);
-            g.setFont(TITLE_FONT);
-            g.setPaint(new Color(255,255,255));
-            //g.drawString("", 80, 70);
-           // g.drawString("BOMBERMAN", 80, 70);
-            //g.drawString("Start New Game", 80, 100);
+            //draw the title
+            g.setColor(titleColor);
+            g.setFont(titleFont);
+            g.setPaint(titleColor);
+            g.drawString("Game Over Menu", 80, 70);
 
             //draw menu options
-            g.setFont(TITLE_FONT);
-            for(int i = 0; i < options.length; i++) {
+            g.setFont(font);
+            for (int i = 0; i < options.length; i++) {
                 if (i == currentChoice) {
-                    g.setColor(BODY_SELECTED_COLOR);
+                    g.setColor(MenuTemplate.BODY_COLOR);
                 } else {
-                    g.setColor(BODY_COLOR);
+                    g.setColor(MenuTemplate.BODY_SELECTED_COLOR);
                 }
                 // pass horizontal distance, then vertical distance
-                g.drawString(options[i], 95, 120 + i * 15);
+                g.drawString(options[i], X_OFFSET, Y_OFFSET + i * 15);
             }
         }
 
-        @Override
+            @Override
         public void keyPressed(int k) {
             // TODO Auto-generated method stub
             if (k == KeyEvent.VK_ENTER) {

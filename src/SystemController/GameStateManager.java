@@ -69,6 +69,11 @@ public class GameStateManager {
         }
     }
 
+    public void startNewGame() {
+        gamePlayManager = new GamePlayManager(this);
+        setState(GAMEPLAY, null);
+    }
+
     public void saveGame(String fileName) {
         fileManager.saveGame(gamePlayManager, fileName);
     }

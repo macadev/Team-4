@@ -79,22 +79,21 @@ public class InGameMenu extends MenuTemplate{
 	public void select() {
 
 		if (currentChoice == 0) {
+            //resume game play
             gsm.setState(GameStateManager.GAMEPLAY, null);
 	    }
 	    if (currentChoice == 1) {
             //save game
-            //menuManager.setMenuState(MenuState.SAVEGAME);
-            //menuManager.saveGame();
             SaveGamePopUp svg = new SaveGamePopUp(menuManager);
             svg.setVisible(true);
         }
         if (currentChoice == 2) {
             //start new game
-            menuManager.setMenuState(MenuState.LOADGAME);
+            gsm.startNewGame();
         }
         if (currentChoice == 3) {
             //quit game
-            menuManager.setMenuState(MenuState.GAMEOVER);
+            System.exit(0);
         }
         if (currentChoice == 4) {
             //exit to main menu
