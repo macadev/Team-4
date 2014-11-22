@@ -1,6 +1,5 @@
 package Menu;
 
-import Database.DatabaseController;
 import SystemController.GameStateManager;
 
 import java.awt.*;
@@ -55,7 +54,7 @@ public class AccountOptionsMenu extends MenuTemplate {
 
     private void select() {
         if (currentChoice == 0) {
-            ModifyAccountPopup map = new ModifyAccountPopup(menuManager);
+            ModifyAccountPopUp map = new ModifyAccountPopUp(menuManager);
             map.setVisible(true);
         }
         if (currentChoice == 1) {

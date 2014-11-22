@@ -1,6 +1,5 @@
 package Menu;
 
-import Database.DatabaseController;
 import SystemController.GameStateManager;
 
 import java.awt.*;
@@ -73,7 +72,7 @@ public class MainMenu extends MenuTemplate {
         }
         if (currentChoice == 3) {
            // menuManager.setMenuState(MenuState.MODIFYACCOUNT);
-            ModifyAccountPopup modAccPop = new ModifyAccountPopup(menuManager);
+            ModifyAccountPopUp modAccPop = new ModifyAccountPopUp(menuManager);
             modAccPop.setVisible(true);
         }
         if (currentChoice == 4) {

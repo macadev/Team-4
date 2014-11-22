@@ -1,28 +1,26 @@
 package Menu;
 
 import Database.DatabaseController;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.Normalizer;
-import java.util.regex.Pattern;
 
 /**
  * Created by Shabab Ahmed on 20/11/2014.
  */
-public class ModifyAccountPopup extends JFrame {
+public class ModifyAccountPopUp extends JFrame {
 
-        private JTextField realName;
-        private JPasswordField fieldPass;
-        private JPasswordField retypePass;
-        private JLabel labelMessage;
-        private JLabel labelMessage2;
-        private JButton buttonSubmit;
-        private JButton buttonExit;
-        private MenuManager menuManager;
+    private JTextField realName;
+    private JPasswordField fieldPass;
+    private JPasswordField retypePass;
+    private JLabel labelMessage;
+    private JLabel labelMessage2;
+    private JLabel labelMessage3;
+    private JButton buttonSubmit;
+    private JButton buttonExit;
+    private MenuManager menuManager;
 
-        public ModifyAccountPopup(MenuManager menuManager){
+    public ModifyAccountPopUp(MenuManager menuManager){
         this.menuManager = menuManager;
         createView();
 
@@ -34,11 +32,9 @@ public class ModifyAccountPopup extends JFrame {
         setLocationRelativeTo(null);
         //Disable resize
         setResizable(false);
-
-
     }
 
-        //User Interface
+    //User Interface
     private void createView(){
         JPanel panel = new JPanel();
         getContentPane().add(panel);
@@ -97,6 +93,9 @@ public class ModifyAccountPopup extends JFrame {
         labelMessage2 = new JLabel("");
         labelMessage2.setBounds(10, 210, 160, 25);
         panel.add(labelMessage2);
+        labelMessage3 = new JLabel("");
+        labelMessage3.setBounds(10, 230, 160, 25);
+        panel.add(labelMessage3);
     }
     public void exitClicked(){
         menuManager.setMenuState(MenuState.MODIFYACCOUNT);
@@ -104,59 +103,74 @@ public class ModifyAccountPopup extends JFrame {
         dispose();
     }
     public void submitClicked() {
-        String rName = realName.getText();
-        String pass = fieldPass.getText();
-        String rPass = retypePass.getText();
-        String uName = "steven222";
+        labelMessage3.setText("");
 
+        String newRealName = realName.getText();
+        String newPassWord = fieldPass.getText();
+        String newPassWordDuplicate = retypePass.getText();
+
+        if (newRealName.isEmpty()  && newPassWord.isEmpty() && newPassWordDuplicate.isEmpty() ){
+            labelMessage.setText("                              Nothing to Update.                            ");
+            labelMessage2.setText("");
+            return;
+        }
+        boolean passWordUpdatedSuccessfully = true;
+        if (!newPassWord.isEmpty()){
+            passWordUpdatedSuccessfully = submitNewPassWord(newPassWord, newPassWordDuplicate);
+        }
+        if (passWordUpdatedSuccessfully) {
+            if (!newRealName.isEmpty()) {
+                submitNewRealName(newRealName);
+            }
+        }
+    }
+
+    public boolean submitNewPassWord(String newPassWord, String newPassWordDuplicate) {
         boolean updateSuccessful = false;
 
-        if (rName.isEmpty()  && pass.isEmpty() && rPass.isEmpty() ){
-            labelMessage.setText("                              Nothing to Update!                            ");
+        if (!isValidPassword(newPassWord)) {
+            labelMessage.setText("The password is too weak. Enter one of each type from:");
+            labelMessage2.setText("Capital letters, Small letters, Digits and Symbols");
+            updateSuccessful = false;
+        } else if(newPassWord.length() < 8) {
+            labelMessage.setText("Password must be at least 8 characters");
             labelMessage2.setText("");
-        }else if(!pass.isEmpty()){
-            if (!isValidPassword(pass)) {
-                labelMessage.setText("The password is too weak. Enter one of each type from:");
-                labelMessage2.setText("Capital letters, Small letters, Digits and Symbols");
-            } else if(pass.length() < 8) {
-                labelMessage.setText("Password must be at least 8 characters");
-                labelMessage2.setText("");
-            } else if (!(pass.equals(rPass))) {
-                labelMessage.setText("                             Passwords do not match                        ");
-                labelMessage2.setText("");
-            } else {
-//                try {
-//                    //updateSuccessful = DatabaseController.updateInformation(pass, rName, uName);
-//                } catch (ClassNotFoundException e1) {
-//                    e1.printStackTrace();
-//                }
-
-                if (updateSuccessful) {
-                    labelMessage.setText("Information Updated");
-                    labelMessage2.setText("");
-                    setVisible(false);
-                    dispose();
-                } else {
-                    labelMessage.setText("Error: Invalid Entry");
-                    labelMessage2.setText("");
-                }
-            }
+            updateSuccessful = false;
+        } else if (!(newPassWord.equals(newPassWordDuplicate))) {
+            labelMessage.setText("                             Passwords do not match                        ");
+            labelMessage2.setText("");
+            updateSuccessful = false;
         } else {
-//            try {
-//                updateSuccessful = DatabaseController.updateInformation(pass, rName, uName);
-//            } catch (ClassNotFoundException e1) {
-//                e1.printStackTrace();
-//            }
+            try {
+                updateSuccessful = DatabaseController.updatePassword(newPassWord, menuManager.getPlayerUserName());
+            } catch (ClassNotFoundException e1) {
+                e1.printStackTrace();
+            }
 
             if (updateSuccessful) {
                 labelMessage.setText("Information Updated");
                 labelMessage2.setText("");
-                setVisible(false);
-                dispose();
             } else {
                 labelMessage.setText("Error: Invalid Entry");
                 labelMessage2.setText("");
             }
+        }
+        return updateSuccessful;
+    }
+
+    public void submitNewRealName(String newRealName) {
+        boolean updateSuccessful = false;
+
+        try {
+            updateSuccessful = DatabaseController.updateRealName(newRealName, menuManager.getPlayerUserName());
+        } catch (ClassNotFoundException e1) {
+            e1.printStackTrace();
+        }
+
+        if (updateSuccessful) {
+            labelMessage3.setText("Real Name Updated");
+        } else {
+            labelMessage3.setText("Error: Invalid Entry");
         }
     }
 

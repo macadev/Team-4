@@ -119,34 +119,34 @@ public class AccountCreationMenuPopUp extends JFrame {
         dispose();
     }
     public void submitClicked() {
-        String rName = realName.getText();
-        String uName = userName.getText();
-        String pass = fieldPass.getText();
-        String rPass = retypePass.getText();
+        String realNameText = realName.getText();
+        String userNameText = userName.getText();
+        String password = fieldPass.getText();
+        String passwordDuplicate = retypePass.getText();
 
         boolean creationSuccessful = false;
 
-        if (rName.isEmpty() || uName.isEmpty() || pass.isEmpty() || rPass.isEmpty() ){
+        if (realNameText.isEmpty() || userNameText.isEmpty() || password.isEmpty() || passwordDuplicate.isEmpty() ){
             labelMessage.setText("Please fill out all the information");
             labelMessage2.setText("");
-        } else if (!(pass.equals(rPass))) {
+        } else if (!(password.equals(passwordDuplicate))) {
             labelMessage.setText("Passwords do not match");
             labelMessage2.setText("");
-        } else if (uName.length() < 6){
+        } else if (userNameText.length() < 6){
             labelMessage.setText("Username must be at least 6 characters");
             labelMessage2.setText("");
-        } else if (!isValidPassword(pass)) {
+        } else if (!isValidPassword(password)) {
             labelMessage.setText("The password is too weak. Enter one of each type from:");
             labelMessage2.setText("Capital letters, Small letters, Digits and Symbols");
-        } else if(pass.length() < 8) {
+        } else if(password.length() < 8) {
             labelMessage.setText("Password must be at least 8 characters");
             labelMessage2.setText("");
-        } else if(!isValidUsername(uName)){ //Needs to consider latin characters
+        } else if(!isValidUsername(userNameText)){ //Needs to consider latin characters
             labelMessage.setText("Username has to be alphanumeric");
             labelMessage2.setText("");
         } else {
             try {
-                creationSuccessful = DatabaseController.createNewUser(uName, pass, rName);
+                creationSuccessful = DatabaseController.createNewUser(userNameText, password, realNameText);
             } catch (ClassNotFoundException e1) {
                 e1.printStackTrace();
             }
@@ -154,7 +154,7 @@ public class AccountCreationMenuPopUp extends JFrame {
             if (creationSuccessful) {
                 labelMessage.setText("Account Created");
                 labelMessage2.setText("");
-                menuManager.associatePlayerUserName(uName);
+                menuManager.associatePlayerUserName(userNameText);
                 redirectToMainMenu();
                 setVisible(false);
                 dispose();

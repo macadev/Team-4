@@ -65,6 +65,7 @@ public class DatabaseController {
                     String passwordOnDB = rs.getString("password");
                     System.out.println("Username " + usernameOnDB);
                     System.out.println("Password " + passwordOnDB);
+                    System.out.println("Real Name " + rs.getString("realName"));
                 }
 
             } catch (SQLException e) {

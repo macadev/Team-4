@@ -152,10 +152,7 @@ public class CollisionManager implements Serializable {
                 if (enemyRectangle.intersects(flameRectangle)) {
                     enemy.death();
                     Coordinate positionOfDeath = enemy.getCenterOfEnemyAsCoordinate();
-                    System.out.println("death x = "+ positionOfDeath.getRow() + " y = " + positionOfDeath.getCol());
                     Coordinate locationOfBomb = flame.getExplosionOriginAsCoordinate();
-                    System.out.println("location of bomb x = "+ locationOfBomb.getRow() + " y = " + locationOfBomb.getCol());
-                    System.out.println("Distance = " + positionOfDeath.distanceTo(locationOfBomb));
                     if (!enemy.isHitByFlames()) {
                         enemiesKilled.add(new KillSet(positionOfDeath, locationOfBomb, enemy));
                     }

@@ -189,7 +189,6 @@ public class TileMap implements Serializable {
     }
 
     public void addFlames(int posX, int posY) {
-        System.out.println("Flame x = " + posX + " y = " + posY);
         int posXOfExplosion = posX / 32;
         int posYOfExplosion = posY / 32;
 
