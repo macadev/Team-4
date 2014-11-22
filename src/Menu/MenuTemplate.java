@@ -28,9 +28,9 @@ public abstract class MenuTemplate extends JFrame {
     public static final Font TITLE_FONT = new Font("Century Gothic", Font.PLAIN, 28);
     public static final Color TITLE_COLOR = new Color(230, 200, 0);
     //Body
-    public static final Font BODY_FONT = new Font("Arial", Font.PLAIN, 12);
+    public static final Font BODY_FONT = new Font("Arial", Font.PLAIN, 18);
     public static final Color BODY_COLOR = new Color(0, 35, 230);
-    public static final Color BODY_SELECTED_COLOR = new Color (230, 0, 15);
+    public static final Color BODY_SELECTED_COLOR = new Color (198, 76, 0);
 
     //Background
     public static final Color BACKGROUND_COLOR = new Color(0, 0, 0);

@@ -2,7 +2,6 @@ package GamePlay;
 
 import GameObject.Player;
 import SystemController.GameController;
-
 import java.io.Serializable;
 
 /**

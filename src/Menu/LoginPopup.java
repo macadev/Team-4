@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class LoginPopup extends JFrame {
+public class LoginPopUp extends JFrame {
 	
     private JTextField fieldName;
     private JPasswordField fieldPass;
@@ -17,12 +17,11 @@ public class LoginPopup extends JFrame {
     private JButton buttonSubmit;
     private MenuManager menuManager;
 
-    public LoginPopup(MenuManager menuManager){
+    public LoginPopUp(MenuManager menuManager){
         this.menuManager = menuManager;
         createView();
-
         //Exit Option
-        setDefaultCloseOperation(HIDE_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         //Display Size
         setSize(350, 150);
         //Setting it to the middle of the screen

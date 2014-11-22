@@ -3,8 +3,6 @@
  */
 package GameObject;
 
-import GamePlay.Coordinate;
-
 import java.io.Serializable;
 
 /**
