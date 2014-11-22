@@ -34,9 +34,8 @@ public class LoadGamePopUp extends JFrame {
     public void displayFiles() {
 
         ArrayList<String> userSavedFiles = getFileNames(menuManager.getPlayerUserName());
-
-        JPanel buttons = new JPanel(new GridLayout(0,1,0,10));
-        buttons.setSize(100,100);
+        JPanel view = new JPanel(new GridLayout(0,1,0,10));
+        view.setSize(100, 100);
         JButton exitButton = new JButton("Close");
         exitButton.setBorder( new LineBorder(Color.BLACK) );
         exitButton.addActionListener(new ActionListener() {
@@ -45,26 +44,30 @@ public class LoadGamePopUp extends JFrame {
                 closeWindow();
             }
         });
-        buttons.add(exitButton);
+        view.add(exitButton);
 
-        for (final String fileName : userSavedFiles) {
-            final JButton fileButton = new JButton(String.valueOf(fileName));
-            fileButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    fileButtonClicked(fileName);
-                }
-            });
+        if (userSavedFiles == null) {
+            JLabel label = new JLabel("No saved Files exist");
+            //label.setBounds(10, 10, 80, 25);
+            view.add(label);
+        } else {
+            for (final String fileName : userSavedFiles) {
+                final JButton fileButton = new JButton(String.valueOf(fileName));
+                fileButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        fileButtonClicked(fileName);
+                    }
+                });
 
-            buttons.add(fileButton);
+                view.add(fileButton);
+            }
         }
 
-        scrollpane = new JScrollPane(buttons,
+        scrollpane = new JScrollPane(view,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         getContentPane().add(scrollpane, BorderLayout.CENTER);
-
-        pack();
     }
 
     public void fileButtonClicked(String fileName) {

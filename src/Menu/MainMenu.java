@@ -60,7 +60,9 @@ public class MainMenu extends MenuTemplate {
 
     private void select() {
         if (currentChoice == 0) {
-            gsm.startNewGame();
+            //gsm.startNewGame();
+            LevelSelectionPopUp lsp = new LevelSelectionPopUp(menuManager);
+            lsp.setVisible(true);
         }
         if (currentChoice == 1) {
             LoadGamePopUp acp = new LoadGamePopUp(menuManager);
