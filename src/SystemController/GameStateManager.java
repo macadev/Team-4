@@ -51,6 +51,7 @@ public class GameStateManager {
             if (gamePlayManager.isGameOver()) {
                 gamePlayManager = new GamePlayManager(this);
             }
+            gamePlayManager.setGamePlayStateToInGame();
             currentState = state;
         } else {
             currentState = MENUSTATE;

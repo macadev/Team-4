@@ -10,13 +10,13 @@ import java.io.*;
  */
 public class GameFileManager {
 
-    private String username;
+    private static String username;
 
     public GameFileManager(String username) {
         this.username = username;
     }
 
-    public void saveGame(GamePlayManager gamePlayManager) {
+    public static void saveGame(GamePlayManager gamePlayManager) {
 
         try {
             FileOutputStream fileOut = new FileOutputStream("savedgames/mellamomelon/savedGame.ser");
@@ -30,7 +30,7 @@ public class GameFileManager {
         }
     }
 
-    public GamePlayManager loadGame() {
+    public static GamePlayManager loadGame() {
         GamePlayManager loadedGame;
         try {
 

@@ -243,8 +243,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
 
     }
 
-
-
-
-
+    public void setNextStageTransitionCount(int nextStageTransitionCount) {
+        this.nextStageTransitionCount = nextStageTransitionCount;
+    }
 }
