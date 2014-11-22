@@ -6,7 +6,6 @@ package GameObject;
 import GamePlay.Coordinate;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.Serializable;
 
 /**

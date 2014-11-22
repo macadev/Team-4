@@ -64,7 +64,9 @@ public class MainMenu extends MenuTemplate {
         }
         if (currentChoice == 1) {
             //menuManager.setMenuState(MenuState.LOADGAME);
-            gsm.loadGame();
+            //gsm.loadGameeee();
+            LoadGamePopUp acp = new LoadGamePopUp(menuManager);
+            acp.setVisible(true);
         }
         if (currentChoice == 2) {
             //view leaderboards

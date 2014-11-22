@@ -84,7 +84,9 @@ public class InGameMenu extends MenuTemplate{
 	    if (currentChoice == 1) {
             //save game
             //menuManager.setMenuState(MenuState.SAVEGAME);
-            menuManager.saveGame();
+            //menuManager.saveGame();
+            SaveGamePopUp svg = new SaveGamePopUp(menuManager);
+            svg.setVisible(true);
         }
         if (currentChoice == 2) {
             //start new game

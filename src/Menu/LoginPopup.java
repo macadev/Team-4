@@ -20,9 +20,8 @@ public class LoginPopup extends JFrame {
     public LoginPopup(MenuManager menuManager){
         this.menuManager = menuManager;
         createView();
-
         //Exit Option
-        setDefaultCloseOperation(HIDE_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         //Display Size
         setSize(350, 150);
         //Setting it to the middle of the screen

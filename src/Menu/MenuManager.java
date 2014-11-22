@@ -1,5 +1,6 @@
 package Menu;
 
+import GamePlay.GamePlayManager;
 import SystemController.GameState;
 import SystemController.GameStateManager;
 
@@ -45,13 +46,18 @@ public class MenuManager extends GameState {
         menuStates.get(currentMenu).init();
     }
 
-    public void saveGame() {
-        gsm.saveGame();
+    public void saveGame(String fileName) {
+        gsm.saveGame(fileName);
     }
 
-    public void associatePlayerUserName (String username) {
+    public void setUpLoadedGame(GamePlayManager gamePlayManager) {
+        gsm.loadGame(gamePlayManager);
+    }
+
+    public void associatePlayerUserName(String username) {
         gsm.setPlayerUserName(username);
     }
+
 
     public String getPlayerUserName(){
         return gsm.getPlayerUserName();

@@ -2,7 +2,7 @@ package Menu;
 
 import Database.DatabaseController;
 
-import java.awt.Dimension;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.Normalizer;
@@ -28,9 +28,8 @@ public class AccountCreationMenuPopUp extends JFrame {
     public AccountCreationMenuPopUp(MenuManager menuManager){
         this.menuManager = menuManager;
         createView();
-
         //Exit Option
-        setDefaultCloseOperation(HIDE_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         //Display Size
         setSize(370, 230);
         //Setting it to the middle of the screen
