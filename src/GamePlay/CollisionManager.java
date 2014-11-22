@@ -132,7 +132,7 @@ public class CollisionManager implements Serializable {
         for (Flame flame : flames) {
             flameRectangle = flame.getBounds();
 
-            if (player.isVisible()) {
+            if (player.isVisible() && !player.isInvincibilityEnabled()) {
                 if(!player.hasFlamePass()) {
                     if (playerRectangle.intersects(flameRectangle)) {
                         player.death();
@@ -200,7 +200,7 @@ public class CollisionManager implements Serializable {
 
     public void checkCollisionsWithEnemies(Rectangle playerRectangle, ArrayList<Enemy> enemies) {
         //check for collisions between the player and the enemies
-        if (player.isVisible()) {
+        if (player.isVisible() && !player.isInvincibilityEnabled()) {
             for (Enemy enemy : enemies) {
                 Rectangle enemyRectangle = enemy.getBounds();
                 if (playerRectangle.intersects(enemyRectangle)) {

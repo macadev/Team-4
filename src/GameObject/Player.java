@@ -25,6 +25,8 @@ public class Player extends MovableObject implements Serializable {
     private TileMap tileMap;
     ArrayList<Bomb> bombsPlaced;
     private int respawnCount = 0;
+    //invincibility last for 5 seconds = 150 frames
+    private int invincibilityDuration = 150;
     private int livesRemaining;
 
     //powerup logic data
@@ -32,6 +34,7 @@ public class Player extends MovableObject implements Serializable {
     private boolean bombPass;
     private boolean flamePass;
     private boolean detonatorEnabled;
+    private boolean invincibilityEnabled;
 
     /**
      * Initialize a Player object representing the bomberman character on the grid
@@ -62,6 +65,7 @@ public class Player extends MovableObject implements Serializable {
         this.bombPass = true;
         this.flamePass = true;
         this.detonatorEnabled = true;
+        this.invincibilityEnabled = false;
     }
 
     /**
@@ -69,6 +73,12 @@ public class Player extends MovableObject implements Serializable {
      * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
      */
     public void draw(Graphics2D g) {
+
+        if (invincibilityEnabled) {
+            updateInvincibilityTimer();
+        }
+
+
         //serialization does not save Image objects
         //If the image object is empty, we reload the sprite
         if (image == null) {
@@ -191,6 +201,14 @@ public class Player extends MovableObject implements Serializable {
         }
     }
 
+    public void updateInvincibilityTimer() {
+        invincibilityDuration--;
+        if (invincibilityDuration == 0) {
+            invincibilityEnabled = false;
+            invincibilityDuration = 150;
+        }
+    }
+
     /**
      * Based on the PowerUpType passed to this method, we modify gameplay logic according to the specific
      * functionality of the corresponding powerUp.
@@ -202,7 +220,7 @@ public class Player extends MovableObject implements Serializable {
                 bombPass = true;
                 break;
             case BOMBS:
-                bombsAllowed++;
+                incrementBombsAllowed();
                 break;
             case DETONATOR:
                 detonatorEnabled = true;
@@ -214,6 +232,7 @@ public class Player extends MovableObject implements Serializable {
                 incrementBombRadius();
                 break;
             case MYSTERY:
+                invincibilityEnabled = true;
                 break;
             case SPEED:
                 incrementSpeed();
@@ -391,5 +410,9 @@ public class Player extends MovableObject implements Serializable {
 
     public int getLifesRemaining() {
         return livesRemaining;
+    }
+
+    public boolean isInvincibilityEnabled() {
+        return invincibilityEnabled;
     }
 }

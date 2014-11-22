@@ -24,7 +24,6 @@ public class MainMenu extends MenuTemplate {
     public MainMenu (MenuManager menuManager, GameStateManager gsm) {
         this.menuManager = menuManager;
         this.gsm = gsm;
-
     }
 
     @Override
@@ -59,7 +58,6 @@ public class MainMenu extends MenuTemplate {
 
     private void select() {
         if (currentChoice == 0) {
-            //gsm.startNewGame();
             LevelSelectionPopUp lsp = new LevelSelectionPopUp(menuManager);
             lsp.setVisible(true);
         }
@@ -71,7 +69,7 @@ public class MainMenu extends MenuTemplate {
             //view leaderboards
         }
         if (currentChoice == 3) {
-           // menuManager.setMenuState(MenuState.MODIFYACCOUNT);
+            //Modify account options
             AccountOptionsPopUp modAccPop = new AccountOptionsPopUp(menuManager);
             modAccPop.setVisible(true);
         }
