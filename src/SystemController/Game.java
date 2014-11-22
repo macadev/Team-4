@@ -21,7 +21,11 @@ public class Game {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
+        try {
+            DatabaseController.printDBContents();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         JFrame window = new JFrame("Bomberman");
         window.setContentPane(new GameController());
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

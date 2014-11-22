@@ -39,7 +39,7 @@ public class MainMenu extends MenuTemplate {
         //draw the title
         g.setColor(titleColor);
         g.setFont(titleFont);
-        g.setPaint(titleColor);
+        //g.setPaint(titleColor);
         g.drawString("BOMBERMAN", 80, 70);
         g.drawString("Main Menu", 80, 100);
 

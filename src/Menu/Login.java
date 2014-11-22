@@ -16,30 +16,17 @@ public class Login extends MenuTemplate {
     private String[] options = {"Login","Create Account","Exit"};
     private int currentChoice = 0;
 
-    private Color titleColor;
-    private Font titleFont;
-    private Font font;
     private JLabel labelMessage;
     private JTextField fieldName;
     private JPasswordField fieldPass;
     private MenuManager menuManager;
 
+    private Color titleColor = MenuTemplate.TITLE_COLOR;
+    private Font titleFont = MenuTemplate.TITLE_FONT;
+    private Font font = MenuTemplate.BODY_FONT;
 
     public Login (MenuManager menuManager) {
         this.menuManager = menuManager;
-
-        titleColor = new Color(230, 200, 0);
-
-        titleFont = new Font("Century Gothic", Font.PLAIN, 28);
-        font = new Font("Arial", Font.PLAIN, 12);
-        labelMessage = new JLabel("");
-        fieldName = new JPlaceHolderTextField();
-        fieldName.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
-        fieldName.setBounds( 40, 40, FIELD_WIDTH, FIELD_HEIGHT);
-        fieldPass = new JPlaceHolderPasswordField();
-        fieldPass.setPreferredSize(new Dimension(FIELD_WIDTH, FIELD_HEIGHT));
-
-
     }
 
 
@@ -51,6 +38,7 @@ public class Login extends MenuTemplate {
 
     @Override
     public void draw(Graphics2D g) {
+
         //draw the title
         g.setColor(titleColor);
         g.setFont(titleFont);
@@ -58,17 +46,13 @@ public class Login extends MenuTemplate {
         g.drawString("BOMBERMAN", 80, 70);
         g.drawString("Login Menu", 80, 100);
 
-        //draw text fields
-        fieldName.paint(g);
-        fieldPass.paint(g);
-
         //draw menu options
         g.setFont(font);
         for(int i = 0; i < options.length; i++) {
             if (i == currentChoice) {
-                g.setColor(Color.RED);
+                g.setColor(MenuTemplate.BODY_COLOR);
             } else {
-                g.setColor(Color.YELLOW);
+                g.setColor(MenuTemplate.BODY_SELECTED_COLOR);
             }
 
             // pass horizontal distance, then vertical distance
@@ -79,9 +63,9 @@ public class Login extends MenuTemplate {
 
     private void select() {
         if (currentChoice == 0) {
-//            LoginPopup lg = new LoginPopup(menuManager);
-//            lg.setVisible(true);
-            redirectToMainMenu();
+            LoginPopup lg = new LoginPopup(menuManager);
+            lg.setVisible(true);
+            //redirectToMainMenu();
             //loginClicked();
         }
         if (currentChoice == 1) {
@@ -111,36 +95,6 @@ public class Login extends MenuTemplate {
     @Override
     public void keyReleased(int k) {
 
-    }
-
-    public void loginClicked() {
-        String name = fieldName.getText();
-        //System.out.println(name);
-        String password = fieldPass.getText();
-        //System.out.println(password);
-        boolean loginSuccessful = false;
-
-        if (name.isEmpty()){
-            labelMessage.setText("Username cannot be blank");
-        } else if (password.isEmpty()){
-            labelMessage.setText("Password cannot be blank");
-        } else {
-            try {
-                loginSuccessful = DatabaseController.authenticateUser(name, password);
-            } catch (ClassNotFoundException e1) {
-                e1.printStackTrace();
-            }
-
-            if (loginSuccessful) {
-                labelMessage.setText("Success");
-                menuManager.associatePlayerUserName(name);
-                redirectToMainMenu();
-                setVisible(false);
-                dispose();
-            } else {
-                labelMessage.setText("Username-Password Combination Invalid");
-            }
-        }
     }
 
     public void redirectToMainMenu() {
