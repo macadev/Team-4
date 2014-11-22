@@ -11,25 +11,25 @@ import java.awt.event.KeyEvent;
  */
 public class AccountOptionsMenu extends MenuTemplate {
 
-private String[] options = {"Update Information", "Delete Account", "Return to Main Menu"};
-private int currentChoice = 0;
-private Color titleColor = MenuTemplate.TITLE_COLOR;
-private Font titleFont = MenuTemplate.TITLE_FONT;
-private Font font = MenuTemplate.BODY_FONT;
+    private String[] options = {"Update Information", "Delete Account", "Return to Main Menu"};
+    private int currentChoice = 0;
+    private Color titleColor = MenuTemplate.TITLE_COLOR;
+    private Font titleFont = MenuTemplate.TITLE_FONT;
+    private Font font = MenuTemplate.BODY_FONT;
 
-public AccountOptionsMenu (MenuManager menuManager, GameStateManager gsm) {
+    public AccountOptionsMenu (MenuManager menuManager, GameStateManager gsm) {
         this.menuManager = menuManager;
         this.gsm = gsm;
 
-        }
+    }
 
-@Override
-public void init() {
+    @Override
+    public void init() {
 
-        }
+    }
 
-@Override
-public void draw(Graphics2D g) {
+    @Override
+    public void draw(Graphics2D g) {
 
         //draw the title
         g.setColor(titleColor);
@@ -41,19 +41,19 @@ public void draw(Graphics2D g) {
         //draw menu options
         g.setFont(font);
         for(int i = 0; i < options.length; i++) {
-        if (i == currentChoice) {
-        g.setColor(MenuTemplate.BODY_COLOR);
-        } else {
-        g.setColor(MenuTemplate.BODY_SELECTED_COLOR);
-        }
-        // pass horizontal distance, then vertical distance
-        g.drawString(options[i], X_OFFSET, Y_OFFSET + i * 15);
-        }
-
+            if (i == currentChoice) {
+                g.setColor(MenuTemplate.BODY_COLOR);
+            } else {
+                g.setColor(MenuTemplate.BODY_SELECTED_COLOR);
+            }
+            // pass horizontal distance, then vertical distance
+            g.drawString(options[i], X_OFFSET, Y_OFFSET + i * 15);
         }
 
+    }
 
-private void select() {
+
+    private void select() {
         if (currentChoice == 0) {
             ModifyAccountPopup map = new ModifyAccountPopup(menuManager);
             map.setVisible(true);
@@ -64,27 +64,27 @@ private void select() {
         if (currentChoice == 2) {
             menuManager.setMenuState(MenuState.MAIN);
         }
-        }
+    }
 
-@Override
-public void keyPressed(int k) {
+    @Override
+    public void keyPressed(int k) {
         if (k == KeyEvent.VK_ENTER) {
-        select();
+            select();
         }
         if (k == KeyEvent.VK_UP) {
-        currentChoice--;
-        if (currentChoice == -1) currentChoice  = options.length - 1;
+            currentChoice--;
+            if (currentChoice == -1) currentChoice  = options.length - 1;
         }
         if (k == KeyEvent.VK_DOWN) {
-        currentChoice++;
-        if (currentChoice == options.length) currentChoice = 0;
+            currentChoice++;
+            if (currentChoice == options.length) currentChoice = 0;
         }
-        }
+    }
 
-@Override
-public void keyReleased(int k) {
+    @Override
+    public void keyReleased(int k) {
 
-        }
+    }
 
 
-        }
+}
