@@ -15,10 +15,6 @@ public class Login extends MenuTemplate {
 
     private String[] options = {"Login","Create Account","Exit"};
     private int currentChoice = 0;
-
-    private JLabel labelMessage;
-    private JTextField fieldName;
-    private JPasswordField fieldPass;
     private MenuManager menuManager;
 
     private Color titleColor = MenuTemplate.TITLE_COLOR;
@@ -42,7 +38,6 @@ public class Login extends MenuTemplate {
         //draw the title
         g.setColor(titleColor);
         g.setFont(titleFont);
-        g.setPaint(new Color(255,255,255));
         g.drawString("BOMBERMAN", 80, 70);
         g.drawString("Login Menu", 80, 100);
 
@@ -63,9 +58,9 @@ public class Login extends MenuTemplate {
 
     private void select() {
         if (currentChoice == 0) {
-            LoginPopup lg = new LoginPopup(menuManager);
-            lg.setVisible(true);
-            //redirectToMainMenu();
+            //LoginPopup lg = new LoginPopup(menuManager);
+            //lg.setVisible(true);
+            redirectToMainMenu();
             //loginClicked();
         }
         if (currentChoice == 1) {
