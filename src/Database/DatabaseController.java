@@ -56,15 +56,15 @@ public class DatabaseController {
                 stmt = connection.prepareStatement(verify);
                 rs = stmt.executeQuery();
 
-                if (!rs.isBeforeFirst() ) {
+                if (!rs.isBeforeFirst()) {
                     System.out.println("Username/Password does not exist");
                 }
 
                 while (rs.next()) {
                     String usernameOnDB = rs.getString("username");
                     String passwordOnDB = rs.getString("password");
-                    System.out.println("Username " +usernameOnDB);
-                    System.out.println("Password " +passwordOnDB);
+                    System.out.println("Username " + usernameOnDB);
+                    System.out.println("Password " + passwordOnDB);
                 }
 
             } catch (SQLException e) {
@@ -75,7 +75,7 @@ public class DatabaseController {
                     stmt.close();
                 }
 
-                if (connection != null){
+                if (connection != null) {
                     connection.close();
                 }
 
@@ -194,15 +194,13 @@ public class DatabaseController {
     }
 
 
-    public static boolean updateInformation(String newPass, String newRealName, String Uname) throws ClassNotFoundException {
+    public static boolean updatePassword(String newPass, String Uname) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         try {
             Connection connection = null;
             PreparedStatement updatePasswordStmt;
-            PreparedStatement updateRealNameStmt;
             PreparedStatement updateStmt;
             String sql = "update Users set password = ? where username = ?;";
-            String sqlUpdateRealName = "update Users set realName = ? where username = ?;";
             String updateRecords = "SELECT * from Users where username = ?;";
             ResultSet rsUpdate = null;
 
@@ -210,29 +208,28 @@ public class DatabaseController {
                 connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
                 //connection.setAutoCommit(false);
                 updatePasswordStmt = connection.prepareStatement(sql);
-                updatePasswordStmt.setString(1, newPass);
-                updatePasswordStmt.setString(2, Uname);
-                updatePasswordStmt.executeUpdate();
-
-                updateRealNameStmt = connection.prepareStatement(sqlUpdateRealName);
-                updateRealNameStmt.setString(1, newRealName);
-                updateRealNameStmt.setString(2, Uname);
-                updateRealNameStmt.executeUpdate();
-
-
+                if (newPass != null && !newPass.isEmpty()) {
+                    updatePasswordStmt.setString(1, newPass);
+                    updatePasswordStmt.setString(2, Uname);
+                    updatePasswordStmt.executeUpdate();
+                }
+                else {
+                    System.out.println("Password not changed");
+                    return false;
+                }
                 updateStmt = connection.prepareStatement(updateRecords);
-                updateStmt.setString(1,Uname);
+                updateStmt.setString(1, Uname);
                 rsUpdate = updateStmt.executeQuery();
                 while (rsUpdate.next()) {
                     String updatedPassword = rsUpdate.getString("password");
-                    String updatedRealName = rsUpdate.getString("realName");
                     System.out.println("Updated Password to : " + updatedPassword);
-                    System.out.println("Updated Real Name to : " + updatedRealName);
                 }
-
-            } catch (SQLException e) {
+            }
+            catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
+            }
+            finally {
+
                 if (rsUpdate != null) {
                     rsUpdate.close();
                 }
@@ -241,14 +238,71 @@ public class DatabaseController {
                     connection.close();
                 }
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
 
         return true;
     }
-}
 
+
+
+    public static boolean updateRealName(String newRealName, String Uname) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        try {
+            Connection connection = null;
+            PreparedStatement updateRealNameStmt;
+            PreparedStatement updateStmt;
+            String sqlUpdateRealName = "update Users set realName = ? where username = ?;";
+            String updateRecords = "SELECT * from Users where username = ?;";
+            ResultSet rsUpdate = null;
+
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                //connection.setAutoCommit(false);
+                updateRealNameStmt = connection.prepareStatement(sqlUpdateRealName);
+                if (newRealName != null && !newRealName.isEmpty()) {
+                    updateRealNameStmt.setString(1, newRealName);
+                    updateRealNameStmt.setString(2, Uname);
+                    updateRealNameStmt.executeUpdate();
+                }
+                else {
+                    System.out.println("Real name not changed");
+                    return false;
+                }
+
+                updateStmt = connection.prepareStatement(updateRecords);
+                updateStmt.setString(1, Uname);
+                rsUpdate = updateStmt.executeQuery();
+                while (rsUpdate.next()) {
+                    String updatedRealName = rsUpdate.getString("realName");
+                    System.out.println("Updated Real Name to : " + updatedRealName);
+                }
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+            finally {
+
+                if (rsUpdate != null) {
+                    rsUpdate.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+
+}
 
 
 
