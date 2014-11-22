@@ -75,7 +75,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         boolean redirectToGameOverMenu = countDownToNotification(CountDownNotification.GAMEOVERNOTIFICATION);
         if (redirectToGameOverMenu) {
             //TODO: redirect to the gameover menu!
-            gsm.setState(gsm.MENUSTATE, MenuState.MAIN);
+            gsm.setState(gsm.MENUSTATE, MenuState.GAMEOVER);
         }
     }
 

@@ -60,11 +60,9 @@ public class MainMenu extends MenuTemplate {
 
     private void select() {
         if (currentChoice == 0) {
-            gsm.setState(GameStateManager.GAMEPLAY, null);
+            gsm.startNewGame();
         }
         if (currentChoice == 1) {
-            //menuManager.setMenuState(MenuState.LOADGAME);
-            //gsm.loadGameeee();
             LoadGamePopUp acp = new LoadGamePopUp(menuManager);
             acp.setVisible(true);
         }
@@ -72,10 +70,13 @@ public class MainMenu extends MenuTemplate {
             //view leaderboards
         }
         if (currentChoice == 3) {
-            menuManager.setMenuState(MenuState.MODIFYACCOUNT);
+           // menuManager.setMenuState(MenuState.MODIFYACCOUNT);
+            ModifyAccountPopup modAccPop = new ModifyAccountPopup(menuManager);
+            modAccPop.setVisible(true);
         }
         if (currentChoice == 4) {
             //logout
+            menuManager.setMenuState(MenuState.LOGIN);
         }
         if (currentChoice == 5) {
             //terminate the game
