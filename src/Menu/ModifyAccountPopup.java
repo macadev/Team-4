@@ -29,7 +29,7 @@ public class ModifyAccountPopup extends JFrame {
         //Exit Option
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         //Display Size
-        setSize(370, 230);
+        setSize(420, 230);
         //Setting it to the middle of the screen
         setLocationRelativeTo(null);
         //Disable resize
@@ -45,7 +45,7 @@ public class ModifyAccountPopup extends JFrame {
 
         //panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        JLabel label = new JLabel("New Name:                 ");
+        JLabel label = new JLabel("New Name:             ");
         label.setBounds(10, 10, 80, 25);
         panel.add(label);
 
@@ -53,7 +53,7 @@ public class ModifyAccountPopup extends JFrame {
         realName.setBounds(100, 10, 160, 25);
         panel.add(realName);
 
-        JLabel label2 = new JLabel("New Password:         ");
+        JLabel label2 = new JLabel("New Password:        ");
         label2.setBounds(10, 90, 80, 25);
         panel.add(label2);
 
@@ -91,7 +91,7 @@ public class ModifyAccountPopup extends JFrame {
         panel.add(buttonSubmit);
         panel.add(buttonExit);
 
-        labelMessage = new JLabel("Leave blank if no update required for the field");
+        labelMessage = new JLabel("Leave field blank if no update is required");
         labelMessage.setBounds(10, 190, 160, 25);
         panel.add(labelMessage);
         labelMessage2 = new JLabel("");
@@ -125,11 +125,11 @@ public class ModifyAccountPopup extends JFrame {
                 labelMessage.setText("                             Passwords do not match                        ");
                 labelMessage2.setText("");
             } else {
-                try {
-                    updateSuccessful = DatabaseController.updateInformation(pass, rName, uName);
-                } catch (ClassNotFoundException e1) {
-                    e1.printStackTrace();
-                }
+//                try {
+//                    //updateSuccessful = DatabaseController.updateInformation(pass, rName, uName);
+//                } catch (ClassNotFoundException e1) {
+//                    e1.printStackTrace();
+//                }
 
                 if (updateSuccessful) {
                     labelMessage.setText("Information Updated");
@@ -142,11 +142,11 @@ public class ModifyAccountPopup extends JFrame {
                 }
             }
         } else {
-            try {
-                updateSuccessful = DatabaseController.updateInformation(pass, rName, uName);
-            } catch (ClassNotFoundException e1) {
-                e1.printStackTrace();
-            }
+//            try {
+//                updateSuccessful = DatabaseController.updateInformation(pass, rName, uName);
+//            } catch (ClassNotFoundException e1) {
+//                e1.printStackTrace();
+//            }
 
             if (updateSuccessful) {
                 labelMessage.setText("Information Updated");
