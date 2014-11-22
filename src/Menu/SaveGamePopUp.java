@@ -10,7 +10,7 @@ import java.util.Date;
 
 
 /**
- * Created by danielmacario on 14-11-20.
+ * Created by FloMac on 14-11-20.
  */
 public class SaveGamePopUp extends JFrame {
 

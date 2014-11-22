@@ -29,8 +29,9 @@ public class Game {
         window.pack();
         window.setVisible(true);
 
-        Music music = new Music();
-        music.start();
+        //Music music = new Music();
+        //music.start();
+        SoundController.THEME.loop();
 
 
     }

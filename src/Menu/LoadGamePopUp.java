@@ -1,7 +1,7 @@
 package Menu;
 
 /**
- * Created by danielmacario on 14-11-20.
+ * Created by FloMac on 14-11-20.
  */
 import GamePlay.GamePlayManager;
 import SystemController.GameFileManager;
@@ -90,7 +90,7 @@ public class LoadGamePopUp extends JFrame {
         String fileName;
         for (File file : files) {
             try {
-                fileName = file.getPath().replace(folderPath, "").replace(".ser", "");
+                fileName = file.getPath().replace("\\", "/").replace(folderPath, "").replace(".ser", "");
                 filePaths.add(fileName);
             } catch (Exception e) {
                 e.printStackTrace();

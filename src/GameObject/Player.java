@@ -4,6 +4,7 @@
 package GameObject;
 
 import GamePlay.GamePlayState;
+import SystemController.SoundController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -230,6 +231,7 @@ public class Player extends MovableObject implements Serializable {
         flamePass = false;
         wallPass = false;
         detonatorEnabled = false;
+        SoundController.DEATH.play();
     }
 
     /**
