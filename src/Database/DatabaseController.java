@@ -20,7 +20,7 @@ public class DatabaseController {
                 // create a database connection
                 connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
                 stmt = connection.createStatement();
-                stmt.executeUpdate("create table if not exists  Users (username String , password String, realName String, highScore int)");
+                stmt.executeUpdate("create table if not exists  Users (username String , password String, realName String, highScore int, levelUnlocked int)");
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
             } finally {
@@ -93,8 +93,8 @@ public class DatabaseController {
             PreparedStatement stmt;
             ResultSet rsUserCheck;
             String sql = "INSERT INTO Users"
-                    + "(USERNAME, PASSWORD, REALNAME, HIGHSCORE) VALUES"
-                    + "(?,?,?,?)";
+                    + "(USERNAME, PASSWORD, REALNAME, HIGHSCORE, LEVELUNLOCKED) VALUES"
+                    + "(?,?,?,?,?)";
             String verify = "select * from Users where username = ?";
 
             try {
@@ -111,6 +111,7 @@ public class DatabaseController {
                 stmt.setString(2, pass);
                 stmt.setString(3, rName);
                 stmt.setInt(4, 0);
+                stmt.setInt(5, 1);
                 stmt.executeUpdate();
                 System.out.println("New User inserted into database");
 
@@ -128,6 +129,106 @@ public class DatabaseController {
         }
         return true;
     }
+
+    public static void setLevelUnlocked(String username, int level) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        try {
+            Connection connection = null;
+            PreparedStatement updateLevelUnlocked;
+            String sql = "update Users set levelUnlocked = ? where username = ?;";
+            String updateRecords = "SELECT * from Users where username = ?;";
+            PreparedStatement updateStmt;
+            ResultSet rsUpdate = null;
+
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                //connection.setAutoCommit(false);
+                updateLevelUnlocked = connection.prepareStatement(sql);
+                if (level >= 1 && level <= 60) {
+                    updateLevelUnlocked.setInt(1, level);
+                    updateLevelUnlocked.setString(2, username);
+                    updateLevelUnlocked.executeUpdate();
+                }
+                else {
+                    System.out.println("Level does not exist");
+                    return;
+                }
+                updateStmt = connection.prepareStatement(updateRecords);
+                updateStmt.setString(1, username);
+                rsUpdate = updateStmt.executeQuery();
+                while (rsUpdate.next()) {
+                    int updatedLevel = rsUpdate.getInt("levelUnlocked");
+                    System.out.println("Updated levelUnlocked to : " + updatedLevel);
+                }
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+            finally {
+
+                if (rsUpdate != null) {
+                    rsUpdate.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static int getLevelUnlocked(String username) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        int currentLevel;
+        currentLevel = 1;
+
+        try {
+            Connection connection = null;
+            ResultSet rsLevel = null;
+            PreparedStatement stmt = null;
+            String sql = "select * from Users where username = ?";
+
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                //connection.setAutoCommit(false);
+                stmt = connection.prepareStatement(sql);
+                stmt.setString(1, username);
+                rsLevel = stmt.executeQuery();
+
+                while (rsLevel.next()) {
+                    currentLevel = rsLevel.getInt("levelUnlocked");
+                    System.out.println("Unlocked Level is : " + currentLevel);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (rsLevel != null) {
+                    rsLevel.close();
+                }
+
+                if (stmt != null) {
+                    stmt.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return currentLevel;
+    }
+
+
+
+
+
 
     public static void createDirectoryForUserSavedFiles(String username) {
         //Create directory in savegames folder where saved game data will be stored

@@ -18,6 +18,9 @@ public class Game {
         try {
             DatabaseController.initializeDatabase();
             System.out.println("Database succesfully initialized");
+            DatabaseController.createNewUser("owentest","testpass","Owenli");
+            DatabaseController.setLevelUnlocked("owentest", 61);
+            DatabaseController.getLevelUnlocked("owentest");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
