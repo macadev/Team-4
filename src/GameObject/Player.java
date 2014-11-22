@@ -273,11 +273,11 @@ public class Player extends MovableObject implements Serializable {
             } else if (key == KeyEvent.VK_SPACE) {
                 currentState = GamePlayState.PAUSE;
             } else if (key == KeyEvent.VK_X) {
-                placeBomb();
-            } else if (key == KeyEvent.VK_Z) {
                 if (detonatorEnabled && !bombsPlaced.isEmpty()) {
                     detonateLastBomb();
                 }
+            } else if (key == KeyEvent.VK_Z) {
+                placeBomb();
             }
         }
     }

@@ -12,6 +12,8 @@ public class CollisionManager implements Serializable {
 
     private Player player;
     private TileMap tileMap;
+    private boolean flamesOnDoorOrPowerUp;
+    private boolean spawnNewEnemies;
 
     public CollisionManager(Player player, TileMap tileMap) {
         this.player = player;
@@ -171,28 +173,28 @@ public class CollisionManager implements Serializable {
                 if (powerUp.isVisible()) {
                     Rectangle powerUpRectangle = powerUp.getBounds();
                     if (powerUpRectangle.intersects(flameRectangle)) {
-                        if (!tileMap.isHarderSetAlreadyCreated()) {
-                            spawnSetOfHarderEnemies();
-                        }
                         powerUp.setVisible(false);
+                        spawnSetOfHarderEnemies(powerUp.getPosX(), powerUp.getPosY());
                     }
                 }
 
                 Rectangle doorRectangle = door.getBounds();
                 if (doorRectangle.intersects(flameRectangle)) {
                     if (!tileMap.isHarderSetAlreadyCreated()) {
-                        spawnSetOfHarderEnemies();
+                        spawnSetOfHarderEnemies(door.getPosX(), door.getPosY());
                     }
                 }
             }
         }
+
         if (enemiesKilled.size() > 0) System.out.println("SIZE = " + enemiesKilled.size());
 
         calculateScoreFromKills(enemiesKilled);
     }
 
-    public void spawnSetOfHarderEnemies() {
-        tileMap.spawnSetOfHarderEnemies();
+    public void spawnSetOfHarderEnemies(int posX, int posY) {
+        if (tileMap.isHarderSetAlreadyCreated()) return;
+        tileMap.spawnSetOfHarderEnemies(posX, posY);
         tileMap.setHarderSetAlreadyCreated(true);
     }
 

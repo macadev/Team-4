@@ -17,8 +17,9 @@ import Menu.MenuState;
  */
 public class GamePlayManager extends GameState implements ActionListener, Serializable {
 
+
     private enum CountDownNotification {
-        NEXTSTAGENOTIFICATION, GAMEOVERNOTIFICATION
+        NEXTSTAGE, GAMEOVER, FINISHEDGAME
     }
 
     private TileMap tileMap;
@@ -29,22 +30,22 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
     private boolean secondCameraRegion;
     private boolean gameOver;
 
-    private int gameOverScreenCount = 50;
-    private int nextStageTransitionCount = 50;
+    private int notificationDuration = 70;
     public int bonusStageCountDown = 900;
     private int bonusStageNewEnemyCountDown = 30;
 
     //TODO: remove after demo, these are for temporary pause feature
     private Color titleColor = new Color(255, 0, 21);
     private Color hudColor = new Color(255, 255, 255);
-    private Font titleFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 48);
+    private Font titleFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 42);
+    private Font subTitleFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 22);
     private Font hudFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 12);
 
     public GamePlayManager(GameStateManager gsm) {
         this.gsm = gsm;
         this.player = new Player(35, 35, true, MovableObject.NORMALSPEED);
         this.cameraMoving = false;
-        this.tileMap = new TileMap(player.getSpeed());
+        this.tileMap = new TileMap(player);
         this.collisionManager = new CollisionManager(player, tileMap);
         this.player.setTileMap(tileMap);
         this.camera = new Camera(player.getPosX(), player);
@@ -62,6 +63,23 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
             gsm.setState(gsm.MENUSTATE, MenuState.INGAME);
         } else if (currentState == GamePlayState.INGAME) {
             executeInGameLogic(g);
+        } else if (currentState == GamePlayState.FINISHEDGAME) {
+            executeGameCompletedLogic(g);
+        }
+    }
+
+    private void executeGameCompletedLogic(Graphics2D g) {
+        g.setColor(titleColor);
+        g.setFont(titleFont);
+        g.drawString("Congratulations!", 80, 200);
+        g.setColor(titleColor);
+        g.setFont(subTitleFont);
+        g.drawString("All your bases are belong to us.", 70, 250);
+
+        boolean redirectToMainMenu = notificationDurationCountDown();
+        if (redirectToMainMenu) {
+            //TODO: redirect to the gameover menu!
+            gsm.setState(gsm.MENUSTATE, MenuState.MAIN);
         }
     }
 
@@ -72,7 +90,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         g.setFont(titleFont);
         g.drawString("Game Over", 100, 200);
 
-        boolean redirectToGameOverMenu = countDownToNotification(CountDownNotification.GAMEOVERNOTIFICATION);
+        boolean redirectToGameOverMenu = notificationDurationCountDown();
         if (redirectToGameOverMenu) {
             //TODO: redirect to the gameover menu!
             gsm.setState(gsm.MENUSTATE, MenuState.GAMEOVER);
@@ -119,7 +137,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
     }
 
     public void inStageTransition(Graphics2D g) {
-        boolean redirectToNextStage = countDownToNotification(CountDownNotification.NEXTSTAGENOTIFICATION);
+        boolean redirectToNextStage = notificationDurationCountDown();
         if (redirectToNextStage) {
             tileMap.setNextStageTransition(false);
 
@@ -145,22 +163,13 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         }
     }
 
-    public boolean countDownToNotification(CountDownNotification action) {
-        if (action == CountDownNotification.GAMEOVERNOTIFICATION) {
-            gameOverScreenCount--;
-            if (gameOverScreenCount < 0) {
-                gameOverScreenCount = 50;
-                return true;
-            }
-            return false;
-        } else {
-            nextStageTransitionCount--;
-            if (nextStageTransitionCount < 0) {
-                nextStageTransitionCount = 50;
-                return true;
-            }
-            return false;
+    public boolean notificationDurationCountDown() {
+        notificationDuration--;
+        if (notificationDuration < 0) {
+            notificationDuration = 50;
+            return true;
         }
+        return false;
     }
 
     public void initiateTimerToNextStage() {
@@ -241,9 +250,5 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
 
-    }
-
-    public void setNextStageTransitionCount(int nextStageTransitionCount) {
-        this.nextStageTransitionCount = nextStageTransitionCount;
     }
 }
