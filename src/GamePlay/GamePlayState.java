@@ -6,5 +6,6 @@ package GamePlay;
 public enum GamePlayState {
     GAMEOVER,
     PAUSE,
-    INGAME
+    INGAME,
+    FINISHEDGAME
 }

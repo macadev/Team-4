@@ -17,11 +17,19 @@ public class Game {
     public static void main(String[] args) {
         try {
             DatabaseController.initializeDatabase();
+            DatabaseController.printDBContents();
             System.out.println("Database succesfully initialized");
+            DatabaseController.createNewUser("owentest","testpass","Owenli");
+            DatabaseController.setLevelUnlocked("owentest", 61);
+            DatabaseController.getLevelUnlocked("owentest");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
+        try {
+            DatabaseController.printDBContents();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         JFrame window = new JFrame("Bomberman");
         window.setContentPane(new GameController());
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,8 +37,9 @@ public class Game {
         window.pack();
         window.setVisible(true);
 
-        Music music = new Music();
-        music.start();
+        //Music music = new Music();
+        //music.start();
+        SoundController.THEME.loop();
 
 
     }

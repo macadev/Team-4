@@ -4,7 +4,6 @@
 package GameObject;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.Serializable;
 
 /**

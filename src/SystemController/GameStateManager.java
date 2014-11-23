@@ -34,9 +34,9 @@ public class GameStateManager {
      * Class constructor. Creates an ArrayList used to contain instances of the
      * fundamental controllers of the game: the MenuManager and the GamePlayManager
      */
-    public GameStateManager() {
+    public GameStateManager(int selectedStage) {
         menuManager = new MenuManager(this);
-        gamePlayManager = new GamePlayManager(this);
+        gamePlayManager = new GamePlayManager(this, selectedStage);
         fileManager = new GameFileManager(playerUserName);
         currentState = MENUSTATE;
     }
@@ -48,9 +48,7 @@ public class GameStateManager {
     public void setState(int state, MenuState menuState) {
         //current state is set to 0 by default
         if (state == GAMEPLAY) {
-            if (gamePlayManager.isGameOver()) {
-                gamePlayManager = new GamePlayManager(this);
-            }
+            gamePlayManager.setGamePlayStateToInGame();
             currentState = state;
         } else {
             currentState = MENUSTATE;
@@ -58,8 +56,7 @@ public class GameStateManager {
         }
     }
 
-    public void loadGame() {
-        GamePlayManager loadedFile = fileManager.loadGame();
+    public void loadGame(GamePlayManager loadedFile) {
         if (loadedFile != null) {
             loadedFile.setGamePlayStateToInGame();
             gamePlayManager = loadedFile;
@@ -68,8 +65,13 @@ public class GameStateManager {
         }
     }
 
-    public void saveGame() {
-        fileManager.saveGame(gamePlayManager);
+    public void startNewGame(int selectedStage) {
+        gamePlayManager = new GamePlayManager(this, selectedStage);
+        setState(GAMEPLAY, null);
+    }
+
+    public void saveGame(String fileName) {
+        fileManager.saveGame(gamePlayManager, fileName);
     }
 
     /**

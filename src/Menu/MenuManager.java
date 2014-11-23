@@ -1,5 +1,7 @@
 package Menu;
 
+import GamePlay.GamePlayManager;
+import SystemController.GameFileManager;
 import SystemController.GameState;
 import SystemController.GameStateManager;
 
@@ -26,18 +28,13 @@ public class MenuManager extends GameState {
     };
 
     public MenuManager(GameStateManager gsm) {
-
         this.gsm = gsm;
         menuStates = new Hashtable<MenuState, MenuTemplate>();
         menuStates.put(MenuState.MAIN, new MainMenu(this, gsm));
-        menuStates.put(MenuState.LOADGAME, new LoadGame(this, gsm));
-        menuStates.put(MenuState.SAVEGAME, new SaveGame(this, gsm));
-        menuStates.put(MenuState.LOGIN, new Login(this));
-        menuStates.put(MenuState.INGAME, new InGameMenu(this));
-        menuStates.put(MenuState.MODIFYACCOUNT, new AccountOptionsMenu(this, gsm));
+        menuStates.put(MenuState.LOGIN, new LoginMenu(this));
+        menuStates.put(MenuState.INGAME, new InGameMenu(this, gsm));
         menuStates.put(MenuState.GAMEOVER, new GameOverMenu(this) );
         currentMenu = MenuState.LOGIN;
-
     }
 
     public void setMenuState(MenuState state) {
@@ -45,12 +42,27 @@ public class MenuManager extends GameState {
         menuStates.get(currentMenu).init();
     }
 
-    public void saveGame() {
-        gsm.saveGame();
+    public void saveGame(String fileName) {
+        gsm.saveGame(fileName);
     }
 
-    public void associatePlayerUserName (String username) {
+    public void setUpLoadedGame(GamePlayManager gamePlayManager) {
+        gsm.loadGame(gamePlayManager);
+    }
+
+    public void startGameFromSelectedStage(int stageSelected) {
+        GamePlayManager newGame = new GamePlayManager(gsm, stageSelected);
+        gsm.loadGame(newGame);
+    }
+
+    public void associatePlayerUserName(String username) {
+        GameFileManager.setUserName(username);
         gsm.setPlayerUserName(username);
+    }
+
+
+    public String getPlayerUserName(){
+        return gsm.getPlayerUserName();
     }
 
     @Override

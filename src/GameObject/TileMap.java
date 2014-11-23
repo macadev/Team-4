@@ -1,5 +1,7 @@
 package GameObject;
 
+import Database.DatabaseController;
+import GamePlay.GamePlayState;
 import GamePlay.Spawner;
 
 import java.awt.*;
@@ -23,36 +25,34 @@ public class TileMap implements Serializable {
     public static final int HEIGHT_OF_TILE = 32;
     public static final int CAMERA_MOVING_LIMIT = 224;
 
+    private Player player;
     private GameObject[][] walls;
     private ArrayList<Flame> flames;
     private ArrayList<Enemy> enemies;
     private PowerUp powerUp;
     private Door door;
     private Spawner spawner;
-    private int speed;
+    private String userName;
     private int bombRadius;
     private boolean isBonusStage;
     private boolean harderSetAlreadyCreated;
     private boolean nextStageTransition;
+    private boolean spawnHarderSet;
+    private int timeToHarderSet = 20;
+    private ArrayList<Enemy> newEnemySet;
 
     //keep track of the current stage
     private int currentStage;
     private int bonusStageCountDown;
 
-    private int deltaX;
-
-    public TileMap() {
-        this.currentStage = 1;
-    }
-
-    public TileMap(int speed) {
-        this.currentStage = 1;
-        this.deltaX = 0;
-        this.speed = speed;
+    public TileMap(Player player, int selectedStage, String userName) {
+        this.player = player;
+        this.userName = userName;
+        this.currentStage = selectedStage;
         this.bombRadius = 11;
-        this.spawner = new Spawner();
+        this.spawner = new Spawner(getCurrentStage());
         this.flames = new ArrayList<Flame>();
-        this.isBonusStage = Stages.gameStages[currentStage].isBonusStage();
+        this.isBonusStage = getCurrentStage().isBonusStage();
         this.bonusStageCountDown = 0;
         this.harderSetAlreadyCreated = false;
         populateGridWithBlocks();
@@ -62,6 +62,15 @@ public class TileMap implements Serializable {
     }
 
     public void drawObjects(Graphics2D g) {
+        if (spawnHarderSet) {
+            timeToHarderSet--;
+            if (timeToHarderSet == 0) {
+                enemies = newEnemySet;
+                timeToHarderSet = 20;
+                spawnHarderSet = false;
+            }
+        }
+
         drawPowerUp(g);
         drawDoor(g);
         drawTiles(g);
@@ -120,6 +129,15 @@ public class TileMap implements Serializable {
 
     public void nextStage() {
         currentStage++;
+
+        updateUnlockedStage(currentStage, userName);
+
+        //player completed the game
+        if (currentStage == 53) {
+            player.setCurrentGamePlayState(GamePlayState.FINISHEDGAME);
+            return;
+        }
+
         StageData newStage = Stages.gameStages[this.currentStage];
         this.harderSetAlreadyCreated = false;
         this.nextStageTransition = true;
@@ -132,6 +150,13 @@ public class TileMap implements Serializable {
         generateDoor();
     }
 
+    private void updateUnlockedStage(int currentStage, String username) {
+        try {
+            DatabaseController.setLevelUnlocked(username, currentStage);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void populateGridWithBlocks() {
         walls = spawner.generateWalls();
@@ -164,7 +189,6 @@ public class TileMap implements Serializable {
     }
 
     public void addFlames(int posX, int posY) {
-        System.out.println("Flame x = " + posX + " y = " + posY);
         int posXOfExplosion = posX / 32;
         int posYOfExplosion = posY / 32;
 
@@ -233,10 +257,11 @@ public class TileMap implements Serializable {
         }
     }
 
-    public void spawnSetOfHarderEnemies() {
+    public void spawnSetOfHarderEnemies(int posX, int posY) {
         if (enemies.size() == 0) return;
         EnemyType harderEnemyType = determineHarderEnemyTypeToSpawn();
-        enemies = spawner.createSetOfHarderEnemies(harderEnemyType);
+        newEnemySet = spawner.createSetOfHarderEnemies(harderEnemyType, posX, posY);
+        spawnHarderSet = true;
     }
 
     public EnemyType determineHarderEnemyTypeToSpawn() {
@@ -275,22 +300,6 @@ public class TileMap implements Serializable {
 
     }
 
-    public void keyPressed(int k) {
-        if (k == KeyEvent.VK_LEFT) {
-            deltaX = speed;
-        } else if (k == KeyEvent.VK_RIGHT) {
-            deltaX = - speed;
-        }
-    }
-
-    public void keyReleased(int k) {
-        if (k == KeyEvent.VK_LEFT) {
-            deltaX = 0;
-        } else if (k == KeyEvent.VK_RIGHT) {
-            deltaX = 0;
-        }
-    }
-
     public void incrementBombRadius() {
         bombRadius++;
     }
@@ -299,16 +308,16 @@ public class TileMap implements Serializable {
         return Stages.gameStages[this.currentStage];
     }
 
+    public int getCurrentStageNumber() {
+        return currentStage;
+    }
+
     public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
 
     public void setEnemies(ArrayList<Enemy> enemies) {
         this.enemies = enemies;
-    }
-
-    public int getDeltaX() {
-        return deltaX;
     }
 
     public GameObject[][] getObjects() {

@@ -103,7 +103,7 @@ public class GameController extends JPanel implements Runnable, KeyListener {
         g.setPaint(new Color(0,0,200));
         g.fillRect(0, 0, image.getWidth(), image.getHeight() );
         running = true;
-        gsm = new GameStateManager();
+        gsm = new GameStateManager(1);
     }
 
     /**

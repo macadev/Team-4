@@ -1,6 +1,5 @@
 package Menu;
 
-import Database.DatabaseController;
 import SystemController.GameStateManager;
 
 import java.awt.*;
@@ -25,7 +24,6 @@ public class MainMenu extends MenuTemplate {
     public MainMenu (MenuManager menuManager, GameStateManager gsm) {
         this.menuManager = menuManager;
         this.gsm = gsm;
-
     }
 
     @Override
@@ -39,7 +37,7 @@ public class MainMenu extends MenuTemplate {
         //draw the title
         g.setColor(titleColor);
         g.setFont(titleFont);
-        g.setPaint(titleColor);
+        //g.setPaint(titleColor);
         g.drawString("BOMBERMAN", 80, 70);
         g.drawString("Main Menu", 80, 100);
 
@@ -60,20 +58,24 @@ public class MainMenu extends MenuTemplate {
 
     private void select() {
         if (currentChoice == 0) {
-            gsm.setState(GameStateManager.GAMEPLAY, null);
+            LevelSelectionPopUp lsp = new LevelSelectionPopUp(menuManager);
+            lsp.setVisible(true);
         }
         if (currentChoice == 1) {
-            //menuManager.setMenuState(MenuState.LOADGAME);
-            gsm.loadGame();
+            LoadGamePopUp acp = new LoadGamePopUp(menuManager);
+            acp.setVisible(true);
         }
         if (currentChoice == 2) {
             //view leaderboards
         }
         if (currentChoice == 3) {
-            menuManager.setMenuState(MenuState.MODIFYACCOUNT);
+            //Modify account options
+            AccountOptionsPopUp modAccPop = new AccountOptionsPopUp(menuManager);
+            modAccPop.setVisible(true);
         }
         if (currentChoice == 4) {
             //logout
+            menuManager.setMenuState(MenuState.LOGIN);
         }
         if (currentChoice == 5) {
             //terminate the game

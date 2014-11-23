@@ -25,7 +25,7 @@ public class SoundEffects extends Thread {
 
     public void playGameOver() {
 
-        File file = new File(ROOT,"/src/resources/Music/smb_gameover.wav");
+        File file = new File(ROOT,"/src/resources/Music/gameover.wav");
         try {
             System.out.println("starting to play file");
             AudioClip clip = Applet.newAudioClip(file.toURI().toURL());

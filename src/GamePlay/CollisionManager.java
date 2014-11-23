@@ -23,16 +23,12 @@ public class CollisionManager implements Serializable {
                                  Rectangle playerRectangle, ArrayList<Enemy> enemies, ArrayList<Bomb> bombsPlaced,
                                  ArrayList<Flame> flames, PowerUp powerUp, Door door, boolean isBonusStage) {
 
-        if (isBonusStage) {
-            checkCollisionsWithWalls(objects, playerRectangle, enemies);
-            checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
-            checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp, door, isBonusStage);
-        } else {
+        checkCollisionsWithWalls(objects, playerRectangle, enemies);
+        checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
+        checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp, door, isBonusStage);
+        if (!isBonusStage) {
             checkCollisionWithPowerUp(playerRectangle, powerUp);
             checkCollisionWithDoor(playerRectangle, door, enemies);
-            checkCollisionsWithWalls(objects, playerRectangle, enemies);
-            checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
-            checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp, door, isBonusStage);
             checkCollisionsWithEnemies(playerRectangle, enemies);
         }
 
@@ -67,17 +63,17 @@ public class CollisionManager implements Serializable {
 
     public void checkCollisionsWithWalls(GameObject[][] objects, Rectangle playerRectangle, ArrayList<Enemy> enemies) {
         //Check for collision of the player and the enemies with walls
+        boolean playerHasWallPass = player.hasWallPass();
         for (GameObject[] row : objects) {
             for (GameObject wall : row) {
                 if (wall != null) {
 
-                    boolean playerHasWallPass = player.hasWallPass();
                     Rectangle wallRectangle = wall.getBounds();
 
                     //Check for collision of the player with the targeted wall
                     //Upon resolving the collision, we stop checking this for loop
                     //To reduce computation
-                    if (!playerHasWallPass || (playerHasWallPass && (wall instanceof ConcreteWall))) {
+                    if (!playerHasWallPass || (wall instanceof ConcreteWall)) {
                         if (playerRectangle.intersects(wallRectangle)) {
                             restoreToBeforeCollision(player, wallRectangle);
                         }
@@ -88,7 +84,7 @@ public class CollisionManager implements Serializable {
                     for (Enemy enemy : enemies) {
                         enemyHasWallPass = enemy.hasWallPass();
                         Rectangle enemyRectangle = enemy.getBounds();
-                        if (!enemyHasWallPass || (enemyHasWallPass && (wall instanceof ConcreteWall))) {
+                        if (!enemyHasWallPass || (wall instanceof ConcreteWall)) {
                             if (enemyRectangle.intersects(wallRectangle)) {
                                 enemy.reverseDirection();
                                 restoreToBeforeCollision(enemy, wallRectangle);
@@ -104,12 +100,15 @@ public class CollisionManager implements Serializable {
         //Check for collisions of the player with the bombs
         for (Bomb bomb : bombsPlaced) {
             Rectangle bombRectangle = bomb.getBounds();
-            if (playerRectangle.intersects(bombRectangle)) {
-                if (!bomb.isFirstCollision()) {
-                    player.restorePreviousPosition();
+
+            if (!player.hasBombPass()) {
+                if (playerRectangle.intersects(bombRectangle)) {
+                    if (!bomb.isFirstCollision()) {
+                        player.restorePreviousPosition();
+                    }
+                } else {
+                    bomb.setFirstCollision(false);
                 }
-            } else {
-                bomb.setFirstCollision(false);
             }
 
             for (Enemy enemy : enemies) {
@@ -133,7 +132,7 @@ public class CollisionManager implements Serializable {
         for (Flame flame : flames) {
             flameRectangle = flame.getBounds();
 
-            if (player.isVisible()) {
+            if (player.isVisible() && !player.isInvincibilityEnabled()) {
                 if(!player.hasFlamePass()) {
                     if (playerRectangle.intersects(flameRectangle)) {
                         player.death();
@@ -153,10 +152,7 @@ public class CollisionManager implements Serializable {
                 if (enemyRectangle.intersects(flameRectangle)) {
                     enemy.death();
                     Coordinate positionOfDeath = enemy.getCenterOfEnemyAsCoordinate();
-                    System.out.println("death x = "+ positionOfDeath.getRow() + " y = " + positionOfDeath.getCol());
                     Coordinate locationOfBomb = flame.getExplosionOriginAsCoordinate();
-                    System.out.println("location of bomb x = "+ locationOfBomb.getRow() + " y = " + locationOfBomb.getCol());
-                    System.out.println("Distance = " + positionOfDeath.distanceTo(locationOfBomb));
                     if (!enemy.isHitByFlames()) {
                         enemiesKilled.add(new KillSet(positionOfDeath, locationOfBomb, enemy));
                     }
@@ -171,28 +167,28 @@ public class CollisionManager implements Serializable {
                 if (powerUp.isVisible()) {
                     Rectangle powerUpRectangle = powerUp.getBounds();
                     if (powerUpRectangle.intersects(flameRectangle)) {
-                        if (!tileMap.isHarderSetAlreadyCreated()) {
-                            spawnSetOfHarderEnemies();
-                        }
                         powerUp.setVisible(false);
+                        spawnSetOfHarderEnemies(powerUp.getPosX(), powerUp.getPosY());
                     }
                 }
 
                 Rectangle doorRectangle = door.getBounds();
                 if (doorRectangle.intersects(flameRectangle)) {
                     if (!tileMap.isHarderSetAlreadyCreated()) {
-                        spawnSetOfHarderEnemies();
+                        spawnSetOfHarderEnemies(door.getPosX(), door.getPosY());
                     }
                 }
             }
         }
+
         if (enemiesKilled.size() > 0) System.out.println("SIZE = " + enemiesKilled.size());
 
         calculateScoreFromKills(enemiesKilled);
     }
 
-    public void spawnSetOfHarderEnemies() {
-        tileMap.spawnSetOfHarderEnemies();
+    public void spawnSetOfHarderEnemies(int posX, int posY) {
+        if (tileMap.isHarderSetAlreadyCreated()) return;
+        tileMap.spawnSetOfHarderEnemies(posX, posY);
         tileMap.setHarderSetAlreadyCreated(true);
     }
 
@@ -204,7 +200,7 @@ public class CollisionManager implements Serializable {
 
     public void checkCollisionsWithEnemies(Rectangle playerRectangle, ArrayList<Enemy> enemies) {
         //check for collisions between the player and the enemies
-        if (player.isVisible()) {
+        if (player.isVisible() && !player.isInvincibilityEnabled()) {
             for (Enemy enemy : enemies) {
                 Rectangle enemyRectangle = enemy.getBounds();
                 if (playerRectangle.intersects(enemyRectangle)) {

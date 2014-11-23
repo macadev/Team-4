@@ -1,5 +1,9 @@
 package Menu;
 
+import GameObject.Player;
+import GamePlay.GamePlayState;
+import SystemController.GameStateManager;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -11,9 +15,15 @@ public class InGameMenu extends MenuTemplate{
 
     private String[] options = {"Resume Gameplay","Save Game", "Start New Game", "Quit Game", "Exit to Main Menu", "View Leaderboard" };
     private int currentChoice = 0;
-    
-    public InGameMenu(MenuManager menuManager) {
+    private Color titleColor = MenuTemplate.TITLE_COLOR;
+    private Font titleFont = MenuTemplate.TITLE_FONT;
+    private Font font = MenuTemplate.BODY_FONT;
+    private GameStateManager gsm;
+
+
+    public InGameMenu(MenuManager menuManager, GameStateManager gsm) {
 	    this.menuManager = menuManager;
+        this.gsm = gsm;
 	}
 
 	@Override
@@ -23,23 +33,25 @@ public class InGameMenu extends MenuTemplate{
 
 	@Override
 	public void draw(Graphics2D g) {
-        g.setColor(TITLE_COLOR);
-        g.setFont(TITLE_FONT);
-        g.setPaint(new Color(255,255,255));
-        g.drawString("", 80, 70);
+        g.setColor(titleColor);
+        g.setFont(titleFont);
+        g.setPaint(titleColor);
+        g.drawString("In-Game Menu", 80, 70);
+
 
         //draw menu options
-        g.setFont(TITLE_FONT);
+        g.setFont(font);
         for(int i = 0; i < options.length; i++) {
             if (i == currentChoice) {
-                g.setColor(BODY_SELECTED_COLOR);
+                g.setColor(MenuTemplate.BODY_COLOR);
             } else {
-                g.setColor(BODY_COLOR);
+                g.setColor(MenuTemplate.BODY_SELECTED_COLOR);
             }
             // pass horizontal distance, then vertical distance
-            g.drawString(options[i], 95, 120 + i * 15);
+            g.drawString(options[i], X_OFFSET, Y_OFFSET + i * 15);
         }
-	}
+
+    }
 
 	@Override
 	public void keyPressed(int k) {
@@ -65,23 +77,24 @@ public class InGameMenu extends MenuTemplate{
 	}
 
 	public void select() {
-		//while thread is paused/game is paused 
-		//not sure yet^
+
 		if (currentChoice == 0) {
             //resume game play
+            gsm.setState(GameStateManager.GAMEPLAY, null);
 	    }
 	    if (currentChoice == 1) {
             //save game
-            //menuManager.setMenuState(MenuState.SAVEGAME);
-            menuManager.saveGame();
+            SaveGamePopUp svg = new SaveGamePopUp(menuManager);
+            svg.setVisible(true);
         }
         if (currentChoice == 2) {
             //start new game
-            menuManager.setMenuState(MenuState.LOADGAME);
+            LevelSelectionPopUp lsp = new LevelSelectionPopUp(menuManager);
+            lsp.setVisible(true);
         }
         if (currentChoice == 3) {
             //quit game
-            menuManager.setMenuState(MenuState.GAMEOVER);
+            System.exit(0);
         }
         if (currentChoice == 4) {
             //exit to main menu
