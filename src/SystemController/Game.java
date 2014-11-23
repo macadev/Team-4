@@ -23,6 +23,7 @@ public class Game {
             DatabaseController.createNewUser("testuser","testpass","testName");
             DatabaseController.setLevelUnlocked("owentest",45);
             DatabaseController.setScore("owentest",3000);
+            DatabaseController.setScore("owentest", 2000);
             DatabaseController.getScore("owentest");
 
 

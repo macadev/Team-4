@@ -3,6 +3,7 @@ package Database;
 import javax.xml.transform.Result;
 import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
 //2014
 /**
  * Created by Owen Li on 14-11-08.
@@ -463,7 +464,7 @@ public class DatabaseController {
 
                 while (rsScore.next()) {
                     score = rsScore.getInt("highScore");
-                    System.out.println("Highscore is : " + score);
+                    System.out.println("Highscore of " + username + " is: " + score);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -534,11 +535,54 @@ public class DatabaseController {
         }
     }
 
+    public static ResultSet getTopUsers() throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        ResultSet rsTopScores = null;
+        try {
+            Connection connection = null;
+            Statement stmt = null;
+            String sql = "SELECT * from Users ORDER BY highScore DESC";
 
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                //connection.setAutoCommit(false);
+                stmt = connection.createStatement();
+                rsTopScores = stmt.executeQuery(sql);
 
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (rsTopScores != null) {
+                    rsTopScores.close();
+                }
 
+                if (stmt != null) {
+                    stmt.close();
+                }
 
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rsTopScores;
+    }
 
+    public static ArrayList<PlayerScore> getScores() {
+        ArrayList ps = new ArrayList<PlayerScore>();
+        try {
+            while (getTopUsers().next()) {
+                ps.add(PlayerScore.createPlayer(getTopUsers().getString("username"), getTopUsers().getInt("highScore")));
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return ps;
+    }
 }
 
 
