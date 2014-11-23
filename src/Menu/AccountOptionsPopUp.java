@@ -6,10 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Shabab Ahmed on 20/11/2014.
+ * The AccountOptionsPopUp is called when the user selects Modify Account Information in the main menu. The popup has
+ * fields for username, password and re-type password. It also contains 3 buttons: Submit, Delete and Exit. The user
+ * can update their username, password or both. The user also has the option of deleting the account entirely or
+ * returning to the main menu. Methods from JFrame are inherited to be used in the popup.
  */
 public class AccountOptionsPopUp extends JFrame {
 
+    //Initializing variables to be used
     private JTextField realName;
     private JPasswordField fieldPass;
     private JPasswordField retypePass;
@@ -22,8 +26,8 @@ public class AccountOptionsPopUp extends JFrame {
     private MenuManager menuManager;
 
     /**
-     *
-     * @param menuManager instance is passed.
+     *Constructor for the AccountOptionsPopUp
+     * @param menuManager Object menuManager is passed to navigate between the different game states and menus.
      */
     public AccountOptionsPopUp(MenuManager menuManager){
         this.menuManager = menuManager;
@@ -39,7 +43,9 @@ public class AccountOptionsPopUp extends JFrame {
         setResizable(false);
     }
 
-    //User Interface
+    /**
+     * Creates the window and everything displayed in it in the popup.
+     */
     private void createView(){
         JPanel panel = new JPanel();
         getContentPane().add(panel);
@@ -77,7 +83,9 @@ public class AccountOptionsPopUp extends JFrame {
         buttonDeleteAccount = new JButton("Delete Account");
         buttonDeleteAccount.setBounds(10, 170, 80, 25);
 
-
+        /**
+         * Calls the functionality for the submit button
+         */
         buttonSubmit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -85,6 +93,9 @@ public class AccountOptionsPopUp extends JFrame {
             }
         });
 
+        /**
+         * Calls the functionality for the exit button
+         */
         buttonExit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -92,6 +103,9 @@ public class AccountOptionsPopUp extends JFrame {
             }
         });
 
+        /**
+         * Calls the functionality for the delete button
+         */
         buttonDeleteAccount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -113,11 +127,18 @@ public class AccountOptionsPopUp extends JFrame {
         labelMessage3.setBounds(10, 230, 160, 25);
         panel.add(labelMessage3);
     }
+    /**
+     * Exits from the popup  when clicked and takes the user back to the main menu page.
+     */
     public void exitClicked(){
         setVisible(false);
         dispose();
     }
 
+    /**
+     *Takes the input from the user when clicked. Checks which information is updated by the user. Calls respective
+     *methods to validate and update information.  Shows confirmation text when information is updated.
+     */
     public void submitClicked() {
         labelMessage.setText("");
         labelMessage3.setText("");
@@ -142,10 +163,19 @@ public class AccountOptionsPopUp extends JFrame {
         }
     }
 
+    /**
+     * Deletes the account of the current logged in user.
+     */
     public void deleteAccountClicked() {
 
     }
 
+    /**
+     * Validates and updates the password.
+     * @param newPassWord String password is passed to be checked for validity.
+     * @param newPassWordDuplicate String re-entered password is taken in to see if they match
+     * @return Boolean is returned on whether the password is valid or not
+     */
     public boolean submitNewPassWord(String newPassWord, String newPassWordDuplicate) {
         boolean updateSuccessful = false;
 
@@ -179,6 +209,10 @@ public class AccountOptionsPopUp extends JFrame {
         return updateSuccessful;
     }
 
+    /**
+     * Updates username
+     * @param newRealName String real name of the user is passed to be updated.
+     */
     public void submitNewRealName(String newRealName) {
         boolean updateSuccessful = false;
 
@@ -195,7 +229,12 @@ public class AccountOptionsPopUp extends JFrame {
         }
     }
 
-
+    /**
+     * Checks to see if the password meets the requirement of having capital letters, small letters, digits and
+     * symbols.
+     * @param password The password input is taken in for strength to checked.
+     * @return Boolean is returned on whether the password is strong enough or not.
+     */
     private boolean isValidPassword(String password) {
         int passwordStrength = 0;
         String[] partialRegexChecks = {".*[a-z]+.*", // Lower Case
