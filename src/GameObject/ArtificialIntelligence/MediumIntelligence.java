@@ -47,9 +47,12 @@ public class MediumIntelligence extends ArtificialIntelligence {
 
         int distance = centerOfPlayerObject.distanceTo(centerOfEnemyObject);
 
+        //Bomb bomb = new Bomb(posX - posX % 32, posY - posY % 32);
+
         if (distance < 60) {
             System.out.println("chase enabled");
             if (playerAndEnemyOnSameRow) {
+                enemy.setPosY(enemyPosY - enemyPosY % 32);
                 if (playerPosX > enemyPosX) {
                     enemy.setDirectionOfMovement(Direction.EAST);
                     System.out.println("going east");
@@ -58,6 +61,7 @@ public class MediumIntelligence extends ArtificialIntelligence {
                     System.out.println("going west");
                 }
             } else {
+                enemy.setPosX(enemyPosX - enemyPosX % 32);
                 if (playerPosY > enemyPosY) {
                     enemy.setDirectionOfMovement(Direction.SOUTH);
                     System.out.println("going south");
