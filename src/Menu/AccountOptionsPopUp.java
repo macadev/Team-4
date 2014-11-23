@@ -169,10 +169,10 @@ public class AccountOptionsPopUp extends JFrame {
             }
 
             if (updateSuccessful) {
-                labelMessage.setText("Information Updated");
+                labelMessage.setText("                             Password Updated                        ");
                 labelMessage2.setText("");
             } else {
-                labelMessage.setText("Error: Invalid Entry");
+                labelMessage.setText("                             Error: Invalid Entry                        ");
                 labelMessage2.setText("");
             }
         }
@@ -189,9 +189,9 @@ public class AccountOptionsPopUp extends JFrame {
         }
 
         if (updateSuccessful) {
-            labelMessage3.setText("Real Name Updated");
+            labelMessage3.setText("                             Real Name Updated                        ");
         } else {
-            labelMessage3.setText("Error: Invalid Entry");
+            labelMessage3.setText("                              Error: Invalid Entry                        ");
         }
     }
 

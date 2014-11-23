@@ -9,7 +9,8 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**
- * Created by danielmacario on 14-11-04.
+ * The very first menu that loads up that gives the user the option to either login or create a new account.
+ *It inherits some functionality from MenuTemplate. It shows a popup for logging in or logging out.
  */
 public class LoginMenu extends MenuTemplate {
 
@@ -58,9 +59,9 @@ public class LoginMenu extends MenuTemplate {
 
     private void select() {
         if (currentChoice == 0) {
-            //LoginPopUp lg = new LoginPopUp(menuManager);
-            //lg.setVisible(true);
-            redirectToMainMenu();
+            LoginPopup lg = new LoginPopup(menuManager);
+            lg.setVisible(true);
+            //redirectToMainMenu();
         }
         if (currentChoice == 1) {
             AccountCreationMenuPopUp acp = new AccountCreationMenuPopUp(menuManager);
