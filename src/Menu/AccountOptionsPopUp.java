@@ -137,10 +137,12 @@ public class AccountOptionsPopUp extends JFrame {
 
     /**
      *Takes the input from the user when clicked. Checks which information is updated by the user. Calls respective
-     *methods to validate and update information.  Shows confirmation text when information is updated.
+     *methods to validate and update information.  Shows confirmation text when information is updated and redirects
+     * the user to the login menu when account is deleted.
      */
     public void submitClicked() {
         labelMessage.setText("");
+        labelMessage2.setText("");
         labelMessage3.setText("");
 
         String newRealName = realName.getText();
@@ -150,6 +152,7 @@ public class AccountOptionsPopUp extends JFrame {
         if (newRealName.isEmpty()  && newPassWord.isEmpty() && newPassWordDuplicate.isEmpty() ){
             labelMessage.setText("                              Nothing to Update.                            ");
             labelMessage2.setText("");
+            labelMessage3.setText("");
             return;
         }
         boolean passWordUpdatedSuccessfully = true;
@@ -164,10 +167,28 @@ public class AccountOptionsPopUp extends JFrame {
     }
 
     /**
-     * Deletes the account of the current logged in user.
+     * Deletes the account of the current logged in user and redirects them to the login menu.
      */
     public void deleteAccountClicked() {
-
+        boolean accountDeleted = false;
+        String currUser = menuManager.getPlayerUserName();
+        try {
+            accountDeleted = DatabaseController.deleteAccount(currUser);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (accountDeleted){
+            labelMessage.setText("                               Account Deleted                         ");
+            labelMessage2.setText("");
+            labelMessage3.setText("");
+            menuManager.setMenuState(MenuState.LOGIN);
+            setVisible(false);
+            dispose();
+        } else {
+            labelMessage.setText("                       Account could not be Deleted                     ");
+            labelMessage2.setText("");
+            labelMessage3.setText("");
+        }
     }
 
     /**
@@ -182,14 +203,17 @@ public class AccountOptionsPopUp extends JFrame {
         if (!isValidPassword(newPassWord)) {
             labelMessage.setText("The password is too weak. Enter one of each type from:");
             labelMessage2.setText("Capital letters, Small letters, Digits and Symbols");
+            labelMessage3.setText("");
             updateSuccessful = false;
         } else if(newPassWord.length() < 8) {
             labelMessage.setText("Password must be at least 8 characters");
             labelMessage2.setText("");
+            labelMessage3.setText("");
             updateSuccessful = false;
         } else if (!(newPassWord.equals(newPassWordDuplicate))) {
             labelMessage.setText("                             Passwords do not match                        ");
             labelMessage2.setText("");
+            labelMessage3.setText("");
             updateSuccessful = false;
         } else {
             try {
@@ -201,9 +225,11 @@ public class AccountOptionsPopUp extends JFrame {
             if (updateSuccessful) {
                 labelMessage.setText("                             Password Updated                        ");
                 labelMessage2.setText("");
+                labelMessage3.setText("");
             } else {
                 labelMessage.setText("                             Error: Invalid Entry                        ");
                 labelMessage2.setText("");
+                labelMessage3.setText("");
             }
         }
         return updateSuccessful;
@@ -223,8 +249,12 @@ public class AccountOptionsPopUp extends JFrame {
         }
 
         if (updateSuccessful) {
+            labelMessage.setText("");
+            labelMessage2.setText("");
             labelMessage3.setText("                             Real Name Updated                        ");
         } else {
+            labelMessage.setText("");
+            labelMessage2.setText("");
             labelMessage3.setText("                              Error: Invalid Entry                        ");
         }
     }
