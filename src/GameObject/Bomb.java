@@ -43,7 +43,7 @@ public class Bomb extends StaticObject implements Serializable {
      */
     public void timeExplosion() {
         framesOnGrid++;
-        if (framesOnGrid > 50) {
+        if (framesOnGrid > 90) {
             explode();
         }
     }

@@ -1,11 +1,14 @@
 package GameObject;
 
 import Database.DatabaseController;
+import GameObject.ArtificialIntelligence.HighIntelligence;
+import GameObject.ArtificialIntelligence.Intelligence;
+import GameObject.ArtificialIntelligence.PathFinder;
+import GamePlay.Coordinate;
 import GamePlay.GamePlayState;
 import GamePlay.Spawner;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
@@ -32,6 +35,7 @@ public class TileMap implements Serializable {
     private PowerUp powerUp;
     private Door door;
     private Spawner spawner;
+    private PathFinder pathFinder;
     private String userName;
     private int bombRadius;
     private boolean isBonusStage;
@@ -53,6 +57,8 @@ public class TileMap implements Serializable {
         this.spawner = new Spawner(getCurrentStage());
         this.flames = new ArrayList<Flame>();
         this.isBonusStage = getCurrentStage().isBonusStage();
+        this.pathFinder = new PathFinder();
+        HighIntelligence.setPathFinder(pathFinder);
         this.bonusStageCountDown = 0;
         this.harderSetAlreadyCreated = false;
         populateGridWithBlocks();
@@ -160,6 +166,7 @@ public class TileMap implements Serializable {
 
     public void populateGridWithBlocks() {
         walls = spawner.generateWalls();
+        pathFinder.updateGraph(walls);
     }
 
     public void createEnemySet() {
@@ -180,10 +187,32 @@ public class TileMap implements Serializable {
     }
 
     public void moveEnemies(int posX, int posY, boolean playerIsVisible) {
+
+        pathFinder.updateGraphRefreshTimer();
+
         for (Enemy enemy : enemies) {
             enemy.move();
-            if (playerIsVisible){
-                enemy.chasePlayer(posX, posY);
+
+            //Calculate the distance between the player and the enemy to determine
+            //whether the enemy should chase the player or not
+            int distanceBetweenPlayerAndEnemy = 100;
+            if (playerIsVisible) {
+                Coordinate centerOfPlayerObject = new Coordinate(posX + 15, posY + 15);
+                Coordinate centerOfEnemyObject = new Coordinate(enemy.getPosX() + 15, enemy.getPosY() + 15);
+                distanceBetweenPlayerAndEnemy = centerOfPlayerObject.distanceTo(centerOfEnemyObject);
+            }
+
+            //Updating the graph is an expensive operation, we want to do it once for all the enemies.
+            //Also, we only want to update when a chase will take place, this happens when the distance between
+            //the player and the enemy is less than 85 pixels (2 tiles).
+            if (enemy.getIntelligence() instanceof HighIntelligence && distanceBetweenPlayerAndEnemy < 85 && pathFinder.getRefreshGraph()) {
+                System.out.println("enemy has high intel!");
+                pathFinder.updateGraph(walls);
+                pathFinder.setRefreshGraph(false);
+            }
+
+            if (playerIsVisible && !player.isInvincibilityEnabled() && !isBonusStage){
+                enemy.chasePlayer(posX, posY, distanceBetweenPlayerAndEnemy);
             }
         }
     }
@@ -295,9 +324,7 @@ public class TileMap implements Serializable {
             case 7:
                 return EnemyType.PONTAN;
         }
-
         return null;
-
     }
 
     public void incrementBombRadius() {
@@ -370,5 +397,9 @@ public class TileMap implements Serializable {
 
     public void setNextStageTransition(boolean nextStageTransition) {
         this.nextStageTransition = nextStageTransition;
+    }
+
+    public GameObject[][] getWalls() {
+        return walls;
     }
 }

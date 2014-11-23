@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import Database.DatabaseController;
 import GameObject.*;
 import SystemController.GameState;
 import SystemController.GameStateManager;
@@ -155,10 +154,10 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         g.setFont(hudFont);
         if (bonusStage) {
             hudInformation = "Time Remaining: " + bonusStageCountDown/30 +
-                    " | Lives Left: " + player.getLifesRemaining() + " | Score: " + player.getScore();
+                    " | Lives Left: " + player.getLivesRemaining() + " | Score: " + player.getScore();
             g.drawString(hudInformation, 160, 20);
         } else {
-            hudInformation = "Lives Left: " + player.getLifesRemaining() + " | Score: " + player.getScore();
+            hudInformation = "Lives Left: " + player.getLivesRemaining() + " | Score: " + player.getScore();
             g.drawString(hudInformation, 305, 20);
         }
     }

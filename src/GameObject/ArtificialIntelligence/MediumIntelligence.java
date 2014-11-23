@@ -26,11 +26,7 @@ public class MediumIntelligence extends ArtificialIntelligence {
     }
 
     @Override
-    public void chasePlayer(int playerPosX, int playerPosY, Enemy enemy) {
-
-        /**
-         * this is in principle what we want, but we need the row and column the player is on
-         */
+    public void chasePlayer(int playerPosX, int playerPosY, int distanceFromEnemyToPlayer, Enemy enemy) {
 
         boolean playerAndEnemyOnSameRow = playerPosY - enemy.getPosY() < 3 && playerPosY - enemy.getPosY() > -3;
         boolean playerAndEnemyOnSameCol = playerPosX - enemy.getPosX() < 3 && playerPosX - enemy.getPosX() > -3;
@@ -42,15 +38,7 @@ public class MediumIntelligence extends ArtificialIntelligence {
         int enemyPosX = enemy.getPosX();
         int enemyPosY = enemy.getPosY();
 
-        Coordinate centerOfPlayerObject = new Coordinate(playerPosX + 15, playerPosY + 15);
-        Coordinate centerOfEnemyObject = new Coordinate(enemy.getPosX() + 15, enemy.getPosY() + 15);
-
-        int distance = centerOfPlayerObject.distanceTo(centerOfEnemyObject);
-
-        //Bomb bomb = new Bomb(posX - posX % 32, posY - posY % 32);
-
-        if (distance < 60) {
-            System.out.println("chase enabled");
+        if (distanceFromEnemyToPlayer < 60) {
             if (playerAndEnemyOnSameRow) {
                 enemy.setPosY(enemyPosY - enemyPosY % 32);
                 if (playerPosX > enemyPosX) {

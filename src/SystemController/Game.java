@@ -39,7 +39,7 @@ public class Game {
 
         //Music music = new Music();
         //music.start();
-        SoundController.THEME.loop();
+        //SoundController.THEME.loop();
 
 
     }

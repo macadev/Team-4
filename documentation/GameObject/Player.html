@@ -219,7 +219,7 @@ Used to represent the Player object on the Game Grid. The Player class inherits 
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;void</CODE></FONT></TD>
-<TD><CODE><B><A HREF="../GameObject/Player.html#draw(java.awt.Graphics2D)">draw</A></B>(java.awt.Graphics2D&nbsp;g)</CODE>
+<TD><CODE><B><A HREF="../GameObject/Player.html#draw(java.awt.Graphics2D)">draw</A></B>(java.awt.Graphics2D&nbsp;costToReachNodeFromStart)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draws the GameObject instance on the Game Grid.</TD>
@@ -227,7 +227,7 @@ Used to represent the Player object on the Game Grid. The Player class inherits 
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;void</CODE></FONT></TD>
-<TD><CODE><B><A HREF="../GameObject/Player.html#drawBombs(java.awt.Graphics2D)">drawBombs</A></B>(java.awt.Graphics2D&nbsp;g)</CODE>
+<TD><CODE><B><A HREF="../GameObject/Player.html#drawBombs(java.awt.Graphics2D)">drawBombs</A></B>(java.awt.Graphics2D&nbsp;costToReachNodeFromStart)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
@@ -481,7 +481,7 @@ public <B>Player</B>(int&nbsp;posX,
 <A NAME="draw(java.awt.Graphics2D)"><!-- --></A><H3>
 draw</H3>
 <PRE>
-public void <B>draw</B>(java.awt.Graphics2D&nbsp;g)</PRE>
+public void <B>draw</B>(java.awt.Graphics2D&nbsp;costToReachNodeFromStart)</PRE>
 <DL>
 <DD><B>Description copied from class: <CODE><A HREF="../GameObject/GameObject.html#draw(java.awt.Graphics2D)">GameObject</A></CODE></B></DD>
 <DD>Draws the GameObject instance on the Game Grid.
@@ -490,7 +490,7 @@ public void <B>draw</B>(java.awt.Graphics2D&nbsp;g)</PRE>
 <DT><B>Overrides:</B><DD><CODE><A HREF="../GameObject/GameObject.html#draw(java.awt.Graphics2D)">draw</A></CODE> in class <CODE><A HREF="../GameObject/GameObject.html" title="class in GameObject">GameObject</A></CODE></DL>
 </DD>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>g</CODE> - Graphics object corresponding to the JPanel where the game play state is rendered.</DL>
+<DT><B>Parameters:</B><DD><CODE>costToReachNodeFromStart</CODE> - Graphics object corresponding to the JPanel where the game play state is rendered.</DL>
 </DD>
 </DL>
 <HR>
@@ -498,7 +498,7 @@ public void <B>draw</B>(java.awt.Graphics2D&nbsp;g)</PRE>
 <A NAME="drawBombs(java.awt.Graphics2D)"><!-- --></A><H3>
 drawBombs</H3>
 <PRE>
-public void <B>drawBombs</B>(java.awt.Graphics2D&nbsp;g)</PRE>
+public void <B>drawBombs</B>(java.awt.Graphics2D&nbsp;costToReachNodeFromStart)</PRE>
 <DL>
 <DD><DL>
 </DL>

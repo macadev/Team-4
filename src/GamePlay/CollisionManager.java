@@ -29,7 +29,7 @@ public class CollisionManager implements Serializable {
         if (!isBonusStage) {
             checkCollisionWithPowerUp(playerRectangle, powerUp);
             checkCollisionWithDoor(playerRectangle, door, enemies);
-            checkCollisionsWithEnemies(playerRectangle, enemies);
+            checkCollisionsWithEnemies(playerRectangle, enemies, isBonusStage);
         }
 
 
@@ -132,7 +132,7 @@ public class CollisionManager implements Serializable {
         for (Flame flame : flames) {
             flameRectangle = flame.getBounds();
 
-            if (player.isVisible() && !player.isInvincibilityEnabled()) {
+            if (player.isVisible() && !player.isInvincibilityEnabled() && !isBonusStage) {
                 if(!player.hasFlamePass()) {
                     if (playerRectangle.intersects(flameRectangle)) {
                         player.death();
@@ -198,9 +198,9 @@ public class CollisionManager implements Serializable {
         player.addToScore(scoreObtained);
     }
 
-    public void checkCollisionsWithEnemies(Rectangle playerRectangle, ArrayList<Enemy> enemies) {
+    public void checkCollisionsWithEnemies(Rectangle playerRectangle, ArrayList<Enemy> enemies, boolean isBonusStage) {
         //check for collisions between the player and the enemies
-        if (player.isVisible() && !player.isInvincibilityEnabled()) {
+        if (player.isVisible() && !player.isInvincibilityEnabled() && isBonusStage) {
             for (Enemy enemy : enemies) {
                 Rectangle enemyRectangle = enemy.getBounds();
                 if (playerRectangle.intersects(enemyRectangle)) {

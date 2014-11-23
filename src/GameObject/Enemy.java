@@ -3,10 +3,7 @@
  */
 package GameObject;
 
-import GameObject.ArtificialIntelligence.ArtificialIntelligence;
-import GameObject.ArtificialIntelligence.HighIntelligence;
-import GameObject.ArtificialIntelligence.LowIntelligence;
-import GameObject.ArtificialIntelligence.MediumIntelligence;
+import GameObject.ArtificialIntelligence.*;
 import GamePlay.Coordinate;
 
 import javax.swing.*;
@@ -25,6 +22,7 @@ public class Enemy extends MovableObject implements Serializable {
     private EnemyType enemyType;
     private Direction directionOfMovement;
     private ArtificialIntelligence intelligence = null;
+    private PathFinder pathFinder;
     private int difficultyRanking;
     private boolean hitByFlames = false;
 
@@ -115,7 +113,6 @@ public class Enemy extends MovableObject implements Serializable {
                 break;
         }
         this.image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
-        this.intelligence = new MediumIntelligence();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
     }
@@ -128,8 +125,8 @@ public class Enemy extends MovableObject implements Serializable {
         intelligence.reverseDirection(this);
     }
 
-    public void chasePlayer(int playerPosX, int playerPosY) {
-        intelligence.chasePlayer(playerPosX, playerPosY, this);
+    public void chasePlayer(int playerPosX, int playerPosY, int distanceBetweenEnemyAndPlayer) {
+        intelligence.chasePlayer(playerPosX, playerPosY, distanceBetweenEnemyAndPlayer, this);
     }
 
     /**
@@ -167,5 +164,18 @@ public class Enemy extends MovableObject implements Serializable {
     public int getDifficultyRanking() {
         return difficultyRanking;
     }
+
+    public ArtificialIntelligence getIntelligence() {
+        return intelligence;
+    }
+
+    public PathFinder getPathFinder() {
+        return pathFinder;
+    }
+
+    public void setPathFinder(PathFinder pathFinder) {
+        this.pathFinder = pathFinder;
+    }
+
 }
 

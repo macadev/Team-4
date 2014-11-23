@@ -61,10 +61,10 @@ public class Player extends MovableObject implements Serializable {
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
         this.bombsAllowed = 3;
-        this.wallPass = true;
-        this.bombPass = true;
-        this.flamePass = true;
-        this.detonatorEnabled = true;
+        this.wallPass = false;
+        this.bombPass = false;
+        this.flamePass = false;
+        this.detonatorEnabled = false;
         this.invincibilityEnabled = false;
     }
 
@@ -77,7 +77,6 @@ public class Player extends MovableObject implements Serializable {
         if (invincibilityEnabled) {
             updateInvincibilityTimer();
         }
-
 
         //serialization does not save Image objects
         //If the image object is empty, we reload the sprite
@@ -163,13 +162,13 @@ public class Player extends MovableObject implements Serializable {
 
     /**
      * Disable the visibility of the player so that it is not
-     * drawn on the grid. Decrease the number of lifes remaining
+     * drawn on the grid. Decrease the number of lives remaining
      * by one.
      */
     public void death() {
         disablePowerUpsOnDeath();
         this.visible = false;
-        decrementLifesRemaining();
+        decrementLivesRemaining();
         this.deltaX = 0;
         this.deltaY = 0;
     }
@@ -192,9 +191,9 @@ public class Player extends MovableObject implements Serializable {
     }
 
     /**
-     * Reduces the number of lifes the player has remaining by 1.
+     * Reduces the number of lives the player has remaining by 1.
      */
-    public void decrementLifesRemaining() {
+    public void decrementLivesRemaining() {
         this.livesRemaining--;
         if (livesRemaining < 0) {
             currentState = GamePlayState.GAMEOVER;
@@ -408,7 +407,7 @@ public class Player extends MovableObject implements Serializable {
         this.score += enemyScore;
     }
 
-    public int getLifesRemaining() {
+    public int getLivesRemaining() {
         return livesRemaining;
     }
 

@@ -41,7 +41,6 @@ public abstract class ArtificialIntelligence implements Serializable {
                 enemy.setPosX(posX - speed);
                 break;
         }
-
     }
 
     /**
@@ -66,5 +65,5 @@ public abstract class ArtificialIntelligence implements Serializable {
         }
     }
 
-    public abstract void chasePlayer(int playerPosX, int playerPosY, Enemy enemy);
+    public abstract void chasePlayer(int playerPosX, int playerPosY, int distanceBetweenEnemyAndPlayer, Enemy enemy);
 }

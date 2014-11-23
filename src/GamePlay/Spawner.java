@@ -28,14 +28,12 @@ public class Spawner implements Serializable {
     }
 
     public GameObject[][] generateWalls() {
-
         generateConcreteWalls();
         generateBrickWalls();
         return gridLayout;
     }
 
     public void generateConcreteWalls() {
-
         for (int col = 0; col < TileMap.NUM_OF_COLS; col++) {
 
             for (int row = 0; row < TileMap.NUM_OF_ROWS; row++) {
@@ -117,15 +115,9 @@ public class Spawner implements Serializable {
     }
 
     public ArrayList<Enemy> createSetOfHarderEnemies(EnemyType harderEnemyType, int posX, int posY) {
-        Coordinate positionOnGrid;
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
         for (int i = 0; i < 8; i++) {
-            //positionOnGrid = getRandomCoordinateFromSet(possibleEnemyCoordinates);
-            //int row = positionOnGrid.getRow();
-            //int col = positionOnGrid.getCol();
-
-            //enemies.add(new Enemy(harderEnemyType, col * tileMap.WIDTH_OF_TILE + 1, row * tileMap.HEIGHT_OF_TILE + 1));
             enemies.add(new Enemy(harderEnemyType, posX, posY));
         }
         return enemies;
@@ -193,7 +185,7 @@ public class Spawner implements Serializable {
     }
 
     public boolean getRandomBoolean() {
-        return randomGenerator.nextFloat() <= 0.1;
+        return randomGenerator.nextFloat() <= 0.2;
     }
 
     /**

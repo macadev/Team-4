@@ -1,7 +1,6 @@
 package GameObject;
 
 import GamePlay.GamePlayState;
-import SystemController.GameState;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,14 +41,14 @@ public class PlayerTest {
 
     @Test
     public void testDecrementLifesRemaining() throws Exception {
-        int lifesRemaining = player.getLifesRemaining();
+        int lifesRemaining = player.getLivesRemaining();
         GamePlayState gps = player.getCurrentGamePlayState();
         assertEquals("Upon spawing, the player has 2 lifes", 2, lifesRemaining);
         assertEquals("Upon spawing, the current state is set to in game", GamePlayState.INGAME, gps);
-        player.decrementLifesRemaining();
-        assertEquals("Decrement lifes remaining reduces lifes by one", lifesRemaining - 1, player.getLifesRemaining());
-        player.decrementLifesRemaining();
-        player.decrementLifesRemaining();
+        player.decrementLivesRemaining();
+        assertEquals("Decrement lifes remaining reduces lifes by one", lifesRemaining - 1, player.getLivesRemaining());
+        player.decrementLivesRemaining();
+        player.decrementLivesRemaining();
         gps = player.getCurrentGamePlayState();
         assertEquals("Negative lifes remaining sets the current state to game over", GamePlayState.GAMEOVER, gps);
     }
