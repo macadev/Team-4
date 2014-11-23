@@ -12,6 +12,11 @@ public class BombTest {
     }
 
     @Test
+    public void testExplode() throws Exception {
+
+    }
+
+    @Test
     public void testIsFirstCollision() throws Exception {
 
     }
