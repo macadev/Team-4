@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class LoginPopUp extends JFrame {
+public class LoginPopup extends JFrame {
 	
     private JTextField fieldName;
     private JPasswordField fieldPass;
@@ -17,7 +17,7 @@ public class LoginPopUp extends JFrame {
     private JButton buttonSubmit;
     private MenuManager menuManager;
 
-    public LoginPopUp(MenuManager menuManager){
+    public LoginPopup(MenuManager menuManager){
         this.menuManager = menuManager;
         createView();
         //Exit Option

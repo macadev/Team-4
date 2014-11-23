@@ -21,6 +21,10 @@ public class AccountOptionsPopUp extends JFrame {
     private JButton buttonDeleteAccount;
     private MenuManager menuManager;
 
+    /**
+     *
+     * @param menuManager instance is passed.
+     */
     public AccountOptionsPopUp(MenuManager menuManager){
         this.menuManager = menuManager;
         createView();
