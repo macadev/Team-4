@@ -133,6 +133,10 @@ public class DatabaseController {
 
     public static void setLevelUnlocked(String username, int level) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
+
+        int currentLevelUnlocked = getLevelUnlocked(username);
+        if (currentLevelUnlocked >= level) return;
+
         try {
             Connection connection = null;
             PreparedStatement updateLevelUnlocked;
