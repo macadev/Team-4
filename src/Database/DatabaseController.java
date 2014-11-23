@@ -3,6 +3,7 @@ package Database;
 import javax.xml.transform.Result;
 import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
 //2014
 /**
  * Created by Owen Li on 14-11-08.
@@ -403,6 +404,185 @@ public class DatabaseController {
     }
 
 
+    public static boolean deleteAccount(String username) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        try {
+            Connection connection = null;
+            PreparedStatement delAccount;
+            PreparedStatement updateStmt;
+            String deleteAccount = "DELETE from Users where username = ?;";
+            String updateRecords = "SELECT * from Users where username = ?;";
+            ResultSet rsUpdate = null;
+
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                //connection.setAutoCommit(false);
+                delAccount = connection.prepareStatement(deleteAccount);
+                delAccount.setString(1, username);
+                delAccount.executeUpdate();
+                System.out.println("Account Deleted");
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+            finally {
+
+                if (rsUpdate != null) {
+                    rsUpdate.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+
+    public static int getScore(String username) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        int score;
+        score = 0;
+
+        try {
+            Connection connection = null;
+            ResultSet rsScore = null;
+            PreparedStatement stmt = null;
+            String sql = "select * from Users where username = ?";
+
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                //connection.setAutoCommit(false);
+                stmt = connection.prepareStatement(sql);
+                stmt.setString(1, username);
+                rsScore = stmt.executeQuery();
+
+                while (rsScore.next()) {
+                    score = rsScore.getInt("highScore");
+                    System.out.println("Highscore of " + username + " is: " + score);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (rsScore != null) {
+                    rsScore.close();
+                }
+
+                if (stmt != null) {
+                    stmt.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return score;
+    }
+
+    public static void setScore(String username, int score) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        int currentScore = getScore(username);
+
+        try {
+            Connection connection = null;
+            PreparedStatement updateHighScore;
+            String sql = "update Users set highScore = ? where username = ?;";
+            String updateRecords = "SELECT * from Users where username = ?;";
+            PreparedStatement updateStmt;
+            ResultSet rsUpdate = null;
+
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                //connection.setAutoCommit(false);
+                updateHighScore = connection.prepareStatement(sql);
+                updateHighScore.setInt(1, score+currentScore);
+                updateHighScore.setString(2, username);
+                updateHighScore.executeUpdate();
+
+                updateStmt = connection.prepareStatement(updateRecords);
+                updateStmt.setString(1, username);
+                rsUpdate = updateStmt.executeQuery();
+                while (rsUpdate.next()) {
+                    int newHighScore = rsUpdate.getInt("highScore");
+                    System.out.println("Updated High Score to : " + newHighScore);
+                }
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+            finally {
+
+                if (rsUpdate != null) {
+                    rsUpdate.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ResultSet getTopUsers() throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        ResultSet rsTopScores = null;
+        try {
+            Connection connection = null;
+            Statement stmt = null;
+            String sql = "SELECT * from Users ORDER BY highScore DESC";
+
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                //connection.setAutoCommit(false);
+                stmt = connection.createStatement();
+                rsTopScores = stmt.executeQuery(sql);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (rsTopScores != null) {
+                    rsTopScores.close();
+                }
+
+                if (stmt != null) {
+                    stmt.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rsTopScores;
+    }
+
+    public static ArrayList<PlayerScore> getScores() {
+        ArrayList ps = new ArrayList<PlayerScore>();
+        try {
+            while (getTopUsers().next()) {
+                ps.add(PlayerScore.createPlayer(getTopUsers().getString("username"), getTopUsers().getInt("highScore")));
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return ps;
+    }
 }
 
 
