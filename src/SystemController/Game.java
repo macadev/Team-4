@@ -20,8 +20,10 @@ public class Game {
             DatabaseController.printDBContents();
             System.out.println("Database succesfully initialized");
             DatabaseController.createNewUser("owentest","testpass","Owenli");
-            DatabaseController.setLevelUnlocked("owentest", 61);
-            DatabaseController.getLevelUnlocked("owentest");
+            DatabaseController.createNewUser("testuser","testpass","testName");
+            DatabaseController.deleteAccount("owentest");
+
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

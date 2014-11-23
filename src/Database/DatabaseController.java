@@ -403,6 +403,45 @@ public class DatabaseController {
     }
 
 
+    public static boolean deleteAccount(String username) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        try {
+            Connection connection = null;
+            PreparedStatement delAccount;
+            PreparedStatement updateStmt;
+            String deleteAccount = "DELETE from Users where username = ?;";
+            String updateRecords = "SELECT * from Users where username = ?;";
+            ResultSet rsUpdate = null;
+
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                //connection.setAutoCommit(false);
+                delAccount = connection.prepareStatement(deleteAccount);
+                delAccount.setString(1, username);
+                delAccount.executeUpdate();
+                System.out.println("Account Deleted");
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+            finally {
+
+                if (rsUpdate != null) {
+                    rsUpdate.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
 }
 
 
