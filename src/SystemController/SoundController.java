@@ -3,7 +3,7 @@ import java.applet.Applet;
 import java.applet.AudioClip;
 
 /**
- * Created by danielmacario on 14-11-21.
+ * Created by FloMac on 14-11-21.
  */
 public class SoundController {
 

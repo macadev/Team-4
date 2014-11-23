@@ -11,10 +11,14 @@ import java.util.regex.Pattern;
 import javax.swing.*;
 
 /**
- * Created by Shabab Ahmed on 10/11/2014.
+ * The Account Creation popup menu is called when the user chooses to create a new account in the login menu. The popup
+ * has fields for username, real name, password and re-enter password. It also contains two buttons: Submit and Exit.
+ * All fields are required to create a new account. Methods from JFrame are inherited to be used in the popup.
  */
 public class AccountCreationMenuPopUp extends JFrame {
 
+
+    //Initializing variables to be used
     private JTextField realName;
     private JTextField userName;
     private JPasswordField fieldPass;
@@ -25,6 +29,10 @@ public class AccountCreationMenuPopUp extends JFrame {
     private JButton buttonExit;
     private MenuManager menuManager;
 
+    /**
+     *Constructor for AccountCreationMenuPopUp
+     * @param menuManager Object menuManager is passed to navigate between the different game states and menus.
+     */
     public AccountCreationMenuPopUp(MenuManager menuManager){
         this.menuManager = menuManager;
         createView();
@@ -40,7 +48,9 @@ public class AccountCreationMenuPopUp extends JFrame {
 
     }
 
-    //User Interface
+    /**
+     * Creates the window and everything displayed in it in the popup.
+     */
     private void createView(){
         JPanel panel = new JPanel();
         getContentPane().add(panel);
@@ -88,14 +98,18 @@ public class AccountCreationMenuPopUp extends JFrame {
         buttonSubmit.setBounds(10, 170, 80, 25);
         buttonExit  = new JButton("Go back to Login Menu");
         buttonExit.setBounds(50, 170, 80, 25);
-
+        /**
+         * Calls the functionality for the submit button
+         */
         buttonSubmit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 submitClicked();
             }
         });
-
+        /**
+         * Calls the functionality for the exit button
+         */
         buttonExit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -113,11 +127,21 @@ public class AccountCreationMenuPopUp extends JFrame {
         labelMessage2.setBounds(10, 210, 160, 25);
         panel.add(labelMessage2);
     }
+
+    /**
+     * Exits from the popup when clicked and takes the user back to the login page.
+     */
     public void exitClicked(){
         menuManager.setMenuState(MenuState.LOGIN);
         setVisible(false);
         dispose();
     }
+
+    /**
+     * Takes the input when clicked, authenticates the user and creates an account if all criteria are met. Makes sure
+     * no fields are empty and that password and username meets requirements. Redirects the user to the main menu after
+     * successful account creation.
+     */
     public void submitClicked() {
         String realNameText = realName.getText();
         String userNameText = userName.getText();
@@ -165,10 +189,19 @@ public class AccountCreationMenuPopUp extends JFrame {
         }
     }
 
+    /**
+     * Redirects the user to the main menu.
+     */
     public void redirectToMainMenu() {
         menuManager.setMenuState(MenuState.MAIN);
     }
 
+    /**
+     * Checks to see if the password meets the requirement of having capital letters, small letters, digits and
+     * symbols.
+     * @param password The password input is taken in for strength to checked.
+     * @return Boolean is returned on whether the password is strong enough or not.
+     */
     private boolean isValidPassword(String password) {
         int passwordStrength = 0;
         String[] partialRegexChecks = {".*[a-z]+.*", // Lower Case
@@ -198,6 +231,11 @@ public class AccountCreationMenuPopUp extends JFrame {
         }
     }
 
+    /**
+     *Checks to see if username characters are valid or not. Username must be alphanumeric and may contain accents.
+     * @param sI The string username input is taken to see if it is valid or not
+     * @return Boolean is returned to see if the username is valid or not.
+     */
     public boolean isValidUsername(String sI){
         String s = removeAccent(sI);
         String pattern= "^[a-zA-Z0-9]*$";
@@ -207,6 +245,11 @@ public class AccountCreationMenuPopUp extends JFrame {
         return false;
     }
 
+    /**
+     * Normalizes (removes accents) from the username before the alphanumeric check is done.
+     * @param str The username string is taken in to be normalized (accent free)
+     * @return The normalized username string is returned.
+     */
     public String removeAccent(String str) {
         String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
         Pattern pat = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");

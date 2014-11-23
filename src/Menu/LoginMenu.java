@@ -9,18 +9,25 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**
- * Created by danielmacario on 14-11-04.
+ * The very first menu that loads up when the program is started that gives the user the option to either login or
+ *create a new account. It inherits some functionality from MenuTemplate. It loads up LoginPopup and
+ * AccountCreationMenuPopUp for logging in or creating a new account. It also has the exit functionality which
+ * stops the program entirely.
  */
 public class LoginMenu extends MenuTemplate {
 
     private String[] options = {"Login","Create Account","Exit"};
     private int currentChoice = 0;
     private MenuManager menuManager;
-
     private Color titleColor = MenuTemplate.TITLE_COLOR;
     private Font titleFont = MenuTemplate.TITLE_FONT;
     private Font font = MenuTemplate.BODY_FONT;
 
+
+    /**
+     * Constructor for the Login Menu
+     * @param menuManager Object menuManager is passed to navigate between the different game states and menus.
+     */
     public LoginMenu(MenuManager menuManager) {
         this.menuManager = menuManager;
     }
@@ -31,7 +38,10 @@ public class LoginMenu extends MenuTemplate {
 
     }
 
-
+    /**
+     * Draws the login menu with the options when the program is first started.
+     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
+     */
     @Override
     public void draw(Graphics2D g) {
 
@@ -56,10 +66,14 @@ public class LoginMenu extends MenuTemplate {
         }
     }
 
+    /**
+     * Implements the functionality of each choice on the screen
+     */
     private void select() {
         if (currentChoice == 0) {
-            LoginPopUp lg = new LoginPopUp(menuManager);
+            LoginPopup lg = new LoginPopup(menuManager);
             lg.setVisible(true);
+            //redirectToMainMenu();
         }
         if (currentChoice == 1) {
             AccountCreationMenuPopUp acp = new AccountCreationMenuPopUp(menuManager);
@@ -70,6 +84,12 @@ public class LoginMenu extends MenuTemplate {
         }
     }
 
+
+    /**
+     * Implements the functionality for the user to scroll through the options with the direction
+     * buttons on the keyboard.
+     * @param k KeyCode used to represent the key pressed on the keyboard.
+     */
     @Override
     public void keyPressed(int k) {
         if (k == KeyEvent.VK_ENTER) {
@@ -90,6 +110,9 @@ public class LoginMenu extends MenuTemplate {
 
     }
 
+    /**
+     * Redirects the user to the MainMenu
+     */
     public void redirectToMainMenu() {
         menuManager.setMenuState(MenuState.MAIN);
     }
