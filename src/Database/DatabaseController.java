@@ -442,6 +442,103 @@ public class DatabaseController {
         return true;
     }
 
+
+    public static int getScore(String username) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        int score;
+        score = 0;
+
+        try {
+            Connection connection = null;
+            ResultSet rsScore = null;
+            PreparedStatement stmt = null;
+            String sql = "select * from Users where username = ?";
+
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                //connection.setAutoCommit(false);
+                stmt = connection.prepareStatement(sql);
+                stmt.setString(1, username);
+                rsScore = stmt.executeQuery();
+
+                while (rsScore.next()) {
+                    score = rsScore.getInt("highScore");
+                    System.out.println("Highscore is : " + score);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (rsScore != null) {
+                    rsScore.close();
+                }
+
+                if (stmt != null) {
+                    stmt.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return score;
+    }
+
+    public static void setScore(String username, int score) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        int currentScore = getScore(username);
+
+        try {
+            Connection connection = null;
+            PreparedStatement updateHighScore;
+            String sql = "update Users set highScore = ? where username = ?;";
+            String updateRecords = "SELECT * from Users where username = ?;";
+            PreparedStatement updateStmt;
+            ResultSet rsUpdate = null;
+
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                //connection.setAutoCommit(false);
+                updateHighScore = connection.prepareStatement(sql);
+                updateHighScore.setInt(1, score+currentScore);
+                updateHighScore.setString(2, username);
+                updateHighScore.executeUpdate();
+
+                updateStmt = connection.prepareStatement(updateRecords);
+                updateStmt.setString(1, username);
+                rsUpdate = updateStmt.executeQuery();
+                while (rsUpdate.next()) {
+                    int newHighScore = rsUpdate.getInt("highScore");
+                    System.out.println("Updated High Score to : " + newHighScore);
+                }
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+            finally {
+
+                if (rsUpdate != null) {
+                    rsUpdate.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
 }
 
 

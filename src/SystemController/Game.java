@@ -21,7 +21,9 @@ public class Game {
             System.out.println("Database succesfully initialized");
             DatabaseController.createNewUser("owentest","testpass","Owenli");
             DatabaseController.createNewUser("testuser","testpass","testName");
-            DatabaseController.deleteAccount("owentest");
+            DatabaseController.setLevelUnlocked("owentest",45);
+            DatabaseController.setScore("owentest",3000);
+            DatabaseController.getScore("owentest");
 
 
         } catch (ClassNotFoundException e) {
