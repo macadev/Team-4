@@ -3,6 +3,7 @@
  */
 package GameObject.ArtificialIntelligence;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * Node object used to represent tiles in the graph that the high intelligence
  * enemies use to determine the shortest path to the player.
  */
-public class Node {
+public class Node implements Serializable {
 
     private List<Node> neighbors = new ArrayList<Node>();
     private Node parent;

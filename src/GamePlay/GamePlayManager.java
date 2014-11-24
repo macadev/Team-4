@@ -11,6 +11,7 @@ import GameObject.*;
 import SystemController.GameState;
 import SystemController.GameStateManager;
 import Menu.MenuState;
+import SystemController.SoundController;
 
 /**
  * Created by danielmacario on 14-10-29.
@@ -92,6 +93,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
 
         boolean redirectToGameOverMenu = notificationDurationCountDown();
         if (redirectToGameOverMenu) {
+            SoundController.THEME.stop();
             gsm.setState(gsm.MENUSTATE, MenuState.GAMEOVER);
         }
     }

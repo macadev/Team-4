@@ -197,7 +197,10 @@ public class Player extends MovableObject implements Serializable {
         this.livesRemaining--;
         if (livesRemaining < 0) {
             currentState = GamePlayState.GAMEOVER;
+            SoundController.GAMEOVER.play();
+            return;
         }
+        SoundController.DEATH.play();
     }
 
     public void updateInvincibilityTimer() {
@@ -250,7 +253,6 @@ public class Player extends MovableObject implements Serializable {
         flamePass = false;
         wallPass = false;
         detonatorEnabled = false;
-        SoundController.DEATH.play();
     }
 
     /**

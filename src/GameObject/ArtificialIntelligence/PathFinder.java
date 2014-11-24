@@ -5,12 +5,13 @@ import GameObject.BrickWall;
 import GameObject.TileMap;
 import GamePlay.Coordinate;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Created by danielmacario on 14-11-22.
  */
-public class PathFinder {
+public class PathFinder implements Serializable {
 
     private  boolean refreshGraph = false;
     private  int timeToRefreshGraph = 45;

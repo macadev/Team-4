@@ -6,9 +6,11 @@ package GameObject.ArtificialIntelligence;
 import GameObject.Direction;
 import GameObject.Enemy;
 import GamePlay.Coordinate;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class HighIntelligence extends ArtificialIntelligence {
+public class HighIntelligence extends ArtificialIntelligence implements Serializable {
 
     public static PathFinder pathFinder;
     private ArrayList<Coordinate> pathToPlayer;

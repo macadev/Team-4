@@ -2,7 +2,6 @@ package GameObject;
 
 import Database.DatabaseController;
 import GameObject.ArtificialIntelligence.HighIntelligence;
-import GameObject.ArtificialIntelligence.Intelligence;
 import GameObject.ArtificialIntelligence.PathFinder;
 import GamePlay.Coordinate;
 import GamePlay.GamePlayState;
