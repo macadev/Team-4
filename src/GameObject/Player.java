@@ -46,7 +46,7 @@ public class Player extends MovableObject implements Serializable {
     public Player(int posX, int posY, boolean visible, int speed) {
         this.imagePath = "../resources/bomberman9.png";
         this.score = 0;
-        this.livesRemaining = 2;
+        this.livesRemaining = 3;
         this.currentState = GamePlayState.INGAME;
         this.deltaX = 0;
         this.deltaY = 0;
