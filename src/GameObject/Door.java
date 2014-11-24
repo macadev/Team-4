@@ -37,7 +37,7 @@ public class Door extends StaticObject implements Serializable {
     public boolean isFirstCollision() {
         return firstCollision;
     }
-    
+
     public void setFirstCollision(boolean firstCollision) {
         this.firstCollision = firstCollision;
     }

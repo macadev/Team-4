@@ -74,6 +74,10 @@ public class PowerUp extends StaticObject implements Serializable {
         this.firstCollision = firstCollision;
     }
 
+    /**
+     * Gets PowerUpType
+     * @return PowerUpType is returned.
+     */
     public PowerUpType getPowerUpType() {
         return powerUpType;
     }
