@@ -122,6 +122,8 @@ public class PathFinder implements Serializable {
             coordinates.add(new Coordinate(selectedNode.getX(), selectedNode.getY()));
         }
 
+        removeChains(coordinates);
+
         for (Node[] rowOfNodes : graph) {
             for (Node node : rowOfNodes) {
                 if (node != null) {
@@ -131,6 +133,61 @@ public class PathFinder implements Serializable {
         }
 
         return coordinates;
+    }
+
+    private void removeChains(ArrayList<Coordinate> coordinates) {
+        for (int i = 0; i < coordinates.size() - 2; i ++) {
+            if ((coordinates.get(i).getRow() == coordinates.get(i + 1).getRow() && coordinates.get(i).getRow() == coordinates.get(i + 2).getRow())
+                    || (coordinates.get(i).getCol() == coordinates.get(i + 1).getCol() && coordinates.get(i).getCol() == coordinates.get(i + 2).getCol())) {
+                coordinates.remove(i+1);
+                i--;
+            }
+        }
+    }
+
+    public void cleanPath(ArrayList<Coordinate> coordinates) {
+        Coordinate initial = coordinates.get(0);
+        Coordinate next = coordinates.get(1);
+        int index = 0;
+        while (coordinates.size()>1) {
+
+            if (initial.getRow() == next.getRow()) {
+
+                //next has same x
+                while (index + 1 < coordinates.size()) {
+                    if (coordinates.get(index).getRow() == coordinates.get(index + 1).getRow()) {
+                        index++;
+                    } else {
+                        break;
+                    }
+                }
+                removeBefore(coordinates, index);
+
+                //reset index to 0 since we remove everything before it.
+                index = 0;
+
+            } else if (initial.getCol() == next.getCol()) {
+                // next has same y
+                while (index + 1 < coordinates.size()) {
+                    if (coordinates.get(index).getCol() == coordinates.get(index + 1).getCol()) {
+                        index++;
+                    } else {
+                        break;
+                    }
+                }
+                removeBefore(coordinates, index);
+                //reset index to 0 since we remove everything before it.
+                index = 0;
+
+            }
+        }
+    }
+
+    private void removeBefore(ArrayList<?> list, int index){
+        for (int i = index - 1; i >= 0; i--) {
+            // remove all elements in the stack before the position we travel to
+            list.remove(i);
+        }
     }
 
     public int estimateDistance(Node node1, Node node2) {

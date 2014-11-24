@@ -20,7 +20,10 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
 
     @Override
     public void chasePlayer(int playerPosX, int playerPosY, int distanceFromEnemyToPlayer, Enemy enemy) {
-        if (recalculatePathTimer < 0 && distanceFromEnemyToPlayer < 85) {
+        //if (recalculatePathTimer < 0 && distanceFromEnemyToPlayer < 85) {
+        boolean enemyAtCenterOfTile = enemy.getPosX() % 32 == 0 && enemy.getPosY() % 32 == 0;
+//        if (recalculatePathTimer < 0 && distanceFromEnemyToPlayer < 85) {
+        if (enemyAtCenterOfTile && distanceFromEnemyToPlayer < 85) {
             pathToPlayer = pathFinder.findPath(playerPosX, playerPosY, enemy.getPosX(), enemy.getPosY(), enemy.hasWallPass());
             System.out.println("is path null?" + (pathToPlayer == null));
             if (pathToPlayer != null) {
@@ -62,6 +65,7 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
             boolean enemyIsAtNextCol = (Math.abs(enemyPosX - nextX) <= 1);
             boolean enemyIsAtNextRow = (Math.abs(enemyPosY - nextY) <= 1);
             if (enemyIsAtNextRow && enemyIsAtNextCol) {
+                System.out.println("At next destination!");
                 enemy.setPosY(nextY);
                 enemy.setPosX(nextX);
                 boolean nextDestinationExists = setNextDestination();

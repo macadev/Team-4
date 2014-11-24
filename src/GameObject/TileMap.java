@@ -267,17 +267,19 @@ public class TileMap implements Serializable {
     }
 
     /**
-     *
-     * @param posX
-     * @param posY
+     * Populates the flames ArrayList with a new set of flames. This function
+     * is called when a bomb explodes.
+     * @param bombPosX Integer representing the x coordinate where the bomb exploded.
+     * @param bombPosY Integer representing the y coordinate where the bomb exploded.
      */
-    public void addFlames(int posX, int posY) {
-        int posXOfExplosion = posX / 32;
-        int posYOfExplosion = posY / 32;
+    public void addFlames(int bombPosX, int bombPosY) {
+        int posXOfExplosion = bombPosX / 32;
+        int posYOfExplosion = bombPosY / 32;
 
         //Place a flame object at the center of the explosion
         //TODO: INTRODUCE CONSTANTS EVERYWHERE!
-        flames.add(new Flame(posXOfExplosion * 32, posYOfExplosion * 32, true, posX, posY));
+        //We create a flame object directly on the location where the bomb exploded.
+        flames.add(new Flame(posXOfExplosion * 32, posYOfExplosion * 32, true, bombPosX, bombPosY));
 
         boolean isConcreteWall;
         boolean isBrickWall;
@@ -288,6 +290,9 @@ public class TileMap implements Serializable {
         GameObject wall;
         Direction[] directions = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
+        //We expand in the radius of explosion of the bomb going in the cardinal directions.
+        //We add flame objects at each tile until we reach the limit of the radius or we hit
+        //a concrete wall.
         for (Direction direction : directions) {
             for (int i = 1; i < bombRadius + 1; i++) {
 
@@ -334,16 +339,24 @@ public class TileMap implements Serializable {
                     }
                     break;
                 } else if (!isConcreteWall) {
-                    flames.add(new Flame(posXofFlame, posYofFlame, true, posX, posY));
+                    flames.add(new Flame(posXofFlame, posYofFlame, true, bombPosX, bombPosY));
                 }
             }
         }
     }
 
-    public void spawnSetOfHarderEnemies(int posX, int posY) {
+    /**
+     * Creates a new set of enemies of one difficulty higher than the current
+     * most difficult enemy present on the grid.
+     * @param spawnPosX Integer representing the x coordinate where the new enemies
+     *             will spawn.
+     * @param spawnPosY Integer representing the y coordinate where the new enemies
+     *             will spawn.
+     */
+    public void spawnSetOfHarderEnemies(int spawnPosX, int spawnPosY) {
         if (enemies.size() == 0) return;
         EnemyType harderEnemyType = determineHarderEnemyTypeToSpawn();
-        newEnemySet = spawner.createSetOfHarderEnemies(harderEnemyType, posX, posY);
+        newEnemySet = spawner.createSetOfHarderEnemies(harderEnemyType, spawnPosX, spawnPosY);
         spawnHarderSet = true;
     }
 
@@ -390,6 +403,10 @@ public class TileMap implements Serializable {
         }
     }
 
+    /**
+     * Determines the hardest enemy type that follows the current hardest enemy type present on the grid.
+     * @return An EnemyType object specifying th
+     */
     public EnemyType determineHarderEnemyTypeToSpawn() {
 
         Collections.sort(enemies, new Comparator<Enemy>() {

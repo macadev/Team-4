@@ -154,7 +154,7 @@ public class Spawner implements Serializable {
         Coordinate positionOnGrid = getRandomCoordinateFromSet(possiblePowerUpAndDoorCoordinates);
         int row = positionOnGrid.getRow();
         int col = positionOnGrid.getCol();
-        Door door = new Door(col * TileMap.WIDTH_OF_TILE, row * TileMap.HEIGHT_OF_TILE);
+        Door door = new Door(col * TileMap.WIDTH_OF_TILE + 1, row * TileMap.HEIGHT_OF_TILE + 1);
         return door;
     }
 
