@@ -84,6 +84,7 @@ public class GameOverMenu extends MenuTemplate {
                 acp.setVisible(true);
             }
             if (currentChoice == 2) {
+                menuManager.setPreviousLeaderboardMenuState(MenuState.GAMEOVER);
                 menuManager.setMenuState(MenuState.LEADERBOARD);
             }
             if (currentChoice == 3) {

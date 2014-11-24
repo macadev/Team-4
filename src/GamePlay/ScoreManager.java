@@ -2,6 +2,7 @@
  * Created by danielmacario on 14-11-17.
  */
 package GamePlay;
+import Database.DatabaseController;
 import GameObject.KillSet;
 
 import java.io.Serializable;
@@ -41,7 +42,6 @@ public class ScoreManager implements Serializable {
         for (Coordinate key: keys){
             ArrayList<KillSet> kills = killsPerBomb.get(key);
             score += calculateScore(kills);
-
         }
 
         return score;

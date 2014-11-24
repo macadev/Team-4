@@ -102,6 +102,7 @@ public class InGameMenu extends MenuTemplate{
         }
         if (currentChoice == 5) {
             //view leaderboard
+            menuManager.setPreviousLeaderboardMenuState(MenuState.INGAME);
             menuManager.setMenuState(MenuState.LEADERBOARD);
         }
 	        
