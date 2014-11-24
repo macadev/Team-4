@@ -5,6 +5,8 @@ package SystemController;
 
 import Database.DatabaseController;
 import javax.swing.JFrame;
+
+import Database.PlayerScore;
 import Menu.Music;
 
 public class Game {
@@ -19,12 +21,23 @@ public class Game {
             DatabaseController.initializeDatabase();
             DatabaseController.printDBContents();
             System.out.println("Database succesfully initialized");
-            DatabaseController.createNewUser("owentest","testpass","Owenli");
+            /**DatabaseController.createNewUser("owentest","testpass","Owenli");
             DatabaseController.createNewUser("testuser","testpass","testName");
+            DatabaseController.createNewUser("testuser2","testpass2","testName2");
+            DatabaseController.createNewUser("testuser3","testpass3","testName3");
+            DatabaseController.createNewUser("testuser4","testpass4","testName4");
+            DatabaseController.createNewUser("testuser5","testpass5","testName5");
             DatabaseController.setLevelUnlocked("owentest",45);
+             **/
             DatabaseController.setScore("owentest",3000);
-            DatabaseController.setScore("owentest", 2000);
-            DatabaseController.getScore("owentest");
+            DatabaseController.setScore("testuser",2000);
+            DatabaseController.setScore("testuser2",5000);
+            DatabaseController.setScore("testuser3",500);
+            DatabaseController.setScore("testuser4",200);
+            DatabaseController.getTopScoresSet();
+            System.out.println("first set");
+            PlayerScore.checkPlayerExists(PlayerScore.createPlayer("testuser", 14000));
+            DatabaseController.getLevelUnlocked("owentest");
 
 
         } catch (ClassNotFoundException e) {
