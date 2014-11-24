@@ -41,7 +41,7 @@ public class Stages implements Serializable {
                     PowerUpType.BOMBS, false),
 
             new StageData(new EnemySet[] { new EnemySet(EnemyType.BALLOOM, 1) },
-                    null, true),
+                    null, true), //bonus stage
 
 			new StageData(new EnemySet[] { new EnemySet(EnemyType.ONEAL, 2),
 					new EnemySet(EnemyType.DOLL, 3),
@@ -76,6 +76,9 @@ public class Stages implements Serializable {
 					new EnemySet(EnemyType.OVAPI,1 ) },
 					PowerUpType.WALLPASS, false),
 
+			new StageData(new EnemySet[] { new EnemySet(EnemyType.ONEAL, 1) },
+					null, true),
+
 			new StageData(new EnemySet[] { new EnemySet(EnemyType.ONEAL,1 ),
 					new EnemySet(EnemyType.DOLL,2 ),
 					new EnemySet(EnemyType.MINVO,3 ),
@@ -104,6 +107,9 @@ public class Stages implements Serializable {
 					new EnemySet(EnemyType.KONDORIA,3),
 					new EnemySet(EnemyType.PASS,1 )},
 					PowerUpType.FLAMES, false),
+
+			new StageData(new EnemySet[] { new EnemySet(EnemyType.DOLL, 1) },
+					null, true),
 
 			new StageData(new EnemySet[] { new EnemySet(EnemyType.MINVO,3 ),
 					new EnemySet(EnemyType.KONDORIA,4 ),
@@ -168,6 +174,9 @@ public class Stages implements Serializable {
 					new EnemySet(EnemyType.PASS,1 )},
 					PowerUpType.BOMBPASS, false),
 
+			new StageData(new EnemySet[] { new EnemySet(EnemyType.OVAPI, 1) },
+					null, true),
+
 			new StageData(new EnemySet[] { new EnemySet(EnemyType.BALLOOM,1 ),
 					new EnemySet(EnemyType.ONEAL,1 ),
 					new EnemySet(EnemyType.DOLL,1 ),
@@ -203,6 +212,9 @@ public class Stages implements Serializable {
 					new EnemySet(EnemyType.PASS,1 ) },
 					PowerUpType.FLAMEPASS, false),
 
+			new StageData(new EnemySet[] { new EnemySet(EnemyType.KONDORIA, 1) },
+					null, true),
+
 			new StageData(new EnemySet[] { new EnemySet(EnemyType.ONEAL,2 ),
 					new EnemySet(EnemyType.DOLL,2 ),
 					new EnemySet(EnemyType.MINVO,2 ),
@@ -237,6 +249,9 @@ public class Stages implements Serializable {
 					new EnemySet(EnemyType.PASS,2 ) },
 					PowerUpType.BOMBPASS, false),
 
+			new StageData(new EnemySet[] { new EnemySet(EnemyType.PASS, 1) },
+					null, true),
+
 			new StageData(new EnemySet[] { new EnemySet(EnemyType.DOLL,2 ),
 					new EnemySet(EnemyType.MINVO,2 ),
 					new EnemySet(EnemyType.KONDORIA,3 ),
@@ -262,6 +277,9 @@ public class Stages implements Serializable {
 					new EnemySet(EnemyType.OVAPI,2 ),
 					new EnemySet(EnemyType.PASS,4 ) },
 					PowerUpType.WALLPASS, false),
+
+			new StageData(new EnemySet[] { new EnemySet(EnemyType.PONTAN, 1) },
+					null, true),
 
 			new StageData(new EnemySet[] { new EnemySet(EnemyType.DOLL,1 ),
 					new EnemySet(EnemyType.MINVO,2),
@@ -294,6 +312,9 @@ public class Stages implements Serializable {
 					new EnemySet(EnemyType.PASS,6 )},
 					PowerUpType.DETONATOR, false),
 
+			new StageData(new EnemySet[] { new EnemySet(EnemyType.PONTAN,1) },
+					null, true),
+
 			new StageData(new EnemySet[] { new EnemySet(EnemyType.KONDORIA,2 ),
 					new EnemySet(EnemyType.OVAPI,2 ),
 					new EnemySet(EnemyType.PASS,6 )},
@@ -320,6 +341,9 @@ public class Stages implements Serializable {
 					new EnemySet(EnemyType.PASS,6 ),
 					new EnemySet(EnemyType.PONTAN,1 ) },
 					PowerUpType.FLAMEPASS, false),
+
+			new StageData(new EnemySet[] { new EnemySet(EnemyType.PONTAN, 1) },
+					null, true),
 
 			new StageData(new EnemySet[] { new EnemySet(EnemyType.KONDORIA,1 ),
 					new EnemySet(EnemyType.OVAPI,2 ),
