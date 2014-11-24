@@ -41,7 +41,6 @@ public class Game {
 
             DatabaseController.getTopScoresSet();
             System.out.println("first set");
-            PlayerScore.checkPlayerExists(PlayerScore.createPlayer("testuser", 14000));
             DatabaseController.getLevelUnlocked("owentest");
 
 

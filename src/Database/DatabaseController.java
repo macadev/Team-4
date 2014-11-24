@@ -538,15 +538,15 @@ public class DatabaseController {
                 rsTopScores = stmt.executeQuery(sql);
                 while (rsTopScores.next()) {
                     topScore = rsTopScores.getInt("highScore");
-                    System.out.println("Top score is : " + topScore + " and username is : " + rsTopScores.getString("username") + "for user (real name) " + rsTopScores.getString("realName"));
+                    System.out.println("Top score is : " + topScore + " and username is : " + rsTopScores.getString("username") + " for user (real name) " + rsTopScores.getString("realName") + " they have played " + rsTopScores.getInt("gamesPlayed")+ " games.");
                     size++;
                     System.out.println("size of getTopScores result set is: " + size);
-                    ps.add(PlayerScore.createPlayer(rsTopScores.getString("username"), rsTopScores.getInt("highScore")));
+                    ps.add(PlayerScore.createPlayer(rsTopScores.getString("username"), rsTopScores.getInt("highScore"), rsTopScores.getString("realName"), rsTopScores.getInt("gamesPlayed")));
                     System.out.println("this is being executed");
                 }
                 System.out.println("size of arraylist is : " + ps.size());
                 for (i = 0 ; i<ps.size(); i++) {
-                    System.out.println("Top Users are :" + ps.get(i).username + " with "+ ps.get(i).score + " points!");
+                    System.out.println("Top Users are : " + ps.get(i).username + " with real name " + ps.get(i).realName + " with "+ ps.get(i).score + " points in " + ps.get(i).gamesPlayed + " games played.");
                 }
 
             } catch (SQLException e) {
