@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Used to represent the Player object on the Game Grid. The Player class inherits most of its
  * functionality from MovableObject, but it also implements the logic that enables the user to
  * interact with GamePlay. Specifically, the player class defines the logic for: dropping bombs,
- * activating powerups, and detonating bombs. It is also the final link in the keyPressed and
+ * activating powerUps, and detonating bombs. It is also the final link in the keyPressed and
  * keyReleased chain during the GamePlay state, which starts with the GameStateManager.
  */
 public class Player extends MovableObject implements Serializable {
@@ -37,7 +37,7 @@ public class Player extends MovableObject implements Serializable {
     private boolean invincibilityEnabled;
 
     /**
-     * Initialize a Player object representing the bomberman character on the grid
+     * Initialize a Player object representing the Bomberman character on the grid
      * @param posX int representing the x coordinate where the player will be drawn
      * @param posY int representing the y coordinate where the player will be drawn
      * @param visible boolean specifying whether the player object should be drawn
@@ -437,21 +437,34 @@ public class Player extends MovableObject implements Serializable {
 
     /**
      * Enable or disable the flamePass powerUp.
-     * @param flamePass
+     * @param flamePass A boolean specifying whether the player has the flamePass powerUp enabled or not.
      */
     public void setFlamePass(boolean flamePass) {
         this.flamePass = flamePass;
     }
 
+    /**
+     * Determine whether the player is invincible (cannot die from bombs or enemies) or not.
+     * @return A boolean specifying whether the player is invincible or not.
+     */
+    public boolean isInvincibilityEnabled() {
+        return invincibilityEnabled;
+    }
+
+    /**
+     * Add a specified amount of points to the score attribute of the player.
+     * Specifically used inside the ScoreManager Class.
+     * @param enemyScore Integer representing the score increment to be added to the player score.
+     */
     public void addToScore(int enemyScore) {
         this.score += enemyScore;
     }
 
+    /**
+     * Get the number of lives the player instance has remaining.
+     * @return An integer representing the number of lives the player has remaining.
+     */
     public int getLivesRemaining() {
         return livesRemaining;
-    }
-
-    public boolean isInvincibilityEnabled() {
-        return invincibilityEnabled;
     }
 }
