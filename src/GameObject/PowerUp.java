@@ -65,6 +65,7 @@ public class PowerUp extends StaticObject implements Serializable {
         this.height = image.getHeight(null);
     }
 
+
     public boolean isFirstCollision() {
         return firstCollision;
     }

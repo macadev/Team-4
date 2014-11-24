@@ -33,21 +33,11 @@ public class Door extends StaticObject implements Serializable {
         //TODO: spawn harder wave of enemies....
     }
 
-    /**
-     * Determine whether the door is colliding with the bomb for the first time
-     * or not.
-     * @return A boolean representing whether this is the first time the door
-     * is colliding with the the Bomb
-     */
+
     public boolean isFirstCollision() {
         return firstCollision;
     }
-
-    /**
-     * Set the first collision attribute of the door object.
-     * @param firstCollision boolean representing whether this door object has collided
-     * with the bomb instance in the past.
-     */
+    
     public void setFirstCollision(boolean firstCollision) {
         this.firstCollision = firstCollision;
     }
