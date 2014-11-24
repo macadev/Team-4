@@ -656,6 +656,51 @@ public class DatabaseController {
         return gamesPlayed;
     }
 
+    public static PlayerScore getPlayerObject(String username) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        PlayerScore player = null;
+        try {
+            Connection connection = null;
+            ResultSet rsUsers = null;
+            PreparedStatement stmt = null;
+            String sql = "select * from Users where username = ?";
+
+
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                //connection.setAutoCommit(false);
+                stmt = connection.prepareStatement(sql);
+                stmt.setString(1, username);
+                rsUsers = stmt.executeQuery();
+
+                while (rsUsers.next()) {
+                    player = PlayerScore.createPlayer(username, rsUsers.getInt("highScore"), rsUsers.getString("realName"), rsUsers.getInt("gamesPlayed"));
+                    System.out.println("Player Object created successfully");
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (rsUsers != null) {
+                    rsUsers.close();
+                }
+
+                if (stmt != null) {
+                    stmt.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return player;
+    }
+
+
+
 
 
 

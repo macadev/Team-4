@@ -1,5 +1,6 @@
 package Database;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.sql.*;
 
@@ -23,8 +24,7 @@ public class PlayerScore {
     }
 
     public static void checkPlayerExists(PlayerScore playerTest) {
-        System.out.println(playerTest.username);
-        System.out.println(playerTest.score);
+        if (playerTest.username != null && !playerTest.username.isEmpty())
         System.out.println("player exists");
     }
 }
