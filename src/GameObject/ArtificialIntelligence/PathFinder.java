@@ -25,7 +25,7 @@ public class PathFinder implements Serializable {
         }
     }
 
-    public ArrayList<Coordinate> findPath(int playerPosX, int playerPosY, int enemyPosX, int enemyPosY) {
+    public ArrayList<Coordinate> findPath(int playerPosX, int playerPosY, int enemyPosX, int enemyPosY, boolean enemyHasWallPass) {
 
         //Snap the position of the player and the enemy to the row and column coordinate of the tile
         //they are on.
@@ -50,12 +50,12 @@ public class PathFinder implements Serializable {
 
         ArrayList<Coordinate> pathToPlayer = null;
         if (nodesExist) {
-            pathToPlayer = aStar(start, destination);
+            pathToPlayer = aStar(start, destination, enemyHasWallPass);
         }
         return pathToPlayer;
     }
 
-    public ArrayList<Coordinate> aStar(Node start, Node goal) {
+    public ArrayList<Coordinate> aStar(Node start, Node goal, boolean enemyHasWallPass) {
         if (start == null || goal == null) return null;
         Set<Node> open = new HashSet<Node>();
         Set<Node> closed = new HashSet<Node>();
@@ -87,7 +87,7 @@ public class PathFinder implements Serializable {
             closed.add(current);
 
             for (Node neighbor : current.getNeighbors()) {
-                if (neighbor == null || neighbor.isObstacle()) {
+                if (neighbor == null || (neighbor.isObstacle() && !enemyHasWallPass)) {
                     continue;
                 }
 

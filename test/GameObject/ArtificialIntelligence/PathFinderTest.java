@@ -4,8 +4,6 @@ import GameObject.Player;
 import GameObject.TileMap;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class PathFinderTest {
 
     @Test
@@ -18,7 +16,7 @@ public class PathFinderTest {
         Player player = new Player(35, 35, true, 2);
         TileMap tileMap = new TileMap(player, 11, "testUser");
         PathFinder pathFinder = new PathFinder();
-        pathFinder.findPath(32,160,32,96);
+        pathFinder.findPath(32,160,32,96, false);
     }
 
     @Test

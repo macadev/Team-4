@@ -21,7 +21,7 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
     @Override
     public void chasePlayer(int playerPosX, int playerPosY, int distanceFromEnemyToPlayer, Enemy enemy) {
         if (recalculatePathTimer < 0 && distanceFromEnemyToPlayer < 85) {
-            pathToPlayer = pathFinder.findPath(playerPosX, playerPosY, enemy.getPosX(), enemy.getPosY());
+            pathToPlayer = pathFinder.findPath(playerPosX, playerPosY, enemy.getPosX(), enemy.getPosY(), enemy.hasWallPass());
             System.out.println("is path null?" + (pathToPlayer == null));
             if (pathToPlayer != null) {
                 pathToPlayer.remove(0);

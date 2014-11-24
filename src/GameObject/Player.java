@@ -319,6 +319,17 @@ public class Player extends MovableObject implements Serializable {
     }
 
     /**
+     * Increments the number of bombs the player is allowed to place on the grid by one.
+     * The maximum number of bombs the player can put at a time is 10. Used by the Bombs
+     * powerUp.
+     */
+    public void incrementBombsAllowed() {
+        if (bombsAllowed < 10) {
+            bombsAllowed++;
+        }
+    }
+
+    /**
      * Get the TileMap object associated to the player.
      * @return
      */
@@ -353,54 +364,81 @@ public class Player extends MovableObject implements Serializable {
 
     /**
      * Get the GamePlayState object associated to the player object.
-     * @return
+     * @return The current gamePlay state of the application.
      */
     public GamePlayState getCurrentGamePlayState() {
         return this.currentState;
     }
 
     /**
-     *
-     * @param newState
+     * Set the current gamePlay state of the application to one of the four options outlined
+     * in the GamePlayState enum.
+     * @param newState The new gamePlay state of the application.
      */
     public void setCurrentGamePlayState(GamePlayState newState) {
         this.currentState = newState;
     }
 
+    /**
+     * Get the number of bombs the player is allowed to placed on the grid during gamePlay.
+     * @return An integer representing the number of bombs the player is allowed to plant during gamePlay.
+     */
     public int getBombsAllowed() {
         return bombsAllowed;
     }
 
+    /**
+     * Put a limit to the number of bombs the player is allowed to place on the grid.
+     * @param bombsAllowed The number of bombs the player can place on the grid at a time.
+     */
     public void setBombsAllowed(int bombsAllowed) {
         this.bombsAllowed = bombsAllowed;
     }
 
-    public void incrementBombsAllowed() {
-        if (bombsAllowed < 10) {
-            bombsAllowed++;
-        }
-    }
-
+    /**
+     * Determine whether the player is able to walk over bombs or not.
+     * @return A boolean specifying whether the player has the bombPass powerUp.
+     */
     public boolean hasBombPass() {
         return bombPass;
     }
 
+    /**
+     * Enable or disable the bombPass powerUp.
+     * @param bombPass A boolean specifying whether the player has the bombPass powerUp enabled or not.
+     */
     public void setBombPass(boolean bombPass) {
         this.bombPass = bombPass;
     }
 
+    /**
+     * Determine whether the player is able to detonate bombs or not.
+     * @return A boolean specifying whether the player has the detonator powerUp.
+     */
     public boolean isDetonatorEnabled() {
         return detonatorEnabled;
     }
 
+    /**
+     * Enable or disable the detonator powerUp.
+     * @param detonatorEnabled A boolean specifying whether the player has the detonator powerUp enabled or not.
+     */
     public void setDetonatorEnabled(boolean detonatorEnabled) {
         this.detonatorEnabled = detonatorEnabled;
     }
 
+    /**
+     * Enable or disable the flamePass powerUp.
+     * @return A boolean specifying whether the player has the flamePass powerUp.
+     */
     public boolean hasFlamePass() {
         return flamePass;
     }
 
+    /**
+     * Enable or disable the flamePass powerUp.
+     * @param flamePass
+     */
     public void setFlamePass(boolean flamePass) {
         this.flamePass = flamePass;
     }
