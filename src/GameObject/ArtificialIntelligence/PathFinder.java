@@ -64,10 +64,7 @@ public class PathFinder {
         start.setOverallCost(start.getEstimatedCostToReachDestination());
 
         open.add(start);
-        int iter = 0;
         while (true) {
-            iter++;
-            System.out.println(iter);
             Node current = null;
 
             if (open.size() == 0) {
@@ -82,7 +79,7 @@ public class PathFinder {
             }
 
             if (current == goal) {
-                return null;
+                break;
             }
 
             open.remove(current);
@@ -118,18 +115,18 @@ public class PathFinder {
         }
         nodes.add(start);
 
+        ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
+        for (int i = nodes.size() - 1; i >= 0; i--) {
+            Node selectedNode = nodes.get(i);
+            coordinates.add(new Coordinate(selectedNode.getX(), selectedNode.getY()));
+        }
+
         for (Node[] rowOfNodes : graph) {
             for (Node node : rowOfNodes) {
                 if (node != null) {
                     node.setParent(null);
                 }
             }
-        }
-
-        ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
-        for (int i = nodes.size() - 1; i >= 0; i--) {
-            Node selectedNode = nodes.get(i);
-            coordinates.add(new Coordinate(selectedNode.getX(), selectedNode.getY()));
         }
 
         return coordinates;
@@ -147,8 +144,8 @@ public class PathFinder {
         //indices for the object array and the graph array
         int graphRow = 0;
         int graphCol = 0;
-        for (int col = 1; col < TileMap.NUM_OF_COLS - 2; col++) {
-            for (int row = 1; row < TileMap.NUM_OF_ROWS - 2; row++) {
+        for (int col = 1; col < TileMap.NUM_OF_COLS - 1; col++) {
+            for (int row = 1; row < TileMap.NUM_OF_ROWS - 1; row++) {
                 GameObject wall = walls[col][row];
                 if (wall instanceof BrickWall && wall.isVisible()) {
                     graph[graphRow][graphCol].setObstacle(true);

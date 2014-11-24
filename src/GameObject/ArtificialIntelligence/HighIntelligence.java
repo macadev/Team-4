@@ -20,6 +20,7 @@ public class HighIntelligence extends ArtificialIntelligence {
     public void chasePlayer(int playerPosX, int playerPosY, int distanceFromEnemyToPlayer, Enemy enemy) {
         if (recalculatePathTimer < 0 && distanceFromEnemyToPlayer < 85) {
             pathToPlayer = pathFinder.findPath(playerPosX, playerPosY, enemy.getPosX(), enemy.getPosY());
+            System.out.println("is path null?" + (pathToPlayer == null));
             if (pathToPlayer != null) {
                 pathToPlayer.remove(0);
                 setNextDestination();
@@ -32,7 +33,7 @@ public class HighIntelligence extends ArtificialIntelligence {
     }
 
     public boolean setNextDestination() {
-        if (pathToPlayer.isEmpty()) {
+        if (pathToPlayer == null || pathToPlayer.isEmpty()) {
             return false;
         }
         Coordinate nextPositionOnGrid = pathToPlayer.remove(0);
@@ -48,6 +49,12 @@ public class HighIntelligence extends ArtificialIntelligence {
         int enemyPosY = enemy.getPosY();
 
         if (chaseEnabled) {
+
+            if (nextDestination == null) {
+                chaseEnabled = false;
+                return;
+            }
+
             int nextX = nextDestination.getRow();
             int nextY = nextDestination.getCol();
             boolean enemyIsAtNextCol = (Math.abs(enemyPosX - nextX) <= 1);
@@ -64,8 +71,9 @@ public class HighIntelligence extends ArtificialIntelligence {
                 }
             }
 
+            //TODO: decide if we should use these statements
             if (enemyIsAtNextRow) {
-                enemy.setPosY(nextY);
+                //enemy.setPosY(nextY);
                 if (enemyPosX < nextX) {
                     enemy.setDirectionOfMovement(Direction.EAST);
                     System.out.println("HIN going east");
@@ -74,7 +82,7 @@ public class HighIntelligence extends ArtificialIntelligence {
                     System.out.println("HIN going west");
                 }
             } else {
-                enemy.setPosX(nextX);
+                //enemy.setPosX(nextX);
                 if (enemyPosY < nextY) {
                     enemy.setDirectionOfMovement(Direction.SOUTH);
                     System.out.println("HIN going south");

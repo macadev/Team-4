@@ -158,7 +158,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
             g.drawString(hudInformation, 160, 20);
         } else {
             hudInformation = "Lives Left: " + player.getLivesRemaining() + " | Score: " + player.getScore();
-            g.drawString(hudInformation, 305, 20);
+            g.drawString(hudInformation, 280, 20);
         }
     }
 

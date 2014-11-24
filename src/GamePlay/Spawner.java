@@ -91,7 +91,7 @@ public class Spawner implements Serializable {
                 int row = positionOnGrid.getRow();
                 int col = positionOnGrid.getCol();
 
-                enemies.add(new Enemy(onlyTypePresent, col * TileMap.WIDTH_OF_TILE + 1, row * TileMap.HEIGHT_OF_TILE + 1));
+                enemies.add(new Enemy(onlyTypePresent, col * TileMap.WIDTH_OF_TILE, row * TileMap.HEIGHT_OF_TILE));
             }
             return enemies;
         }
@@ -106,7 +106,7 @@ public class Spawner implements Serializable {
                 int row = positionOnGrid.getRow();
                 int col = positionOnGrid.getCol();
 
-                enemies.add(new Enemy(currentSetType, col * TileMap.WIDTH_OF_TILE + 1, row * TileMap.HEIGHT_OF_TILE + 1));
+                enemies.add(new Enemy(currentSetType, col * TileMap.WIDTH_OF_TILE, row * TileMap.HEIGHT_OF_TILE));
             }
 
         }
@@ -131,7 +131,7 @@ public class Spawner implements Serializable {
         //In the case of a bonus stage, the enemiesPresent array will only contain one enemySet
         //We retrieve the only type to create new enemies of that same type.
         EnemyType type = stageData.getEnemiesPresent()[0].getEnemyType();
-        Enemy bonusEnemy = new Enemy(type, col * TileMap.WIDTH_OF_TILE + 1, row * TileMap.HEIGHT_OF_TILE + 1);
+        Enemy bonusEnemy = new Enemy(type, col * TileMap.WIDTH_OF_TILE, row * TileMap.HEIGHT_OF_TILE);
         return bonusEnemy;
     }
 

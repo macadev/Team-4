@@ -200,7 +200,7 @@ public class CollisionManager implements Serializable {
 
     public void checkCollisionsWithEnemies(Rectangle playerRectangle, ArrayList<Enemy> enemies, boolean isBonusStage) {
         //check for collisions between the player and the enemies
-        if (player.isVisible() && !player.isInvincibilityEnabled() && isBonusStage) {
+        if (player.isVisible() && !player.isInvincibilityEnabled() && !isBonusStage) {
             for (Enemy enemy : enemies) {
                 Rectangle enemyRectangle = enemy.getBounds();
                 if (playerRectangle.intersects(enemyRectangle)) {
