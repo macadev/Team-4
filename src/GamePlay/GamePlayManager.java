@@ -11,6 +11,7 @@ import GameObject.*;
 import SystemController.GameState;
 import SystemController.GameStateManager;
 import Menu.MenuState;
+import SystemController.SoundController;
 
 /**
  * Created by danielmacario on 14-10-29.
@@ -92,6 +93,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
 
         boolean redirectToGameOverMenu = notificationDurationCountDown();
         if (redirectToGameOverMenu) {
+            SoundController.THEME.stop();
             gsm.setState(gsm.MENUSTATE, MenuState.GAMEOVER);
         }
     }
@@ -158,7 +160,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
             g.drawString(hudInformation, 160, 20);
         } else {
             hudInformation = "Lives Left: " + player.getLivesRemaining() + " | Score: " + player.getScore();
-            g.drawString(hudInformation, 305, 20);
+            g.drawString(hudInformation, 280, 20);
         }
     }
 

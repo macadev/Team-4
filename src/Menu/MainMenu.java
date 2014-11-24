@@ -67,6 +67,7 @@ public class MainMenu extends MenuTemplate {
         }
         if (currentChoice == 2) {
             //view leaderboards
+            menuManager.setMenuState(MenuState.LEADERBOARD);
         }
         if (currentChoice == 3) {
             //Modify account options

@@ -1,20 +1,31 @@
 package Database;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.sql.*;
 
 /**
- * Created by danielmacario on 14-11-18.
+ * Created by Owen Li on 14-11-18.
  */
 public class PlayerScore {
-    private int score;
-    private String username;
+    public   int score;
+    public  String username;
+    public int gamesPlayed;
+    public String realName;
 
-    public static PlayerScore createPlayer(String username, int score) {
+
+    public static PlayerScore createPlayer(String username, int score, String realName, int gamesPlayed) {
         PlayerScore player = new PlayerScore();
         player.score = score;
         player.username = username;
+        player.gamesPlayed = gamesPlayed;
+        player.realName = realName;
         return player;
+    }
+
+    public static void checkPlayerExists(PlayerScore playerTest) {
+        if (playerTest.username != null && !playerTest.username.isEmpty())
+        System.out.println("player exists");
     }
 }
 

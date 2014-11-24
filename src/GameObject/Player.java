@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Used to represent the Player object on the Game Grid. The Player class inherits most of its
  * functionality from MovableObject, but it also implements the logic that enables the user to
  * interact with GamePlay. Specifically, the player class defines the logic for: dropping bombs,
- * activating powerups, and detonating bombs. It is also the final link in the keyPressed and
+ * activating powerUps, and detonating bombs. It is also the final link in the keyPressed and
  * keyReleased chain during the GamePlay state, which starts with the GameStateManager.
  */
 public class Player extends MovableObject implements Serializable {
@@ -37,7 +37,7 @@ public class Player extends MovableObject implements Serializable {
     private boolean invincibilityEnabled;
 
     /**
-     * Initialize a Player object representing the bomberman character on the grid
+     * Initialize a Player object representing the Bomberman character on the grid
      * @param posX int representing the x coordinate where the player will be drawn
      * @param posY int representing the y coordinate where the player will be drawn
      * @param visible boolean specifying whether the player object should be drawn
@@ -46,7 +46,7 @@ public class Player extends MovableObject implements Serializable {
     public Player(int posX, int posY, boolean visible, int speed) {
         this.imagePath = "../resources/bomberman9.png";
         this.score = 0;
-        this.livesRemaining = 2;
+        this.livesRemaining = 3;
         this.currentState = GamePlayState.INGAME;
         this.deltaX = 0;
         this.deltaY = 0;
@@ -61,10 +61,10 @@ public class Player extends MovableObject implements Serializable {
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
         this.bombsAllowed = 3;
-        this.wallPass = false;
-        this.bombPass = false;
-        this.flamePass = false;
-        this.detonatorEnabled = false;
+        this.wallPass = true;
+        this.bombPass = true;
+        this.flamePass = true;
+        this.detonatorEnabled = true;
         this.invincibilityEnabled = false;
     }
 
@@ -197,7 +197,10 @@ public class Player extends MovableObject implements Serializable {
         this.livesRemaining--;
         if (livesRemaining < 0) {
             currentState = GamePlayState.GAMEOVER;
+            SoundController.GAMEOVER.play();
+            return;
         }
+        SoundController.DEATH.play();
     }
 
     public void updateInvincibilityTimer() {
@@ -250,7 +253,6 @@ public class Player extends MovableObject implements Serializable {
         flamePass = false;
         wallPass = false;
         detonatorEnabled = false;
-        SoundController.DEATH.play();
     }
 
     /**
@@ -317,6 +319,17 @@ public class Player extends MovableObject implements Serializable {
     }
 
     /**
+     * Increments the number of bombs the player is allowed to place on the grid by one.
+     * The maximum number of bombs the player can put at a time is 10. Used by the Bombs
+     * powerUp.
+     */
+    public void incrementBombsAllowed() {
+        if (bombsAllowed < 10) {
+            bombsAllowed++;
+        }
+    }
+
+    /**
      * Get the TileMap object associated to the player.
      * @return
      */
@@ -351,67 +364,107 @@ public class Player extends MovableObject implements Serializable {
 
     /**
      * Get the GamePlayState object associated to the player object.
-     * @return
+     * @return The current gamePlay state of the application.
      */
     public GamePlayState getCurrentGamePlayState() {
         return this.currentState;
     }
 
     /**
-     *
-     * @param newState
+     * Set the current gamePlay state of the application to one of the four options outlined
+     * in the GamePlayState enum.
+     * @param newState The new gamePlay state of the application.
      */
     public void setCurrentGamePlayState(GamePlayState newState) {
         this.currentState = newState;
     }
 
+    /**
+     * Get the number of bombs the player is allowed to placed on the grid during gamePlay.
+     * @return An integer representing the number of bombs the player is allowed to plant during gamePlay.
+     */
     public int getBombsAllowed() {
         return bombsAllowed;
     }
 
+    /**
+     * Put a limit to the number of bombs the player is allowed to place on the grid.
+     * @param bombsAllowed The number of bombs the player can place on the grid at a time.
+     */
     public void setBombsAllowed(int bombsAllowed) {
         this.bombsAllowed = bombsAllowed;
     }
 
-    public void incrementBombsAllowed() {
-        if (bombsAllowed < 10) {
-            bombsAllowed++;
-        }
-    }
-
+    /**
+     * Determine whether the player is able to walk over bombs or not.
+     * @return A boolean specifying whether the player has the bombPass powerUp.
+     */
     public boolean hasBombPass() {
         return bombPass;
     }
 
+    /**
+     * Enable or disable the bombPass powerUp.
+     * @param bombPass A boolean specifying whether the player has the bombPass powerUp enabled or not.
+     */
     public void setBombPass(boolean bombPass) {
         this.bombPass = bombPass;
     }
 
+    /**
+     * Determine whether the player is able to detonate bombs or not.
+     * @return A boolean specifying whether the player has the detonator powerUp.
+     */
     public boolean isDetonatorEnabled() {
         return detonatorEnabled;
     }
 
+    /**
+     * Enable or disable the detonator powerUp.
+     * @param detonatorEnabled A boolean specifying whether the player has the detonator powerUp enabled or not.
+     */
     public void setDetonatorEnabled(boolean detonatorEnabled) {
         this.detonatorEnabled = detonatorEnabled;
     }
 
+    /**
+     * Enable or disable the flamePass powerUp.
+     * @return A boolean specifying whether the player has the flamePass powerUp.
+     */
     public boolean hasFlamePass() {
         return flamePass;
     }
 
+    /**
+     * Enable or disable the flamePass powerUp.
+     * @param flamePass A boolean specifying whether the player has the flamePass powerUp enabled or not.
+     */
     public void setFlamePass(boolean flamePass) {
         this.flamePass = flamePass;
     }
 
+    /**
+     * Determine whether the player is invincible (cannot die from bombs or enemies) or not.
+     * @return A boolean specifying whether the player is invincible or not.
+     */
+    public boolean isInvincibilityEnabled() {
+        return invincibilityEnabled;
+    }
+
+    /**
+     * Add a specified amount of points to the score attribute of the player.
+     * Specifically used inside the ScoreManager Class.
+     * @param enemyScore Integer representing the score increment to be added to the player score.
+     */
     public void addToScore(int enemyScore) {
         this.score += enemyScore;
     }
 
+    /**
+     * Get the number of lives the player instance has remaining.
+     * @return An integer representing the number of lives the player has remaining.
+     */
     public int getLivesRemaining() {
         return livesRemaining;
-    }
-
-    public boolean isInvincibilityEnabled() {
-        return invincibilityEnabled;
     }
 }

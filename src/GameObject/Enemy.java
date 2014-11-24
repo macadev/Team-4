@@ -51,7 +51,7 @@ public class Enemy extends MovableObject implements Serializable {
                 this.score = 100;
                 this.speed = MovableObject.SLOWSPEED;
                 this.wallPass = false;
-                this.intelligence = new MediumIntelligence();
+                this.intelligence = new HighIntelligence();
                 this.difficultyRanking = 0;
                 break;
             case ONEAL:

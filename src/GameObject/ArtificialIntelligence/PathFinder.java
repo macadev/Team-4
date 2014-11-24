@@ -5,12 +5,13 @@ import GameObject.BrickWall;
 import GameObject.TileMap;
 import GamePlay.Coordinate;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Created by danielmacario on 14-11-22.
  */
-public class PathFinder {
+public class PathFinder implements Serializable {
 
     private  boolean refreshGraph = false;
     private  int timeToRefreshGraph = 45;
@@ -24,7 +25,7 @@ public class PathFinder {
         }
     }
 
-    public ArrayList<Coordinate> findPath(int playerPosX, int playerPosY, int enemyPosX, int enemyPosY) {
+    public ArrayList<Coordinate> findPath(int playerPosX, int playerPosY, int enemyPosX, int enemyPosY, boolean enemyHasWallPass) {
 
         //Snap the position of the player and the enemy to the row and column coordinate of the tile
         //they are on.
@@ -49,12 +50,12 @@ public class PathFinder {
 
         ArrayList<Coordinate> pathToPlayer = null;
         if (nodesExist) {
-            pathToPlayer = aStar(start, destination);
+            pathToPlayer = aStar(start, destination, enemyHasWallPass);
         }
         return pathToPlayer;
     }
 
-    public ArrayList<Coordinate> aStar(Node start, Node goal) {
+    public ArrayList<Coordinate> aStar(Node start, Node goal, boolean enemyHasWallPass) {
         if (start == null || goal == null) return null;
         Set<Node> open = new HashSet<Node>();
         Set<Node> closed = new HashSet<Node>();
@@ -64,10 +65,7 @@ public class PathFinder {
         start.setOverallCost(start.getEstimatedCostToReachDestination());
 
         open.add(start);
-        int iter = 0;
         while (true) {
-            iter++;
-            System.out.println(iter);
             Node current = null;
 
             if (open.size() == 0) {
@@ -82,14 +80,14 @@ public class PathFinder {
             }
 
             if (current == goal) {
-                return null;
+                break;
             }
 
             open.remove(current);
             closed.add(current);
 
             for (Node neighbor : current.getNeighbors()) {
-                if (neighbor == null || neighbor.isObstacle()) {
+                if (neighbor == null || (neighbor.isObstacle() && !enemyHasWallPass)) {
                     continue;
                 }
 
@@ -118,6 +116,14 @@ public class PathFinder {
         }
         nodes.add(start);
 
+        ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
+        for (int i = nodes.size() - 1; i >= 0; i--) {
+            Node selectedNode = nodes.get(i);
+            coordinates.add(new Coordinate(selectedNode.getX(), selectedNode.getY()));
+        }
+
+        removeChains(coordinates);
+
         for (Node[] rowOfNodes : graph) {
             for (Node node : rowOfNodes) {
                 if (node != null) {
@@ -126,13 +132,62 @@ public class PathFinder {
             }
         }
 
-        ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
-        for (int i = nodes.size() - 1; i >= 0; i--) {
-            Node selectedNode = nodes.get(i);
-            coordinates.add(new Coordinate(selectedNode.getX(), selectedNode.getY()));
-        }
-
         return coordinates;
+    }
+
+    private void removeChains(ArrayList<Coordinate> coordinates) {
+        for (int i = 0; i < coordinates.size() - 2; i ++) {
+            if ((coordinates.get(i).getRow() == coordinates.get(i + 1).getRow() && coordinates.get(i).getRow() == coordinates.get(i + 2).getRow())
+                    || (coordinates.get(i).getCol() == coordinates.get(i + 1).getCol() && coordinates.get(i).getCol() == coordinates.get(i + 2).getCol())) {
+                coordinates.remove(i+1);
+                i--;
+            }
+        }
+    }
+
+    public void cleanPath(ArrayList<Coordinate> coordinates) {
+        Coordinate initial = coordinates.get(0);
+        Coordinate next = coordinates.get(1);
+        int index = 0;
+        while (coordinates.size()>1) {
+
+            if (initial.getRow() == next.getRow()) {
+
+                //next has same x
+                while (index + 1 < coordinates.size()) {
+                    if (coordinates.get(index).getRow() == coordinates.get(index + 1).getRow()) {
+                        index++;
+                    } else {
+                        break;
+                    }
+                }
+                removeBefore(coordinates, index);
+
+                //reset index to 0 since we remove everything before it.
+                index = 0;
+
+            } else if (initial.getCol() == next.getCol()) {
+                // next has same y
+                while (index + 1 < coordinates.size()) {
+                    if (coordinates.get(index).getCol() == coordinates.get(index + 1).getCol()) {
+                        index++;
+                    } else {
+                        break;
+                    }
+                }
+                removeBefore(coordinates, index);
+                //reset index to 0 since we remove everything before it.
+                index = 0;
+
+            }
+        }
+    }
+
+    private void removeBefore(ArrayList<?> list, int index){
+        for (int i = index - 1; i >= 0; i--) {
+            // remove all elements in the stack before the position we travel to
+            list.remove(i);
+        }
     }
 
     public int estimateDistance(Node node1, Node node2) {
@@ -147,8 +202,8 @@ public class PathFinder {
         //indices for the object array and the graph array
         int graphRow = 0;
         int graphCol = 0;
-        for (int col = 1; col < TileMap.NUM_OF_COLS - 2; col++) {
-            for (int row = 1; row < TileMap.NUM_OF_ROWS - 2; row++) {
+        for (int col = 1; col < TileMap.NUM_OF_COLS - 1; col++) {
+            for (int row = 1; row < TileMap.NUM_OF_ROWS - 1; row++) {
                 GameObject wall = walls[col][row];
                 if (wall instanceof BrickWall && wall.isVisible()) {
                     graph[graphRow][graphCol].setObstacle(true);

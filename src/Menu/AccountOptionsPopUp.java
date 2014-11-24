@@ -24,6 +24,8 @@ public class AccountOptionsPopUp extends JFrame {
     private JButton buttonExit;
     private JButton buttonDeleteAccount;
     private MenuManager menuManager;
+    private boolean updatedPassword = false;
+    private boolean updatedRealName = false;
 
     /**
      *Constructor for the AccountOptionsPopUp
@@ -158,11 +160,21 @@ public class AccountOptionsPopUp extends JFrame {
         boolean passWordUpdatedSuccessfully = true;
         if (!newPassWord.isEmpty()){
             passWordUpdatedSuccessfully = submitNewPassWord(newPassWord, newPassWordDuplicate);
+            updatedPassword = true;
         }
         if (passWordUpdatedSuccessfully) {
             if (!newRealName.isEmpty()) {
                 submitNewRealName(newRealName);
+                updatedRealName = true;
             }
+        }
+
+        if (updatedPassword && updatedRealName) {
+            updatedPassword = false;
+            updatedRealName = false;
+            labelMessage.setText("                       Information Updated                     ");
+            labelMessage2.setText("");
+            labelMessage3.setText("");
         }
     }
 

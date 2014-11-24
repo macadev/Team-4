@@ -6,9 +6,11 @@ package GameObject.ArtificialIntelligence;
 import GameObject.Direction;
 import GameObject.Enemy;
 import GamePlay.Coordinate;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class HighIntelligence extends ArtificialIntelligence {
+public class HighIntelligence extends ArtificialIntelligence implements Serializable {
 
     public static PathFinder pathFinder;
     private ArrayList<Coordinate> pathToPlayer;
@@ -18,8 +20,12 @@ public class HighIntelligence extends ArtificialIntelligence {
 
     @Override
     public void chasePlayer(int playerPosX, int playerPosY, int distanceFromEnemyToPlayer, Enemy enemy) {
-        if (recalculatePathTimer < 0 && distanceFromEnemyToPlayer < 85) {
-            pathToPlayer = pathFinder.findPath(playerPosX, playerPosY, enemy.getPosX(), enemy.getPosY());
+        //if (recalculatePathTimer < 0 && distanceFromEnemyToPlayer < 85) {
+        boolean enemyAtCenterOfTile = enemy.getPosX() % 32 == 0 && enemy.getPosY() % 32 == 0;
+//        if (recalculatePathTimer < 0 && distanceFromEnemyToPlayer < 85) {
+        if (enemyAtCenterOfTile && distanceFromEnemyToPlayer < 85) {
+            pathToPlayer = pathFinder.findPath(playerPosX, playerPosY, enemy.getPosX(), enemy.getPosY(), enemy.hasWallPass());
+            System.out.println("is path null?" + (pathToPlayer == null));
             if (pathToPlayer != null) {
                 pathToPlayer.remove(0);
                 setNextDestination();
@@ -32,7 +38,7 @@ public class HighIntelligence extends ArtificialIntelligence {
     }
 
     public boolean setNextDestination() {
-        if (pathToPlayer.isEmpty()) {
+        if (pathToPlayer == null || pathToPlayer.isEmpty()) {
             return false;
         }
         Coordinate nextPositionOnGrid = pathToPlayer.remove(0);
@@ -48,11 +54,18 @@ public class HighIntelligence extends ArtificialIntelligence {
         int enemyPosY = enemy.getPosY();
 
         if (chaseEnabled) {
+
+            if (nextDestination == null) {
+                chaseEnabled = false;
+                return;
+            }
+
             int nextX = nextDestination.getRow();
             int nextY = nextDestination.getCol();
             boolean enemyIsAtNextCol = (Math.abs(enemyPosX - nextX) <= 1);
             boolean enemyIsAtNextRow = (Math.abs(enemyPosY - nextY) <= 1);
             if (enemyIsAtNextRow && enemyIsAtNextCol) {
+                System.out.println("At next destination!");
                 enemy.setPosY(nextY);
                 enemy.setPosX(nextX);
                 boolean nextDestinationExists = setNextDestination();
@@ -64,8 +77,9 @@ public class HighIntelligence extends ArtificialIntelligence {
                 }
             }
 
+            //TODO: decide if we should use these statements
             if (enemyIsAtNextRow) {
-                enemy.setPosY(nextY);
+                //enemy.setPosY(nextY);
                 if (enemyPosX < nextX) {
                     enemy.setDirectionOfMovement(Direction.EAST);
                     System.out.println("HIN going east");
@@ -74,7 +88,7 @@ public class HighIntelligence extends ArtificialIntelligence {
                     System.out.println("HIN going west");
                 }
             } else {
-                enemy.setPosX(nextX);
+                //enemy.setPosX(nextX);
                 if (enemyPosY < nextY) {
                     enemy.setDirectionOfMovement(Direction.SOUTH);
                     System.out.println("HIN going south");

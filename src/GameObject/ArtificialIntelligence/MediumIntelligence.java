@@ -7,7 +7,9 @@ import GameObject.Direction;
 import GameObject.Enemy;
 import GamePlay.Coordinate;
 
-public class MediumIntelligence extends ArtificialIntelligence {
+import java.io.Serializable;
+
+public class MediumIntelligence extends ArtificialIntelligence implements Serializable {
 
     @Override
     public void move(Enemy enemy) {
