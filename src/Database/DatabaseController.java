@@ -21,7 +21,7 @@ public class DatabaseController {
                 // create a database connection
                 connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
                 stmt = connection.createStatement();
-                stmt.executeUpdate("create table if not exists  Users (username String , password String, realName String, highScore int, levelUnlocked int)");
+                stmt.executeUpdate("create table if not exists  Users (username String , password String, realName String, highScore int, levelUnlocked int, gamesPlayed int )");
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
             } finally {
@@ -95,8 +95,8 @@ public class DatabaseController {
             PreparedStatement stmt;
             ResultSet rsUserCheck;
             String sql = "INSERT INTO Users"
-                    + "(USERNAME, PASSWORD, REALNAME, HIGHSCORE, LEVELUNLOCKED) VALUES"
-                    + "(?,?,?,?,?)";
+                    + "(USERNAME, PASSWORD, REALNAME, HIGHSCORE, LEVELUNLOCKED, GAMESPLAYED) VALUES"
+                    + "(?,?,?,?,?,?)";
             String verify = "select * from Users where username = ?";
 
             try {
@@ -114,6 +114,7 @@ public class DatabaseController {
                 stmt.setString(3, rName);
                 stmt.setInt(4, 0);
                 stmt.setInt(5, 1);
+                stmt.setInt(6,0);
                 stmt.executeUpdate();
                 System.out.println("New User inserted into database");
 
@@ -154,8 +155,7 @@ public class DatabaseController {
                     updateLevelUnlocked.setInt(1, level);
                     updateLevelUnlocked.setString(2, username);
                     updateLevelUnlocked.executeUpdate();
-                }
-                else {
+                } else {
                     System.out.println("Level does not exist");
                     return;
                 }
@@ -166,11 +166,9 @@ public class DatabaseController {
                     int updatedLevel = rsUpdate.getInt("levelUnlocked");
                     System.out.println("Updated levelUnlocked to : " + updatedLevel);
                 }
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
 
                 if (rsUpdate != null) {
                     rsUpdate.close();
@@ -180,8 +178,7 @@ public class DatabaseController {
                     connection.close();
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -197,6 +194,7 @@ public class DatabaseController {
             ResultSet rsLevel = null;
             PreparedStatement stmt = null;
             String sql = "select * from Users where username = ?";
+            int size = 0;
 
             try {
                 connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
@@ -208,7 +206,10 @@ public class DatabaseController {
                 while (rsLevel.next()) {
                     currentLevel = rsLevel.getInt("levelUnlocked");
                     System.out.println("Unlocked Level is : " + currentLevel);
+                    size++;
+                    System.out.println("size of result set of unlocked level is : " + size);
                 }
+
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
@@ -224,8 +225,7 @@ public class DatabaseController {
                     connection.close();
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return currentLevel;
@@ -314,8 +314,7 @@ public class DatabaseController {
                     updatePasswordStmt.setString(1, newPass);
                     updatePasswordStmt.setString(2, Uname);
                     updatePasswordStmt.executeUpdate();
-                }
-                else {
+                } else {
                     System.out.println("Password not changed");
                     return false;
                 }
@@ -326,11 +325,9 @@ public class DatabaseController {
                     String updatedPassword = rsUpdate.getString("password");
                     System.out.println("Updated Password to : " + updatedPassword);
                 }
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
 
                 if (rsUpdate != null) {
                     rsUpdate.close();
@@ -340,14 +337,12 @@ public class DatabaseController {
                     connection.close();
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return true;
     }
-
 
 
     public static boolean updateRealName(String newRealName, String Uname) throws ClassNotFoundException {
@@ -368,8 +363,7 @@ public class DatabaseController {
                     updateRealNameStmt.setString(1, newRealName);
                     updateRealNameStmt.setString(2, Uname);
                     updateRealNameStmt.executeUpdate();
-                }
-                else {
+                } else {
                     System.out.println("Real name not changed");
                     return false;
                 }
@@ -381,11 +375,9 @@ public class DatabaseController {
                     String updatedRealName = rsUpdate.getString("realName");
                     System.out.println("Updated Real Name to : " + updatedRealName);
                 }
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
 
                 if (rsUpdate != null) {
                     rsUpdate.close();
@@ -395,8 +387,7 @@ public class DatabaseController {
                     connection.close();
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -421,11 +412,9 @@ public class DatabaseController {
                 delAccount.setString(1, username);
                 delAccount.executeUpdate();
                 System.out.println("Account Deleted");
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
 
                 if (rsUpdate != null) {
                     rsUpdate.close();
@@ -435,8 +424,7 @@ public class DatabaseController {
                     connection.close();
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -481,8 +469,7 @@ public class DatabaseController {
                     connection.close();
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return score;
@@ -504,7 +491,7 @@ public class DatabaseController {
                 connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
                 //connection.setAutoCommit(false);
                 updateHighScore = connection.prepareStatement(sql);
-                updateHighScore.setInt(1, score+currentScore);
+                updateHighScore.setInt(1, score + currentScore);
                 updateHighScore.setString(2, username);
                 updateHighScore.executeUpdate();
 
@@ -515,11 +502,9 @@ public class DatabaseController {
                     int newHighScore = rsUpdate.getInt("highScore");
                     System.out.println("Updated High Score to : " + newHighScore);
                 }
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
 
                 if (rsUpdate != null) {
                     rsUpdate.close();
@@ -529,15 +514,18 @@ public class DatabaseController {
                     connection.close();
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static ResultSet getTopUsers() throws ClassNotFoundException {
+    public static ArrayList<PlayerScore> getTopScoresSet() throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         ResultSet rsTopScores = null;
+        ArrayList<PlayerScore> ps = new ArrayList<PlayerScore>();
+        int topScore;
+        int i;
+        int size = 0;
         try {
             Connection connection = null;
             Statement stmt = null;
@@ -548,6 +536,18 @@ public class DatabaseController {
                 //connection.setAutoCommit(false);
                 stmt = connection.createStatement();
                 rsTopScores = stmt.executeQuery(sql);
+                while (rsTopScores.next()) {
+                    topScore = rsTopScores.getInt("highScore");
+                    System.out.println("Top score is : " + topScore + " and username is : " + rsTopScores.getString("username") + " for user (real name) " + rsTopScores.getString("realName") + " they have played " + rsTopScores.getInt("gamesPlayed")+ " games.");
+                    size++;
+                    System.out.println("size of getTopScores result set is: " + size);
+                    ps.add(PlayerScore.createPlayer(rsTopScores.getString("username"), rsTopScores.getInt("highScore"), rsTopScores.getString("realName"), rsTopScores.getInt("gamesPlayed")));
+                    System.out.println("this is being executed");
+                }
+                System.out.println("size of arraylist is : " + ps.size());
+                for (i = 0 ; i<ps.size(); i++) {
+                    System.out.println("Top Users are : " + ps.get(i).username + " with real name " + ps.get(i).realName + " with "+ ps.get(i).score + " points in " + ps.get(i).gamesPlayed + " games played.");
+                }
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -564,29 +564,148 @@ public class DatabaseController {
                     connection.close();
                 }
             }
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return rsTopScores;
-    }
-
-    public static ArrayList<PlayerScore> getScores() {
-        ArrayList ps = new ArrayList<PlayerScore>();
-        try {
-            while (getTopUsers().next()) {
-                ps.add(PlayerScore.createPlayer(getTopUsers().getString("username"), getTopUsers().getInt("highScore")));
-            }
-        }
-        catch (Exception e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return ps;
     }
+
+    public static void incrementGamesPlayed(String username) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+
+        try {
+            Connection connection = null;
+            PreparedStatement incrementGamesPlayed;
+            String sql = "update Users set gamesPlayed = ? where username = ?;";
+            String updateRecords = "SELECT * from Users where username = ?;";
+            PreparedStatement updateStmt;
+            ResultSet rsUpdate = null;
+
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                //connection.setAutoCommit(false);
+                incrementGamesPlayed = connection.prepareStatement(sql);
+                incrementGamesPlayed.setInt(1, getGamesPlayed(username) + 1);
+                incrementGamesPlayed.setString(2, username);
+                incrementGamesPlayed.executeUpdate();
+
+                updateStmt = connection.prepareStatement(updateRecords);
+                updateStmt.setString(1, username);
+                rsUpdate = updateStmt.executeQuery();
+                while (rsUpdate.next()) {
+                    int updatedGamesPlayed = rsUpdate.getInt("gamesPlayed");
+                    System.out.println("Updated games played to : " + updatedGamesPlayed);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+
+                if (rsUpdate != null) {
+                    rsUpdate.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int getGamesPlayed(String username) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        int gamesPlayed;
+        gamesPlayed = 0;
+
+        try {
+            Connection connection = null;
+            ResultSet rsGamesPlayed = null;
+            PreparedStatement stmt = null;
+            String sql = "select * from Users where username = ?";
+
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                //connection.setAutoCommit(false);
+                stmt = connection.prepareStatement(sql);
+                stmt.setString(1, username);
+                rsGamesPlayed = stmt.executeQuery();
+
+                while (rsGamesPlayed.next()) {
+                    gamesPlayed = rsGamesPlayed.getInt("gamesPlayed");
+                    System.out.println(username + "has played: " + gamesPlayed + " games.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (rsGamesPlayed != null) {
+                    rsGamesPlayed.close();
+                }
+
+                if (stmt != null) {
+                    stmt.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return gamesPlayed;
+    }
+
+    public static PlayerScore getPlayerObject(String username) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        PlayerScore player = null;
+        try {
+            Connection connection = null;
+            ResultSet rsUsers = null;
+            PreparedStatement stmt = null;
+            String sql = "select * from Users where username = ?";
+
+
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                //connection.setAutoCommit(false);
+                stmt = connection.prepareStatement(sql);
+                stmt.setString(1, username);
+                rsUsers = stmt.executeQuery();
+
+                while (rsUsers.next()) {
+                    player = PlayerScore.createPlayer(username, rsUsers.getInt("highScore"), rsUsers.getString("realName"), rsUsers.getInt("gamesPlayed"));
+                    System.out.println("Player Object created successfully");
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (rsUsers != null) {
+                    rsUsers.close();
+                }
+
+                if (stmt != null) {
+                    stmt.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return player;
+    }
+
+
+
+
+
+
+
 }
-
-
-
 
 
 
