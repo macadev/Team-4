@@ -1,6 +1,5 @@
 /**
- * Created by danielmacario on 14-11-12.
- * Created onwards from stage 6: Vasundhara Gupta November 14,2014
+ * Created by Vasundhara Gupta November 14,2014
  */
 package GameObject;
 
