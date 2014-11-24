@@ -34,7 +34,7 @@ public class MenuManager extends GameState {
         menuStates.put(MenuState.LOGIN, new LoginMenu(this));
         menuStates.put(MenuState.INGAME, new InGameMenu(this, gsm));
         menuStates.put(MenuState.GAMEOVER, new GameOverMenu(this));
-        menuStates.put(MenuState.LEADERBOARD, new LeaderboardsMenu(this));
+        //menuStates.put(MenuState.LEADERBOARD, new LeaderboardsMenu(this));
         currentMenu = MenuState.LOGIN;
     }
 
