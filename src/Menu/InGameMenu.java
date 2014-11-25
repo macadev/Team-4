@@ -18,7 +18,6 @@ import javax.swing.JTextField;
  * another- new game,quitting the game entirely, go the main menu for additional options or view their score on the
  * leaderboard.
  */
-
 public class InGameMenu extends MenuTemplate{ //this menu will appear when the user pauses the game
 
     private String[] options = {"Resume Gameplay","Save Game", "Start New Game", "Quit Game", "Exit to Main Menu", "View Leaderboard" };
@@ -78,7 +77,6 @@ public class InGameMenu extends MenuTemplate{ //this menu will appear when the u
      * buttons on the keyboard.
      * @param k KeyCode used to represent the key pressed on the keyboard.
      */
-
 	@Override
 	public void keyPressed(int k) {
         // TODO Auto-generated method stub
@@ -105,7 +103,6 @@ public class InGameMenu extends MenuTemplate{ //this menu will appear when the u
     /**
      * Implements the functionality of each choice on the screen
      */
-
 	public void select() {
 
 		if (currentChoice == 0) {
@@ -135,8 +132,5 @@ public class InGameMenu extends MenuTemplate{ //this menu will appear when the u
             menuManager.setPreviousLeaderboardMenuState(MenuState.INGAME);
             menuManager.setMenuState(MenuState.LEADERBOARD);
         }
-	        
 	}
-	
-
 }

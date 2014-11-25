@@ -300,7 +300,7 @@ public class TileMap implements Serializable {
             for (int i = 1; i < bombRadius + 1; i++) {
 
                 if (direction == Direction.EAST) {
-
+                    //expand flames in the East direction
                     posXofWall = posXOfExplosion + i;
                     posYofWall = posYOfExplosion;
                     wall = walls[posXofWall][posYofWall];
@@ -308,7 +308,7 @@ public class TileMap implements Serializable {
                     posYofFlame = (posYofWall) * 32;
 
                 } else if (direction == Direction.WEST) {
-
+                    //expand flames in the West direction
                     posXofWall = posXOfExplosion - i;
                     posYofWall = posYOfExplosion;
                     wall = walls[posXofWall][posYofWall];
@@ -316,7 +316,7 @@ public class TileMap implements Serializable {
                     posYofFlame = (posYofWall) * 32;
 
                 } else if (direction == Direction.NORTH) {
-
+                    //expand flames in the North direction
                     posXofWall = posXOfExplosion;
                     posYofWall = posYOfExplosion - i;
                     wall = walls[posXofWall][posYofWall];
@@ -324,7 +324,7 @@ public class TileMap implements Serializable {
                     posYofFlame = (posYofWall) * 32;
 
                 } else {
-
+                    //expand flames in the South direciton
                     posXofWall = posXOfExplosion;
                     posYofWall = posYOfExplosion + i;
                     wall = walls[posXofWall][posYofWall];
@@ -408,7 +408,7 @@ public class TileMap implements Serializable {
 
     /**
      * Determines the hardest enemy type that follows the current hardest enemy type present on the grid.
-     * @return An EnemyType object specifying th
+     * @return An EnemyType object specifying an Enemy type harder than the hardest enemy alive on the grid.
      */
     public EnemyType determineHarderEnemyTypeToSpawn() {
 
@@ -444,79 +444,150 @@ public class TileMap implements Serializable {
         return null;
     }
 
+    /**
+     * Increments the bomb explosion radius by 1 tile.
+     */
     public void incrementBombRadius() {
         bombRadius++;
     }
 
+    /**
+     * Retrieve the StageData object corresponding to the current stage difficulty.
+     * @return A StageData object with the information of the current stage.
+     */
     public StageData getCurrentStage() {
         return Stages.gameStages[this.currentStage];
     }
 
+    /**
+     * Retrieve the current stage number the user is playing.
+     * @return An integer specfying the current stage number being played.
+     */
     public int getCurrentStageNumber() {
         return currentStage;
     }
 
+    /**
+     * Retrieve the enemies present on the grid.
+     * @return An ArrayList containing the enemy objects present on the grid.
+     */
     public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
 
+    /**
+     * Set the enemies present on the grid.
+     * @param enemies An ArrayList containing the enemy objects to be drawn on the grid.
+     */
     public void setEnemies(ArrayList<Enemy> enemies) {
         this.enemies = enemies;
     }
 
+    /**
+     * Get the Wall objects present on the grid.
+     * @return An two dimensional array containing instances of ConcreteWall and BrickWall
+     */
     public GameObject[][] getObjects() {
         return walls;
     }
 
+    /**
+     * Get the flame objects present on the grid.
+     * @return An ArrayList containing the flame objects currently visible on the grid.
+     */
     public ArrayList<Flame> getFlames() {
         return flames;
     }
 
+    /**
+     * Set the flames objects present on the grid.
+     * @param flames An ArrayList containing the flame objects to be drawn on the grid.
+     */
     public void setFlames(ArrayList<Flame> flames) {
         this.flames = flames;
     }
 
+    /**
+     * Get the powerUp object contained in the grid.
+     * @return The powerUp object present on the current stage.
+     */
     public PowerUp getPowerUp() {
         return powerUp;
     }
 
+    /**
+     * Set the powerUp present in the grid.
+     * @param powerUp A powerUp object to be drawn on the grid.
+     */
     public void setPowerUp(PowerUp powerUp) {
         this.powerUp = powerUp;
     }
 
+    /**
+     * Get the door object present on the grid.
+     * @return The Door object contained in the current stage.
+     */
     public Door getDoor() {
         return door;
     }
 
+    /**
+     * Set the door object present on the grid.
+     * @param door
+     */
     public void setDoor(Door door) {
         this.door = door;
     }
 
+    /**
+     * Determine whether the current stage is a bonus stage or not.
+     * @return A boolean specifying whether the current stage is a bonus stage or not.
+     */
     public boolean isBonusStage() {
         return isBonusStage;
     }
 
+    /**
+     * Set whether the TileMap instance represents a bonus stage or not.
+     * @param isBonusStage A boolean representing whether the TileMap current represents a bonus
+     *                     Stage or not.
+     */
     public void setBonusStage(boolean isBonusStage) {
         this.isBonusStage = isBonusStage;
     }
 
+    /**
+     * Determine whether a harder enemy set has been created or not. We can only generate a
+     * harder set of enemies once per stage.
+     * @return A boolean specifying whether a harder enemy set has been created or not.
+     */
     public boolean isHarderSetAlreadyCreated() {
         return harderSetAlreadyCreated;
     }
 
+    /**
+     * Set whether a harder enemy set has been created or not.
+     * @param harderSetAlreadyCreated A boolean specifying whether a harder enemy set has been
+     *                                created or not.
+     */
     public void setHarderSetAlreadyCreated(boolean harderSetAlreadyCreated) {
         this.harderSetAlreadyCreated = harderSetAlreadyCreated;
     }
 
+    /**
+     * Determine whether we are currently transitioning between stages or not.
+     * @return A boolean specifying whether we are transitioning between stages or not.
+     */
     public boolean isNextStageTransition() {
         return nextStageTransition;
     }
 
+    /**
+     * Specify whether we are transition between stages or not.
+     * @param nextStageTransition A boolean representing whether we are in a stage transition or not.
+     */
     public void setNextStageTransition(boolean nextStageTransition) {
         this.nextStageTransition = nextStageTransition;
     }
 
-    public GameObject[][] getWalls() {
-        return walls;
-    }
 }
