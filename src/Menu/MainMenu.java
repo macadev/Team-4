@@ -6,8 +6,12 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**
- * Created by danielmacario on 14-10-31.
+ * This class is used to represent the options available after the user logs in. The MainMenu class
+ * inherits most of its functionality from the MenuTemplate class. Specifically, the MainMenu class defines the logic
+ * for: starting a new game, loading a previously saved game, view their score on the
+ * leaderboard, changing their account information, logging out, and quitting the game entirely.
  */
+
 public class MainMenu extends MenuTemplate {
 
     private String[] options = {"Start Game",
@@ -21,6 +25,14 @@ public class MainMenu extends MenuTemplate {
     private Font titleFont = MenuTemplate.TITLE_FONT;
     private Font font = MenuTemplate.BODY_FONT;
 
+    /** Constructor for the MainMenu class. Creates a MainMenu object which takes both the menuManager and gsm
+     * as a parameter.
+     * @param menuManager Object navigates between the different menus
+     * depending on the currentChoice as chosen by the player.
+     *  @param gsm Object navigates between the different game-states
+     * depending on the currentChoice as chosen by the user.
+     */
+
     public MainMenu (MenuManager menuManager, GameStateManager gsm) {
         this.menuManager = menuManager;
         this.gsm = gsm;
@@ -31,6 +43,10 @@ public class MainMenu extends MenuTemplate {
 
     }
 
+    /**
+     * Draws the InGameMenu with the options when the game is paused
+     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
+     */
     @Override
     public void draw(Graphics2D g) {
 
@@ -55,7 +71,9 @@ public class MainMenu extends MenuTemplate {
 
     }
 
-
+    /**
+     * Implements the functionality of each choice on the screen
+     */
     private void select() {
         if (currentChoice == 0) {
             LevelSelectionPopUp lsp = new LevelSelectionPopUp(menuManager);
@@ -84,6 +102,13 @@ public class MainMenu extends MenuTemplate {
             System.exit(0);
         }
     }
+
+    /**
+     * Implements the functionality for the user to scroll through the options with the direction
+     * buttons on the keyboard.
+     * @param k KeyCode used to represent the key pressed on the keyboard.
+     */
+
 
     @Override
     public void keyPressed(int k) {
