@@ -9,9 +9,14 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JTextField;
 
-/**
- * Created by Vasu on 16/11/2014
- */
+
+ /**
+  * This class is used to represent the options available to the player when the game is over/lost.The GameOverMenu class
+  *  inherits most of its functionality from the MenuTemplate class.
+  *  Specifically, the GameOverMenu class defines the logic for: starting a new game, loading a previously saved game,
+  *  view their score on the leaderboard or return to the main menu for additional options.
+  */
+
 public class GameOverMenu extends MenuTemplate {
 
     private String[] options = {"Start New Game","Load Saved Game", "View Leaderboard", "Return to Main Menu"};
@@ -22,6 +27,10 @@ public class GameOverMenu extends MenuTemplate {
     private Font font = MenuTemplate.BODY_FONT;
 
 
+    /** Creates a GameOverMenu object which takes the menuManager as a parameter.
+     * @param menuManager Object navigates between the different game states and menus
+     * depending on the currentChoice as chosen by the player.
+     */
     public GameOverMenu (MenuManager menuManager) {
             this.menuManager = menuManager;
         }
@@ -30,6 +39,11 @@ public class GameOverMenu extends MenuTemplate {
         public void init() {
             // TODO Auto-generated method stub
         }
+
+     /**
+      * Draws the GameOverMenu with the options when the game ends
+      * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
+      */
 
         @Override
         public void draw(Graphics2D g) { //the code in this method is used in every menu for consistency
@@ -51,7 +65,11 @@ public class GameOverMenu extends MenuTemplate {
                 g.drawString(options[i], X_OFFSET, Y_OFFSET + i * 15);
             }
         }
-
+     /**
+      * Implements the functionality for the user to scroll through the options with the direction
+      * buttons on the keyboard.
+      * @param k KeyCode used to represent the key pressed on the keyboard.
+      */
             @Override
         public void keyPressed(int k) {
             // TODO Auto-generated method stub
@@ -74,6 +92,9 @@ public class GameOverMenu extends MenuTemplate {
             // TODO Auto-generated method stub
 
         }
+     /**
+      * Implements the functionality of each choice on the screen
+      */
 
         public void select() {
             if (currentChoice == 0) {
@@ -87,11 +108,8 @@ public class GameOverMenu extends MenuTemplate {
                 acp.setVisible(true);
             }
             if (currentChoice == 2) {
-<<<<<<< HEAD
                 //view leaderboard
-=======
                 menuManager.setPreviousLeaderboardMenuState(MenuState.GAMEOVER);
->>>>>>> 4a5091cffd914d986ff62472f816cb9c4710ef36
                 menuManager.setMenuState(MenuState.LEADERBOARD);
             }
             if (currentChoice == 3) {
