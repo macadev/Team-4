@@ -35,7 +35,7 @@ public class InGameMenu extends MenuTemplate{ //this menu will appear when the u
      * @param menuManager Object navigates between the different menus
      * depending on the currentChoice as chosen by the player.
      *  @param gsm Object navigates between the different game-states
-     * depending on the currentChoice as chosen by the player.
+     * depending on the currentChoice as chosen by the user. 
      */
     public InGameMenu(MenuManager menuManager, GameStateManager gsm) {
 	    this.menuManager = menuManager;

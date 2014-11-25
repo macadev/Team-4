@@ -29,7 +29,7 @@ public class GameOverMenu extends MenuTemplate {
 
     /** Creates a GameOverMenu object which takes the menuManager as a parameter.
      * @param menuManager Object navigates between the different game states and menus
-     * depending on the currentChoice as chosen by the player.
+     * depending on the currentChoice as chosen by the user.
      */
     public GameOverMenu (MenuManager menuManager) {
             this.menuManager = menuManager;
