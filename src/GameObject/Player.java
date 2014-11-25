@@ -197,10 +197,12 @@ public class Player extends MovableObject implements Serializable {
         this.livesRemaining--;
         if (livesRemaining < 0) {
             currentState = GamePlayState.GAMEOVER;
+            SoundController.THEME.stop();
             SoundController.GAMEOVER.play();
             return;
         }
         SoundController.DEATH.play();
+
     }
 
     public void updateInvincibilityTimer() {
@@ -290,6 +292,7 @@ public class Player extends MovableObject implements Serializable {
             } else if (key == KeyEvent.VK_RIGHT) {
                 deltaX = speed;
             } else if (key == KeyEvent.VK_SPACE) {
+                SoundController.PAUSE.play();
                 currentState = GamePlayState.PAUSE;
             } else if (key == KeyEvent.VK_X) {
                 if (detonatorEnabled && !bombsPlaced.isEmpty()) {

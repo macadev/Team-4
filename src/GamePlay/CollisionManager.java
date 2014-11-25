@@ -5,6 +5,8 @@ package GamePlay;
 
 import Database.DatabaseController;
 import GameObject.*;
+import SystemController.SoundController;
+
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,6 +48,7 @@ public class CollisionManager implements Serializable {
             if (playerRectangle.intersects(powerUpRectangle)) {
                 player.enablePowerUp(powerUp.getPowerUpType());
                 powerUp.setVisible(false);
+                SoundController.POWERUP.play();
             }
         }
     }

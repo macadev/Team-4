@@ -94,9 +94,9 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
 
         boolean redirectToGameOverMenu = notificationDurationCountDown();
         if (redirectToGameOverMenu) {
-            SoundController.THEME.stop();
             //We update the number of games played and increment the player score
             //by the corresponding amount.
+            SoundController.THEME.loop();
             gsm.setState(gsm.MENUSTATE, MenuState.GAMEOVER);
         }
     }

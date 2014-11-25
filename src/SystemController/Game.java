@@ -7,7 +7,7 @@ import Database.DatabaseController;
 import javax.swing.JFrame;
 
 import Database.PlayerScore;
-import Menu.Music;
+
 
 public class Game {
 
@@ -17,6 +17,7 @@ public class Game {
      * @param args
      */
     public static void main(String[] args) {
+        SoundController.THEME.loop();
         try {
             DatabaseController.initializeDatabase();
             DatabaseController.printDBContents();
@@ -61,9 +62,6 @@ public class Game {
         window.pack();
         window.setVisible(true);
 
-        //Music music = new Music();
-        //music.start();
-        //SoundController.THEME.loop();
 
 
     }

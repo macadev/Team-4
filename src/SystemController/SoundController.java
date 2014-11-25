@@ -19,6 +19,23 @@ public class SoundController {
             SoundController.class.getResource("/resources/Music/death.wav")
     );
 
+    public static final AudioClip PAUSE = Applet.newAudioClip(
+            SoundController.class.getResource("/resources/Music/PAUSE.wav")
+    );
+
+    public static final AudioClip POWERUP = Applet.newAudioClip(
+            SoundController.class.getResource("/resources/Music/PowerUp.wav")
+    );
+
+    public static final AudioClip BOMBEXPLODE = Applet.newAudioClip(
+            SoundController.class.getResource("/resources/Music/BombExplode.wav")
+    );
+
+    public static final AudioClip SELECT = Applet.newAudioClip(
+            SoundController.class.getResource("/resources/Music/select.wav")
+    );
+
+
 }
 
 

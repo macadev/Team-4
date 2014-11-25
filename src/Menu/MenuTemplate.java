@@ -13,7 +13,6 @@ public abstract class MenuTemplate extends JFrame {
     protected MenuManager menuManager;
     protected GameStateManager gsm;
 
-    //JPlaceHolderTextField and JPlaceHolderPasswordField dimensions
     public static final int FIELD_WIDTH = 150;
     public static final int FIELD_HEIGHT = 30;
     public static final int X_OFFSET = 95;

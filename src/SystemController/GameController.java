@@ -121,6 +121,10 @@ public class GameController extends JPanel implements Runnable, KeyListener {
     public void keyTyped(KeyEvent key) {}
 
     public void keyPressed(KeyEvent key) {
+        int keyCode = key.getKeyCode();
+        if (keyCode == KeyEvent.VK_ENTER) {
+            SoundController.SELECT.play();
+        }
         gsm.keyPressed(key.getKeyCode());
     }
 
