@@ -10,12 +10,12 @@ import java.awt.event.KeyEvent;
 import javax.swing.JTextField;
 
 /**
- * Created by Vasu on 16/11/2014.
+ * Created by Vasu on 16/11/2014
  */
 public class GameOverMenu extends MenuTemplate {
 
     private String[] options = {"Start New Game","Load Saved Game", "View Leaderboard", "Return to Main Menu"};
-    // menu options as highlighted in the SRS
+    // menu options as highlighted/mentioned in the SRS
     private int currentChoice = 0; // index of options array
     private Color titleColor = MenuTemplate.TITLE_COLOR;
     private Font titleFont = MenuTemplate.TITLE_FONT;
@@ -37,7 +37,7 @@ public class GameOverMenu extends MenuTemplate {
             g.setColor(titleColor);
             g.setFont(titleFont);
             g.setPaint(titleColor);
-            g.drawString("Game Over Menu", 80, 70);
+            g.drawString("Game Over Menu", 80, 70); //
 
             //draw menu options
             g.setFont(font);
@@ -87,7 +87,11 @@ public class GameOverMenu extends MenuTemplate {
                 acp.setVisible(true);
             }
             if (currentChoice == 2) {
+<<<<<<< HEAD
                 //view leaderboard
+=======
+                menuManager.setPreviousLeaderboardMenuState(MenuState.GAMEOVER);
+>>>>>>> 4a5091cffd914d986ff62472f816cb9c4710ef36
                 menuManager.setMenuState(MenuState.LEADERBOARD);
             }
             if (currentChoice == 3) {

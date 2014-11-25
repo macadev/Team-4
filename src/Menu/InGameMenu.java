@@ -103,6 +103,7 @@ public class InGameMenu extends MenuTemplate{ //this menu will appear when the u
         }
         if (currentChoice == 5) {
             //view leaderboard
+            menuManager.setPreviousLeaderboardMenuState(MenuState.INGAME);
             menuManager.setMenuState(MenuState.LEADERBOARD);
         }
 	        

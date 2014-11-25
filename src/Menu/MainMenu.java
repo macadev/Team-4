@@ -12,7 +12,7 @@ public class MainMenu extends MenuTemplate {
 
     private String[] options = {"Start Game",
             "Load Game",
-            "View Leaderboards",
+            "View Leaderboard",
             "Modify Account Information",
             "Logout",
             "Quit"};
@@ -67,6 +67,8 @@ public class MainMenu extends MenuTemplate {
         }
         if (currentChoice == 2) {
             //view leaderboards
+            menuManager.setPreviousLeaderboardMenuState(MenuState.MAIN);
+            menuManager.setMenuState(MenuState.LEADERBOARD);
         }
         if (currentChoice == 3) {
             //Modify account options

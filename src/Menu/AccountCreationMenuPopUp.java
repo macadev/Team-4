@@ -207,7 +207,7 @@ public class AccountCreationMenuPopUp extends JFrame {
         String[] partialRegexChecks = {".*[a-z]+.*", // Lower Case
                 ".*[A-Z]+.*", // Upper Case
                 ".*[\\d]+.*", // Digits
-                ".*[$&+,:;=?@#|'<>.-^*()%!]+.*" // Symbols
+                ".*[-$&+,:;=?@#|'<>.^*()%!_]+.*" // Symbols
         };
 
 
@@ -223,6 +223,7 @@ public class AccountCreationMenuPopUp extends JFrame {
         if (password.matches(partialRegexChecks[3])) {
             passwordStrength += 25;
         }
+
 
         if (passwordStrength != 100){
             return false;

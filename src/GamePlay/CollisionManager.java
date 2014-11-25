@@ -3,6 +3,7 @@
  */
 package GamePlay;
 
+import Database.DatabaseController;
 import GameObject.*;
 import java.awt.*;
 import java.io.Serializable;
@@ -12,12 +13,14 @@ public class CollisionManager implements Serializable {
 
     private Player player;
     private TileMap tileMap;
-
-    public CollisionManager(Player player, TileMap tileMap) {
+    private ScoreManager scoreManager;
+    private String userName;
+    public CollisionManager(Player player, TileMap tileMap, String userName) {
         this.player = player;
         this.tileMap = tileMap;
+        this.scoreManager = new ScoreManager();
+        this.userName = userName;
     }
-    private ScoreManager scoreManager = new ScoreManager();
 
     public void handleCollisions(GameObject[][] objects,
                                  Rectangle playerRectangle, ArrayList<Enemy> enemies, ArrayList<Bomb> bombsPlaced,
@@ -195,6 +198,15 @@ public class CollisionManager implements Serializable {
     private void calculateScoreFromKills(ArrayList<KillSet> enemiesKilled) {
         if (enemiesKilled.isEmpty()) return;
         int scoreObtained = scoreManager.determineScoreFromKills(enemiesKilled);
+
+        try {
+            System.out.println("UPDATING SCORE IN DB!!");
+            DatabaseController.incrementGamesPlayed(userName);
+            DatabaseController.setScore(userName, scoreObtained);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
         player.addToScore(scoreObtained);
     }
 

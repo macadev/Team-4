@@ -282,7 +282,7 @@ public class AccountOptionsPopUp extends JFrame {
         String[] partialRegexChecks = {".*[a-z]+.*", // Lower Case
                 ".*[A-Z]+.*", // Upper Case
                 ".*[\\d]+.*", // Digits
-                ".*[$&+,:;=?@#|'<>.-^*()%!]+.*" // Symbols
+                ".*[-$&+,:;=?@#|'<>.^*()%!_]+.*" // Symbols
         };
 
 

@@ -14,18 +14,8 @@ import java.util.Hashtable;
 public class MenuManager extends GameState {
 
     private Hashtable<MenuState, MenuTemplate> menuStates;
+    private LeaderboardMenu leaderboardMenu;
     private MenuState currentMenu;
-
-    private MenuState[] menuTypes= {
-            MenuState.MAIN,
-            MenuState.LOGIN,
-            MenuState.ACCOUNTCREATION,
-            MenuState.GAMEOVER,
-            MenuState.LEADERBOARD,
-            MenuState.LOADGAME,
-            MenuState.SAVEGAME,
-            MenuState.MODIFYACCOUNT,
-    };
 
     public MenuManager(GameStateManager gsm) {
         this.gsm = gsm;
@@ -33,7 +23,9 @@ public class MenuManager extends GameState {
         menuStates.put(MenuState.MAIN, new MainMenu(this, gsm));
         menuStates.put(MenuState.LOGIN, new LoginMenu(this));
         menuStates.put(MenuState.INGAME, new InGameMenu(this, gsm));
-        menuStates.put(MenuState.GAMEOVER, new GameOverMenu(this) );
+        menuStates.put(MenuState.GAMEOVER, new GameOverMenu(this));
+        leaderboardMenu = new LeaderboardMenu(this);
+        menuStates.put(MenuState.LEADERBOARD, leaderboardMenu);
         currentMenu = MenuState.LOGIN;
     }
 
@@ -63,6 +55,10 @@ public class MenuManager extends GameState {
 
     public String getPlayerUserName(){
         return gsm.getPlayerUserName();
+    }
+
+    public void setPreviousLeaderboardMenuState(MenuState state) {
+        leaderboardMenu.setPreviousMenuState(state);
     }
 
     @Override

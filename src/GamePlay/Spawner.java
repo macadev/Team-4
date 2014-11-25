@@ -28,6 +28,7 @@ public class Spawner implements Serializable {
     }
 
     public GameObject[][] generateWalls() {
+
         generateConcreteWalls();
         generateBrickWalls();
         return gridLayout;
@@ -67,6 +68,8 @@ public class Spawner implements Serializable {
             for (int row = 0; row < TileMap.NUM_OF_ROWS; row++) {
 
                 boolean isPositionNull = (gridLayout[col][row] == null);
+
+                System.out.println("IS BONUS??? " + stageData.isBonusStage());
 
                 if (!stageData.isBonusStage() && isPositionNull && getRandomBoolean() && isInValidPosition(row, col)) {
                     gridLayout[col][row] = new BrickWall(col * TileMap.WIDTH_OF_TILE, row * TileMap.HEIGHT_OF_TILE, true, false);

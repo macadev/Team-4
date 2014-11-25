@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import Database.DatabaseController;
 import GameObject.*;
 import SystemController.GameState;
 import SystemController.GameStateManager;
@@ -47,7 +48,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         this.player = new Player(35, 35, true, MovableObject.NORMALSPEED);
         this.cameraMoving = false;
         this.tileMap = new TileMap(player, selectedStage, gsm.getPlayerUserName());
-        this.collisionManager = new CollisionManager(player, tileMap);
+        this.collisionManager = new CollisionManager(player, tileMap, gsm.getPlayerUserName());
         this.player.setTileMap(tileMap);
         this.camera = new Camera(player.getPosX(), player);
         this.gameOver = false;
@@ -94,6 +95,8 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         boolean redirectToGameOverMenu = notificationDurationCountDown();
         if (redirectToGameOverMenu) {
             SoundController.THEME.stop();
+            //We update the number of games played and increment the player score
+            //by the corresponding amount.
             gsm.setState(gsm.MENUSTATE, MenuState.GAMEOVER);
         }
     }
