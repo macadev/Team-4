@@ -98,9 +98,9 @@ public class LoginPopup extends JFrame {
         boolean loginSuccessful = false;
 
         if (name.isEmpty()){
-            labelMessage.setText("Username cannot be blank");
+            labelMessage.setText("                        Username cannot be blank                        ");
         } else if (password.isEmpty()){
-            labelMessage.setText("Password cannot be blank");
+            labelMessage.setText("                        Password cannot be blank                        ");
         } else {
             try {
                 loginSuccessful = DatabaseController.authenticateUser(name, password);
@@ -115,7 +115,7 @@ public class LoginPopup extends JFrame {
                 setVisible(false);
                 dispose();
             } else {
-                labelMessage.setText("Username-Password Combination Invalid");
+                labelMessage.setText("                       Username-Password Combination Invalid                 ");
             }
         }
     }
