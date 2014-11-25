@@ -68,7 +68,7 @@ public class TileMap implements Serializable {
         this.player = player;
         this.userName = userName;
         this.currentStage = selectedStage;
-        this.bombRadius = 11;
+        this.bombRadius = 1;
         this.spawner = new Spawner(getCurrentStage());
         this.flames = new ArrayList<Flame>();
         this.isBonusStage = getCurrentStage().isBonusStage();

@@ -69,8 +69,6 @@ public class Spawner implements Serializable {
 
                 boolean isPositionNull = (gridLayout[col][row] == null);
 
-                System.out.println("IS BONUS??? " + stageData.isBonusStage());
-
                 if (!stageData.isBonusStage() && isPositionNull && getRandomBoolean() && isInValidPosition(row, col)) {
                     gridLayout[col][row] = new BrickWall(col * TileMap.WIDTH_OF_TILE, row * TileMap.HEIGHT_OF_TILE, true, false);
                     possiblePowerUpAndDoorCoordinates.add(new Coordinate(row, col));

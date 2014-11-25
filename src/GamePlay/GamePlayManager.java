@@ -45,7 +45,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
 
     public GamePlayManager(GameStateManager gsm, int selectedStage) {
         this.gsm = gsm;
-        this.player = new Player(35, 35, true, MovableObject.NORMALSPEED);
+        this.player = new Player(33, 33, true, MovableObject.NORMALSPEED);
         this.cameraMoving = false;
         this.tileMap = new TileMap(player, selectedStage, gsm.getPlayerUserName());
         this.collisionManager = new CollisionManager(player, tileMap, gsm.getPlayerUserName());
