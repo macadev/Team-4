@@ -151,22 +151,22 @@ public class AccountCreationMenuPopUp extends JFrame {
         boolean creationSuccessful = false;
 
         if (realNameText.isEmpty() || userNameText.isEmpty() || password.isEmpty() || passwordDuplicate.isEmpty() ){
-            labelMessage.setText("Please fill out all the information");
+            labelMessage.setText("                    Please fill out all the information                      ");
             labelMessage2.setText("");
         } else if (!(password.equals(passwordDuplicate))) {
-            labelMessage.setText("Passwords do not match");
+            labelMessage.setText("                    Passwords do not match                    ");
             labelMessage2.setText("");
         } else if (userNameText.length() < 6){
-            labelMessage.setText("Username must be at least 6 characters");
+            labelMessage.setText("                    Username must be at least 6 characters                    ");
             labelMessage2.setText("");
         } else if (!isValidPassword(password)) {
             labelMessage.setText("The password is too weak. Enter one of each type from:");
             labelMessage2.setText("Capital letters, Small letters, Digits and Symbols");
         } else if(password.length() < 8) {
-            labelMessage.setText("Password must be at least 8 characters");
+            labelMessage.setText("                    Password must be at least 8 characters                    ");
             labelMessage2.setText("");
         } else if(!isValidUsername(userNameText)){ //Needs to consider latin characters
-            labelMessage.setText("Username has to be alphanumeric");
+            labelMessage.setText("                    Username has to be alphanumeric                    ");
             labelMessage2.setText("");
         } else {
             try {
@@ -176,7 +176,7 @@ public class AccountCreationMenuPopUp extends JFrame {
             }
 
             if (creationSuccessful) {
-                labelMessage.setText("Account Created");
+                labelMessage.setText("                    Account Created                    ");
                 labelMessage2.setText("");
                 menuManager.associatePlayerUserName(userNameText);
                 redirectToMainMenu();
