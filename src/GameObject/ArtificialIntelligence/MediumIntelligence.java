@@ -40,7 +40,7 @@ public class MediumIntelligence extends ArtificialIntelligence implements Serial
         int enemyPosX = enemy.getPosX();
         int enemyPosY = enemy.getPosY();
 
-        if (distanceFromEnemyToPlayer < 60) {
+        if (distanceFromEnemyToPlayer < 65) {
             if (playerAndEnemyOnSameRow) {
                 enemy.setPosY(enemyPosY - enemyPosY % 32);
                 if (playerPosX > enemyPosX) {

@@ -96,6 +96,11 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         if (redirectToGameOverMenu) {
             //We update the number of games played and increment the player score
             //by the corresponding amount.
+            try {
+                DatabaseController.incrementGamesPlayed(gsm.getPlayerUserName());
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
             SoundController.THEME.loop();
             gsm.setState(gsm.MENUSTATE, MenuState.GAMEOVER);
         }

@@ -204,7 +204,6 @@ public class CollisionManager implements Serializable {
 
         try {
             System.out.println("UPDATING SCORE IN DB!!");
-            DatabaseController.incrementGamesPlayed(userName);
             DatabaseController.setScore(userName, scoreObtained);
         } catch (Exception e){
             e.printStackTrace();

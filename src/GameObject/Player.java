@@ -136,7 +136,22 @@ public class Player extends MovableObject implements Serializable {
     private void placeBomb() {
         if (bombsPlaced.size() < bombsAllowed) {
             //The % allows the bombs to snap to the center of the tiles where they are placed
-            Bomb bomb = new Bomb(posX - posX % 32, posY - posY % 32);
+            int bombX;
+            int bombY;
+
+            if (posX % 32 >= 17) {
+                bombX = posX - posX % 32 + 32;
+            } else {
+                bombX = posX - posX % 32;
+            }
+
+            if (posY % 32 >= 17) {
+                bombY = posY - posY % 32 + 32;
+            } else {
+                bombY = posY - posY % 32;
+            }
+
+            Bomb bomb = new Bomb(bombX, bombY);
             bombsPlaced.add(bomb);
         }
     }
