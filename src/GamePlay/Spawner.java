@@ -28,6 +28,7 @@ public class Spawner implements Serializable {
     }
 
     public GameObject[][] generateWalls() {
+
         generateConcreteWalls();
         generateBrickWalls();
         return gridLayout;

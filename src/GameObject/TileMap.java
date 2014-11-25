@@ -68,7 +68,7 @@ public class TileMap implements Serializable {
         this.player = player;
         this.userName = userName;
         this.currentStage = selectedStage;
-        this.bombRadius = 11;
+        this.bombRadius = 1;
         this.spawner = new Spawner(getCurrentStage());
         this.flames = new ArrayList<Flame>();
         this.isBonusStage = getCurrentStage().isBonusStage();
@@ -145,7 +145,9 @@ public class TileMap implements Serializable {
         for (GameObject[] row : walls) {
             for (GameObject object : row) {
                 if (object != null && object.isVisible())
-                    object.draw(g);
+                    if (!(isBonusStage && (object instanceof BrickWall))) {
+                        object.draw(g);
+                    }
             }
         }
 
@@ -190,14 +192,15 @@ public class TileMap implements Serializable {
      */
     public void nextStage() {
         currentStage++;
-        //Update the unlocked stage column in the database for the user playing the game.
-        updateUnlockedStage(currentStage, userName);
 
         //player completed the game
-        if (currentStage == 53) {
+        if (currentStage == 61) {
             player.setCurrentGamePlayState(GamePlayState.FINISHEDGAME);
             return;
         }
+
+        //Update the unlocked stage column in the database for the user playing the game.
+        updateUnlockedStage(currentStage, userName);
 
         //Load the new stage blueprint used for enemy generation.
         StageData newStage = Stages.gameStages[this.currentStage];

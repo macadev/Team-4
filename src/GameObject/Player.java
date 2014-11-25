@@ -44,7 +44,7 @@ public class Player extends MovableObject implements Serializable {
      * @param speed int representing the speed of movement of the player object on the map
      */
     public Player(int posX, int posY, boolean visible, int speed) {
-        this.imagePath = "../resources/bomberman9.png";
+        this.imagePath = "../resources/bomberman.png";
         this.score = 0;
         this.livesRemaining = 3;
         this.currentState = GamePlayState.INGAME;
@@ -60,11 +60,11 @@ public class Player extends MovableObject implements Serializable {
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
-        this.bombsAllowed = 3;
-        this.wallPass = true;
-        this.bombPass = true;
-        this.flamePass = true;
-        this.detonatorEnabled = true;
+        this.bombsAllowed = 1;
+        this.wallPass = false;
+        this.bombPass = false;
+        this.flamePass = false;
+        this.detonatorEnabled = false;
         this.invincibilityEnabled = false;
     }
 
@@ -136,7 +136,22 @@ public class Player extends MovableObject implements Serializable {
     private void placeBomb() {
         if (bombsPlaced.size() < bombsAllowed) {
             //The % allows the bombs to snap to the center of the tiles where they are placed
-            Bomb bomb = new Bomb(posX - posX % 32, posY - posY % 32);
+            int bombX;
+            int bombY;
+
+            if (posX % 32 >= 17) {
+                bombX = posX - posX % 32 + 32;
+            } else {
+                bombX = posX - posX % 32;
+            }
+
+            if (posY % 32 >= 17) {
+                bombY = posY - posY % 32 + 32;
+            } else {
+                bombY = posY - posY % 32;
+            }
+
+            Bomb bomb = new Bomb(bombX, bombY);
             bombsPlaced.add(bomb);
         }
     }
@@ -197,10 +212,12 @@ public class Player extends MovableObject implements Serializable {
         this.livesRemaining--;
         if (livesRemaining < 0) {
             currentState = GamePlayState.GAMEOVER;
+            SoundController.THEME.stop();
             SoundController.GAMEOVER.play();
             return;
         }
         SoundController.DEATH.play();
+
     }
 
     public void updateInvincibilityTimer() {
@@ -290,6 +307,7 @@ public class Player extends MovableObject implements Serializable {
             } else if (key == KeyEvent.VK_RIGHT) {
                 deltaX = speed;
             } else if (key == KeyEvent.VK_SPACE) {
+                SoundController.PAUSE.play();
                 currentState = GamePlayState.PAUSE;
             } else if (key == KeyEvent.VK_X) {
                 if (detonatorEnabled && !bombsPlaced.isEmpty()) {

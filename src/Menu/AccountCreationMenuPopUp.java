@@ -39,7 +39,7 @@ public class AccountCreationMenuPopUp extends JFrame {
         //Exit Option
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         //Display Size
-        setSize(370, 230);
+        setSize(400, 300);
         //Setting it to the middle of the screen
         setLocationRelativeTo(null);
         //Disable resize
@@ -57,7 +57,7 @@ public class AccountCreationMenuPopUp extends JFrame {
 
         //panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        JLabel label = new JLabel("Real Name: ");
+        JLabel label = new JLabel("Real Name:             ");
         label.setBounds(10, 10, 80, 25);
         panel.add(label);
 
@@ -66,7 +66,7 @@ public class AccountCreationMenuPopUp extends JFrame {
         //realName.setPreferredSize(new Dimension(150, 30));
         panel.add(realName);
 
-        JLabel label3 = new JLabel("User Name: ");
+        JLabel label3 = new JLabel("User Name:             ");
         label3.setBounds(10, 50, 80, 25);
         panel.add(label3);
 
@@ -76,7 +76,7 @@ public class AccountCreationMenuPopUp extends JFrame {
         panel.add(userName);
 
 
-        JLabel label2 = new JLabel("Password: ");
+        JLabel label2 = new JLabel("Password:               ");
         label2.setBounds(10, 90, 80, 25);
         panel.add(label2);
 

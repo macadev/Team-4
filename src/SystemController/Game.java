@@ -7,7 +7,7 @@ import Database.DatabaseController;
 import javax.swing.JFrame;
 
 import Database.PlayerScore;
-import Menu.Music;
+
 
 public class Game {
 
@@ -17,33 +17,43 @@ public class Game {
      * @param args
      */
     public static void main(String[] args) {
+        SoundController.THEME.loop();
         try {
             DatabaseController.initializeDatabase();
             DatabaseController.printDBContents();
             System.out.println("Database succesfully initialized");
-            DatabaseController.createNewUser("owentest","testpass","Owenli");
-            DatabaseController.createNewUser("testuser","testpass","testName");
-            DatabaseController.createNewUser("testuser2","testpass2","testName2");
-            DatabaseController.createNewUser("testuser3","testpass3","testName3");
-            DatabaseController.createNewUser("testuser4","testpass4","testName4");
-            DatabaseController.createNewUser("testuser5","testpass5","testName5");
-            DatabaseController.setLevelUnlocked("owentest",45);
-            DatabaseController.setScore("owentest",3000);
-            DatabaseController.setScore("testuser",2000);
-            DatabaseController.setScore("testuser2",5000);
-            DatabaseController.setScore("testuser3",500);
-            DatabaseController.setScore("testuser4",200);
-            DatabaseController.incrementGamesPlayed("owentest");
-            DatabaseController.incrementGamesPlayed("owentest");
-            DatabaseController.incrementGamesPlayed("owentest");
-            DatabaseController.incrementGamesPlayed("testuser3");
-            DatabaseController.incrementGamesPlayed("testuser3");
+            DatabaseController.createNewUser("Demo01","Dem@Us3R01", "John Doe 1");
+            DatabaseController.createNewUser("Demo02","Dem@Us3R02", "John Doe 2");
+            DatabaseController.createNewUser("Demo03","Dem@Us3R03", "John Doe 3");
+            DatabaseController.createNewUser("Demo04","Dem@Us3R04", "John Doe 4");
+            DatabaseController.createNewUser("Demo05","Dem@Us3R05", "John Doe 5");
+            DatabaseController.createNewUser("Demo06","Dem@Us3R06", "John Doe 6");
+            DatabaseController.createNewUser("Demo07","Dem@Us3R07", "John Doe 7");
+            DatabaseController.createNewUser("Demo08","Dem@Us3R08", "John Doe 8");
+            DatabaseController.createNewUser("Demo09","Dem@Us3R09", "John Doe 9");
+            DatabaseController.createNewUser("Demo10","Dem@Us3R10", "John Doe 10");
+            DatabaseController.setLevelUnlocked("Demo01", 11);
+            DatabaseController.setLevelUnlocked("Demo02", 11);
+            DatabaseController.setLevelUnlocked("Demo03", 13);
+            DatabaseController.setLevelUnlocked("Demo04", 14);
+            DatabaseController.setLevelUnlocked("Demo05", 15);
+            DatabaseController.setLevelUnlocked("Demo06", 16);
+            DatabaseController.setLevelUnlocked("Demo07", 15);
+            DatabaseController.setLevelUnlocked("Demo08", 10);
+            DatabaseController.setLevelUnlocked("Demo09", 11);
+            DatabaseController.setLevelUnlocked("Demo10", 12);
+            DatabaseController.setScore("Demo01", 10000);
+            DatabaseController.setScore("Demo02", 10000);
+            DatabaseController.setScore("Demo03", 13000);
+            DatabaseController.setScore("Demo04", 14000);
+            DatabaseController.setScore("Demo05", 16000);
+            DatabaseController.setScore("Demo06", 16000);
+            DatabaseController.setScore("Demo07", 16000);
+            DatabaseController.setScore("Demo08", 9000);
+            DatabaseController.setScore("Demo09", 11000);
+            DatabaseController.setScore("Demo10", 12000);
 
-            DatabaseController.getTopScoresSet();
-            System.out.println("first set");
-            PlayerScore.checkPlayerExists(DatabaseController.getPlayerObject("testuser"));
 
-            DatabaseController.getLevelUnlocked("owentest");
 
 
         } catch (ClassNotFoundException e) {
@@ -61,9 +71,6 @@ public class Game {
         window.pack();
         window.setVisible(true);
 
-        //Music music = new Music();
-        //music.start();
-        //SoundController.THEME.loop();
 
 
     }

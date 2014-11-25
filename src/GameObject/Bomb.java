@@ -3,6 +3,8 @@
  */
 package GameObject;
 
+import SystemController.SoundController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.Serializable;
@@ -54,6 +56,7 @@ public class Bomb extends StaticObject implements Serializable {
      */
     public synchronized void explode() {
         this.visible = false;
+        SoundController.BOMBEXPLODE.play();
     }
 
     /**
