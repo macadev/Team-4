@@ -11,10 +11,11 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JTextField;
 
-public class InGameMenu extends MenuTemplate{
+public class InGameMenu extends MenuTemplate{ //this menu will appear when the user pauses the game
 
     private String[] options = {"Resume Gameplay","Save Game", "Start New Game", "Quit Game", "Exit to Main Menu", "View Leaderboard" };
-    private int currentChoice = 0;
+    //options offered in the in-game menu as stated in the SRS
+    private int currentChoice = 0; // index of the options array
     private Color titleColor = MenuTemplate.TITLE_COLOR;
     private Font titleFont = MenuTemplate.TITLE_FONT;
     private Font font = MenuTemplate.BODY_FONT;
@@ -32,7 +33,7 @@ public class InGameMenu extends MenuTemplate{
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
+	public void draw(Graphics2D g) { // method to ensure same formatting for every menu
         g.setColor(titleColor);
         g.setFont(titleFont);
         g.setPaint(titleColor);
