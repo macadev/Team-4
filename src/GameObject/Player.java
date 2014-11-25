@@ -61,10 +61,10 @@ public class Player extends MovableObject implements Serializable {
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
         this.bombsAllowed = 1;
-        this.wallPass = false;
-        this.bombPass = false;
-        this.flamePass = false;
-        this.detonatorEnabled = false;
+        this.wallPass = true;
+        this.bombPass = true;
+        this.flamePass = true;
+        this.detonatorEnabled = true;
         this.invincibilityEnabled = false;
     }
 
@@ -123,6 +123,7 @@ public class Player extends MovableObject implements Serializable {
             if (bombsPlaced.get(i).isVisible() == false) {
                 i++;
             } else {
+                SoundController.BOMBEXPLODE.play();
                 bombsPlaced.get(i).setVisible(false);
                 detonated = true;
             }

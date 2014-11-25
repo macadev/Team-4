@@ -55,8 +55,8 @@ public class Bomb extends StaticObject implements Serializable {
      * The bomb will be deleted in the next refresh of the screen.
      */
     public synchronized void explode() {
-        this.visible = false;
         SoundController.BOMBEXPLODE.play();
+        this.visible = false;
     }
 
     /**

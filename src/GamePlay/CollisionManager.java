@@ -11,12 +11,28 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Used to control the logic behind all types of collision detection that
+ * take place during game play, specifically collision between:
+ * - Player and enemies, player and walls, player and powerUp, player and Door, player and flames, and player and bombs.
+ * - Enemies and walls, player and flames, enemies and flames, and enemies and bombs.
+ * It also control the logic required for resolving collisions.
+ */
 public class CollisionManager implements Serializable {
 
     private Player player;
     private TileMap tileMap;
     private ScoreManager scoreManager;
     private String userName;
+
+    /**
+     * Initializes a CollisionManager object, containing the entities to be tested for collisions.
+     * @param player A player object used to determine the collisions between players and enemies.
+     *               Also note that it contains the bombs that have placed on the grid.
+     * @param tileMap A tileMap object containing the walls, powerUp, door, and flames present on the
+     *                grid.
+     * @param userName The username of the current player.
+     */
     public CollisionManager(Player player, TileMap tileMap, String userName) {
         this.player = player;
         this.tileMap = tileMap;
@@ -24,6 +40,18 @@ public class CollisionManager implements Serializable {
         this.userName = userName;
     }
 
+    /**
+     * Fundamental function of the collision manager used to trigger the logic necessary to resolve all the collisions
+     * between the objects present on the grid.
+     * @param objects Two dimensional array containing the wall objects present on the grid.
+     * @param playerRectangle The Rectangle object specifying the bounds of the player object.
+     * @param enemies ArrayList containing the enemy objects present on the grid.
+     * @param bombsPlaced An ArrayList containing the bombs objects placed on the grid.
+     * @param flames An ArrayList containing the flame objects present on the grid.
+     * @param powerUp The powerUp object present on the grid.
+     * @param door The door object present on the grid.
+     * @param isBonusStage A boolean specifying whether the current stage is a bonus stage or not.
+     */
     public void handleCollisions(GameObject[][] objects,
                                  Rectangle playerRectangle, ArrayList<Enemy> enemies, ArrayList<Bomb> bombsPlaced,
                                  ArrayList<Flame> flames, PowerUp powerUp, Door door, boolean isBonusStage) {
@@ -31,15 +59,66 @@ public class CollisionManager implements Serializable {
         checkCollisionsWithWalls(objects, playerRectangle, enemies);
         checkCollisionsWithBombs(bombsPlaced, playerRectangle, enemies);
         checkCollisionsWithFlames(bombsPlaced, playerRectangle, enemies, flames, powerUp, door, isBonusStage);
+
+        //If the current stage is a bonus stage, then we don't call collision detection between player/flames
+        //and player/enemy. We also don't check for collision with powerUp or door, since these objects
+        //are not present in a bonus stage.
         if (!isBonusStage) {
             checkCollisionWithPowerUp(playerRectangle, powerUp);
             checkCollisionWithDoor(playerRectangle, door, enemies);
-            checkCollisionsWithEnemies(playerRectangle, enemies, isBonusStage);
+            checkCollisionsWithEnemies(playerRectangle, enemies);
         }
-
-
     }
 
+    /**
+     * Determines whether the  enemies or the player are colliding with a wall or not. If a collision occurs,
+     * it calls the necessary logic to resolve it.
+     * @param objects
+     * @param playerRectangle
+     * @param enemies
+     */
+    public void checkCollisionsWithWalls(GameObject[][] objects, Rectangle playerRectangle, ArrayList<Enemy> enemies) {
+
+        boolean playerHasWallPass = player.hasWallPass();
+
+        //Iterate over all the walls present on the grid, and test if a collision occurs between them
+        //and the player or the enemies.
+        for (GameObject[] row : objects) {
+            for (GameObject wall : row) {
+                if (wall != null) {
+
+                    Rectangle wallRectangle = wall.getBounds();
+
+                    //We don't check for collisions between the player and the walls
+                    //if the player has the wallPass powerUp enabled
+                    if (!playerHasWallPass || (wall instanceof ConcreteWall)) {
+                        if (playerRectangle.intersects(wallRectangle)) {
+                            restoreToBeforeCollision(player, wallRectangle);
+                        }
+                    }
+
+                    //Check for collisions of the enemies with the walls
+                    boolean enemyHasWallPass;
+                    for (Enemy enemy : enemies) {
+                        enemyHasWallPass = enemy.hasWallPass();
+                        Rectangle enemyRectangle = enemy.getBounds();
+                        if (!enemyHasWallPass || (wall instanceof ConcreteWall)) {
+                            if (enemyRectangle.intersects(wallRectangle)) {
+                                enemy.reverseDirection();
+                                restoreToBeforeCollision(enemy, wallRectangle);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Determines whether the player is colliding with a powerUp
+     * @param playerRectangle
+     * @param powerUp
+     */
     private void checkCollisionWithPowerUp(Rectangle playerRectangle, PowerUp powerUp) {
         if (powerUp == null) return;
         Rectangle powerUpRectangle = powerUp.getBounds();
@@ -62,41 +141,6 @@ public class CollisionManager implements Serializable {
                 if (playerRectangle.intersects(doorRectangle)){
                     System.out.println("advancing to next stage!");
                     player.nextStage();
-                }
-            }
-        }
-    }
-
-    public void checkCollisionsWithWalls(GameObject[][] objects, Rectangle playerRectangle, ArrayList<Enemy> enemies) {
-        //Check for collision of the player and the enemies with walls
-        boolean playerHasWallPass = player.hasWallPass();
-        for (GameObject[] row : objects) {
-            for (GameObject wall : row) {
-                if (wall != null) {
-
-                    Rectangle wallRectangle = wall.getBounds();
-
-                    //Check for collision of the player with the targeted wall
-                    //Upon resolving the collision, we stop checking this for loop
-                    //To reduce computation
-                    if (!playerHasWallPass || (wall instanceof ConcreteWall)) {
-                        if (playerRectangle.intersects(wallRectangle)) {
-                            restoreToBeforeCollision(player, wallRectangle);
-                        }
-                    }
-
-                    //Check for collisions of the enemies with the walls
-                    boolean enemyHasWallPass;
-                    for (Enemy enemy : enemies) {
-                        enemyHasWallPass = enemy.hasWallPass();
-                        Rectangle enemyRectangle = enemy.getBounds();
-                        if (!enemyHasWallPass || (wall instanceof ConcreteWall)) {
-                            if (enemyRectangle.intersects(wallRectangle)) {
-                                enemy.reverseDirection();
-                                restoreToBeforeCollision(enemy, wallRectangle);
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -149,6 +193,7 @@ public class CollisionManager implements Serializable {
             for (Bomb bomb : bombsPlaced) {
                 Rectangle bombRectangle = bomb.getBounds();
                 if (flameRectangle.intersects(bombRectangle)) {
+                    SoundController.BOMBEXPLODE.play();
                     bomb.setVisible(false);
                 }
             }
@@ -212,9 +257,9 @@ public class CollisionManager implements Serializable {
         player.addToScore(scoreObtained);
     }
 
-    public void checkCollisionsWithEnemies(Rectangle playerRectangle, ArrayList<Enemy> enemies, boolean isBonusStage) {
+    public void checkCollisionsWithEnemies(Rectangle playerRectangle, ArrayList<Enemy> enemies) {
         //check for collisions between the player and the enemies
-        if (player.isVisible() && !player.isInvincibilityEnabled() && !isBonusStage) {
+        if (player.isVisible() && !player.isInvincibilityEnabled()) {
             for (Enemy enemy : enemies) {
                 Rectangle enemyRectangle = enemy.getBounds();
                 if (playerRectangle.intersects(enemyRectangle)) {
