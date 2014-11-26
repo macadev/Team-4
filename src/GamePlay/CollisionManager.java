@@ -121,7 +121,7 @@ public class CollisionManager implements Serializable {
      * @param playerRectangle The rectangle representing the collision box of the player object.
      * @param powerUp The powerUp object present on the grid.
      */
-    private void checkCollisionWithPowerUp(Rectangle playerRectangle, PowerUp powerUp) {
+    public void checkCollisionWithPowerUp(Rectangle playerRectangle, PowerUp powerUp) {
         if (powerUp == null) return;
         Rectangle powerUpRectangle = powerUp.getBounds();
 
@@ -141,7 +141,7 @@ public class CollisionManager implements Serializable {
      * @param door The door object present on the grid.
      * @param enemies An ArrayList containing the enemy objects present in the game.
      */
-    private void checkCollisionWithDoor(Rectangle playerRectangle, Door door, ArrayList<Enemy> enemies) {
+    public void checkCollisionWithDoor(Rectangle playerRectangle, Door door, ArrayList<Enemy> enemies) {
         if (door == null) return;
 
         if (enemies.size() == 0) {

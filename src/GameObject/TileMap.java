@@ -146,10 +146,11 @@ public class TileMap implements Serializable {
         //Draw the walls and the enemies
         for (GameObject[] row : walls) {
             for (GameObject object : row) {
-                if (object != null && object.isVisible())
+                if (object != null && object.isVisible()) {
                     if (!(isBonusStage && (object instanceof BrickWall))) {
                         object.draw(g);
                     }
+                }
             }
         }
 
