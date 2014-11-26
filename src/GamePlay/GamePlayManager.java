@@ -244,13 +244,6 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         this.player.keyReleased(k);
     }
 
-    @Override
-    public void init() {
-
-        //Populate the blocks arrayLists present in the game;
-        //populateGridWithBlocks();
-
-    }
 
     public boolean isGameOver() {
         return gameOver;

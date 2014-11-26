@@ -76,9 +76,4 @@ public class MenuManager extends GameState {
         menuStates.get(currentMenu).keyReleased(k);
     }
 
-
-    @Override
-    public void init() {
-
-    }
 }

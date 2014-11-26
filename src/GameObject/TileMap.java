@@ -612,7 +612,16 @@ public class TileMap implements Serializable {
         return timeToHarderSetSpawn;
     }
 
+    /**
+     * Get the radius of explosion of a bomb.
+     * @return An integer representing the radius of explosion of a bomb.
+     */
+    public int getBombRadius() {
+        return bombRadius;
+    }
+
     public void setTimeToHarderSetSpawn(int timeToHarderSetSpawn) {
         this.timeToHarderSetSpawn = timeToHarderSetSpawn;
     }
+
 }
