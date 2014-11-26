@@ -13,14 +13,6 @@ public class EnemyTest {
     @Before
     public void makeEnemy() {
         enemy = new Enemy(EnemyType.BALLOOM, 35, 35);
-        enemy=new Enemy(EnemyType.ONEAL,35,35);
-        enemy=new Enemy(EnemyType.DOLL,35,35);
-        enemy=new Enemy(EnemyType.MINVO,35,35);
-        enemy=new Enemy(EnemyType.KONDORIA,35,35);
-        enemy=new Enemy(EnemyType.OVAPI,35,35);
-        enemy=new Enemy(EnemyType.PASS,35,35);
-        enemy=new Enemy(EnemyType.PONTAN,35,35);
-
     }
 
     @Test
