@@ -1,10 +1,10 @@
+/**
+ * Created by danielmacario on 14-11-12.
+ */
 package GamePlay;
 
 import java.io.Serializable;
 
-/**
- * Created by danielmacario on 14-11-12.
- */
 public class Coordinate implements Serializable  {
 
     private int row;

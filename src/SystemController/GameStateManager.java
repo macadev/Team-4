@@ -7,7 +7,7 @@ import GamePlay.GamePlayManager;
 import Menu.*;
 
 import java.awt.*;
-import java.util.ArrayList;
+
 
 /**
  * Controller used to switch between the two states of the application:
@@ -16,19 +16,11 @@ import java.util.ArrayList;
  */
 public class GameStateManager {
 
-    private ArrayList<GameState> gameStates;
-    private int currentState;
+    private TopLevelState currentState;
     private MenuManager menuManager;
     private GamePlayManager gamePlayManager;
     private GameFileManager fileManager;
     private String playerUserName;
-
-    /**
-     * This integers are used as constants to represent the state the game can be in at
-     * a given time
-     */
-    public static final int MENUSTATE = 0;
-    public static final int GAMEPLAY = 1;
 
     /**
      * Class constructor. Creates an ArrayList used to contain instances of the
@@ -38,38 +30,44 @@ public class GameStateManager {
         menuManager = new MenuManager(this);
         gamePlayManager = new GamePlayManager(this, selectedStage);
         fileManager = new GameFileManager(playerUserName);
-        currentState = MENUSTATE;
+        currentState = TopLevelState.MENUSTATE;
     }
 
     /**
      * Toggle the state of the game between Menu and GamePlay
      * @param state
      */
-    public void setState(int state, MenuState menuState) {
+    public void setState(TopLevelState state, MenuState menuState) {
         //current state is set to 0 by default
-        if (state == GAMEPLAY) {
+        if (state == TopLevelState.GAMEPLAYSTATE) {
             gamePlayManager.setGamePlayStateToInGame();
             currentState = state;
         } else {
-            currentState = MENUSTATE;
+            currentState = TopLevelState.MENUSTATE;
             menuManager.setMenuState(menuState);
         }
     }
 
+    /**
+     * Loads a serialized GamePlayManager instance, thus
+     * resuming a previously saved GamePlayState.
+     * @param loadedFile The GamePlayManager instance to be loaded.
+     */
     public void loadGame(GamePlayManager loadedFile) {
         if (loadedFile != null) {
             loadedFile.setGamePlayStateToInGame();
             gamePlayManager = loadedFile;
             gamePlayManager.setGameStateManager(this);
-            currentState = GAMEPLAY;
+            currentState = TopLevelState.GAMEPLAYSTATE;
         }
     }
 
-    public void startNewGame(int selectedStage) {
-        gamePlayManager = new GamePlayManager(this, selectedStage);
-        setState(GAMEPLAY, null);
-    }
-
+    /**
+     * Saves the current instance of GamePlayManager into a file
+     * named after the passed String.
+     * @param fileName The String to be used as the filename
+     *                 for the serialized file.
+     */
     public void saveGame(String fileName) {
         fileManager.saveGame(gamePlayManager, fileName);
     }
@@ -80,7 +78,7 @@ public class GameStateManager {
      * @param g
      */
     public void draw(Graphics2D g) {
-        if (currentState == GAMEPLAY) {
+        if (currentState == TopLevelState.GAMEPLAYSTATE) {
             gamePlayManager.draw(g);
         } else {
             menuManager.draw(g);
@@ -93,7 +91,7 @@ public class GameStateManager {
      * @param k
      */
     public void keyPressed(int k) {
-        if (currentState == GAMEPLAY) {
+        if (currentState == TopLevelState.GAMEPLAYSTATE) {
             gamePlayManager.keyPressed(k);
         } else {
             menuManager.keyPressed(k);
@@ -106,17 +104,27 @@ public class GameStateManager {
      * @param k
      */
     public void keyReleased(int k) {
-        if (currentState == GAMEPLAY) {
+        if (currentState == TopLevelState.GAMEPLAYSTATE) {
             gamePlayManager.keyReleased(k);
         } else {
             menuManager.keyReleased(k);
         }
     }
 
+    /**
+     * Retrieve the username of the player currently logged in.
+     * @return A String representing the username of the player currently
+     * logged in.
+     */
     public String getPlayerUserName() {
         return playerUserName;
     }
 
+    /**
+     * Set the username of the player current logged in.
+     * @param playerUserName A string representing the username of
+     *                       the player currently logged in.
+     */
     public void setPlayerUserName(String playerUserName) {
         this.playerUserName = playerUserName;
     }

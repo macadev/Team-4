@@ -13,6 +13,7 @@ import SystemController.GameState;
 import SystemController.GameStateManager;
 import Menu.MenuState;
 import SystemController.SoundController;
+import SystemController.TopLevelState;
 
 /**
  * Created by danielmacario on 14-10-29.
@@ -62,7 +63,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         if (currentState == GamePlayState.GAMEOVER) {
             executeGameOverStateLogic(g);
         } else if (currentState == GamePlayState.PAUSE) {
-            gsm.setState(gsm.MENUSTATE, MenuState.INGAME);
+            gsm.setState(TopLevelState.MENUSTATE, MenuState.INGAME);
         } else if (currentState == GamePlayState.INGAME) {
             executeInGameLogic(g);
         } else if (currentState == GamePlayState.FINISHEDGAME) {
@@ -81,7 +82,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         boolean redirectToMainMenu = notificationDurationCountDown();
         if (redirectToMainMenu) {
             //TODO: redirect to the gameover menu!
-            gsm.setState(gsm.MENUSTATE, MenuState.MAIN);
+            gsm.setState(TopLevelState.MENUSTATE, MenuState.MAIN);
         }
     }
 
@@ -102,7 +103,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
                 e.printStackTrace();
             }
             SoundController.THEME.loop();
-            gsm.setState(gsm.MENUSTATE, MenuState.GAMEOVER);
+            gsm.setState(TopLevelState.MENUSTATE, MenuState.GAMEOVER);
         }
     }
 

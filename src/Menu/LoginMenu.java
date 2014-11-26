@@ -1,10 +1,6 @@
 package Menu;
 
 
-import Database.DatabaseController;
-import SystemController.GameStateManager;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -71,11 +67,11 @@ public class LoginMenu extends MenuTemplate {
      */
     private void select() {
         if (currentChoice == 0) {
-            LoginPopup lg = new LoginPopup(menuManager);
-            lg.setVisible(true);
+            LoginPopUp loginPopUp = new LoginPopUp(menuManager);
+            loginPopUp.setVisible(true);
         }
         if (currentChoice == 1) {
-            AccountCreationMenuPopUp acp = new AccountCreationMenuPopUp(menuManager);
+            AccountCreationPopUp acp = new AccountCreationPopUp(menuManager);
             acp.setVisible(true);
         }
         if (currentChoice == 2) {

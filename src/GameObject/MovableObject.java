@@ -6,7 +6,7 @@ package GameObject;
 import java.io.Serializable;
 
 /**
- * Defines the commmon functionality shared by all the objects that can move
+ * Defines the common functionality shared by all the objects that can move
  * on the grid.
  */
 public class MovableObject extends GameObject implements Serializable {
@@ -117,7 +117,7 @@ public class MovableObject extends GameObject implements Serializable {
     }
 
     /**
-     * Set the wallPass atttribute associated with the MovableObject
+     * Set the wallPass attribute associated with the MovableObject
      * @param wallPass A boolean specifying whether the object can pass
      *                 through brick walls or not.
      */
