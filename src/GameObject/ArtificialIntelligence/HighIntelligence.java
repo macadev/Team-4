@@ -10,37 +10,69 @@ import GamePlay.Coordinate;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Class used to establish the logic implemented by high intelligence enemies. High intelligence enemies
+ * are capable of finding the shortest path from their location to the player if the player is within
+ * a two tile radius. For this purpose we use the A* path finding algorithm. It also specifies
+ * how the high intelligence enemies move on the grid.
+ */
 public class HighIntelligence extends ArtificialIntelligence implements Serializable {
 
     public static PathFinder pathFinder;
+    //List of tiles that connect the current position of the enemy to the position of the player.
     private ArrayList<Coordinate> pathToPlayer;
     private boolean chaseEnabled;
     private Coordinate nextDestination;
     private int recalculatePathTimer = 0;
 
+    /**
+     * The chasePlayer method determines whether the enemy should initiate
+     * movement in the direction of the enemy.
+     * @param playerPosX x coordinate of the player object on the grid.
+     * @param playerPosY y coordinate of the player object on the grid.
+     * @param distanceFromEnemyToPlayer Integer representing the distance from
+     *                                  the center of the enemy object to the
+     *                                  center of the player object.
+     * @param enemy Enemy object that will start chasing the player.
+     */
     @Override
     public void chasePlayer(int playerPosX, int playerPosY, int distanceFromEnemyToPlayer, Enemy enemy) {
-        //if (recalculatePathTimer < 0 && distanceFromEnemyToPlayer < 85) {
+
         boolean enemyAtCenterOfTile = enemy.getPosX() % 32 == 0 && enemy.getPosY() % 32 == 0;
-//        if (recalculatePathTimer < 0 && distanceFromEnemyToPlayer < 85) {
+
+        // Initiate a chase only if the enemy is at the center of a tile and the distance
+        // to the player is less than 85 (the diagonal length of two tiles combined).
+        // Here we meet the requirement that the enemy should only recalculate the path
+        //to the player once it has traversed one tile.
         if (enemyAtCenterOfTile && distanceFromEnemyToPlayer < 85) {
+
             pathToPlayer = pathFinder.findPath(playerPosX, playerPosY, enemy.getPosX(), enemy.getPosY(), enemy.hasWallPass());
-            System.out.println("is path null?" + (pathToPlayer == null));
             if (pathToPlayer != null) {
                 pathToPlayer.remove(0);
                 setNextDestination();
-                System.out.println("Recalculating chase path");
                 chaseEnabled = true;
             }
+
+            //TODO: carefully remove the time, don't break stuff.
             recalculatePathTimer = 45;
         }
         recalculatePathTimer--;
     }
 
+    /**
+     * This method sets the next destination the enemy needs to go to in order
+     * to arrive at the location of the player. It is called every time the enemy
+     * arrives at a destination specified by the A* algorithm.
+     * @return A boolean specifying whether the next destination was set successfully,
+     * or not.
+     */
     public boolean setNextDestination() {
         if (pathToPlayer == null || pathToPlayer.isEmpty()) {
             return false;
         }
+
+        // Set the next destination to the first coordinate found
+        // in the path to player ArrayList.
         Coordinate nextPositionOnGrid = pathToPlayer.remove(0);
         int nextRow = nextPositionOnGrid.getRow();
         int nextCol = nextPositionOnGrid.getCol();
@@ -48,11 +80,19 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
         return true;
     }
 
+    /**
+     * If a chase is not enabled, then the enemy traverses the grid
+     * with a 50% of turning at every intersection. If a chase is enabled,
+     * the enemy moves towards its next destination specified by the path
+     * calculated using the A* algorithm.
+     * @param enemy Enemy object to be moved on the grid.
+     */
     @Override
     public void move(Enemy enemy) {
         int enemyPosX = enemy.getPosX();
         int enemyPosY = enemy.getPosY();
 
+        // If the chase is enabled, move toward the next destination in the path.
         if (chaseEnabled) {
 
             if (nextDestination == null) {
@@ -65,21 +105,22 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
             boolean enemyIsAtNextCol = (Math.abs(enemyPosX - nextX) <= 1);
             boolean enemyIsAtNextRow = (Math.abs(enemyPosY - nextY) <= 1);
             if (enemyIsAtNextRow && enemyIsAtNextCol) {
-                System.out.println("At next destination!");
+                // Snap the enemy to the next destination tile if it has arrived
+                // this is done to avoid having the enemy get stuck on a collision.
                 enemy.setPosY(nextY);
                 enemy.setPosX(nextX);
-                boolean nextDestinationExists = setNextDestination();
 
+                boolean nextDestinationExists = setNextDestination();
                 if (!nextDestinationExists) {
+                    // If there is no next destination, then we have reached the end of the chase.
+                    // So we move the enemy using its standard movement method inherited from AI.
                     moveEnemyOnBoard(enemy);
                     chaseEnabled = false;
                     return;
                 }
             }
 
-            //TODO: decide if we should use these statements
             if (enemyIsAtNextRow) {
-                //enemy.setPosY(nextY);
                 if (enemyPosX < nextX) {
                     enemy.setDirectionOfMovement(Direction.EAST);
                     System.out.println("HIN going east");
@@ -88,7 +129,6 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
                     System.out.println("HIN going west");
                 }
             } else {
-                //enemy.setPosX(nextX);
                 if (enemyPosY < nextY) {
                     enemy.setDirectionOfMovement(Direction.SOUTH);
                     System.out.println("HIN going south");
@@ -97,6 +137,7 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
                     System.out.println("HIN going north");
                 }
             }
+
         } else {
             Direction directionOfMovement = enemy.getDirectionOfMovement();
             if (randomTurnOnIntersection(enemyPosX, enemyPosY)) {
@@ -121,4 +162,5 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
     public static void setPathFinder(PathFinder pathFinder) {
         HighIntelligence.pathFinder = pathFinder;
     }
+
 }

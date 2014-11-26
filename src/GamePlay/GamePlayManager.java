@@ -107,6 +107,8 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
     }
 
     public void executeInGameLogic(Graphics2D g) {
+
+
         if (tileMap.isNextStageTransition()) {
             inStageTransition(g);
             return;
@@ -114,7 +116,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
 
         if (tileMap.isBonusStage()) {
             initiateTimerToNextStage();
-            initateTimeToSpawnEnemy();
+            initiateTimeToSpawnEnemy();
         }
 
         player.move();
@@ -142,7 +144,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
                 player.draw(g);
             }
         }
-        drawHUD(g, tileMap.isBonusStage());
+        drawHUD(g, tileMap.isBonusStage(), tileMap.getTimeToHarderSetSpawn());
     }
 
     public void inStageTransition(Graphics2D g) {
@@ -158,17 +160,18 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
     }
 
 
-    public void drawHUD(Graphics2D g, boolean bonusStage) {
+    public void drawHUD(Graphics2D g, boolean bonusStage, int timeToHarderSetSpawn) {
         String hudInformation;
         g.setColor(hudColor);
         g.setFont(hudFont);
+        hudInformation = "Lives Left: " + player.getLivesRemaining() + " | Score: " + player.getScore() +
+                " | Time Remaining: ";
         if (bonusStage) {
-            hudInformation = "Time Remaining: " + bonusStageCountDown/30 +
-                    " | Lives Left: " + player.getLivesRemaining() + " | Score: " + player.getScore();
+            hudInformation += bonusStageCountDown / 30;
             g.drawString(hudInformation, 160, 20);
         } else {
-            hudInformation = "Lives Left: " + player.getLivesRemaining() + " | Score: " + player.getScore();
-            g.drawString(hudInformation, 280, 20);
+            hudInformation += timeToHarderSetSpawn / 30;
+            g.drawString(hudInformation, 160, 20);
         }
     }
 
@@ -189,7 +192,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         bonusStageCountDown--;
     }
 
-    public void initateTimeToSpawnEnemy() {
+    public void initiateTimeToSpawnEnemy() {
         if (bonusStageNewEnemyCountDown == 0) {
             bonusStageNewEnemyCountDown = 30;
             tileMap.addNewEnemy();

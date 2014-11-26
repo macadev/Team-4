@@ -300,7 +300,6 @@ public class CollisionManager implements Serializable {
     public void spawnSetOfHarderEnemies(int posX, int posY) {
         if (tileMap.isHarderSetAlreadyCreated()) return;
         tileMap.spawnSetOfHarderEnemies(posX, posY);
-        tileMap.setHarderSetAlreadyCreated(true);
     }
 
     /**

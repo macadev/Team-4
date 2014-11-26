@@ -47,7 +47,8 @@ public class TileMap implements Serializable {
     private boolean isBonusStage;
     private boolean harderSetAlreadyCreated;
     private boolean nextStageTransition;
-    private boolean spawnHarderSet;
+    private boolean spawnHarderSet = false;
+    private int timeToHarderSetSpawn = 6000; //equivalent to 200 seconds, but in frames
     private int timeToHarderSet = 20;
     private ArrayList<Enemy> newEnemySet;
 
@@ -101,6 +102,7 @@ public class TileMap implements Serializable {
      * generate the harder set of enemies.
      */
     public void determineIfShouldSpawnHarderEnemies() {
+        countDownToHarderEnemySetSpawn();
         if (spawnHarderSet) {
             timeToHarderSet--;
             if (timeToHarderSet == 0) {
@@ -204,6 +206,7 @@ public class TileMap implements Serializable {
 
         //Load the new stage blueprint used for enemy generation.
         StageData newStage = Stages.gameStages[this.currentStage];
+        this.timeToHarderSetSpawn = 6000;
         this.harderSetAlreadyCreated = false;
         this.nextStageTransition = true;
         this.isBonusStage = newStage.isBonusStage();
@@ -348,6 +351,22 @@ public class TileMap implements Serializable {
         }
     }
 
+    public void countDownToHarderEnemySetSpawn() {
+        if (harderSetAlreadyCreated) {
+            if (timeToHarderSet > 0) timeToHarderSetSpawn--;
+            return;
+        }
+
+        if (timeToHarderSetSpawn == 0) {
+            timeToHarderSetSpawn = 0;
+            EnemyType harderEnemyType = determineHarderEnemyTypeToSpawn();
+            newEnemySet = spawner.createSetOfHardEnemiesAtRandomPositions(harderEnemyType);
+            spawnHarderSet = true;
+            harderSetAlreadyCreated = true;
+        }
+        timeToHarderSetSpawn--;
+    }
+
     /**
      * Creates a new set of enemies of one difficulty higher than the current
      * most difficult enemy present on the grid.
@@ -361,6 +380,7 @@ public class TileMap implements Serializable {
         EnemyType harderEnemyType = determineHarderEnemyTypeToSpawn();
         newEnemySet = spawner.createSetOfHarderEnemies(harderEnemyType, spawnPosX, spawnPosY);
         spawnHarderSet = true;
+        harderSetAlreadyCreated = true;
     }
 
     /**
@@ -590,4 +610,11 @@ public class TileMap implements Serializable {
         this.nextStageTransition = nextStageTransition;
     }
 
+    public int getTimeToHarderSetSpawn() {
+        return timeToHarderSetSpawn;
+    }
+
+    public void setTimeToHarderSetSpawn(int timeToHarderSetSpawn) {
+        this.timeToHarderSetSpawn = timeToHarderSetSpawn;
+    }
 }

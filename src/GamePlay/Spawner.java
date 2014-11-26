@@ -124,6 +124,22 @@ public class Spawner implements Serializable {
         return enemies;
     }
 
+    public ArrayList<Enemy> createSetOfHardEnemiesAtRandomPositions(EnemyType harderEnemyType) {
+        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+
+        Coordinate spawnCoordinate;
+        for (int i = 0; i < 8; i++) {
+            if (possibleEnemyCoordinates.size() == 0) break;
+            spawnCoordinate = getRandomCoordinateFromSet(possibleEnemyCoordinates);
+
+            int row = spawnCoordinate.getRow();
+            int col = spawnCoordinate.getCol();
+
+            enemies.add(new Enemy(harderEnemyType, col * TileMap.WIDTH_OF_TILE + 1, row * TileMap.HEIGHT_OF_TILE + 1));
+        }
+        return enemies;
+    }
+
     public Enemy createBonusStageEnemy() {
         Coordinate positionOnGrid = getRandomCoordinateFromSet(possibleEnemyCoordinates);
         int row = positionOnGrid.getRow();
