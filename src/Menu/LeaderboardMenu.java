@@ -1,3 +1,6 @@
+/**
+ * Created by FloMac on 11/23/14.
+ */
 package Menu;
 
 import Database.DatabaseController;
@@ -6,9 +9,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-/**
- * Created by FloMac on 11/23/14.
- */
 public class LeaderboardMenu extends MenuTemplate {
 
     private MenuManager menuManager;

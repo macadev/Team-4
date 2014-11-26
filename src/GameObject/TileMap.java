@@ -146,10 +146,11 @@ public class TileMap implements Serializable {
         //Draw the walls and the enemies
         for (GameObject[] row : walls) {
             for (GameObject object : row) {
-                if (object != null && object.isVisible())
+                if (object != null && object.isVisible()) {
                     if (!(isBonusStage && (object instanceof BrickWall))) {
                         object.draw(g);
                     }
+                }
             }
         }
 
@@ -414,8 +415,6 @@ public class TileMap implements Serializable {
             //Also, we only want to update it when a chase will take place, which only happens when the distance
             //between the player and the enemy is less than 85 pixels (2 tiles).
             if (enemy.getIntelligence() instanceof HighIntelligence && distanceBetweenPlayerAndEnemy < 85 && pathFinder.getRefreshGraph()) {
-                //TODO: remove this println
-                System.out.println("Enemy has high intelligence");
                 pathFinder.updateGraph(walls);
                 pathFinder.setRefreshGraph(false);
             }
@@ -614,7 +613,16 @@ public class TileMap implements Serializable {
         return timeToHarderSetSpawn;
     }
 
+    /**
+     * Get the radius of explosion of a bomb.
+     * @return An integer representing the radius of explosion of a bomb.
+     */
+    public int getBombRadius() {
+        return bombRadius;
+    }
+
     public void setTimeToHarderSetSpawn(int timeToHarderSetSpawn) {
         this.timeToHarderSetSpawn = timeToHarderSetSpawn;
     }
+
 }

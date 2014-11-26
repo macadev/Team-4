@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Random;
 
 /**
- * Defines the motions that a movable object can perform in the game
+ * Defines the motions that a movable object can perform in the game.
  */
 public enum Direction implements Serializable {
     NORTH, SOUTH, EAST, WEST;
@@ -27,6 +27,11 @@ public enum Direction implements Serializable {
         return DIRECTIONS[index];
     }
 
+    /**
+     *
+     * @param direction
+     * @return
+     */
     public static Direction getRandomPerpendicularDirection(Direction direction) {
         int index = random.nextInt(2);
         if (direction == NORTH || direction == SOUTH) {

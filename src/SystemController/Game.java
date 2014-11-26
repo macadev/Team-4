@@ -8,7 +8,11 @@ import javax.swing.JFrame;
 
 import Database.PlayerScore;
 
-
+/**
+ * Class in charge of initializing the game and creating the JFrame object
+ * where all the elements for both the MenuState and the GamePlayState will
+ * be rendered.
+ */
 public class Game {
 
     /**
@@ -65,13 +69,12 @@ public class Game {
             e.printStackTrace();
         }
         JFrame window = new JFrame("Bomberman");
+        //Start the single thread of the application.
         window.setContentPane(new GameController());
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.pack();
         window.setVisible(true);
-
-
 
     }
 

@@ -1,3 +1,6 @@
+/**
+ * Created by danielmacario on 14-11-22.
+ */
 package GameObject.ArtificialIntelligence;
 
 import GameObject.GameObject;
@@ -9,14 +12,23 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * Created by danielmacario on 14-11-22.
+ * System used by the high intelligence enemies to calculate the shortest path between
+ * their location and the location of the player. It also holds the graph representation of
+ * the grid and the logic necessary to update the graph once obstacles like brick walls
+ * are destroyed.
  */
 public class PathFinder implements Serializable {
 
-    private  boolean refreshGraph = false;
-    private  int timeToRefreshGraph = 45;
+    private boolean refreshGraph = false;
+    // This time variable represents frames to be rendered. Recall that 30 frames is equivalent
+    // to 1 second in our implementation of the game. 45 frames represents 1.5 seconds.
+    private int timeToRefreshGraph = 45;
     public Node[][] graph = createMap();
 
+    /**
+     * Timer used to refresh the graph representation of the grid every
+     * 1.5 seconds.
+     */
     public void updateGraphRefreshTimer() {
         timeToRefreshGraph--;
         if (timeToRefreshGraph == 0) {
@@ -25,21 +37,30 @@ public class PathFinder implements Serializable {
         }
     }
 
+    /**
+     * Finds the smallest set of tiles that need to traversed in order to navigate the enemy from its location
+     * tod the location of the player.
+     * @param playerPosX The x coordinate where the player is located.
+     * @param playerPosY The y coordinate where the player is located.
+     * @param enemyPosX The x coordinate where the enemy is located.
+     * @param enemyPosY The y coordinate where the enemy is located.
+     * @param enemyHasWallPass Boolean specifying whether the enemy can go walk through brick walls.
+     * @return An ArrayList containing the coordinates representing the chain of movements to go from
+     * the location of the enemy to the location of the player.
+     */
     public ArrayList<Coordinate> findPath(int playerPosX, int playerPosY, int enemyPosX, int enemyPosY, boolean enemyHasWallPass) {
 
-        //Snap the position of the player and the enemy to the row and column coordinate of the tile
-        //they are on.
         int playerRow = ((playerPosY - playerPosY % 32) / 32) - 1;
         int playerCol = ((playerPosX - playerPosX % 32) / 32) - 1;
         int enemyRow = ((enemyPosY - enemyPosY % 32) / 32) - 1;
         int enemyCol = ((enemyPosX - enemyPosX % 32) / 32) - 1;
 
-
-        System.out.println("ERow = " + enemyRow + " ECol = " + enemyCol);
         Node start = null;
         Node destination = null;
         boolean nodesExist = true;
         try {
+            //retrieve the starting node and the ending node from the graph representation of
+            //the grid.
             start = graph[enemyRow][enemyCol];
             destination = graph[playerRow][playerCol];
         } catch (Exception e) {
@@ -50,12 +71,24 @@ public class PathFinder implements Serializable {
 
         ArrayList<Coordinate> pathToPlayer = null;
         if (nodesExist) {
+            //Find the shortest path from the starting node to the ending node.
             pathToPlayer = aStar(start, destination, enemyHasWallPass);
         }
         return pathToPlayer;
     }
 
+    /**
+     * The A* algorithm calculates the shortest path between two specified nodes in the graph,
+     * it is similar to a Dijkstra's algorithm but with certain heuristics to optimize it in
+     * a number of ways.
+     * @param start The starting node in the graph.
+     * @param goal The ending destination node in the graph.
+     * @param enemyHasWallPass Boolean specifying whether the enemy can go walk through brick walls.
+     * @return An ArrayList containing the set of coordinates that we need to traverse in order to go
+     * from the starting node to the destination node.
+     */
     public ArrayList<Coordinate> aStar(Node start, Node goal, boolean enemyHasWallPass) {
+
         if (start == null || goal == null) return null;
         Set<Node> open = new HashSet<Node>();
         Set<Node> closed = new HashSet<Node>();
@@ -68,6 +101,8 @@ public class PathFinder implements Serializable {
         while (true) {
             Node current = null;
 
+            // In certain scenarios the enemy won't be able to find a path to the player
+            // because they are cutoff by the presence of brick walls.
             if (open.size() == 0) {
                 System.out.println("Could not find a path connecting the player and the enemy");
                 break;
@@ -79,6 +114,8 @@ public class PathFinder implements Serializable {
                 }
             }
 
+            // If the current node equals the destination, we have found a path
+            // connecting the two nodes.
             if (current == goal) {
                 break;
             }
@@ -110,6 +147,7 @@ public class PathFinder implements Serializable {
 
         List<Node> nodes = new ArrayList<Node>();
         Node current = goal;
+        // We follow the parent references to construct the path.
         while (current.getParent() != null) {
             nodes.add(current);
             current = current.getParent();
@@ -117,6 +155,7 @@ public class PathFinder implements Serializable {
         nodes.add(start);
 
         ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
+        // We invert the path to go from starting node to the destination.
         for (int i = nodes.size() - 1; i >= 0; i--) {
             Node selectedNode = nodes.get(i);
             coordinates.add(new Coordinate(selectedNode.getX(), selectedNode.getY()));
@@ -135,6 +174,13 @@ public class PathFinder implements Serializable {
         return coordinates;
     }
 
+    /**
+     * Removes contiguous links in the path from the enemy to the player. For example,
+     * if the path traverses the coordinates (0,1) -> (0,2) -> (0,3), this function will eliminate
+     * the middle link which is not needed for the traversal algorithm. So, the chain mentioned above
+     * becomes (0,1) -> (0,3).
+     * @param coordinates
+     */
     private void removeChains(ArrayList<Coordinate> coordinates) {
         for (int i = 0; i < coordinates.size() - 2; i ++) {
             if ((coordinates.get(i).getRow() == coordinates.get(i + 1).getRow() && coordinates.get(i).getRow() == coordinates.get(i + 2).getRow())
@@ -145,65 +191,34 @@ public class PathFinder implements Serializable {
         }
     }
 
-    public void cleanPath(ArrayList<Coordinate> coordinates) {
-        Coordinate initial = coordinates.get(0);
-        Coordinate next = coordinates.get(1);
-        int index = 0;
-        while (coordinates.size()>1) {
-
-            if (initial.getRow() == next.getRow()) {
-
-                //next has same x
-                while (index + 1 < coordinates.size()) {
-                    if (coordinates.get(index).getRow() == coordinates.get(index + 1).getRow()) {
-                        index++;
-                    } else {
-                        break;
-                    }
-                }
-                removeBefore(coordinates, index);
-
-                //reset index to 0 since we remove everything before it.
-                index = 0;
-
-            } else if (initial.getCol() == next.getCol()) {
-                // next has same y
-                while (index + 1 < coordinates.size()) {
-                    if (coordinates.get(index).getCol() == coordinates.get(index + 1).getCol()) {
-                        index++;
-                    } else {
-                        break;
-                    }
-                }
-                removeBefore(coordinates, index);
-                //reset index to 0 since we remove everything before it.
-                index = 0;
-
-            }
-        }
-    }
-
-    private void removeBefore(ArrayList<?> list, int index){
-        for (int i = index - 1; i >= 0; i--) {
-            // remove all elements in the stack before the position we travel to
-            list.remove(i);
-        }
-    }
-
+    /**
+     * Estimates the distance between two nodes in manhattan distance,
+     * which is more efficient than computing the actual distance using trigonometry.
+     * @param node1 First endpoint of edge distance to calculate.
+     * @param node2 Second endpoint of the edge distance to calculate.
+     * @return An integer representing the distance between the two passed nodes.
+     */
     public int estimateDistance(Node node1, Node node2) {
-        //using manhattan distances for optimization
         return Math.abs(node1.getX() - node2.getX()) + Math.abs(node1.getY() - node2.getY());
     }
 
+    /**
+     * Updates the graph representation of the grid with new information regarding the walls present.
+     * @param walls A two dimensional array containing the wall objects (both concrete and brick) that
+     *              are present on the grid at a given time.
+     */
     public void updateGraph(GameObject[][] walls) {
         System.out.println("Updating graph!!");
-        //walls is 31x13 tiles. We only want to iterate over the
-        //inner square: 29x11 tiles. We keep track of two separate
-        //indices for the object array and the graph array
+        // Walls is 31x13 tiles. We only want to iterate over the
+        // inner square: 29x11 tiles. We keep track of two separate
+        // indices for the object array and the graph array.
         int graphRow = 0;
         int graphCol = 0;
         for (int col = 1; col < TileMap.NUM_OF_COLS - 1; col++) {
             for (int row = 1; row < TileMap.NUM_OF_ROWS - 1; row++) {
+
+                // update which of the graph nodes are no longer obstacles,
+                // which results from the destruction of brick walls.
                 GameObject wall = walls[col][row];
                 if (wall instanceof BrickWall && wall.isVisible()) {
                     graph[graphRow][graphCol].setObstacle(true);
@@ -211,24 +226,49 @@ public class PathFinder implements Serializable {
                     graph[graphRow][graphCol].setObstacle(false);
                 }
                 graphRow++;
+
             }
             graphRow = 0;
             graphCol++;
         }
     }
 
+    /**
+     * Determine whether the graph representation of the grid should be refreshed.
+     * @return A boolean specifying whether the graph representation of the grid should be refreshed.
+     */
     public boolean getRefreshGraph() {
         return refreshGraph;
     }
 
+    /**
+     * Specify whether the graph representation of the grid should be refreshed.
+     * @param refreshGraph A boolean specifying whether the graph representation of the grid should be refreshed.
+     */
     public void setRefreshGraph(boolean refreshGraph) {
         this.refreshGraph = refreshGraph;
     }
 
+    /**
+     * Creates a graph representation of the grid in term of node objects. Note that
+     * we do not represent the outer concrete walls that surround the map, only the 29x11
+     * inner tiles.
+     * @return
+     */
     public Node[][] createMap() {
 
-        //We don't encode the nodes that are concrete walls. By removing from the graph
-        //We save memory and slightly optimize the algorithm
+        /*
+        Important information regarding this architecture:
+            - We only keep one instance of graph at a given time; all the enemies
+              with high intelligence share this instance.
+            - We don't encode the nodes that are concrete walls; by ignoring them
+              them from the graph they are never considered in path finding.
+            - The 500 lines of code below were generated using a bash script for the nodes,
+              and a python script for the array. They were not written by hand!
+         */
+
+        // We don't encode the nodes that are concrete walls in the inner map.
+        // By removing from the graph we save memory and slightly optimize the algorithm
         Node r0c0 = new Node(0, 0);
         Node r0c1 = new Node(0, 1);
         Node r0c2 = new Node(0, 2);

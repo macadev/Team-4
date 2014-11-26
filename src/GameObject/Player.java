@@ -158,14 +158,6 @@ public class Player extends MovableObject implements Serializable {
     }
 
     /**
-     * Increments the bomb object blast radius by 1.
-     * Called upon picking up the Flames powerUp.
-     */
-    public void incrementBombRadius() {
-        tileMap.incrementBombRadius();
-    }
-
-    /**
      * Increment the speed of the player from its default
      * of 'NORMALSPEED' to 'FASTSPEED'. Called upon picking up
      * the Speed PowerUp.
@@ -249,7 +241,7 @@ public class Player extends MovableObject implements Serializable {
                 flamePass = true;
                 break;
             case FLAMES:
-                incrementBombRadius();
+                tileMap.incrementBombRadius();
                 break;
             case MYSTERY:
                 invincibilityEnabled = true;

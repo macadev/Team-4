@@ -3,6 +3,7 @@ package Menu;
 import GameObject.Player;
 import GamePlay.GamePlayState;
 import SystemController.GameStateManager;
+import SystemController.TopLevelState;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,7 +13,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JTextField;
 
 /**
- * This class is used to represent the options available to the player when the game is paused. This menu to appear
+ * This class is used to represent the options available to the player when the game is paused. This menu is to appear
  * when the player presses the space bar during game play. The InGameMenu class inherits most of its functionality from
  * the MenuTemplate class. Specifically, the InGameMenu class defines the logic for: continuing the same game, starting
  * another- new game,quitting the game entirely, go the main menu for additional options or view their score on the
@@ -107,7 +108,7 @@ public class InGameMenu extends MenuTemplate{ //this menu will appear when the u
 
 		if (currentChoice == 0) {
             //resume game play
-            gsm.setState(GameStateManager.GAMEPLAY, null);
+            gsm.setState(TopLevelState.GAMEPLAYSTATE, null);
 	    }
 	    if (currentChoice == 1) {
             //save game
