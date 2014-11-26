@@ -43,6 +43,8 @@ public abstract class ArtificialIntelligence implements Serializable {
         int posX = enemy.getPosX();
         int speed = enemy.getSpeed();
 
+        // Note that the (0,0) coordinate is at the top-left corner of the grid,
+        // and that the y increases going South.
         switch (enemy.getDirectionOfMovement()) {
             case NORTH:
                 enemy.setPreviousY(posY);

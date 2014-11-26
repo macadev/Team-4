@@ -92,7 +92,7 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
         int enemyPosX = enemy.getPosX();
         int enemyPosY = enemy.getPosY();
 
-        // If the chase is enabled, move toward the next destination in the path.
+        // If the chase is enabled, move toward the next destination in the path towards the player.
         if (chaseEnabled) {
 
             if (nextDestination == null) {
@@ -102,11 +102,11 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
 
             int nextX = nextDestination.getRow();
             int nextY = nextDestination.getCol();
-            boolean enemyIsAtNextCol = (Math.abs(enemyPosX - nextX) <= 1);
             boolean enemyIsAtNextRow = (Math.abs(enemyPosY - nextY) <= 1);
+            boolean enemyIsAtNextCol = (Math.abs(enemyPosX - nextX) <= 1);
             if (enemyIsAtNextRow && enemyIsAtNextCol) {
                 // Snap the enemy to the next destination tile if it has arrived
-                // this is done to avoid having the enemy get stuck on a collision.
+                // this is done to avoid having the enemy get stuck on a turn.
                 enemy.setPosY(nextY);
                 enemy.setPosX(nextX);
 
@@ -121,24 +121,26 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
             }
 
             if (enemyIsAtNextRow) {
+                // Turn the direction of movement towards the next column
                 if (enemyPosX < nextX) {
                     enemy.setDirectionOfMovement(Direction.EAST);
-                    System.out.println("HIN going east");
                 } else {
                     enemy.setDirectionOfMovement(Direction.WEST);
-                    System.out.println("HIN going west");
                 }
+
             } else {
+                // Turn the direction of movement towards the next row
                 if (enemyPosY < nextY) {
                     enemy.setDirectionOfMovement(Direction.SOUTH);
-                    System.out.println("HIN going south");
                 } else {
                     enemy.setDirectionOfMovement(Direction.NORTH);
-                    System.out.println("HIN going north");
                 }
+
             }
 
         } else {
+            // if chase is not enabled and enemy is at an intersection,
+            // then determine if we should turn in a random direction.
             Direction directionOfMovement = enemy.getDirectionOfMovement();
             if (randomTurnOnIntersection(enemyPosX, enemyPosY)) {
                 enemy.setDirectionOfMovement(Direction.getRandomPerpendicularDirection(directionOfMovement));
@@ -149,6 +151,12 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
         moveEnemyOnBoard(enemy);
     }
 
+    /**
+     * Determines if the enemy should turn in a direction with a 50% chance if the enemy is standing at an intersection.
+     * @param posX The x coordinate where the enemy is located.
+     * @param posY The y coordinate where the enemy is located.
+     * @return A boolean specifying whether a random turn should be performed.
+     */
     public boolean randomTurnOnIntersection(int posX, int posY) {
         boolean playerAtXIntersection = (posX) % 32 <= 3 && (posX/32) % 2 == 1;
         boolean playerAtYIntersection = (posY) % 32 <= 3 && (posY/32) % 2 == 1;
@@ -159,6 +167,11 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
         }
     }
 
+    /**
+     * Set the path Finder object used by the high intelligence enemy to calculate the path shortest
+     * path to the player.
+     * @param pathFinder
+     */
     public static void setPathFinder(PathFinder pathFinder) {
         HighIntelligence.pathFinder = pathFinder;
     }
