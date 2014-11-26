@@ -8,7 +8,7 @@ import GameObject.KillSet;
 import java.io.Serializable;
 import java.util.*;
 
-public class ScoreManager implements Serializable {
+public class ScoreManager implements Serializable { 
 
     public int determineScoreFromKills(ArrayList<KillSet> enemiesKilled) {
 
@@ -48,7 +48,7 @@ public class ScoreManager implements Serializable {
 
     }
 
-    private int calculateScore(ArrayList<KillSet> kills) {
+    public int calculateScore(ArrayList<KillSet> kills) {
         int score = 0;
 
         //Sort the kills based on distance to the bomb
@@ -73,7 +73,7 @@ public class ScoreManager implements Serializable {
         return score;
     }
 
-    private int determineScoreForManyKills(ArrayList<KillSet> kills) {
+    public int determineScoreForManyKills(ArrayList<KillSet> kills) {
 
         int score = 0;
         int multiplier = 0;
@@ -91,7 +91,7 @@ public class ScoreManager implements Serializable {
         return score;
     }
 
-    private int determineScoreForTwoKills(KillSet killedEnemyA, KillSet killedEnemyB) {
+    public int determineScoreForTwoKills(KillSet killedEnemyA, KillSet killedEnemyB) {
         int killedEnemyAScore = killedEnemyA.getScore();
         int killedEnemyBScore = killedEnemyB.getScore();
         if (killedEnemyAScore < killedEnemyBScore) {
