@@ -1,3 +1,6 @@
+/**
+ * Created by danielmacario on 14-11-01.
+ */
 package GamePlay;
 
 import GameObject.*;
@@ -6,9 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Created by danielmacario on 14-11-01.
- */
 public class Spawner implements Serializable {
 
     private Random randomGenerator = new Random();
@@ -120,6 +120,22 @@ public class Spawner implements Serializable {
 
         for (int i = 0; i < 8; i++) {
             enemies.add(new Enemy(harderEnemyType, posX, posY));
+        }
+        return enemies;
+    }
+
+    public ArrayList<Enemy> createSetOfHardEnemiesAtRandomPositions(EnemyType harderEnemyType) {
+        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+
+        Coordinate spawnCoordinate;
+        for (int i = 0; i < 8; i++) {
+            if (possibleEnemyCoordinates.size() == 0) break;
+            spawnCoordinate = getRandomCoordinateFromSet(possibleEnemyCoordinates);
+
+            int row = spawnCoordinate.getRow();
+            int col = spawnCoordinate.getCol();
+
+            enemies.add(new Enemy(harderEnemyType, col * TileMap.WIDTH_OF_TILE + 1, row * TileMap.HEIGHT_OF_TILE + 1));
         }
         return enemies;
     }

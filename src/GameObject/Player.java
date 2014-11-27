@@ -123,6 +123,7 @@ public class Player extends MovableObject implements Serializable {
             if (bombsPlaced.get(i).isVisible() == false) {
                 i++;
             } else {
+                SoundController.BOMBEXPLODE.play();
                 bombsPlaced.get(i).setVisible(false);
                 detonated = true;
             }
@@ -154,14 +155,6 @@ public class Player extends MovableObject implements Serializable {
             Bomb bomb = new Bomb(bombX, bombY);
             bombsPlaced.add(bomb);
         }
-    }
-
-    /**
-     * Increments the bomb object blast radius by 1.
-     * Called upon picking up the Flames powerUp.
-     */
-    public void incrementBombRadius() {
-        tileMap.incrementBombRadius();
     }
 
     /**
@@ -248,7 +241,7 @@ public class Player extends MovableObject implements Serializable {
                 flamePass = true;
                 break;
             case FLAMES:
-                incrementBombRadius();
+                tileMap.incrementBombRadius();
                 break;
             case MYSTERY:
                 invincibilityEnabled = true;

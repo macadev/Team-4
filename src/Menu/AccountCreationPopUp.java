@@ -15,7 +15,7 @@ import javax.swing.*;
  * has fields for username, real name, password and re-enter password. It also contains two buttons: Submit and Exit.
  * All fields are required to create a new account. Methods from JFrame are inherited to be used in the popup.
  */
-public class AccountCreationMenuPopUp extends JFrame {
+public class AccountCreationPopUp extends JFrame {
 
 
     //Initializing variables to be used
@@ -33,7 +33,7 @@ public class AccountCreationMenuPopUp extends JFrame {
      *Constructor for AccountCreationMenuPopUp
      * @param menuManager Object menuManager is passed to navigate between the different game states and menus.
      */
-    public AccountCreationMenuPopUp(MenuManager menuManager){
+    public AccountCreationPopUp(MenuManager menuManager){
         this.menuManager = menuManager;
         createView();
         //Exit Option

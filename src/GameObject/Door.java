@@ -33,7 +33,6 @@ public class Door extends StaticObject implements Serializable {
         //TODO: spawn harder wave of enemies....
     }
 
-
     public boolean isFirstCollision() {
         return firstCollision;
     }

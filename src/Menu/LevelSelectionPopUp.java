@@ -1,3 +1,6 @@
+/**
+ * Created by danielmacario on 14-11-22.
+ */
 package Menu;
 
 import Database.DatabaseController;
@@ -10,9 +13,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Created by danielmacario on 14-11-22.
- */
 public class LevelSelectionPopUp extends JFrame {
 
     private JScrollPane scrollpane;

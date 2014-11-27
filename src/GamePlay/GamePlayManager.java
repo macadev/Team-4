@@ -13,6 +13,7 @@ import SystemController.GameState;
 import SystemController.GameStateManager;
 import Menu.MenuState;
 import SystemController.SoundController;
+import SystemController.TopLevelState;
 
 /**
  * Created by danielmacario on 14-10-29.
@@ -62,7 +63,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         if (currentState == GamePlayState.GAMEOVER) {
             executeGameOverStateLogic(g);
         } else if (currentState == GamePlayState.PAUSE) {
-            gsm.setState(gsm.MENUSTATE, MenuState.INGAME);
+            gsm.setState(TopLevelState.MENUSTATE, MenuState.INGAME);
         } else if (currentState == GamePlayState.INGAME) {
             executeInGameLogic(g);
         } else if (currentState == GamePlayState.FINISHEDGAME) {
@@ -81,7 +82,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         boolean redirectToMainMenu = notificationDurationCountDown();
         if (redirectToMainMenu) {
             //TODO: redirect to the gameover menu!
-            gsm.setState(gsm.MENUSTATE, MenuState.MAIN);
+            gsm.setState(TopLevelState.MENUSTATE, MenuState.MAIN);
         }
     }
 
@@ -102,11 +103,13 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
                 e.printStackTrace();
             }
             SoundController.THEME.loop();
-            gsm.setState(gsm.MENUSTATE, MenuState.GAMEOVER);
+            gsm.setState(TopLevelState.MENUSTATE, MenuState.GAMEOVER);
         }
     }
 
     public void executeInGameLogic(Graphics2D g) {
+
+
         if (tileMap.isNextStageTransition()) {
             inStageTransition(g);
             return;
@@ -114,7 +117,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
 
         if (tileMap.isBonusStage()) {
             initiateTimerToNextStage();
-            initateTimeToSpawnEnemy();
+            initiateTimeToSpawnEnemy();
         }
 
         player.move();
@@ -142,7 +145,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
                 player.draw(g);
             }
         }
-        drawHUD(g, tileMap.isBonusStage());
+        drawHUD(g, tileMap.isBonusStage(), tileMap.getTimeToHarderSetSpawn());
     }
 
     public void inStageTransition(Graphics2D g) {
@@ -158,17 +161,18 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
     }
 
 
-    public void drawHUD(Graphics2D g, boolean bonusStage) {
+    public void drawHUD(Graphics2D g, boolean bonusStage, int timeToHarderSetSpawn) {
         String hudInformation;
         g.setColor(hudColor);
         g.setFont(hudFont);
+        hudInformation = "Lives Left: " + player.getLivesRemaining() + " | Score: " + player.getScore() +
+                " | Time Remaining: ";
         if (bonusStage) {
-            hudInformation = "Time Remaining: " + bonusStageCountDown/30 +
-                    " | Lives Left: " + player.getLivesRemaining() + " | Score: " + player.getScore();
+            hudInformation += bonusStageCountDown / 30;
             g.drawString(hudInformation, 160, 20);
         } else {
-            hudInformation = "Lives Left: " + player.getLivesRemaining() + " | Score: " + player.getScore();
-            g.drawString(hudInformation, 280, 20);
+            hudInformation += timeToHarderSetSpawn / 30;
+            g.drawString(hudInformation, 160, 20);
         }
     }
 
@@ -189,7 +193,7 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         bonusStageCountDown--;
     }
 
-    public void initateTimeToSpawnEnemy() {
+    public void initiateTimeToSpawnEnemy() {
         if (bonusStageNewEnemyCountDown == 0) {
             bonusStageNewEnemyCountDown = 30;
             tileMap.addNewEnemy();
@@ -240,13 +244,6 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         this.player.keyReleased(k);
     }
 
-    @Override
-    public void init() {
-
-        //Populate the blocks arrayLists present in the game;
-        //populateGridWithBlocks();
-
-    }
 
     public boolean isGameOver() {
         return gameOver;

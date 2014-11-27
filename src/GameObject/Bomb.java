@@ -55,8 +55,8 @@ public class Bomb extends StaticObject implements Serializable {
      * The bomb will be deleted in the next refresh of the screen.
      */
     public synchronized void explode() {
-        this.visible = false;
         SoundController.BOMBEXPLODE.play();
+        this.visible = false;
     }
 
     /**
@@ -72,7 +72,7 @@ public class Bomb extends StaticObject implements Serializable {
     }
 
     /**
-     * determine whether the player is colliding with the bomb for the first time
+     * Determine whether the player is colliding with the bomb for the first time
      * or not.
      * @return A boolean representing whether this is the first time the player
      * is colliding with the the Bomb
