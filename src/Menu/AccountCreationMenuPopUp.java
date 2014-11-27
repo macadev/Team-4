@@ -55,8 +55,6 @@ public class AccountCreationMenuPopUp extends JFrame {
         JPanel panel = new JPanel();
         getContentPane().add(panel);
 
-        //panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
         JLabel label = new JLabel("Real Name:             ");
         label.setBounds(10, 10, 80, 25);
         panel.add(label);
