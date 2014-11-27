@@ -24,7 +24,7 @@ public class LoginPopUp extends JFrame {
     private MenuManager menuManager;
 
     /**
-     *Constructor for LoginPopup
+     * Constructor for LoginPopup
      * @param menuManager Object menuManager is passed to navigate between the different game states and menus.
      */
     public LoginPopUp(MenuManager menuManager){
@@ -92,8 +92,8 @@ public class LoginPopUp extends JFrame {
      */
     public void loginClicked() {
         String name = fieldName.getText();
-
         String password = fieldPass.getText();
+        System.out.println(password);
 
         boolean loginSuccessful = false;
 
