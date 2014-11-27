@@ -9,12 +9,9 @@ import static org.junit.Assert.*;
 
 public class DatabaseControllerTest {
 
-
-
-
-
     @Before
     public void InitializeDatabase() throws Exception {
+        DatabaseController.database_id = "jdbc:sqlite:test_data.db";
         DatabaseController.initializeDatabase();
         DatabaseController.createNewUser("username", "password","realname");
     }

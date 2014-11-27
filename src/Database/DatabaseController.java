@@ -10,6 +10,8 @@ import java.util.ArrayList;
  */
 public class DatabaseController {
 
+    public static String database_id;
+
     public static void initializeDatabase() throws ClassNotFoundException {
         // load the sqlite-JDBC driver using the current class loader
         Class.forName("org.sqlite.JDBC");
@@ -19,7 +21,7 @@ public class DatabaseController {
 
             try {
                 // create a database connection
-                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                connection = DriverManager.getConnection(database_id);
                 stmt = connection.createStatement();
                 stmt.executeUpdate("create table if not exists  Users (username String , password String, realName String, highScore int, levelUnlocked int, gamesPlayed int )");
             } catch (SQLException e) {
@@ -52,7 +54,7 @@ public class DatabaseController {
 
             try {
                 // create a database connection
-                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                connection = DriverManager.getConnection(database_id);
 
                 stmt = connection.prepareStatement(verify);
                 rs = stmt.executeQuery();
@@ -100,7 +102,7 @@ public class DatabaseController {
             String verify = "select * from Users where username = ?";
 
             try {
-                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                connection = DriverManager.getConnection(database_id);
                 stmt = connection.prepareStatement(verify);
                 stmt.setString(1, userName);
                 rsUserCheck = stmt.executeQuery();
@@ -148,7 +150,7 @@ public class DatabaseController {
             ResultSet rsUpdate = null;
 
             try {
-                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                connection = DriverManager.getConnection(database_id);
                 //connection.setAutoCommit(false);
                 updateLevelUnlocked = connection.prepareStatement(sql);
                 if (level >= 1 && level <= 60) {
@@ -197,7 +199,7 @@ public class DatabaseController {
             int size = 0;
 
             try {
-                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                connection = DriverManager.getConnection(database_id);
                 //connection.setAutoCommit(false);
                 stmt = connection.prepareStatement(sql);
                 stmt.setString(1, username);
@@ -251,7 +253,7 @@ public class DatabaseController {
             String sql = "select * from Users where username = ? and password = ? ";
 
             try {
-                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                connection = DriverManager.getConnection(database_id);
                 //connection.setAutoCommit(false);
                 stmt = connection.prepareStatement(sql);
                 stmt.setString(1, Uname);
@@ -307,7 +309,7 @@ public class DatabaseController {
             ResultSet rsUpdate = null;
 
             try {
-                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                connection = DriverManager.getConnection(database_id);
                 //connection.setAutoCommit(false);
                 updatePasswordStmt = connection.prepareStatement(sql);
                 if (newPass != null && !newPass.isEmpty()) {
@@ -356,7 +358,7 @@ public class DatabaseController {
             ResultSet rsUpdate = null;
 
             try {
-                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                connection = DriverManager.getConnection(database_id);
                 //connection.setAutoCommit(false);
                 updateRealNameStmt = connection.prepareStatement(sqlUpdateRealName);
                 if (newRealName != null && !newRealName.isEmpty()) {
@@ -394,7 +396,6 @@ public class DatabaseController {
         return true;
     }
 
-
     public static boolean deleteAccount(String username) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         try {
@@ -406,7 +407,7 @@ public class DatabaseController {
             ResultSet rsUpdate = null;
 
             try {
-                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                connection = DriverManager.getConnection(database_id);
                 //connection.setAutoCommit(false);
                 delAccount = connection.prepareStatement(deleteAccount);
                 delAccount.setString(1, username);
@@ -444,7 +445,7 @@ public class DatabaseController {
             String sql = "select * from Users where username = ?";
 
             try {
-                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                connection = DriverManager.getConnection(database_id);
                 //connection.setAutoCommit(false);
                 stmt = connection.prepareStatement(sql);
                 stmt.setString(1, username);
@@ -488,7 +489,7 @@ public class DatabaseController {
             ResultSet rsUpdate = null;
 
             try {
-                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                connection = DriverManager.getConnection(database_id);
                 //connection.setAutoCommit(false);
                 updateHighScore = connection.prepareStatement(sql);
                 updateHighScore.setInt(1, score + currentScore);
@@ -532,7 +533,7 @@ public class DatabaseController {
             String sql = "SELECT * from Users ORDER BY highScore DESC";
 
             try {
-                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                connection = DriverManager.getConnection(database_id);
                 //connection.setAutoCommit(false);
                 stmt = connection.createStatement();
                 rsTopScores = stmt.executeQuery(sql);
@@ -582,7 +583,7 @@ public class DatabaseController {
             ResultSet rsUpdate = null;
 
             try {
-                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                connection = DriverManager.getConnection(database_id);
                 //connection.setAutoCommit(false);
                 incrementGamesPlayed = connection.prepareStatement(sql);
                 incrementGamesPlayed.setInt(1, getGamesPlayed(username) + 1);
@@ -625,7 +626,7 @@ public class DatabaseController {
             String sql = "select * from Users where username = ?";
 
             try {
-                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                connection = DriverManager.getConnection(database_id);
                 //connection.setAutoCommit(false);
                 stmt = connection.prepareStatement(sql);
                 stmt.setString(1, username);
@@ -667,7 +668,7 @@ public class DatabaseController {
 
 
             try {
-                connection = DriverManager.getConnection("jdbc:sqlite:user_data.db");
+                connection = DriverManager.getConnection(database_id);
                 //connection.setAutoCommit(false);
                 stmt = connection.prepareStatement(sql);
                 stmt.setString(1, username);

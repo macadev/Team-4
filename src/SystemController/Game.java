@@ -64,6 +64,8 @@ public class Game {
             e.printStackTrace();
         }
         try {
+            DatabaseController.setScore("dano", 100);
+            DatabaseController.database_id = "jdbc:sqlite:user_data.db";
             DatabaseController.printDBContents();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
