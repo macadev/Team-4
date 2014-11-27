@@ -9,7 +9,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ArtificialIntelligenceTest {
-    private ArtificialIntelligence lowIntelligence, mediumIntelligence, highIntelligence;
+    private ArtificialIntelligence lowIntelligence;
+    // All 3 types of intelligence: low, medium and high all share artificial intelligence,
+    // so testing just one type of intelligence is equivalent to testing all 3
 
     private Enemy enemy;
 
@@ -17,117 +19,63 @@ public class ArtificialIntelligenceTest {
     public void setup() {
 
         lowIntelligence = new LowIntelligence();
-        mediumIntelligence = new MediumIntelligence();
-        highIntelligence = new HighIntelligence();
         enemy = new Enemy(EnemyType.BALLOOM, 35, 35);
     }
-
-    @Test
-    public void testMove() throws Exception {
-
-
-        int posY = enemy.getPosY();
-        int posX = enemy.getPosX();
-        int speed = enemy.getSpeed();
-
-        Direction direction = enemy.getDirectionOfMovement();
-
-        lowIntelligence.move(enemy);
-
-        if (direction == Direction.NORTH) {
-            assertEquals(posY - speed, enemy.getPosY());
-            assertEquals(posX, enemy.getPosX());
-        } else if (direction == Direction.SOUTH) {
-            assertEquals(posY + speed, enemy.getPosY());
-            assertEquals(posX, enemy.getPosX());
-        } else if (direction == Direction.EAST) {
-            assertEquals(posY, enemy.getPosY());
-            assertEquals(posX + speed, enemy.getPosX());
-        } else if (direction == Direction.WEST) {
-            assertEquals(posY, enemy.getPosY());
-            assertEquals(posX - speed, enemy.getPosX());
-        }
-
-         posY = enemy.getPosY();
-         posX = enemy.getPosX();
-
-        mediumIntelligence.move(enemy);
-        // test if moved
-        assertFalse(posX == enemy.getPosX() && posY == enemy.getPosY());
-
-        posY = enemy.getPosY();
-        posX = enemy.getPosX();
-        highIntelligence.move(enemy);
-        // test if moved
-        assertFalse(posX == enemy.getPosX() && posY == enemy.getPosY());
-}
 
     @Test
     public void testMoveEnemyOnBoard() throws Exception {
         int posY = enemy.getPosY();
         int posX = enemy.getPosX();
         int speed = enemy.getSpeed();
-        Direction direction = enemy.getDirectionOfMovement();
 
-
+        //east movement as expected
+        enemy.setDirectionOfMovement(Direction.EAST);
         lowIntelligence.moveEnemyOnBoard(enemy);
-        if (direction == Direction.NORTH) {
-            assertEquals(posY - speed, enemy.getPosY());
-            assertEquals(posX, enemy.getPosX());
-        } else if (direction == Direction.SOUTH) {
-            assertEquals(posY + speed, enemy.getPosY());
-            assertEquals(posX, enemy.getPosX());
-        } else if (direction == Direction.EAST) {
-            assertEquals(posY, enemy.getPosY());
-            assertEquals(posX + speed, enemy.getPosX());
-        } else if (direction == Direction.WEST) {
-            assertEquals(posY, enemy.getPosY());
-            assertEquals(posX - speed, enemy.getPosX());
-        }
+        assertEquals("There should be no change in the y-coordinate", posY, enemy.getPosY());
+        assertEquals(" Movements displaces the enemy to the right", posX + speed, enemy.getPosX());
+
+        //west movement as expected
+        enemy.setDirectionOfMovement(Direction.WEST);
+        lowIntelligence.moveEnemyOnBoard(enemy);
+        assertEquals("There should be no change in the y-coordinate",posY, enemy.getPosY());
+        assertEquals("Movement displaces enemy to the left", posX, enemy.getPosX());
+
+        //north movement as expected
+        enemy.setDirectionOfMovement(Direction.NORTH);
+        lowIntelligence.moveEnemyOnBoard(enemy);
+        assertEquals("Movement displaces enemy up",posY - speed, enemy.getPosY());
+        assertEquals("There should be no change in the x-coordinate",posX, enemy.getPosX());
+
+        // south movement as expected
+        enemy.setDirectionOfMovement(Direction.SOUTH);
+        lowIntelligence.moveEnemyOnBoard(enemy);
+        assertEquals("Movement displaces enemy down",posY, enemy.getPosY());
+        assertEquals("There should be no change in the x-coordinate",posX, enemy.getPosX());
 
     }
 
     @Test
     public void testReverseDirection() throws Exception {
-        Direction direction = enemy.getDirectionOfMovement();
 
+        //east movement as expected
+        enemy.setDirectionOfMovement(Direction.EAST);
         lowIntelligence.reverseDirection(enemy);
+        assertEquals("If EAST, reverse direction should be WEST", Direction.WEST, enemy.getDirectionOfMovement());
 
-        if (direction == Direction.NORTH) {
-            assertEquals(Direction.SOUTH, enemy.getDirectionOfMovement());
-        } else if (direction == Direction.SOUTH) {
-            assertEquals(Direction.NORTH, enemy.getDirectionOfMovement());
-        } else if (direction == Direction.EAST) {
-            assertEquals(Direction.WEST, enemy.getDirectionOfMovement());
-        } else if (direction == Direction.WEST) {
-            assertEquals(Direction.EAST, enemy.getDirectionOfMovement());
-        }
+        //west movement as expected
+        enemy.setDirectionOfMovement(Direction.WEST);
+        lowIntelligence.reverseDirection(enemy);
+        assertEquals("If WEST, reverse direction should be EAST", Direction.EAST, enemy.getDirectionOfMovement());
 
-        direction = enemy.getDirectionOfMovement();
-        mediumIntelligence.reverseDirection(enemy);
+        //north movement as expected
+        enemy.setDirectionOfMovement(Direction.NORTH);
+        lowIntelligence.reverseDirection(enemy);
+        assertEquals("If NORTH, reverse direction should be SOUTH", Direction.SOUTH, enemy.getDirectionOfMovement());
 
-        if (direction == Direction.NORTH) {
-            assertEquals(Direction.SOUTH, enemy.getDirectionOfMovement());
-        } else if (direction == Direction.SOUTH) {
-            assertEquals(Direction.NORTH, enemy.getDirectionOfMovement());
-        } else if (direction == Direction.EAST) {
-            assertEquals(Direction.WEST, enemy.getDirectionOfMovement());
-        } else if (direction == Direction.WEST) {
-            assertEquals(Direction.EAST, enemy.getDirectionOfMovement());
-        }
-
-        direction = enemy.getDirectionOfMovement();
-        highIntelligence.reverseDirection(enemy);
-
-        if (direction == Direction.NORTH) {
-            assertEquals(Direction.SOUTH, enemy.getDirectionOfMovement());
-        } else if (direction == Direction.SOUTH) {
-            assertEquals(Direction.NORTH, enemy.getDirectionOfMovement());
-        } else if (direction == Direction.EAST) {
-            assertEquals(Direction.WEST, enemy.getDirectionOfMovement());
-        } else if (direction == Direction.WEST) {
-            assertEquals(Direction.EAST, enemy.getDirectionOfMovement());
-        }
+        // south movement as expected
+        enemy.setDirectionOfMovement(Direction.SOUTH);
+        lowIntelligence.reverseDirection(enemy);
+        assertEquals("If SOUTH, reverse direction should be NORTH", Direction.NORTH, enemy.getDirectionOfMovement());
 
     }
 
