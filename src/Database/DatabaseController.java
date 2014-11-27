@@ -114,7 +114,7 @@ public class DatabaseController {
                 stmt.setString(3, rName);
                 stmt.setInt(4, 0);
                 stmt.setInt(5, 1);
-                stmt.setInt(6,0);
+                stmt.setInt(6, 0);
                 stmt.executeUpdate();
                 System.out.println("New User inserted into database");
 
@@ -538,15 +538,15 @@ public class DatabaseController {
                 rsTopScores = stmt.executeQuery(sql);
                 while (rsTopScores.next()) {
                     topScore = rsTopScores.getInt("highScore");
-                    System.out.println("Top score is : " + topScore + " and username is : " + rsTopScores.getString("username") + " for user (real name) " + rsTopScores.getString("realName") + " they have played " + rsTopScores.getInt("gamesPlayed")+ " games.");
+                    System.out.println("Top score is : " + topScore + " and username is : " + rsTopScores.getString("username") + " for user (real name) " + rsTopScores.getString("realName") + " they have played " + rsTopScores.getInt("gamesPlayed") + " games.");
                     size++;
                     System.out.println("size of getTopScores result set is: " + size);
                     ps.add(PlayerScore.createPlayer(rsTopScores.getString("username"), rsTopScores.getInt("highScore"), rsTopScores.getString("realName"), rsTopScores.getInt("gamesPlayed")));
                     System.out.println("this is being executed");
                 }
                 System.out.println("size of arraylist is : " + ps.size());
-                for (i = 0 ; i<ps.size(); i++) {
-                    System.out.println("Top Users are : " + ps.get(i).username + " with real name " + ps.get(i).realName + " with "+ ps.get(i).score + " points in " + ps.get(i).gamesPlayed + " games played.");
+                for (i = 0; i < ps.size(); i++) {
+                    System.out.println("Top Users are : " + ps.get(i).username + " with real name " + ps.get(i).realName + " with " + ps.get(i).score + " points in " + ps.get(i).gamesPlayed + " games played.");
                 }
 
             } catch (SQLException e) {
@@ -699,13 +699,28 @@ public class DatabaseController {
         return player;
     }
 
+    /**public static boolean UserExists(String username) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        try {
+            Connection connection = null;
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-
-
-
+    }
+     **/
 
 }
+
+
+
+
+
+
+
+
+
 
 
 

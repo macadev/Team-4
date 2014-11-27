@@ -1,5 +1,6 @@
 package GameObject.Database;
 
+import Database.DatabaseController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,40 +9,22 @@ import static org.junit.Assert.*;
 
 public class DatabaseControllerTest {
 
+
+
+
+
     @Before
-    public void setUp() throws Exception {
-
+    public void InitializeDatabase() throws Exception {
+        DatabaseController.initializeDatabase();
+        DatabaseController.createNewUser("username", "password","realname");
     }
-
-    @After
-    public void tearDown() throws Exception {
-
-    }
-
     @Test
-    public void testInitializeDatabase() throws Exception {
+    public void createNewUser() throws Exception {
 
+        assertEquals("The level is set to 0 upon user creation",1, DatabaseController.getLevelUnlocked("username"));
+        assertEquals("Highscore is set to 0 upon user creation",0,DatabaseController.getScore("username"));
     }
 
-    @Test
-    public void testPrintDBContents() throws Exception {
-
-    }
-
-    @Test
-    public void testCreateNewUser() throws Exception {
-
-    }
-
-    @Test
-    public void testSetLevelUnlocked() throws Exception {
-
-    }
-
-    @Test
-    public void testGetLevelUnlocked() throws Exception {
-
-    }
 
     @Test
     public void testCreateDirectoryForUserSavedFiles() throws Exception {
@@ -50,11 +33,12 @@ public class DatabaseControllerTest {
 
     @Test
     public void testAuthenticateUser() throws Exception {
-
+        assertTrue("User exists", DatabaseController.authenticateUser("username","password"));
     }
 
     @Test
     public void testUpdatePassword() throws Exception {
+
 
     }
 
@@ -65,7 +49,8 @@ public class DatabaseControllerTest {
 
     @Test
     public void testDeleteAccount() throws Exception {
-
+        DatabaseController.deleteAccount("username");
+        assertFalse("User account no longer exists", DatabaseController.authenticateUser("username","password"));
     }
 
     @Test
@@ -76,15 +61,27 @@ public class DatabaseControllerTest {
     @Test
     public void testSetScore() throws Exception {
 
+
     }
 
     @Test
     public void testGetTopUsers() throws Exception {
+
 
     }
 
     @Test
     public void testGetScores() throws Exception {
 
+
     }
+
+    @Test
+    public void testIncrementGamesPlayed() throws Exception {
+        int gamesPlayed = DatabaseController.getGamesPlayed("username");
+        assertEquals("Number of games played is set to 0 upon user creation",gamesPlayed,DatabaseController.getGamesPlayed("username"));
+        DatabaseController.incrementGamesPlayed("username");
+        assertEquals("Games played is incremented by 1 when method is called", gamesPlayed+1 , DatabaseController.getGamesPlayed("username"));
+    }
+
 }
