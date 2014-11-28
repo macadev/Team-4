@@ -75,7 +75,7 @@ public class PowerUp extends StaticObject implements Serializable {
     }
 
     /**
-     * Gets PowerUpType
+     * Gets PowerUpType for the player to be used during the game.
      * @return PowerUpType is returned.
      */
     public PowerUpType getPowerUpType() {

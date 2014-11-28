@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 
 /**
  * The very first menu that loads up when the program is started that gives the user the option to either login or
- *create a new account. It inherits some functionality from MenuTemplate. It loads up LoginPopup and
+ * create a new account. It inherits some functionality from MenuTemplate. It loads up LoginPopup and
  * AccountCreationMenuPopUp for logging in or creating a new account. It also has the exit functionality which
  * stops the program entirely.
  */
@@ -41,13 +41,12 @@ public class LoginMenu extends MenuTemplate {
     @Override
     public void draw(Graphics2D g) {
 
-        //draw the title
+
         g.setColor(titleColor);
         g.setFont(titleFont);
         g.drawString("BOMBERMAN", 80, 70);
         g.drawString("Login Menu", 80, 100);
 
-        //draw menu options
         g.setFont(font);
         for(int i = 0; i < options.length; i++) {
             if (i == currentChoice) {
@@ -56,7 +55,6 @@ public class LoginMenu extends MenuTemplate {
                 g.setColor(MenuTemplate.BODY_SELECTED_COLOR);
             }
 
-            // pass horizontal distance, then vertical distance
             g.drawString(options[i], 95, 140 + i * 15);
 
         }

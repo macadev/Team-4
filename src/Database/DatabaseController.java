@@ -43,6 +43,36 @@ public class DatabaseController {
         }
     }
 
+    public static void dropDatabaseTable() throws ClassNotFoundException {
+        // load the sqlite-JDBC driver using the current class loader
+        Class.forName("org.sqlite.JDBC");
+        try {
+            Connection connection = null;
+            Statement stmt = null;
+
+            try {
+                // create a database connection
+                connection = DriverManager.getConnection(database_id);
+                stmt = connection.createStatement();
+                stmt.executeUpdate("DROP TABLE if exists Users");
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
+            } finally {
+
+                if (stmt != null) {
+                    stmt.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static boolean createNewUser(String userName, String pass, String rName) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         try {

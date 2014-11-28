@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
  */
 public class AccountOptionsPopUp extends JFrame {
 
-    //Initializing variables to be used
     private JTextField realName;
     private JPasswordField fieldPass;
     private JPasswordField retypePass;
@@ -28,20 +27,17 @@ public class AccountOptionsPopUp extends JFrame {
     private boolean updatedRealName = false;
 
     /**
-     *Constructor for the AccountOptionsPopUp
+     * Constructor for the AccountOptionsPopUp
      * @param menuManager Object menuManager is passed to navigate between the different game states and menus.
      */
     public AccountOptionsPopUp(MenuManager menuManager){
         this.menuManager = menuManager;
         createView();
 
-        //Exit Option
+        //Sets up window attributes
         setDefaultCloseOperation(HIDE_ON_CLOSE);
-        //Display Size
         setSize(420, 230);
-        //Setting it to the middle of the screen
         setLocationRelativeTo(null);
-        //Disable resize
         setResizable(false);
     }
 
@@ -51,8 +47,6 @@ public class AccountOptionsPopUp extends JFrame {
     private void createView(){
         JPanel panel = new JPanel();
         getContentPane().add(panel);
-
-        //panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JLabel label = new JLabel("New Name:             ");
         label.setBounds(10, 10, 80, 25);
@@ -129,6 +123,7 @@ public class AccountOptionsPopUp extends JFrame {
         labelMessage3.setBounds(10, 230, 160, 25);
         panel.add(labelMessage3);
     }
+
     /**
      * Exits from the popup  when clicked and takes the user back to the main menu page.
      */
@@ -138,8 +133,8 @@ public class AccountOptionsPopUp extends JFrame {
     }
 
     /**
-     *Takes the input from the user when clicked. Checks which information is updated by the user. Calls respective
-     *methods to validate and update information.  Shows confirmation text when information is updated and redirects
+     * Takes the input from the user when clicked. Checks which information is updated by the user. Calls respective
+     * methods to validate and update information.  Shows confirmation text when information is updated and redirects
      * the user to the login menu when account is deleted.
      */
     public void submitClicked() {

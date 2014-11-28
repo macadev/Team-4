@@ -27,16 +27,16 @@ public class DatabaseControllerTest {
         DatabaseController.createNewUser("testUser8", "testPassword8","testRealName8");
         DatabaseController.createNewUser("testUser9", "testPassword9","testRealName9");
         DatabaseController.createNewUser("testUser10", "testPassword10","testRealName10");
-        DatabaseController.setScore("testUser1", 10000);
-        DatabaseController.setScore("testUser2", 10000);
-        DatabaseController.setScore("testUser3", 13000);
-        DatabaseController.setScore("testUser4", 14000);
+        DatabaseController.setScore("testUser1", 16000);
+        DatabaseController.setScore("testUser2", 16000);
+        DatabaseController.setScore("testUser3", 16000);
+        DatabaseController.setScore("testUser4", 16000);
         DatabaseController.setScore("testUser5", 16000);
         DatabaseController.setScore("testUser6", 16000);
         DatabaseController.setScore("testUser7", 16000);
         DatabaseController.setScore("testUser8", 16000);
-        DatabaseController.setScore("testUser9", 9000);
-        DatabaseController.setScore("testUser10", 12000);
+        DatabaseController.setScore("testUser9", 16000);
+        DatabaseController.setScore("testUser10",16000);
         DatabaseController.setLevelUnlocked("testUser1", 11);
         DatabaseController.setLevelUnlocked("testUser2", 11);
         DatabaseController.setLevelUnlocked("testUser3", 13);
@@ -48,11 +48,16 @@ public class DatabaseControllerTest {
         DatabaseController.setLevelUnlocked("testUser9", 25);
         DatabaseController.setLevelUnlocked("testUser10", 34);
     }
+    @AfterClass
+    public static void tearDown() throws Exception {
+        DatabaseController.dropDatabaseTable();
+    }
     @Test
     public void createNewUser() throws Exception {
         assertEquals("The level is set to the specified level upon initialization",11, DatabaseController.getLevelUnlocked("testUser1"));
         assertEquals("The # of games played is set to 0 upon user creation",0, DatabaseController.getGamesPlayed("testUser1"));
-        assertEquals("Highscore is set to the specified score upon user creation",10000,DatabaseController.getScore("testUser1"));
+        int originalHighScore = DatabaseController.getScore("testUser1");
+        assertEquals("Highscore is set to the specified score upon user creation",originalHighScore,DatabaseController.getScore("testUser1"));
         assertTrue("The user exists in the database", DatabaseController.authenticateUser("testUser1","testPassword1"));
     }
     @Test
@@ -79,7 +84,7 @@ public class DatabaseControllerTest {
     }
     @Test
     public void testGetLevelUnlocked() throws Exception {
-        assertEquals("User's level unlocked is equal to the set level unlocked", 20, DatabaseController.getLevelUnlocked("testUser2"));
+        assertEquals("User's level unlocked is equal to the set level unlocked",11 , DatabaseController.getLevelUnlocked("testUser2"));
     }
     @Test
     public void testAuthenticateUser() throws Exception {
@@ -118,8 +123,18 @@ public class DatabaseControllerTest {
     }
     @Test
     public void testGetTopScoresSet() throws Exception {
-        ArrayList<PlayerScore> knownPs = new ArrayList<PlayerScore>();
-    }
+        ArrayList<PlayerScore> testTopScoresSet;
+        testTopScoresSet = DatabaseController.getTopScoresSet();
+        for (int i = 1; i <= 10; i++) {
+            assertEquals("testUser"+i, testTopScoresSet.get(i-1).username);
+        }
+        for (int i = 0; i < 10; i++) {
+            assertEquals(16000,testTopScoresSet.get(i).score);
+        }
+        //for (int i = 0; i < 10; i++) {
+            //assertEquals(0,testTopScoresSet.get(i).gamesPlayed);
+
+        }
     @Test
     public void testIncrementGamesPlayed() throws Exception {
         int gamesPlayed = DatabaseController.getGamesPlayed("testUser2");

@@ -41,7 +41,7 @@ public class Bomb extends StaticObject implements Serializable {
     }
 
     /**
-     *Counts up to 90 frames after the bomb is placed and explodes after it crosses 90 frames
+     * Counts up to 90 frames after the bomb is placed and explodes after it crosses 90 frames
      */
     public void timeExplosion() {
         framesOnGrid++;
@@ -88,5 +88,21 @@ public class Bomb extends StaticObject implements Serializable {
      */
     public void setFirstCollision(boolean firstCollision) {
         this.firstCollision = firstCollision;
+    }
+
+    /**
+     * Get the number of frames that has passed since the bomb has been placed
+     * @return Integer framesOnGrid representing how many frames have been passed since bomb placement
+     */
+    public int getFramesOnGrid() {
+        return framesOnGrid;
+    }
+
+    /**
+     *Sets the number of frames since the bomb has been placed
+     * @param framesOnGrid Integer framesOnGrid representing number of frames that has passed since place of bomb
+     */
+    public void setFramesOnGrid(int framesOnGrid) {
+        this.framesOnGrid = framesOnGrid;
     }
 }
