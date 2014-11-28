@@ -41,6 +41,7 @@ public class DatabaseController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println("Database: uesr_data.db initialized");
     }
 
     public static void dropDatabaseTable() throws ClassNotFoundException {
@@ -71,6 +72,7 @@ public class DatabaseController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println("Database: test_data.db table dropped");
     }
 
     public static boolean createNewUser(String userName, String pass, String rName) throws ClassNotFoundException {
@@ -273,8 +275,6 @@ public class DatabaseController {
             ResultSet rsLevel = null;
             PreparedStatement stmt = null;
             String sql = "select * from Users where username = ?";
-            int size = 0;
-
             try {
                 connection = DriverManager.getConnection(database_id);
                 stmt = connection.prepareStatement(sql);
@@ -283,9 +283,6 @@ public class DatabaseController {
 
                 while (rsLevel.next()) {
                     currentLevel = rsLevel.getInt("levelUnlocked");
-                    System.out.println("Unlocked Level is : " + currentLevel);
-                    size++;
-                    System.out.println("size of result set of unlocked level is : " + size);
                 }
 
             } catch (SQLException e) {
@@ -515,7 +512,6 @@ public class DatabaseController {
 
                 while (rsScore.next()) {
                     score = rsScore.getInt("highScore");
-                    System.out.println("Highscore of " + username + " is: " + score);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -607,12 +603,7 @@ public class DatabaseController {
                 stmt = connection.createStatement();
                 rsTopScores = stmt.executeQuery(sql);
                 while (rsTopScores.next()) {
-                    topScore = rsTopScores.getInt("highScore");
-                    System.out.println("Top score is : " + topScore + " and username is : " + rsTopScores.getString("username") + " for user (real name) " + rsTopScores.getString("realName") + " they have played " + rsTopScores.getInt("gamesPlayed") + " games.");
-                    size++;
-                    System.out.println("size of getTopScores result set is: " + size);
                     ps.add(PlayerScore.createPlayer(rsTopScores.getString("username"), rsTopScores.getInt("highScore"), rsTopScores.getString("realName"), rsTopScores.getInt("gamesPlayed")));
-                    System.out.println("this is being executed");
                 }
                 System.out.println("size of arraylist is : " + ps.size());
                 for (i = 0; i < ps.size(); i++) {

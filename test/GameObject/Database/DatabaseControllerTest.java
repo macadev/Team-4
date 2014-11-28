@@ -166,5 +166,4 @@ public class DatabaseControllerTest {
         assertEquals("testPlayer score is the same as method returned object", testPlayer.score, DatabaseController.getPlayerObject("testUser6").score);
         assertEquals("testPlayer games played is the same as method returned object", testPlayer.gamesPlayed, DatabaseController.getPlayerObject("testUser6").gamesPlayed);
     }
-
 }
