@@ -125,7 +125,7 @@ public class CollisionManager implements Serializable {
         if (powerUp == null) return;
         Rectangle powerUpRectangle = powerUp.getBounds();
 
-        if (powerUp.isVisible()) {
+        if (powerUp.isVisible() && !powerUp.isFirstCollision()) {
             if (playerRectangle.intersects(powerUpRectangle)) {
                 player.enablePowerUp(powerUp.getPowerUpType());
                 powerUp.setVisible(false);
@@ -250,7 +250,7 @@ public class CollisionManager implements Serializable {
             if (!isBonusStage) {
                 //check whether powerUp is visible on the map, and if we haven't already spawned
                 //a harder set of enemies.
-                if (powerUp.isVisible()) {
+                if (powerUp.isVisible() && !powerUp.isFirstCollision()) {
                     Rectangle powerUpRectangle = powerUp.getBounds();
                     if (powerUpRectangle.intersects(flameRectangle)) {
                         powerUp.setVisible(false);
@@ -266,9 +266,6 @@ public class CollisionManager implements Serializable {
                 }
             }
         }
-
-        //TODO: might want to remove this later on
-        if (enemiesKilled.size() > 0) System.out.println("SIZE = " + enemiesKilled.size());
 
         calculateScoreFromKills(enemiesKilled);
     }

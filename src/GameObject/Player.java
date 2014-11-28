@@ -63,8 +63,8 @@ public class Player extends MovableObject implements Serializable {
         this.bombsAllowed = 1;
         this.wallPass = false;
         this.bombPass = false;
-        this.flamePass = false;
-        this.detonatorEnabled = false;
+        this.flamePass = true;
+        this.detonatorEnabled = true;
         this.invincibilityEnabled = false;
     }
 
@@ -477,5 +477,13 @@ public class Player extends MovableObject implements Serializable {
      */
     public int getLivesRemaining() {
         return livesRemaining;
+    }
+
+    /**
+     * Specify whether the player is invincible (cannot be killed by enemies or flames).
+     * @param invincibilityEnabled A boolean specifying whether the player is invincible.
+     */
+    public void setInvincibilityEnabled(boolean invincibilityEnabled) {
+        this.invincibilityEnabled = invincibilityEnabled;
     }
 }

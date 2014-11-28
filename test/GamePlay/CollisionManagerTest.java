@@ -36,17 +36,20 @@ public class CollisionManagerTest {
         assertEquals("If player does not collide, we do not restore the previous X coordinate", 32, player.getPosX());
         assertEquals("If player does not collide, we do not restore the previous Y coordinate", 32, player.getPosY());
         player.setPosX(36);
+
         // Test collision resolved through X shifting.
         collisionManager.checkCollisionsWithWalls(walls, player.getBounds(), tileMap.getEnemies());
         assertEquals("If a collision occurs, player's position is restored to the previous" +
                 "X value if doing so revolves the collision", 33, player.getPosX());
         player.setPosY(31);
+
         // Test collision resolved through Y shifting.
         collisionManager.checkCollisionsWithWalls(walls, player.getBounds(), tileMap.getEnemies());
         assertEquals("If a collision occurs, player's position is restored to the previous" +
                 "Y value if doing so revolves the collision", 33, player.getPosY());
         player.setPosX(36);
         player.setWallPass(true);
+
         //Test collision with brick walls when wallpass is enabled
         collisionManager.checkCollisionsWithWalls(walls, player.getBounds(), tileMap.getEnemies());
         assertEquals("If the player has WallPass enabled, collisions with brick walls do not" +
@@ -108,12 +111,12 @@ public class CollisionManagerTest {
 
         //first player/bomb collision.
         collisionManager.checkCollisionsWithBombs(bombs, player.getBounds(), enemies);
-        assertEquals("Player's first collision with a bomb will not restores its position", 35, player.getPosX());
+        assertEquals("Player's first collision with a bomb will not restore its position", 35, player.getPosX());
 
         //Player steps off bomb, enables collision detection
         player.setPosX(32);
         collisionManager.checkCollisionsWithBombs(bombs, player.getBounds(), enemies);
-        assertFalse("Bombs' first collision attribute is false after player steps off it", bomb.isFirstCollision());
+        assertFalse("Bombs' first collision attribute is set to false after player steps off it", bomb.isFirstCollision());
 
         //Player tries to walk over bomb again
         player.setPosX(35);
@@ -138,6 +141,31 @@ public class CollisionManagerTest {
 
     @Test
     public void testCheckCollisionsWithEnemies() throws Exception {
+        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+        Enemy enemy = new Enemy(EnemyType.BALLOOM, 35, 32);
+        enemy.setPreviousX(32);
+        enemy.setDirectionOfMovement(Direction.EAST);
+        enemies.add(enemy);
+
+        //if the player is already dead, a collision does not kill him again
+        player.setVisible(false);
+        int livesBeforeCollision = player.getLivesRemaining();
+        collisionManager.checkCollisionsWithEnemies(player.getBounds(), enemies);
+        assertEquals("If the player is not visible when it collides with an enemy, his/her number of lives should not" +
+                "be reduced", livesBeforeCollision, player.getLivesRemaining());
+
+        player.setVisible(true);
+        player.setInvincibilityEnabled(true);
+        livesBeforeCollision = player.getLivesRemaining();
+        collisionManager.checkCollisionsWithEnemies(player.getBounds(), enemies);
+        assertEquals("If the player is invincible when it collides with an enemy, his/her number of lives should not" +
+                "be reduced", livesBeforeCollision, player.getLivesRemaining());
+
+        player.setInvincibilityEnabled(false);
+        livesBeforeCollision = player.getLivesRemaining();
+        collisionManager.checkCollisionsWithEnemies(player.getBounds(), enemies);
+        assertEquals("If the player is visible and it is not invincible when it collides with an enemy, his/her number of lives should" +
+                "be reduced", livesBeforeCollision - 1, player.getLivesRemaining());
 
     }
 
@@ -148,6 +176,31 @@ public class CollisionManagerTest {
 
     @Test
     public void testRestoreToBeforeCollision() throws Exception {
+
+        player.setPreviousX(22);
+        BrickWall wall = new BrickWall(58, 32, true, false);
+
+        //Collision resolved by shifting in the x axis
+        collisionManager.restoreToBeforeCollision(player, wall.getBounds());
+        assertEquals("Collisions in the x axis are resolved by restoring the previous x coordinate", 22, player.getPosX());
+        assertEquals("Collisions in the x axis do not restore the y coordinate to its previous value", 32, player.getPosY());
+
+        //Collision resolved by shifting in the y axis
+        wall.setPosX(32);
+        wall.setPosY(64);
+        player.setPosX(32);
+        player.setPosY(38);
+        player.setPreviousY(31);
+        collisionManager.restoreToBeforeCollision(player, wall.getBounds());
+        assertEquals("Collisions in the y axis are resolved by restoring restoring the previous y coordinate", 31, player.getPosY());
+        assertEquals("Collisions in the y axis do not restore the x coordinate to its previous value", 32, player.getPosX());
+
+        //Collision that need full restoration in other to be resolved.
+        player.setPosX(32);
+        player.setPosY(32);
+        //player.setPreviousX();
+        wall.setPosX(57);
+        wall.setPosY(57);
 
     }
 }

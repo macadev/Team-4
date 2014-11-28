@@ -8,7 +8,7 @@ import GameObject.KillSet;
 import java.io.Serializable;
 import java.util.*;
 
-public class ScoreManager implements Serializable {
+public class ScoreManager implements Serializable { 
 
     public int determineScoreFromKills(ArrayList<KillSet> enemiesKilled) {
 
