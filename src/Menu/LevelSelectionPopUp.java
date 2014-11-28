@@ -54,7 +54,8 @@ public class LevelSelectionPopUp extends JFrame {
             levelButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    levelSelected(finalLevelNumber);
+                    //levelSelected(finalLevelNumber);
+                    levelSelected(30);
                 }
             });
 

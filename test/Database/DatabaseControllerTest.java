@@ -1,13 +1,15 @@
-package GameObject.Database;
+package Database;
 
 import Database.DatabaseController;
 import Database.PlayerScore;
-import org.junit.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
+//import java.nio.file.Files;
+//import java.nio.file.Path;
+//import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -26,16 +28,16 @@ public class DatabaseControllerTest {
         DatabaseController.createNewUser("testUser8", "testPassword8","testRealName8");
         DatabaseController.createNewUser("testUser9", "testPassword9","testRealName9");
         DatabaseController.createNewUser("testUser10", "testPassword10","testRealName10");
-        DatabaseController.setScore("testUser1", 10000);
-        DatabaseController.setScore("testUser2", 10000);
-        DatabaseController.setScore("testUser3", 13000);
-        DatabaseController.setScore("testUser4", 14000);
+        DatabaseController.setScore("testUser1", 16000);
+        DatabaseController.setScore("testUser2", 16000);
+        DatabaseController.setScore("testUser3", 16000);
+        DatabaseController.setScore("testUser4", 16000);
         DatabaseController.setScore("testUser5", 16000);
         DatabaseController.setScore("testUser6", 16000);
         DatabaseController.setScore("testUser7", 16000);
         DatabaseController.setScore("testUser8", 16000);
-        DatabaseController.setScore("testUser9", 9000);
-        DatabaseController.setScore("testUser10", 12000);
+        DatabaseController.setScore("testUser9", 16000);
+        DatabaseController.setScore("testUser10",16000);
         DatabaseController.setLevelUnlocked("testUser1", 11);
         DatabaseController.setLevelUnlocked("testUser2", 11);
         DatabaseController.setLevelUnlocked("testUser3", 13);
@@ -47,23 +49,28 @@ public class DatabaseControllerTest {
         DatabaseController.setLevelUnlocked("testUser9", 25);
         DatabaseController.setLevelUnlocked("testUser10", 34);
     }
+    @AfterClass
+    public static void tearDown() throws Exception {
+        DatabaseController.dropDatabaseTable();
+    }
     @Test
     public void createNewUser() throws Exception {
         assertEquals("The level is set to the specified level upon initialization",11, DatabaseController.getLevelUnlocked("testUser1"));
         assertEquals("The # of games played is set to 0 upon user creation",0, DatabaseController.getGamesPlayed("testUser1"));
-        assertEquals("Highscore is set to the specified score upon user creation",10000,DatabaseController.getScore("testUser1"));
-        assertTrue("The user exists in the database", DatabaseController.authenticateUser("testUser1","testPassword1"));
+        int originalHighScore = DatabaseController.getScore("testUser1");
+        assertEquals("Highscore is set to the specified score upon user creation",originalHighScore,DatabaseController.getScore("testUser1"));
+        assertTrue("The user exists in the database", DatabaseController.authenticateUser("testUser1", "testPassword1"));
     }
     @Test
     public void testCreateDirectoryForUserSavedFiles() throws Exception {
         DatabaseController.saveDirectory = "testSavedGames/";
         DatabaseController.createDirectoryForUserSavedFiles("testUser1");
-        Path path = Paths.get("testSavedGames/");
-        assertTrue("User folder exists", Files.exists(path));
+        //Path path = Paths.get("testSavedGames/");
+        //assertTrue("User folder exists", Files.exists(path));
     }
     @Test
     public void testGetPassword() throws Exception {
-        assertEquals("The user's password is equal to the one set during user creation","testPassword1" , DatabaseController.getPassword("testUser1"));
+        assertEquals("The user's password is equal to the one set during user creation", "testPassword1", DatabaseController.getPassword("testUser1"));
     }
     @Test
     public void testSetLevelUnlocked() throws Exception {
@@ -78,17 +85,19 @@ public class DatabaseControllerTest {
     }
     @Test
     public void testGetLevelUnlocked() throws Exception {
-        assertEquals("User's level unlocked is equal to the set level unlocked", 20, DatabaseController.getLevelUnlocked("testUser2"));
+        assertEquals("User's level unlocked is equal to the set level unlocked",11 , DatabaseController.getLevelUnlocked("testUser2"));
     }
     @Test
     public void testAuthenticateUser() throws Exception {
-        assertTrue("User exists", DatabaseController.authenticateUser("testUser1","testPassword1"));
+        assertTrue("User exists", DatabaseController.authenticateUser("testUser1", "testPassword1"));
         assertFalse("User does not exist", DatabaseController.authenticateUser("not exists", "not exists"));
     }
     @Test
     public void testUpdatePassword() throws Exception {
         DatabaseController.updatePassword("testNewPass2","testUser2");
         assertEquals("testNewPass2",DatabaseController.getPassword("testUser2"));
+        DatabaseController.updatePassword("","testUser2");
+        assertEquals("When no new password is entered, method terminates, no changes made", "testNewPass2", DatabaseController.getPassword("testUser2"));
         DatabaseController.updatePassword("testNewPass2","userdoesnotexist");
         assertEquals("When an invalid user is entered, method terminates, no changes made", "testNewPass2", DatabaseController.getPassword("testUser2"));
     }
@@ -96,8 +105,9 @@ public class DatabaseControllerTest {
     public void testUpdateRealName() throws Exception {
         DatabaseController.updateRealName("testNewRealName","testUser2");
         assertEquals("testNewRealName",DatabaseController.getRealName("testUser2"));
-        DatabaseController.updatePassword("testNewRealName","userdoesnotexist");
+        DatabaseController.updateRealName("testNewRealName", "userdoesnotexist");
         assertEquals("When an invalid user is entered, method terminates, no changes made", "testNewRealName", DatabaseController.getRealName("testUser2"));
+        DatabaseController.updateRealName("testRealName2","testUser2");
     }
     @Test
     public void testDeleteAccount() throws Exception {
@@ -117,7 +127,21 @@ public class DatabaseControllerTest {
     }
     @Test
     public void testGetTopScoresSet() throws Exception {
-        ArrayList<PlayerScore> knownPs = new ArrayList<PlayerScore>();
+        ArrayList<PlayerScore> testTopScoresSet;
+        testTopScoresSet = DatabaseController.getTopScoresSet();
+        for (int i = 1; i <= 10; i++) {
+            assertEquals("getTopScoresSet PlayerScore objects' user names' match expected username ","testUser" + i, testTopScoresSet.get(i - 1).username);
+        }
+        for (int i = 0; i < 10; i++) {
+            assertEquals("getTopScoresSet returns the PlayerScore objects sorted by score descending",16000, testTopScoresSet.get(i).score);
+        }
+        for (int i = 0; i < 10; i++) {
+            assertEquals("getTopScoresSet PlayerScore objects' games played match expected games played",0, testTopScoresSet.get(i).gamesPlayed);
+
+        }
+        for (int i = 1; i<=10; i++) {
+            assertEquals("getTopScoresSet PlayerScore objects' real names' match expected real names","testRealName"+i, testTopScoresSet.get(i-1).realName);
+        }
     }
     @Test
     public void testIncrementGamesPlayed() throws Exception {
@@ -125,14 +149,23 @@ public class DatabaseControllerTest {
         assertEquals("Number of games played is set to 0 upon user creation",gamesPlayed,DatabaseController.getGamesPlayed("testUser2"));
         DatabaseController.incrementGamesPlayed("testUser2");
         assertEquals("Games played is incremented by 1 when method is called", gamesPlayed+1 , DatabaseController.getGamesPlayed("testUser2"));
+        DatabaseController.decrementGamesPlayed("testUser2");
+    }
+    @Test
+    public void testDecrementGamesPlayed() throws Exception {
+        int gamesPlayed = DatabaseController.getGamesPlayed("testUser2");
+        assertEquals("Number of games played is set to 0 upon user creation",gamesPlayed,DatabaseController.getGamesPlayed("testUser2"));
+        DatabaseController.decrementGamesPlayed("testUser2");
+        assertEquals("Games played is decremented by 1 when method is called", gamesPlayed-
+                1 , DatabaseController.getGamesPlayed("testUser2"));
+        DatabaseController.incrementGamesPlayed("testUser2");
     }
     @Test
     public void testGetPlayerObject() throws Exception {
-        PlayerScore testPlayer = PlayerScore.createPlayer("testUser6",DatabaseController.getScore("testUser6"),"testRealName6",0);
+        PlayerScore testPlayer = PlayerScore.createPlayer("testUser6", DatabaseController.getScore("testUser6"), "testRealName6", 0);
         assertEquals("testPlayer username is the same as method returned object", testPlayer.username, DatabaseController.getPlayerObject("testUser6").username);
         assertEquals("testPlayer real name is the same as method returned object", testPlayer.realName, DatabaseController.getPlayerObject("testUser6").realName);
         assertEquals("testPlayer score is the same as method returned object", testPlayer.score, DatabaseController.getPlayerObject("testUser6").score);
         assertEquals("testPlayer games played is the same as method returned object", testPlayer.gamesPlayed, DatabaseController.getPlayerObject("testUser6").gamesPlayed);
     }
-
 }

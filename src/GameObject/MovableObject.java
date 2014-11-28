@@ -21,7 +21,6 @@ public class MovableObject extends GameObject implements Serializable {
     protected int score;
     protected boolean wallPass;
 
-
     /**
      * Displaces the object on the grid based on the values of the deltaX
      * and the deltaY variables.

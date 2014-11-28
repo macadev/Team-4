@@ -69,7 +69,7 @@ public class TileMap implements Serializable {
         this.player = player;
         this.userName = userName;
         this.currentStage = selectedStage;
-        this.bombRadius = 1;
+        this.bombRadius = 3;
         this.spawner = new Spawner(getCurrentStage());
         this.flames = new ArrayList<Flame>();
         this.isBonusStage = getCurrentStage().isBonusStage();
@@ -619,10 +619,6 @@ public class TileMap implements Serializable {
      */
     public int getBombRadius() {
         return bombRadius;
-    }
-
-    public void setTimeToHarderSetSpawn(int timeToHarderSetSpawn) {
-        this.timeToHarderSetSpawn = timeToHarderSetSpawn;
     }
 
 }

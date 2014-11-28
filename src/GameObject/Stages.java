@@ -6,11 +6,13 @@ package GameObject;
 import java.io.Serializable;
 
 /**
- * Defines the data contained in each of the 50 stages present in the game.
+ * Defines the data contained in each of the 50 stages present in the game. For this purpose
+ * we keep a static object containing the StageData for the 60 stages of the game (10 bonus
+ * stages are also included).
  */
 public class Stages implements Serializable {
 
-	// An array used to contain the data for all 50 stages present in the game.
+	// An array used to contain the data for all 60 stages present in the game.
 	// Note that the first element is null, so that we can index the stages from
 	// 1.
 	public static final StageData[] gameStages = {
