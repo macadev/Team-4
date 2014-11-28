@@ -25,6 +25,7 @@ public class Game {
         try {
             DatabaseController.database_id = "jdbc:sqlite:user_data.db";
             DatabaseController.initializeDatabase();
+            /**
             DatabaseController.createNewUser("Demo01","Dem@Us3R01", "John Doe 1");
             DatabaseController.createNewUser("Demo02","Dem@Us3R02", "John Doe 2");
             DatabaseController.createNewUser("Demo03","Dem@Us3R03", "John Doe 3");
@@ -55,6 +56,7 @@ public class Game {
            DatabaseController.setScore("Demo08", 9000);
             DatabaseController.setScore("Demo09", 11000);
             DatabaseController.setScore("Demo10", 12000);
+             **/
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

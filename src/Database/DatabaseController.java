@@ -1,49 +1,70 @@
 package Database;
 
-import javax.xml.transform.Result;
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 //2014
+
 /**
  * Created by Owen Li on 14-11-08.
+ * The DatabaseController class handles all user data storage by implementing the SQLite library.
+ * The methods in this class use SQL queries to read,update,delete,and create entries from a table inside the database.
+ * When appropriate, the methods in this class use the username of a user as the key to access all other entries in the database
+ * corresponding to that username.
+ * All methods involving database connections will automatically terminate their connections following execution.
  */
 public class DatabaseController {
 
+    /**
+     * String representing the database_id, used to connect to the database.
+     */
     public static String database_id = "jdbc:sqlite:user_data.db";
+    /**
+     * String representing directory for which games will be saved to
+     */
     public static String saveDirectory = "savedgames/";
 
+    /**
+     * Initializes the database, and inserts a table used to store user data. Contains fields: username,
+     * password, real name, high-score, level unlocked and number of games played.
+     * Connections are closed after statements execute.
+     * @throws ClassNotFoundException
+     */
     public static void initializeDatabase() throws ClassNotFoundException {
         // load the sqlite-JDBC driver using the current class loader
         Class.forName("org.sqlite.JDBC");
         try {
             Connection connection = null;
             Statement stmt = null;
-
             try {
                 // create a database connection
                 connection = DriverManager.getConnection(database_id);
                 stmt = connection.createStatement();
                 stmt.executeUpdate("create table if not exists  Users (username String , password String, realName String, highScore int, levelUnlocked int, gamesPlayed int )");
-            } catch (SQLException e) {
+            }
+            catch (SQLException e) {
                 System.err.println(e.getMessage());
-            } finally {
-
+            }
+            finally {
                 if (stmt != null) {
                     stmt.close();
                 }
-
                 if (connection != null) {
                     connection.close();
                 }
-
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("Database: uesr_data.db initialized");
+        System.out.println("Database: user_data.db initialized");
     }
 
+
+    /**
+     * Drops the tables present in the database. All data in the tables will be lost.
+     * @throws ClassNotFoundException
+     */
     public static void dropDatabaseTable() throws ClassNotFoundException {
         // load the sqlite-JDBC driver using the current class loader
         Class.forName("org.sqlite.JDBC");
@@ -75,6 +96,15 @@ public class DatabaseController {
         System.out.println("Database: test_data.db table dropped");
     }
 
+    /**
+     * Inserts a new user into the database table "Users". The boolean returns true if a user was successfully inserted,
+     * and false if it was not successful.
+     * @param userName A string representing the specified username for the user entry.
+     * @param pass A string representing the specified password for the user entry.
+     * @param rName A string representing the specified real name for the user entry.
+     * @return Returns true if the user insertion operation was successful, false if it was not succesful.
+     * @throws ClassNotFoundException
+     */
     public static boolean createNewUser(String userName, String pass, String rName) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         try {
@@ -104,29 +134,39 @@ public class DatabaseController {
                 stmt.setInt(6, 0);
                 stmt.executeUpdate();
                 System.out.println("New User inserted into database");
-
                 createDirectoryForUserSavedFiles(userName);
-
-            } catch (SQLException e) {
+            }
+            catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
+            }
+            finally {
                 if (connection != null) {
                     connection.close();
                 }
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
         return true;
     }
 
+    /**
+     * Creates a directory savedgames where saved game data is stored.
+     * @param username A string representing the name of the folder to be created, where the user's saved game files will be stored.
+     *                 Corresponds to the user's username.
+     */
     public static void createDirectoryForUserSavedFiles(String username) {
-        //Create directory in savegames folder where saved game data will be stored
-        //we follow the unix naming convention
         File dir = new File(saveDirectory + username);
         dir.mkdirs();
     }
 
+    /**
+     * Getter method to return a password for a given username.
+     * @param username A string representing the username of which the corresponding password is to be obtained.
+     * @return returns a String representing the password corresponding to the username upon which getPassword() was called.
+     * @throws ClassNotFoundException
+     */
     public static String getPassword(String username) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         String password;
@@ -146,7 +186,7 @@ public class DatabaseController {
 
                 while (rsPassword.next()) {
                     password = rsPassword.getString("password");
-                    System.out.println("Password for user "+ username+ " is : " + password);
+                    System.out.println("Password for user " + username + " is : " + password);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -169,6 +209,12 @@ public class DatabaseController {
         return password;
     }
 
+    /**
+     * Getter method to return a real name for a given username.
+     * @param username A string representing the username of which the corresponding real name is to be obtained.
+     * @return returns a String representing the real name corresponding to the username upon which getRealName() was called.
+     * @throws ClassNotFoundException
+     */
     public static String getRealName(String username) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         String realName;
@@ -188,7 +234,7 @@ public class DatabaseController {
 
                 while (rsRealName.next()) {
                     realName = rsRealName.getString("realName");
-                    System.out.println("real name for user "+ username+ " is : " + realName);
+                    System.out.println("real name for user " + username + " is : " + realName);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -211,7 +257,12 @@ public class DatabaseController {
         return realName;
     }
 
-
+    /**
+     * Sets the levelUnlocked field in the database table to a specified level for a given username.
+     * @param username A string representing the username of which the corresponding level is to be set.
+     * @param level An int representing the level of which the corresponding user's levelUnlocked field in the database is to be set.
+     * @throws ClassNotFoundException
+     */
     public static void setLevelUnlocked(String username, int level) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
 
@@ -265,6 +316,12 @@ public class DatabaseController {
         }
     }
 
+    /**
+     * Getter method to return an int level corresponding to a given username.
+     * @param username A string representing the username of which the corresponding level is to be obtained.
+     * @return returns an int representing the level unlocked corresponding to the username upon which getLevelUnlocked() was called.
+     * @throws ClassNotFoundException
+     */
     public static int getLevelUnlocked(String username) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         int currentLevel;
@@ -306,6 +363,13 @@ public class DatabaseController {
         return currentLevel;
     }
 
+    /**
+     * Authenticates a user by querying the database for a specified username and password.
+     * @param Uname A string representing the specified username of the user to be authenticated.
+     * @param pass A string representing the specified password of the user to be authenticated.
+     * @return Boolean returns true if the user was succesfully authenticated (user exists in the user_data.db table, and username/password match). Returns false otherwise.
+     * @throws ClassNotFoundException
+     */
     public static boolean authenticateUser(String Uname, String pass) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         boolean result = false;
@@ -362,6 +426,13 @@ public class DatabaseController {
         return result;
     }
 
+    /**
+     * Updates the password field in the user database of a given user to a new specified password.
+     * @param newPass A string representing the new specified password for the user.
+     * @param Uname A string representing the specified username for which the password field must be updated.
+     * @return Boolean returns true if the user's password was succesfully updated. Returns false otherwise.
+     * @throws ClassNotFoundException
+     */
     public static boolean updatePassword(String newPass, String Uname) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         try {
@@ -413,6 +484,13 @@ public class DatabaseController {
         return true;
     }
 
+    /**
+     * Updates the real name field in the user database of a given user to a new specified real name.
+     * @param newRealName A string representing the new specified real name for the user.
+     * @param Uname A string representing the specified username for which the real name field must be updated.
+     * @return  Boolean returns true if the user's real name was successfully updated. Returns false otherwise.
+     * @throws ClassNotFoundException
+     */
     public static boolean updateRealName(String newRealName, String Uname) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         try {
@@ -465,6 +543,12 @@ public class DatabaseController {
         return true;
     }
 
+    /**
+     * Removes all the fields in the database table associated to a username.
+     * @param username A string representing the username of a user, for which all fields should be deleted.
+     * @return Boolean returns true if the deletion was successful (all fields corresponding to the username removed from the table). Returns false otherwise.
+     * @throws ClassNotFoundException
+     */
     public static boolean deleteAccount(String username) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         try {
@@ -492,7 +576,12 @@ public class DatabaseController {
         return true;
     }
 
-
+    /**
+     * Getter method to return an int score corresponding to a given username.
+     * @param username A string representing the username of which the corresponding score is to be obtained.
+     * @return Returns an int representing the score corresponding to the username upon which getScore() was called.
+     * @throws ClassNotFoundException
+     */
     public static int getScore(String username) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         int score;
@@ -534,6 +623,13 @@ public class DatabaseController {
         return score;
     }
 
+    /**
+     * Adds a specified score to the existing score of a user in the database, as specified by the username upon which setScore() is called.
+     * The score for a given user is culmulative.
+     * @param username A string representing the username of which the specified score is to be added to the existing score.
+     * @param score An int representing the score of which the corresponding user's score field in the database is to be incremented by.
+     * @throws ClassNotFoundException
+     */
     public static void setScore(String username, int score) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         int currentScore = getScore(username);
@@ -548,7 +644,7 @@ public class DatabaseController {
 
             try {
                 connection = DriverManager.getConnection(database_id);
-                if (score <0) {
+                if (score < 0) {
                     System.out.println("negative score invalid");
                     return;
                 }
@@ -585,6 +681,12 @@ public class DatabaseController {
         }
     }
 
+    /**
+     * Creates an arraylist of type PlayerScore, populated by PlayerScore objects corresponding to all users in the database.
+     * The arraylist is sorted by score, in descending order.
+     * @return Returns an arraylist populated with PlayerScore objects corresponding to all users in the database sorted by score in descending order.
+     * @throws ClassNotFoundException
+     */
     public static ArrayList<PlayerScore> getTopScoresSet() throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         ResultSet rsTopScores = null;
@@ -631,6 +733,11 @@ public class DatabaseController {
         return ps;
     }
 
+    /**
+     * Increments the number of games played by 1 for a specified user.
+     * @param username A string representing the username for which the corresponding gamesPlayed field is to be incremented by 1.
+     * @throws ClassNotFoundException
+     */
     public static void incrementGamesPlayed(String username) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
 
@@ -673,6 +780,12 @@ public class DatabaseController {
         }
     }
 
+    /**
+     * Getter method to return the number of games played corresponding to a given username.
+     * @param username A string representing the username of which the corresponding number of games played is to be obtained.
+     * @return Returns an int representing the number of games played corresponding to the username upon which getGamesPlayed() was called.
+     * @throws ClassNotFoundException
+     */
     public static int getGamesPlayed(String username) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         int gamesPlayed;
@@ -716,6 +829,12 @@ public class DatabaseController {
         return gamesPlayed;
     }
 
+    /**
+     * Creates a PlayerScore object with the entries corresponding to a specified username in the database.
+     * @param username A string representing the username for which the relevant corresponding entries in the database are to be pulled.
+     * @return Returns a PlayerScore object defined by elements corresponding to the specified username.
+     * @throws ClassNotFoundException
+     */
     public static PlayerScore getPlayerObject(String username) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         PlayerScore player = null;
@@ -759,6 +878,11 @@ public class DatabaseController {
         return player;
     }
 
+    /**
+     * Decrements the number of games played by 1 for a specified user.
+     * @param username A string representing the username for which the corresponding gamesPlayed field is to be decremented by 1.
+     * @throws ClassNotFoundException
+     */
     public static void decrementGamesPlayed(String username) throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
 
@@ -800,5 +924,4 @@ public class DatabaseController {
             e.printStackTrace();
         }
     }
-
 }

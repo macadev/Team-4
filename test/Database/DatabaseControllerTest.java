@@ -96,6 +96,8 @@ public class DatabaseControllerTest {
     public void testUpdatePassword() throws Exception {
         DatabaseController.updatePassword("testNewPass2","testUser2");
         assertEquals("testNewPass2",DatabaseController.getPassword("testUser2"));
+        DatabaseController.updatePassword("","testUser2");
+        assertEquals("When no new password is entered, method terminates, no changes made", "testNewPass2", DatabaseController.getPassword("testUser2"));
         DatabaseController.updatePassword("testNewPass2","userdoesnotexist");
         assertEquals("When an invalid user is entered, method terminates, no changes made", "testNewPass2", DatabaseController.getPassword("testUser2"));
     }
