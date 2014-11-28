@@ -768,4 +768,46 @@ public class DatabaseController {
         return player;
     }
 
+    public static void decrementGamesPlayed(String username) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+
+        try {
+            Connection connection = null;
+            PreparedStatement incrementGamesPlayed;
+            String sql = "update Users set gamesPlayed = ? where username = ?;";
+            String updateRecords = "SELECT * from Users where username = ?;";
+            PreparedStatement updateStmt;
+            ResultSet rsUpdate = null;
+
+            try {
+                connection = DriverManager.getConnection(database_id);
+                incrementGamesPlayed = connection.prepareStatement(sql);
+                incrementGamesPlayed.setInt(1, getGamesPlayed(username) - 1);
+                incrementGamesPlayed.setString(2, username);
+                incrementGamesPlayed.executeUpdate();
+
+                updateStmt = connection.prepareStatement(updateRecords);
+                updateStmt.setString(1, username);
+                rsUpdate = updateStmt.executeQuery();
+                while (rsUpdate.next()) {
+                    int updatedGamesPlayed = rsUpdate.getInt("gamesPlayed");
+                    System.out.println("Updated games played to : " + updatedGamesPlayed);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+
+                if (rsUpdate != null) {
+                    rsUpdate.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

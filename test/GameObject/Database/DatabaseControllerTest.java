@@ -103,8 +103,9 @@ public class DatabaseControllerTest {
     public void testUpdateRealName() throws Exception {
         DatabaseController.updateRealName("testNewRealName","testUser2");
         assertEquals("testNewRealName",DatabaseController.getRealName("testUser2"));
-        DatabaseController.updatePassword("testNewRealName","userdoesnotexist");
+        DatabaseController.updateRealName("testNewRealName","userdoesnotexist");
         assertEquals("When an invalid user is entered, method terminates, no changes made", "testNewRealName", DatabaseController.getRealName("testUser2"));
+        DatabaseController.updateRealName("testRealName2","testUser2");
     }
     @Test
     public void testDeleteAccount() throws Exception {
@@ -127,21 +128,35 @@ public class DatabaseControllerTest {
         ArrayList<PlayerScore> testTopScoresSet;
         testTopScoresSet = DatabaseController.getTopScoresSet();
         for (int i = 1; i <= 10; i++) {
-            assertEquals("testUser"+i, testTopScoresSet.get(i-1).username);
+            assertEquals("getTopScoresSet PlayerScore objects' user names' match expected username ","testUser" + i, testTopScoresSet.get(i - 1).username);
         }
         for (int i = 0; i < 10; i++) {
-            assertEquals(16000,testTopScoresSet.get(i).score);
+            assertEquals("getTopScoresSet returns the PlayerScore objects sorted by score descending",16000, testTopScoresSet.get(i).score);
         }
-        //for (int i = 0; i < 10; i++) {
-            //assertEquals(0,testTopScoresSet.get(i).gamesPlayed);
+        for (int i = 0; i < 10; i++) {
+            assertEquals("getTopScoresSet PlayerScore objects' games played match expected games played",0, testTopScoresSet.get(i).gamesPlayed);
 
         }
+        for (int i = 1; i<=10; i++) {
+            assertEquals("getTopScoresSet PlayerScore objects' real names' match expected real names","testRealName"+i, testTopScoresSet.get(i-1).realName);
+        }
+    }
     @Test
     public void testIncrementGamesPlayed() throws Exception {
         int gamesPlayed = DatabaseController.getGamesPlayed("testUser2");
         assertEquals("Number of games played is set to 0 upon user creation",gamesPlayed,DatabaseController.getGamesPlayed("testUser2"));
         DatabaseController.incrementGamesPlayed("testUser2");
         assertEquals("Games played is incremented by 1 when method is called", gamesPlayed+1 , DatabaseController.getGamesPlayed("testUser2"));
+        DatabaseController.decrementGamesPlayed("testUser2");
+    }
+    @Test
+    public void testDecrementGamesPlayed() throws Exception {
+        int gamesPlayed = DatabaseController.getGamesPlayed("testUser2");
+        assertEquals("Number of games played is set to 0 upon user creation",gamesPlayed,DatabaseController.getGamesPlayed("testUser2"));
+        DatabaseController.decrementGamesPlayed("testUser2");
+        assertEquals("Games played is decremented by 1 when method is called", gamesPlayed-
+                1 , DatabaseController.getGamesPlayed("testUser2"));
+        DatabaseController.incrementGamesPlayed("testUser2");
     }
     @Test
     public void testGetPlayerObject() throws Exception {
