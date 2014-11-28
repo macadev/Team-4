@@ -26,16 +26,16 @@ public class DatabaseControllerTest {
         DatabaseController.createNewUser("testUser8", "testPassword8","testRealName8");
         DatabaseController.createNewUser("testUser9", "testPassword9","testRealName9");
         DatabaseController.createNewUser("testUser10", "testPassword10","testRealName10");
-        DatabaseController.setScore("testUser1", 10000);
-        DatabaseController.setScore("testUser2", 10000);
-        DatabaseController.setScore("testUser3", 13000);
-        DatabaseController.setScore("testUser4", 14000);
+        DatabaseController.setScore("testUser1", 16000);
+        DatabaseController.setScore("testUser2", 16000);
+        DatabaseController.setScore("testUser3", 16000);
+        DatabaseController.setScore("testUser4", 16000);
         DatabaseController.setScore("testUser5", 16000);
         DatabaseController.setScore("testUser6", 16000);
         DatabaseController.setScore("testUser7", 16000);
         DatabaseController.setScore("testUser8", 16000);
-        DatabaseController.setScore("testUser9", 9000);
-        DatabaseController.setScore("testUser10", 12000);
+        DatabaseController.setScore("testUser9", 16000);
+        DatabaseController.setScore("testUser10",16000);
         DatabaseController.setLevelUnlocked("testUser1", 11);
         DatabaseController.setLevelUnlocked("testUser2", 11);
         DatabaseController.setLevelUnlocked("testUser3", 13);
@@ -120,13 +120,20 @@ public class DatabaseControllerTest {
         DatabaseController.setScore("testUser2", -5000);
         assertEquals("Negative invalid, method returns, no changes made",newScore, DatabaseController.getScore("testUser2"));
     }
-    /** @Test
+    @Test
     public void testGetTopScoresSet() throws Exception {
         ArrayList<PlayerScore> testTopScoresSet;
         testTopScoresSet = DatabaseController.getTopScoresSet();
-        assertEquals("testUser1",testTopScoresSet.get(0).username);
+        for (int i = 1; i <= 10; i++) {
+            assertEquals("testUser"+i, testTopScoresSet.get(i-1).username);
         }
-     **/
+        for (int i = 0; i < 10; i++) {
+            assertEquals(16000,testTopScoresSet.get(i).score);
+        }
+        //for (int i = 0; i < 10; i++) {
+            //assertEquals(0,testTopScoresSet.get(i).gamesPlayed);
+
+        }
     @Test
     public void testIncrementGamesPlayed() throws Exception {
         int gamesPlayed = DatabaseController.getGamesPlayed("testUser2");
