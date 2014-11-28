@@ -1,4 +1,4 @@
-package GameObject.Database;
+package Database;
 
 import Database.DatabaseController;
 import Database.PlayerScore;
@@ -103,7 +103,7 @@ public class DatabaseControllerTest {
     public void testUpdateRealName() throws Exception {
         DatabaseController.updateRealName("testNewRealName","testUser2");
         assertEquals("testNewRealName",DatabaseController.getRealName("testUser2"));
-        DatabaseController.updateRealName("testNewRealName","userdoesnotexist");
+        DatabaseController.updateRealName("testNewRealName", "userdoesnotexist");
         assertEquals("When an invalid user is entered, method terminates, no changes made", "testNewRealName", DatabaseController.getRealName("testUser2"));
         DatabaseController.updateRealName("testRealName2","testUser2");
     }
