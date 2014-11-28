@@ -22,11 +22,6 @@ public class PlayerScore {
         player.realName = realName;
         return player;
     }
-
-    public static void checkPlayerExists(PlayerScore playerTest) {
-        if (playerTest.username != null && !playerTest.username.isEmpty())
-        System.out.println("player exists");
-    }
 }
 
 
