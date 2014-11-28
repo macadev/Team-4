@@ -236,8 +236,9 @@ public class DatabaseController {
     public static void createDirectoryForUserSavedFiles(String username) {
         //Create directory in savegames folder where saved game data will be stored
         //we follow the unix naming convention
+
         File dir = new File("savedgames/" + username);
-        dir.mkdir();
+        dir.mkdirs();
     }
 
     public static boolean authenticateUser(String Uname, String pass) throws ClassNotFoundException {

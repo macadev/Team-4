@@ -23,6 +23,7 @@ public class Game {
     public static void main(String[] args) {
         SoundController.THEME.loop();
         try {
+            DatabaseController.database_id = "jdbc:sqlite:user_data.db";
             DatabaseController.initializeDatabase();
             DatabaseController.printDBContents();
             System.out.println("Database succesfully initialized");
@@ -64,8 +65,6 @@ public class Game {
             e.printStackTrace();
         }
         try {
-            DatabaseController.setScore("dano", 100);
-            DatabaseController.database_id = "jdbc:sqlite:user_data.db";
             DatabaseController.printDBContents();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

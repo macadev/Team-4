@@ -307,7 +307,6 @@ public class TileMap implements Serializable {
                     //expand flames in the East direction
                     posXofWall = posXOfExplosion + i;
                     posYofWall = posYOfExplosion;
-                    wall = walls[posXofWall][posYofWall];
                     posXofFlame = (posXofWall) * 32;
                     posYofFlame = (posYofWall) * 32;
 
@@ -315,7 +314,6 @@ public class TileMap implements Serializable {
                     //expand flames in the West direction
                     posXofWall = posXOfExplosion - i;
                     posYofWall = posYOfExplosion;
-                    wall = walls[posXofWall][posYofWall];
                     posXofFlame = (posXofWall) * 32;
                     posYofFlame = (posYofWall) * 32;
 
@@ -323,7 +321,6 @@ public class TileMap implements Serializable {
                     //expand flames in the North direction
                     posXofWall = posXOfExplosion;
                     posYofWall = posYOfExplosion - i;
-                    wall = walls[posXofWall][posYofWall];
                     posXofFlame = (posXofWall) * 32;
                     posYofFlame = (posYofWall) * 32;
 
@@ -331,21 +328,24 @@ public class TileMap implements Serializable {
                     //expand flames in the South direciton
                     posXofWall = posXOfExplosion;
                     posYofWall = posYOfExplosion + i;
-                    wall = walls[posXofWall][posYofWall];
                     posXofFlame = (posXofWall) * 32;
                     posYofFlame = (posYofWall) * 32;
-
                 }
+
+                wall = walls[posXofWall][posYofWall];
 
                 isConcreteWall = wall instanceof ConcreteWall;
                 isBrickWall = wall instanceof BrickWall;
 
                 if (isBrickWall || isConcreteWall) {
                     if (isBrickWall) {
+                        if (wall.getBounds().intersects(powerUp.getBounds())) {
+                            powerUp.setFirstCollision(false);
+                        }
                         walls[posXofWall][posYofWall] = null;
                     }
                     break;
-                } else if (!isConcreteWall) {
+                } else {
                     flames.add(new Flame(posXofFlame, posYofFlame, true, bombPosX, bombPosY));
                 }
             }
