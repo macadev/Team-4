@@ -25,16 +25,16 @@ public class Player extends MovableObject implements Serializable {
     private TileMap tileMap;
     ArrayList<Bomb> bombsPlaced;
     private int respawnCount = 0;
-    //invincibility last for 5 seconds = 150 frames
-    private int invincibilityDuration = 150;
     private int livesRemaining;
 
-    //powerup logic data
+    //powerUp logic data.
     private int bombsAllowed;
     private boolean bombPass;
     private boolean flamePass;
     private boolean detonatorEnabled;
     private boolean invincibilityEnabled;
+    //invincibility last for 5 seconds = 150 frames.
+    private int invincibilityDuration = 150;
 
     /**
      * Initialize a Player object representing the Bomberman character on the grid
@@ -60,11 +60,11 @@ public class Player extends MovableObject implements Serializable {
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
-        this.bombsAllowed = 1;
+        this.bombsAllowed = 2;
         this.wallPass = false;
         this.bombPass = false;
-        this.flamePass = true;
-        this.detonatorEnabled = true;
+        this.flamePass = false;
+        this.detonatorEnabled = false;
         this.invincibilityEnabled = false;
     }
 
@@ -213,6 +213,11 @@ public class Player extends MovableObject implements Serializable {
 
     }
 
+    /**
+     * Timer used to keep track of the duration of the invincibility powerUp.
+     * Upon coming in contact with the powerUp, the player becomes immune to the
+     * collisions with enemies and flames.
+     */
     public void updateInvincibilityTimer() {
         invincibilityDuration--;
         if (invincibilityDuration == 0) {

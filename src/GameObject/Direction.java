@@ -19,8 +19,8 @@ public enum Direction implements Serializable {
 
     /**
      * Get a random Direction. Used to determine the motion of enemies upon spawning,
-     * and also when their artifical intelligence requirements are met.
-     * @return
+     * and also when their artificial intelligence requirements are met.
+     * @return A randomly selected Direction object representing one of the four cardinal directions.
      */
     public static Direction getRandomDirection() {
         int index = random.nextInt(DIRECTIONS.length);
@@ -28,9 +28,12 @@ public enum Direction implements Serializable {
     }
 
     /**
-     *
-     * @param direction
-     * @return
+     * Return a random perpendicular direction object to the one passed to the function.
+     * For example, a call to the function with Direction being set to EAST would randomly
+     * selected between the perpendicular alternatives of NORTH or SOUTH.
+     * @param direction The direction specifying the perpendicular set that will be considered
+     *                  in the selection process.
+     * @return A Direction object that is perpendicular to the one passed to the function.
      */
     public static Direction getRandomPerpendicularDirection(Direction direction) {
         int index = random.nextInt(2);

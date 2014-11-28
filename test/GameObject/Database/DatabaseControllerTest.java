@@ -2,6 +2,7 @@ package GameObject.Database;
 
 import Database.DatabaseController;
 import Database.PlayerScore;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -58,7 +59,7 @@ public class DatabaseControllerTest {
         assertEquals("The # of games played is set to 0 upon user creation",0, DatabaseController.getGamesPlayed("testUser1"));
         int originalHighScore = DatabaseController.getScore("testUser1");
         assertEquals("Highscore is set to the specified score upon user creation",originalHighScore,DatabaseController.getScore("testUser1"));
-        assertTrue("The user exists in the database", DatabaseController.authenticateUser("testUser1","testPassword1"));
+        assertTrue("The user exists in the database", DatabaseController.authenticateUser("testUser1", "testPassword1"));
     }
     @Test
     public void testCreateDirectoryForUserSavedFiles() throws Exception {
@@ -69,7 +70,7 @@ public class DatabaseControllerTest {
     }
     @Test
     public void testGetPassword() throws Exception {
-        assertEquals("The user's password is equal to the one set during user creation","testPassword1" , DatabaseController.getPassword("testUser1"));
+        assertEquals("The user's password is equal to the one set during user creation", "testPassword1", DatabaseController.getPassword("testUser1"));
     }
     @Test
     public void testSetLevelUnlocked() throws Exception {
@@ -88,7 +89,7 @@ public class DatabaseControllerTest {
     }
     @Test
     public void testAuthenticateUser() throws Exception {
-        assertTrue("User exists", DatabaseController.authenticateUser("testUser1","testPassword1"));
+        assertTrue("User exists", DatabaseController.authenticateUser("testUser1", "testPassword1"));
         assertFalse("User does not exist", DatabaseController.authenticateUser("not exists", "not exists"));
     }
     @Test
@@ -144,7 +145,7 @@ public class DatabaseControllerTest {
     }
     @Test
     public void testGetPlayerObject() throws Exception {
-        PlayerScore testPlayer = PlayerScore.createPlayer("testUser6",DatabaseController.getScore("testUser6"),"testRealName6",0);
+        PlayerScore testPlayer = PlayerScore.createPlayer("testUser6", DatabaseController.getScore("testUser6"), "testRealName6", 0);
         assertEquals("testPlayer username is the same as method returned object", testPlayer.username, DatabaseController.getPlayerObject("testUser6").username);
         assertEquals("testPlayer real name is the same as method returned object", testPlayer.realName, DatabaseController.getPlayerObject("testUser6").realName);
         assertEquals("testPlayer score is the same as method returned object", testPlayer.score, DatabaseController.getPlayerObject("testUser6").score);

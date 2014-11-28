@@ -14,7 +14,7 @@ import java.io.Serializable;
  * Instead of creating 8 different classes to represent each enemy, we have a single dynamic structure that creates
  * an enemy object based on the EnemyType passed to the constructor.
  *
- * Enemies can have 4 different speed attributes, the capability of passing through walls, and also 3 different
+ * Enemies can have 3 different speed attributes, the capability of passing through walls, and also 3 different
  * levels of intelligence.
  */
 public class Enemy extends MovableObject implements Serializable {
