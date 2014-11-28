@@ -99,8 +99,8 @@ public class Bomb extends StaticObject implements Serializable {
     }
 
     /**
-     *
-     * @param framesOnGrid
+     *Sets the number of frames since the bomb has been placed
+     * @param framesOnGrid Integer framesOnGrid representing number of frames that has passed since place of bomb
      */
     public void setFramesOnGrid(int framesOnGrid) {
         this.framesOnGrid = framesOnGrid;

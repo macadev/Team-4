@@ -155,4 +155,36 @@ public class MovableObject extends GameObject implements Serializable {
     public void setScore(int score) {
         this.score = score;
     }
+
+    /**
+     * Gets the x coordinate of the MovableObject
+     * @return Integer representing x the coordinate of the MovableObject
+     */
+    public int getPosX(){
+        return posX;
+    }
+
+    /**
+     *  Sets the x coordinate of the MovableObject
+     * @param posX An integer representing the x position where the object will be rendered on the Game Grid.
+     */
+    public void setPosX(int posX){
+        this.posX = posX;
+    }
+
+    /**
+     * Gets the y coordinate of the MovableObject
+     * @return Integer representing y the coordinate of the MovableObject
+     */
+    public int getPosY(){
+        return posY;
+    }
+
+    /**
+     *  Sets the y coordinate of the MovableObject
+     * @param posY An integer representing the y position where the object will be rendered on the Game Grid.
+     */
+    public void setPosY(int posY){
+        this.posY = posY;
+    }
 }
