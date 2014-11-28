@@ -11,6 +11,10 @@ import java.io.Serializable;
 
 public class MediumIntelligence extends ArtificialIntelligence implements Serializable {
 
+    /**
+     *
+     * @param enemy Enemy object to be moved on the grid.
+     */
     @Override
     public void move(Enemy enemy) {
         moveEnemyOnBoard(enemy);
@@ -27,6 +31,13 @@ public class MediumIntelligence extends ArtificialIntelligence implements Serial
         }
     }
 
+    /**
+     *
+     * @param playerPosX x coordinate of the player object on the grid.
+     * @param playerPosY y coordinate of the player object on the grid.
+     * @param distanceFromEnemyToPlayer Integer representing distance of the enemy from the player.
+     * @param enemy Enemy object that will start chasing the player.
+     */
     @Override
     public void chasePlayer(int playerPosX, int playerPosY, int distanceFromEnemyToPlayer, Enemy enemy) {
 
@@ -63,6 +74,12 @@ public class MediumIntelligence extends ArtificialIntelligence implements Serial
         }
     }
 
+    /**
+     *
+     * @param posX Integer representing x coordinate of
+     * @param posY  Integer representing y coordinate of
+     * @return
+     */
     public boolean randomTurnOnIntersection(int posX, int posY) {
         boolean playerAtXIntersection = (posX) % 32 <= 3 && (posX/32) % 2 == 1;
         boolean playerAtYIntersection = (posY) % 32 <= 3 && (posY/32) % 2 == 1;

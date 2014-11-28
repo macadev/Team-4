@@ -16,7 +16,7 @@ import SystemController.SoundController;
 import SystemController.TopLevelState;
 
 /**
- * Created by danielmacario on 14-10-29.
+ *
  */
 public class GamePlayManager extends GameState implements ActionListener, Serializable {
 
@@ -44,6 +44,12 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
     private Font subTitleFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 22);
     private Font hudFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 12);
 
+
+    /**
+     *
+     * @param gsm
+     * @param selectedStage
+     */
     public GamePlayManager(GameStateManager gsm, int selectedStage) {
         this.gsm = gsm;
         this.player = new Player(33, 33, true, MovableObject.NORMALSPEED);
@@ -55,6 +61,10 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         this.gameOver = false;
     }
 
+    /**
+     *
+     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
+     */
     @Override
     public void draw(Graphics2D g) {
 
@@ -71,6 +81,10 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         }
     }
 
+    /**
+     *
+     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
+     */
     private void executeGameCompletedLogic(Graphics2D g) {
         g.setColor(titleColor);
         g.setFont(titleFont);
@@ -86,6 +100,10 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         }
     }
 
+    /**
+     *
+     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
+     */
     private void executeGameOverStateLogic(Graphics2D g) {
         gameOver = true;
 
@@ -107,6 +125,10 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         }
     }
 
+    /**
+     *
+     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
+     */
     public void executeInGameLogic(Graphics2D g) {
 
 
@@ -148,6 +170,10 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         drawHUD(g, tileMap.isBonusStage(), tileMap.getTimeToHarderSetSpawn());
     }
 
+    /**
+     *
+     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
+     */
     public void inStageTransition(Graphics2D g) {
         boolean redirectToNextStage = notificationDurationCountDown();
 
@@ -160,7 +186,12 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         }
     }
 
-
+    /**
+     *
+     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
+     * @param bonusStage
+     * @param timeToHarderSetSpawn
+     */
     public void drawHUD(Graphics2D g, boolean bonusStage, int timeToHarderSetSpawn) {
         String hudInformation;
         g.setColor(hudColor);
@@ -176,6 +207,10 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean notificationDurationCountDown() {
         notificationDuration--;
         if (notificationDuration < 0) {
@@ -185,6 +220,9 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         return false;
     }
 
+    /**
+     *
+     */
     public void initiateTimerToNextStage() {
         if (bonusStageCountDown == 0) {
             bonusStageCountDown = 900;
@@ -193,6 +231,9 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         bonusStageCountDown--;
     }
 
+    /**
+
+     */
     public void initiateTimeToSpawnEnemy() {
         if (bonusStageNewEnemyCountDown == 0) {
             bonusStageNewEnemyCountDown = 30;
@@ -201,6 +242,9 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         bonusStageNewEnemyCountDown--;
     }
 
+    /**
+     *
+     */
     public void updateCamera() {
         int playerPosX = player.getPosX();
         int secondCameraThreshold = 733;
@@ -215,6 +259,9 @@ public class GamePlayManager extends GameState implements ActionListener, Serial
         }
     }
 
+    /**
+     *
+     */
     public void checkCollisions() {
         Rectangle playerRectangle = player.getBounds();
         GameObject[][] objects = tileMap.getObjects();
