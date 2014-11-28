@@ -24,8 +24,9 @@ public class Game {
         SoundController.THEME.loop();
         try {
             DatabaseController.initializeDatabase();
-            DatabaseController.printDBContents();
             System.out.println("Database succesfully initialized");
+            DatabaseController.getPassword("Demo01");
+            DatabaseController.setScore("Demo01", 200);
 //            DatabaseController.createNewUser("Demo01","Dem@Us3R01", "John Doe 1");
 //            DatabaseController.createNewUser("Demo02","Dem@Us3R02", "John Doe 2");
 //            DatabaseController.createNewUser("Demo03","Dem@Us3R03", "John Doe 3");
@@ -60,13 +61,13 @@ public class Game {
 
 
 
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         try {
             DatabaseController.setScore("dano", 100);
             DatabaseController.database_id = "jdbc:sqlite:user_data.db";
-            DatabaseController.printDBContents();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
