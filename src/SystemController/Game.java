@@ -66,12 +66,6 @@ public class Game {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        try {
-
-            DatabaseController.printDBContents();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
         JFrame window = new JFrame("Bomberman");
         //Start the single thread of the application.
         window.setContentPane(new GameController());
