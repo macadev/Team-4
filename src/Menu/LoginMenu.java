@@ -64,7 +64,7 @@ public class LoginMenu extends MenuTemplate {
      */
     private void select() {
         if (currentChoice == 0) {
-            LoginPopUp loginPopUp = new LoginPopUp(menuManager);
+            LoginPopup loginPopUp = new LoginPopup(menuManager);
             loginPopUp.setVisible(true);
         }
         if (currentChoice == 1) {

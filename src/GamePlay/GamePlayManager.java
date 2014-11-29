@@ -303,12 +303,12 @@ public class GamePlayManager extends GameState implements Serializable {
         PowerUp powerUp = tileMap.getPowerUp();
         Door door = tileMap.getDoor();
         collisionManager.handleCollisions(
-            objects,
-            playerRectangle,
-            enemies,
-            bombsPlaced,
-            flames,
-            powerUp, door, this.tileMap.isBonusStage()
+                objects,
+                playerRectangle,
+                enemies,
+                bombsPlaced,
+                flames,
+                powerUp, door, this.tileMap.isBonusStage()
         );
 
     }

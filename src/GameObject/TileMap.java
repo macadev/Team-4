@@ -98,6 +98,38 @@ public class TileMap implements Serializable {
     }
 
     /**
+     * Gets the boolean on whether to spawn harder enemies or not
+     * @return Boolean whether to spawn harder set of enemies
+     */
+    public boolean isSpawnHarderSet() {
+        return spawnHarderSet;
+    }
+
+    /**
+     * Sets the boolean to true or false on whether to spawn harder enemies
+     * @param spawnHarderSet Boolean is passed to set spawnHarderSet to true or false
+     */
+    public void setSpawnHarderSet(boolean spawnHarderSet) {
+        this.spawnHarderSet = spawnHarderSet;
+    }
+
+    /**
+     * Gets the value of timeToHarderSet
+     * @return int timeToHarderSet representing the time regarding harder enemy spawn
+     */
+    public int getTimeToHarderSet() {
+        return timeToHarderSet;
+    }
+
+    /**
+     * Sets value of timeToHarderSet
+     * @param timeToHarderSet int representing time regarding harder enemy spawn
+     */
+    public void setTimeToHarderSet(int timeToHarderSet) {
+        this.timeToHarderSet = timeToHarderSet;
+    }
+
+    /**
      * Function called when a bomb explosion collides with a powerUp or the door.
      * If this is case, we wait 20 frames for the flames to disappear and then
      * generate the harder set of enemies.
@@ -354,6 +386,14 @@ public class TileMap implements Serializable {
     }
 
     /**
+     * Sets the boolean for timetoHarderSetSpawn
+     * @param timeToHarderSetSpawn Boolean is passed to set timeToHarderSetSpawn to True or False
+     */
+    public void setTimeToHarderSetSpawn(int timeToHarderSetSpawn) {
+        this.timeToHarderSetSpawn = timeToHarderSetSpawn;
+    }
+
+    /**
      * Countdown timer used to trigger the spawn of a harder set of enemies
      * once the 200 seconds that a stage lasts ends.
      */
@@ -361,6 +401,7 @@ public class TileMap implements Serializable {
         if (harderSetAlreadyCreated) {
             if (timeToHarderSet > 0) timeToHarderSetSpawn--;
             return;
+
         }
 
         if (timeToHarderSetSpawn == 0) {
@@ -467,6 +508,8 @@ public class TileMap implements Serializable {
         }
         return null;
     }
+
+
 
     /**
      * Increments the bomb explosion radius by 1 tile.
@@ -626,4 +669,11 @@ public class TileMap implements Serializable {
         return bombRadius;
     }
 
+    /**
+     * Sets the radius of the bomb
+     * @param bombRadius The radius of the bomb is passed
+     */
+    public void setBombRadius(int bombRadius) {
+        this.bombRadius = bombRadius;
+    }
 }
