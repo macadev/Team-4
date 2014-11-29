@@ -4,6 +4,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import Database.DatabaseController;
+import Database.PlayerScore;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
