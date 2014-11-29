@@ -468,6 +468,8 @@ public class TileMap implements Serializable {
         return null;
     }
 
+
+
     /**
      * Increments the bomb explosion radius by 1 tile.
      */
@@ -626,4 +628,11 @@ public class TileMap implements Serializable {
         return bombRadius;
     }
 
+    /**
+     * Sets the radius of the bomb
+     * @param bombRadius The radius of the bomb is passed
+     */
+    public void setBombRadius(int bombRadius) {
+        this.bombRadius = bombRadius;
+    }
 }
