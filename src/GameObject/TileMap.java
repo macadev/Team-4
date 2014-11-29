@@ -32,7 +32,8 @@ public class TileMap implements Serializable {
     public static final int NUM_OF_ROWS = 13;
     public static final int WIDTH_OF_TILE = 32;
     public static final int HEIGHT_OF_TILE = 32;
-    public static final int CAMERA_MOVING_LIMIT = 224;
+    public static final int CAMERA_MOVING_LIMIT_LEFT = 224;
+    public static final int CAMERA_MOVING_LIMIT_RIGHT = 733;
 
     private Player player;
     private GameObject[][] walls;
@@ -352,6 +353,10 @@ public class TileMap implements Serializable {
         }
     }
 
+    /**
+     * Countdown timer used to trigger the spawn of a harder set of enemies
+     * once the 200 seconds that a stage lasts ends.
+     */
     public void countDownToHarderEnemySetSpawn() {
         if (harderSetAlreadyCreated) {
             if (timeToHarderSet > 0) timeToHarderSetSpawn--;
