@@ -117,14 +117,29 @@ public class Enemy extends MovableObject implements Serializable {
         this.height = image.getHeight(null);
     }
 
+    /**
+     * This method moves the enemy based on its type of intelligence (low,medium and high).
+     */
     public void move() {
         intelligence.move(this);
     }
 
+    /**
+     * This method reverses the direction of the enemy in terms of its cardinal
+     * direction based on the enemys' intelligence.
+     */
     public void reverseDirection() {
         intelligence.reverseDirection(this);
     }
 
+    /**
+     * This method gets called if the player is close to the enemy.
+     * It is used by the enemy depending on its intelligence to chase the player, based on several parameters:
+     * @param playerPosX x coordinate of the player object on the grid.
+     * @param playerPosY y coordinate of the player object on the grid.
+     * @param distanceBetweenEnemyAndPlayer Distance between the center of the player object
+     *                                      and the center of the enemy object.
+     */
     public void chasePlayer(int playerPosX, int playerPosY, int distanceBetweenEnemyAndPlayer) {
         intelligence.chasePlayer(playerPosX, playerPosY, distanceBetweenEnemyAndPlayer, this);
     }
@@ -137,42 +152,83 @@ public class Enemy extends MovableObject implements Serializable {
         this.visible = false;
     }
 
+    /**
+     *Attains the cardinal direction that the enemy is travelling towards.
+     * @return the cardinal direction of the enemy's direction of movement
+     */
     public Direction getDirectionOfMovement() {
         return directionOfMovement;
     }
 
+    /**
+     * Changes the cardinal direction that the enemy is travelling towards, to an assigned direction.
+     * @param directionOfMovement This assigned direction is now the enemy's new direction of movement.
+     */
     public void setDirectionOfMovement(Direction directionOfMovement) {
         this.directionOfMovement = directionOfMovement;
     }
 
+    /**
+     *This method is utilised to retrieve the enemy/enemies present during game play
+     * @return the type of enemy (whether Minvo or Balloom,etc) present during each stage of game play.
+     */
     public EnemyType getEnemyType() {
         return enemyType;
     }
 
+    /**
+     * Retrieves the specific centered location of the enemy based on its current centeralized coordinate
+     * @return the centralized coordinate location of the enemy.
+     */
     public Coordinate getCenterOfEnemyAsCoordinate() {
         return new Coordinate(posX + 15, posY + 15);
     }
 
+    /**
+     * Checks whether or not the enemy is hit by the flame
+     * @return a boolean- if enemy is hit by flame, it returns true. False if the enemy is not hit.
+     */
     public boolean isHitByFlames() {
         return hitByFlames;
     }
 
+    /**
+     * Assigns whether or not the enemy is hit by the flame
+     * @param hitByFlames this assigned parameter is now the decision of whether or not the enemy is hit by the flame
+     */
     public void setHitByFlames(boolean hitByFlames) {
         this.hitByFlames = hitByFlames;
     }
 
+    /**
+     * Attains the ranking of how difficult the enemy is to kill (each enemy has a different difficulty ranking)
+     * @return the integer corresponding to the enemys' difficulty ranking
+     */
     public int getDifficultyRanking() {
         return difficultyRanking;
     }
 
+    /**
+     *Attains the type of intelligence the enemy contains- whether the enemy has low, medium or high intelligence
+     * @return enemys' intelligence type
+     */
     public ArtificialIntelligence getIntelligence() {
         return intelligence;
     }
 
+    /**
+     * If the enemy is defined to be of high intelligence, the shortest path between the player and the enemy is defined.
+     * This method is called to attain this short path.
+     * @return the shortest path between the player and enemy
+     */
     public PathFinder getPathFinder() {
         return pathFinder;
     }
 
+    /**
+     * Assigns the shortest path between the player and enemy
+     * @param pathFinder This assigned path is now the shortest path used when the getPathFinder method is called 
+     */
     public void setPathFinder(PathFinder pathFinder) {
         this.pathFinder = pathFinder;
     }
