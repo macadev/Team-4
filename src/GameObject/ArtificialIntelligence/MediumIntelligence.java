@@ -23,7 +23,8 @@ public class MediumIntelligence extends ArtificialIntelligence implements Serial
         int posY = enemy.getPosY();
         Direction directionOfMovement = enemy.getDirectionOfMovement();
 
-        if (randomTurnOnIntersection(posX, posY)) {
+        boolean shouldTurn = random.nextFloat() <= 0.1f;
+        if (randomTurnOnIntersection(posX, posY, shouldTurn)) {
             enemy.setDirectionOfMovement(Direction.getRandomPerpendicularDirection(directionOfMovement));
             enemy.setPosX(posX - posX % 32);
             enemy.setPosY(posY - posY % 32);
@@ -32,7 +33,9 @@ public class MediumIntelligence extends ArtificialIntelligence implements Serial
     }
 
     /**
-     *
+     * This methods implements the functionality of the enemy following the player if certain conditions are met.
+     * The conditions that have to be met are the following: If the enemy and the player are on the same row or the
+     * same column. Also the enemy object must not be more than 65 units away from the player.
      * @param playerPosX x coordinate of the player object on the grid.
      * @param playerPosY y coordinate of the player object on the grid.
      * @param distanceFromEnemyToPlayer Integer representing distance of the enemy from the player.
@@ -75,19 +78,22 @@ public class MediumIntelligence extends ArtificialIntelligence implements Serial
     }
 
     /**
-     *
-     * @param posX Integer representing x coordinate of
-     * @param posY  Integer representing y coordinate of
+     * This method implements the functionality of the enemy making the random turn when at an intersection.
+     * @param posX Integer representing x coordinate of the enemy.
+     * @param posY  Integer representing y coordinate of the enemy.
+     * @param shouldTurn Boolean representing whether the random chance of turning is true or false.
      * @return
      */
-    public boolean randomTurnOnIntersection(int posX, int posY) {
-        boolean playerAtXIntersection = (posX) % 32 <= 3 && (posX/32) % 2 == 1;
-        boolean playerAtYIntersection = (posY) % 32 <= 3 && (posY/32) % 2 == 1;
-        if (playerAtXIntersection && playerAtYIntersection && random.nextFloat() <= 0.1f) {
+    public boolean randomTurnOnIntersection(int posX, int posY, boolean shouldTurn) {
+        boolean enemyAtXIntersection = (posX) % 32 <= 3 && (posX/32) % 2 == 1;
+        boolean enemyAtYIntersection = (posY) % 32 <= 3 && (posY/32) % 2 == 1;
+        if (enemyAtXIntersection && enemyAtYIntersection && shouldTurn) {
             return true;
         } else {
             return false;
         }
     }
+
+
 
 }
