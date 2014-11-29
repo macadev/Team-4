@@ -16,7 +16,6 @@ import javax.swing.*;
  */
 public class LoginPopUp extends JFrame {
 
-    //Initializing variables to be used
     private JTextField fieldName;
     private JPasswordField fieldPass;
     private JLabel labelMessage;
@@ -24,19 +23,17 @@ public class LoginPopUp extends JFrame {
     private MenuManager menuManager;
 
     /**
-     * Constructor for LoginPopup
+     * Constructor for LoginPopup.
      * @param menuManager Object menuManager is passed to navigate between the different game states and menus.
      */
     public LoginPopUp(MenuManager menuManager){
         this.menuManager = menuManager;
+
+        //Sets up window attributes
         createView();
-        //Exit Option
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        //Display Size
         setSize(350, 150);
-        //Setting it to the middle of the screen
         setLocationRelativeTo(null);
-        //Disable resize
         setResizable(false);
     }
 
@@ -53,7 +50,6 @@ public class LoginPopUp extends JFrame {
 
         fieldName = new JTextField(20);
         fieldName.setBounds(100, 10, 160, 25);
-        //fieldName.setPreferredSize(new Dimension(150, 30));
         panel.add(fieldName);
 
         JLabel label2 = new JLabel("Password: ");
@@ -62,7 +58,6 @@ public class LoginPopUp extends JFrame {
 
         fieldPass = new JPasswordField(20);
         fieldPass.setBounds(100, 40, 160, 25);
-        //fieldPass.setPreferredSize(new Dimension(150, 30));
         panel.add(fieldPass);
 
 
@@ -70,7 +65,7 @@ public class LoginPopUp extends JFrame {
         buttonSubmit.setBounds(10, 80, 80, 25);
 
         /**
-         * Calls the functionality for the login button
+         * Calls the functionality for the login button.
          */
         buttonSubmit.addActionListener(new ActionListener() {
             @Override

@@ -9,13 +9,11 @@ import static org.junit.Assert.*;
 public class MediumIntelligenceTest {
 
     private MediumIntelligence mediumIntelligence;
-    private Player player;
     private Enemy enemy;
 
     @Before
     public void setup(){
         mediumIntelligence = new MediumIntelligence();
-        player = new Player(35, 35, true, MovableObject.NORMALSPEED);
         enemy = new Enemy(EnemyType.ONEAL, 35, 35);
     }
 
@@ -67,6 +65,17 @@ public class MediumIntelligenceTest {
 
     @Test
     public void testRandomTurnOnIntersection() throws Exception {
+        assertTrue("Since all conditions are met, the return boolean should be true",
+               mediumIntelligence.randomTurnOnIntersection(35, 35, true));
+
+        assertFalse("Since probability condition boolean is false, the return boolean should be false",
+                mediumIntelligence.randomTurnOnIntersection(35, 35, false));
+
+        assertFalse("Since enemyAtXIntersection boolean is false, the return boolean should be false",
+                mediumIntelligence.randomTurnOnIntersection(36, 35, false));
+
+        assertFalse("Since enemyAtYIntersection boolean is false, the return boolean should be false",
+                mediumIntelligence.randomTurnOnIntersection(35, 36, false));
 
     }
 }

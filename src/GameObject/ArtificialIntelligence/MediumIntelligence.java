@@ -79,6 +79,8 @@ public class MediumIntelligence extends ArtificialIntelligence implements Serial
 
     /**
      * This method implements the functionality of the enemy making the random turn when at an intersection.
+     * For the random turn to happen the enemy has to be at an intersection(no concrete walls around) and chance of it
+     * happening is at a random probability of 10%
      * @param posX Integer representing x coordinate of the enemy.
      * @param posY  Integer representing y coordinate of the enemy.
      * @param shouldTurn Boolean representing whether the random chance of turning is true or false.
