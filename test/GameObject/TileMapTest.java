@@ -20,12 +20,40 @@ public class TileMapTest {
 
     @Test
     public void testDetermineIfShouldSpawnHarderEnemies() throws Exception {
+        tileMap.setSpawnHarderSet(true);
+        tileMap.setTimeToHarderSet(2);
+        tileMap.determineIfShouldSpawnHarderEnemies();
+        assertEquals("timeToHarderSet should be 1 after determineIfShouldSpawnHarderEnemies() is called",
+                1, tileMap.getTimeToHarderSet());
+
+        tileMap.setSpawnHarderSet(true);
+        tileMap.setTimeToHarderSet(1);
+        tileMap.determineIfShouldSpawnHarderEnemies();
+        assertEquals("timeToHarderSet should be rolled back to 20 since timeToHarderSet hits 0 after " +
+                "determineIfShouldSpawnHarderEnemies() is called ",20,tileMap.getTimeToHarderSet());
+        assertFalse("spawnHarderSet is set to false after determineIfShouldSpawnHarderEnemies() is called since " +
+                "timeToHarderSet hits 0  ", tileMap.isSpawnHarderSet());
+
 
     }
 
     @Test
     public void testCountDownToHarderEnemySetSpawn() throws Exception {
+        tileMap.setHarderSetAlreadyCreated(true);
+        tileMap.setTimeToHarderSet(1);
+        tileMap.setTimeToHarderSetSpawn(1);
+        tileMap.countDownToHarderEnemySetSpawn();
+        assertEquals("The timeToHarderSetSpawn should be 0 after countDownToHarderEnemySetSpawn() is called ",
+                    0, tileMap.getTimeToHarderSetSpawn());
 
+        tileMap.setTimeToHarderSetSpawn(0);
+        tileMap.setHarderSetAlreadyCreated(false);
+        tileMap.setSpawnHarderSet(false);
+        tileMap.countDownToHarderEnemySetSpawn();
+        assertTrue("The spawnHarderSet should be true after countDownToHarderEnemySetSpawn() is called as " +
+                "timeToHarderSetSpawn is equals to 0", tileMap.isSpawnHarderSet());
+        assertTrue("The harderSetAlreadyCreated should be true after countDownToHarderEnemySetSpawn() is called as " +
+                "timeToHarderSetSpawn is equals to 0", tileMap.isHarderSetAlreadyCreated());
     }
 
     @Test
