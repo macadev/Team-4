@@ -3,9 +3,11 @@ package GamePlay;
 import GameObject.*;
 import GameObject.Player;
 import GameObject.TileMap;
+import SystemController.SoundController;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -58,10 +60,18 @@ public class CollisionManagerTest {
 
     @Test
     public void testCheckCollisionWithPowerUp() throws Exception {
-        //powerUp is visible
+        //powerUp is visible and powerUp is not covered by a brickWall (firstCollision = false)
         PowerUp powerUp = new PowerUp(PowerUpType.BOMBPASS, 32, 32);
+        powerUp.setFirstCollision(false);
         collisionManager.checkCollisionWithPowerUp(player.getBounds(), powerUp);
-        assertTrue("If player collides with powerUp, the powerUp effect is activated on the player object", player.hasBombPass());
+        assertTrue("If player collides with powerUp and the powerUp is not covered by a brickWall, then the powerUp effect " +
+                "is activated on the player object", player.hasBombPass());
+
+        //powerUp is visible but it is covered by a wall (firstCollision = true)
+        powerUp = new PowerUp(PowerUpType.BOMBPASS, 32, 32);
+        powerUp.setFirstCollision(true);
+        collisionManager.checkCollisionWithPowerUp(player.getBounds(), powerUp);
+        assertFalse("If player collides with powerUp, and the powerUp is covered by a brickWallthe powerUp effect is activated on the player object", player.hasBombPass());
 
         //powerUp is null
         powerUp = null;
@@ -135,7 +145,143 @@ public class CollisionManagerTest {
     }
 
     @Test
-    public void testCheckCollisionsWithFlames() throws Exception {
+    public void testCheckCollisionBetweenFlameAndPlayer() throws Exception {
+
+        Flame flame = new Flame(32, 32, true, 32, 32);
+        player.setVisible(false);
+        int livesBeforeCollision = player.getLivesRemaining();
+        collisionManager.checkCollisionsBetweenFlameAndPlayer(flame.getBounds(), player.getBounds(), false);
+        assertEquals("If the player is not visible when colliding with a flame object, " +
+                "he will not die", livesBeforeCollision, player.getLivesRemaining());
+
+        player.setVisible(true);
+        player.setInvincibilityEnabled(true);
+        livesBeforeCollision = player.getLivesRemaining();
+        collisionManager.checkCollisionsBetweenFlameAndPlayer(flame.getBounds(), player.getBounds(), false);
+        assertEquals("If the player is invincible when colliding with a flame object, " +
+                "he will not die", livesBeforeCollision, player.getLivesRemaining());
+
+        player.setFlamePass(true);
+        player.setInvincibilityEnabled(false);
+        livesBeforeCollision = player.getLivesRemaining();
+        collisionManager.checkCollisionsBetweenFlameAndPlayer(flame.getBounds(), player.getBounds(), false);
+        assertEquals("If the player does have FlamePass when colliding with a flame object, " +
+                "he will not die", livesBeforeCollision, player.getLivesRemaining());
+
+
+        player.setInvincibilityEnabled(false);
+        player.setFlamePass(false);
+        livesBeforeCollision = player.getLivesRemaining();
+        collisionManager.checkCollisionsBetweenFlameAndPlayer(flame.getBounds(), player.getBounds(), true);
+        assertEquals("If the current stage is a bonus stage, then a collision with a flame object " +
+                "will not kill the player", livesBeforeCollision, player.getLivesRemaining());
+
+        player.setVisible(true);
+        player.setInvincibilityEnabled(false);
+        player.setFlamePass(false);
+        livesBeforeCollision = player.getLivesRemaining();
+        collisionManager.checkCollisionsBetweenFlameAndPlayer(flame.getBounds(), player.getBounds(), false);
+        assertEquals("If the current stage is not a bonus stage, and the player does not have flamesPass/invincibility and " +
+                "he is visible, then a collision with a flame object will kill the player", livesBeforeCollision - 1, player.getLivesRemaining());
+
+    }
+
+    @Test
+    public void testCheckCollisionBetweenFlameAndBomb() throws Exception {
+
+        ArrayList<Bomb> bombs = new ArrayList<Bomb>();
+        bombs.add(new Bomb(32,32));
+        Flame flame = new Flame(32, 32, true, 32, 32);
+        collisionManager.checkCollisionsBetweenFlameAndBomb(flame.getBounds(), bombs);
+        assertFalse("If a bomb collides with a flame object, its visibility will be set to false", bombs.get(0).isVisible());
+
+        bombs.set(0, new Bomb(128, 128));
+        collisionManager.checkCollisionsBetweenFlameAndBomb(flame.getBounds(), bombs);
+        assertTrue("If a bomb does not collide with a flame object, it will remain visible", bombs.get(0).isVisible());
+
+    }
+
+    @Test
+    public void testCheckCollisionBetweenFlameAndEnemies() throws Exception {
+
+        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+        enemies.add(new Enemy(EnemyType.BALLOOM, 32, 32));
+        Flame flame = new Flame(32, 32, true, 32, 32);
+        ArrayList<KillSet> killSets = new ArrayList<KillSet>();
+        collisionManager.checkCollisionsBetweenFlameAndEnemies(flame.getBounds(), flame, enemies, killSets);
+        assertFalse("If an enemy collides with a flame object, its visibility will be set to false", enemies.get(0).isVisible());
+        assertTrue("If an enemy collides with a flame object, a KillSet instance will be created", killSets.size() > 0);
+
+        enemies.set(0, new Enemy(EnemyType.DOLL, 128, 128));
+        int killSetSize = killSets.size();
+        collisionManager.checkCollisionsBetweenFlameAndEnemies(flame.getBounds(), flame, enemies, killSets);
+        assertTrue("If a flame does not collide with a an enemy, it will remain visible", enemies.get(0).isVisible());
+        assertTrue("If a flame does not collide with a an enemy, no KillSet instance will be created", killSets.size() == killSetSize);
+
+    }
+
+    @Test
+    public void testCheckCollisionBetweenFlameAndPowerUp() throws Exception {
+
+        Flame flame = new Flame(32, 32, true, 32, 32);
+        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+        enemies.add(new Enemy(EnemyType.BALLOOM, 32, 32));
+        tileMap.setEnemies(enemies);
+        PowerUp powerUp = new PowerUp(PowerUpType.BOMBPASS, 32, 32);
+        powerUp.setFirstCollision(false);
+        collisionManager.checkCollisionsBetweenFlameAndPowerUp(flame.getBounds(), powerUp, false);
+        assertFalse("If a powerUp collides with a flame object in a stage that is not bonus more than once, its visibility " +
+                "will be set to false", powerUp.isVisible());
+        assertTrue("If a powerUp collides with a flame object in a stage that is not bonus more than once, a new set of enemies " +
+                        "will be created", tileMap.isHarderSetAlreadyCreated());
+
+        tileMap.setEnemies(new ArrayList<Enemy>());
+        powerUp = new PowerUp(PowerUpType.BOMBPASS, 32, 32);
+        powerUp.setFirstCollision(true);
+        collisionManager.checkCollisionsBetweenFlameAndPowerUp(flame.getBounds(), powerUp, false);
+        assertTrue("If a powerUp collides with a flame object in a stage that is not bonus for the first time, " +
+                "its visibility will not be set to false", powerUp.isVisible());
+
+        tileMap.setEnemies(new ArrayList<Enemy>());
+        tileMap.setHarderSetAlreadyCreated(false);
+        powerUp = new PowerUp(PowerUpType.BOMBPASS, 32, 32);
+        collisionManager.checkCollisionsBetweenFlameAndPowerUp(flame.getBounds(), powerUp, true);
+        assertTrue("If a powerUp collides with a flame object in a stage that is bonus, its visibility " +
+                "will not change", powerUp.isVisible());
+        assertFalse("If a powerUp collides with a flame object in a stage that is bonus, a new set of enemies " +
+                "will not be created", tileMap.isHarderSetAlreadyCreated());
+
+    }
+
+    @Test
+    public void testCheckCollisionBetweenFlameAndDoor() throws Exception {
+
+        Flame flame = new Flame(32, 32, true, 32, 32);
+        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+        enemies.add(new Enemy(EnemyType.BALLOOM, 32, 32));
+        tileMap.setEnemies(enemies);
+        Door door = new Door(32, 32);
+        collisionManager.checkCollisionsBetweenFlameAndDoor(flame.getBounds(), door, false);
+        assertTrue("If a door collides with a flame object in a stage that is not bonus," +
+                "a new set of enemies will be created", tileMap.isHarderSetAlreadyCreated());
+
+        enemies = new ArrayList<Enemy>();
+        enemies.add(new Enemy(EnemyType.BALLOOM, 32, 32));
+        tileMap.setEnemies(enemies);
+        tileMap.setHarderSetAlreadyCreated(false);
+        door = new Door(32, 32);
+        collisionManager.checkCollisionsBetweenFlameAndDoor(flame.getBounds(), door, true);
+        assertFalse("If a door collides with a flame object in a stage that is bonus, " +
+                "a harder set of enemies will not be spawned", tileMap.isHarderSetAlreadyCreated());
+
+        enemies = new ArrayList<Enemy>();
+        enemies.add(new Enemy(EnemyType.BALLOOM, 32, 32));
+        tileMap.setEnemies(enemies);
+        tileMap.setHarderSetAlreadyCreated(false);
+        door = new Door(128, 128);
+        collisionManager.checkCollisionsBetweenFlameAndDoor(flame.getBounds(), door, true);
+        assertFalse("If a door does not collide with a flame object in a stage that is not bonus more than once,"
+                + "a new set of enemies will not be spawned", tileMap.isHarderSetAlreadyCreated());
 
     }
 
@@ -171,7 +317,19 @@ public class CollisionManagerTest {
 
     @Test
     public void testSpawnSetOfHarderEnemies() throws Exception {
+        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+        enemies.add(new Enemy(EnemyType.DOLL, 32, 32));
+        tileMap.setEnemies(enemies);
+        tileMap.setHarderSetAlreadyCreated(true);
 
+        collisionManager.spawnSetOfHarderEnemies(32, 32);
+        assertEquals("If a harder set of enemies has already been created, then the enemies arrayList of tileMap will" +
+                "not be modified", enemies, tileMap.getEnemies());
+
+        tileMap.setHarderSetAlreadyCreated(false);
+        collisionManager.spawnSetOfHarderEnemies(32, 32);
+        assertTrue("If a harder set of enemies has not been created before, then the enemies arrayList of tileMap will" +
+                "be repopulated", tileMap.isHarderSetAlreadyCreated());
     }
 
     @Test
@@ -194,13 +352,6 @@ public class CollisionManagerTest {
         collisionManager.restoreToBeforeCollision(player, wall.getBounds());
         assertEquals("Collisions in the y axis are resolved by restoring restoring the previous y coordinate", 31, player.getPosY());
         assertEquals("Collisions in the y axis do not restore the x coordinate to its previous value", 32, player.getPosX());
-
-        //Collision that need full restoration in other to be resolved.
-        player.setPosX(32);
-        player.setPosY(32);
-        //player.setPreviousX();
-        wall.setPosX(57);
-        wall.setPosY(57);
 
     }
 }
