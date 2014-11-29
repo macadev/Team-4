@@ -130,7 +130,6 @@ public class ScoreManager implements Serializable {
     public int determineScoreForTwoKills(KillSet killedEnemyA, KillSet killedEnemyB) {
         int killedEnemyAScore = killedEnemyA.getScore();
         int killedEnemyBScore = killedEnemyB.getScore();
-g
         if (killedEnemyAScore < killedEnemyBScore) {
             return killedEnemyAScore * 2 + killedEnemyBScore;
         }
