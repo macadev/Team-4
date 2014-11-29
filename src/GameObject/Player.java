@@ -60,7 +60,7 @@ public class Player extends MovableObject implements Serializable {
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
-        this.bombsAllowed = 2;
+        this.bombsAllowed = 1;
         this.wallPass = false;
         this.bombPass = false;
         this.flamePass = false;

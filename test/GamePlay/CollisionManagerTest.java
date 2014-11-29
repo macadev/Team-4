@@ -71,7 +71,8 @@ public class CollisionManagerTest {
         powerUp = new PowerUp(PowerUpType.BOMBPASS, 32, 32);
         powerUp.setFirstCollision(true);
         collisionManager.checkCollisionWithPowerUp(player.getBounds(), powerUp);
-        assertFalse("If player collides with powerUp, and the powerUp is covered by a brickWallthe powerUp effect is activated on the player object", player.hasBombPass());
+        assertTrue("If player collides with powerUp, and the powerUp is covered by a brickWall the powerUp effect " +
+                "is activated on the player object", player.hasBombPass());
 
         //powerUp is null
         powerUp = null;

@@ -10,7 +10,6 @@ public class PowerUp extends StaticObject implements Serializable {
 
     private PowerUpType powerUpType;
     private boolean keptAfterDeath;
-    private boolean firstCollision;
 
     /**
      * Initialize a new powerUp object. We group the entire functionality of all powerUps within a single class
@@ -63,25 +62,6 @@ public class PowerUp extends StaticObject implements Serializable {
         this.image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
-    }
-
-    /**
-     * Determine whether the player is colliding with this powerUp instance for the first time
-     * or not.
-     * @return A boolean representing whether this is the first time the player
-     * is colliding with the the powerUp object.
-     */
-    public boolean isFirstCollision() {
-        return firstCollision;
-    }
-
-    /**
-     * Set the first collision attribute of the powerUp object.
-     * @param firstCollision boolean representing whether the player object has collided
-     *                       with this powerUp instance in the past or not.
-     */
-    public void setFirstCollision(boolean firstCollision) {
-        this.firstCollision = firstCollision;
     }
 
     /**

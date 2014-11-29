@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 public class PlayerScoreTest {
 
     @BeforeClass
-    public static void  setUp() throws Exception {
+    public static void setUp() throws Exception {
         PlayerScore testPlayer = new PlayerScore();
         testPlayer.username = "testUsername";
         testPlayer.realName = "testRealName";

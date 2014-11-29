@@ -30,23 +30,4 @@ public class Door extends StaticObject implements Serializable {
         this.height = image.getHeight(null);
     }
 
-    /**
-     * Determine whether the player is colliding with the door for the first time
-     * or not.
-     * @return A boolean representing whether the player has collided with the the Bomb
-     * in the past or not.
-     */
-    public boolean isFirstCollision() {
-        return firstCollision;
-    }
-
-    /**
-     * Set the first collision attribute of the door object.
-     * @param firstCollision boolean representing whether the player object has collided
-     *                       with this door instance in the past.
-     */
-    public void setFirstCollision(boolean firstCollision) {
-        this.firstCollision = firstCollision;
-    }
-
 }
