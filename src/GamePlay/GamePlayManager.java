@@ -18,19 +18,7 @@ import Menu.MenuState;
 import SystemController.SoundController;
 import SystemController.TopLevelState;
 
-<<<<<<< HEAD
-/**
- *
- */
-public class GamePlayManager extends GameState implements ActionListener, Serializable {
-
-
-    private enum CountDownNotification {
-        NEXTSTAGE, GAMEOVER, FINISHEDGAME
-    }
-=======
 public class GamePlayManager extends GameState implements Serializable {
->>>>>>> da606ffd47286bd42aff1d02e328a68b8de1be52
 
     private TileMap tileMap;
     private Player player;
@@ -51,13 +39,6 @@ public class GamePlayManager extends GameState implements Serializable {
     private Font subTitleFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 22);
     private Font hudFont = new Font("Gill Sans Ultra Bold", Font.PLAIN, 12);
 
-<<<<<<< HEAD
-
-    /**
-     *
-     * @param gsm
-     * @param selectedStage
-=======
     /**
      * Initialize an instance of GamePlayManager, which will control and execute all
      * the logic needed for the gamePlay state of the game.
@@ -65,7 +46,6 @@ public class GamePlayManager extends GameState implements Serializable {
      *            the GamePlayManager to pass control to the MenuManager.
      * @param selectedStage An integer specifying the stage selected by the user to load
      *                      the stage data..
->>>>>>> da606ffd47286bd42aff1d02e328a68b8de1be52
      */
     public GamePlayManager(GameStateManager gsm, int selectedStage) {
         this.gsm = gsm;
@@ -78,15 +58,10 @@ public class GamePlayManager extends GameState implements Serializable {
     }
 
     /**
-<<<<<<< HEAD
-     *
-     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
-=======
      * Draws the specific GamePlayState that the user is currently
      * found in. The user can be in one of the following options during
      * gamePlay: GAMEOVER, PAUSE, INGAME, FINISHEDGAME.
      * @param g The Graphics2D object where all the objects are drawn.
->>>>>>> da606ffd47286bd42aff1d02e328a68b8de1be52
      */
     @Override
     public void draw(Graphics2D g) {
@@ -105,14 +80,9 @@ public class GamePlayManager extends GameState implements Serializable {
     }
 
     /**
-<<<<<<< HEAD
-     *
-     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
-=======
      * This method gets called once the player has completed all 60 levels
      * of the game (50 stages + 10 bonus stages).
      * @param g The Graphics2D object where the endgame notification is drawn.
->>>>>>> da606ffd47286bd42aff1d02e328a68b8de1be52
      */
     private void executeGameCompletedLogic(Graphics2D g) {
         g.setColor(titleColor);
@@ -129,15 +99,10 @@ public class GamePlayManager extends GameState implements Serializable {
     }
 
     /**
-<<<<<<< HEAD
-     *
-     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
-=======
      * This method gets called once the player has lost all the lives given
      * to him/her. It renders an endgame notification and then redirects to the
      * GameOver menu.
      * @param g The Graphics2D object where all the GameOver notification is drawn.
->>>>>>> da606ffd47286bd42aff1d02e328a68b8de1be52
      */
     private void executeGameOverStateLogic(Graphics2D g) {
 
@@ -161,15 +126,10 @@ public class GamePlayManager extends GameState implements Serializable {
     }
 
     /**
-<<<<<<< HEAD
-     *
-     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
-=======
      * Executes the logic tied to the current GamePlayState. It triggers
      * stage transitions, and notifications. And it also calls the methods
      * necessary to draw all the objects present during GamePlay.
      * @param g
->>>>>>> da606ffd47286bd42aff1d02e328a68b8de1be52
      */
     public void executeInGameLogic(Graphics2D g) {
 
@@ -227,15 +187,10 @@ public class GamePlayManager extends GameState implements Serializable {
     }
 
     /**
-<<<<<<< HEAD
-     *
-     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
-=======
      * This method gets called once the player has completed a stage. It draws a
      * transition screen notifying the player that they are advancing to the next
      * stage.
      * @param g The Graphics2D object where all the StageTransition notification is drawn.
->>>>>>> da606ffd47286bd42aff1d02e328a68b8de1be52
      */
     public void inStageTransition(Graphics2D g) {
         boolean redirectToNextStage = notificationDurationCountDown();
@@ -250,12 +205,6 @@ public class GamePlayManager extends GameState implements Serializable {
     }
 
     /**
-<<<<<<< HEAD
-     *
-     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
-     * @param bonusStage
-     * @param timeToHarderSetSpawn
-=======
      * Draws the heads-up display notifying the user of the time remaining in the stage,
      * the number of lives they have remaining, and their score so far in the current
      * game session.
@@ -264,7 +213,6 @@ public class GamePlayManager extends GameState implements Serializable {
      *                   If this is the case, the timer drawn starts at 30 seconds and not 200.
      * @param timeToHarderSetSpawn The time remaining before a harder set of enemy is spawned.
      *                             This is the default timer used in regular stages.
->>>>>>> da606ffd47286bd42aff1d02e328a68b8de1be52
      */
     public void drawHUD(Graphics2D g, boolean bonusStage, int timeToHarderSetSpawn) {
         g.setColor(hudColor);
@@ -284,13 +232,9 @@ public class GamePlayManager extends GameState implements Serializable {
     }
 
     /**
-<<<<<<< HEAD
-     *
-=======
      * General timer used to control the duration of the following
      * notifications present during GamePlay: game completed, game over,
      * and stage transition. These notifications all last 1.66 seconds.
->>>>>>> da606ffd47286bd42aff1d02e328a68b8de1be52
      * @return
      */
     public boolean notificationDurationCountDown() {
@@ -303,17 +247,11 @@ public class GamePlayManager extends GameState implements Serializable {
     }
 
     /**
-<<<<<<< HEAD
-     *
-     */
-    public void initiateTimerToNextStage() {
-=======
      * Timer used to control the duration of a bonus stage, which
      * does not end with the player going through a door, but instead
      * has a limited duration of 30 seconds.
      */
     public void initiateTimerToNextStageFromBonusStage() {
->>>>>>> da606ffd47286bd42aff1d02e328a68b8de1be52
         if (bonusStageCountDown == 0) {
             bonusStageCountDown = 900;
             player.nextStage();
@@ -322,13 +260,9 @@ public class GamePlayManager extends GameState implements Serializable {
     }
 
     /**
-<<<<<<< HEAD
-
-=======
      * Timer used to control the spawn rate of new enemies
      * during a bonus stage. During a bonus stage, a single
      * type of enemy spawns an every second for 30 seconds.
->>>>>>> da606ffd47286bd42aff1d02e328a68b8de1be52
      */
     public void initiateTimeToSpawnEnemy() {
         if (bonusStageNewEnemyCountDown == 0) {
@@ -339,12 +273,8 @@ public class GamePlayManager extends GameState implements Serializable {
     }
 
     /**
-<<<<<<< HEAD
-     *
-=======
      * Updates the position of the camera so that it follows
      * the player once it has crossed the 15 tile threshold.
->>>>>>> da606ffd47286bd42aff1d02e328a68b8de1be52
      */
     public void updateCamera() {
         int playerPosX = player.getPosX();
@@ -360,13 +290,9 @@ public class GamePlayManager extends GameState implements Serializable {
     }
 
     /**
-<<<<<<< HEAD
-     *
-=======
      * Passes all the data used for collision detection to the
      * collision manager. We check for collisions every time a
      * new frame is drawn.
->>>>>>> da606ffd47286bd42aff1d02e328a68b8de1be52
      */
     public void checkCollisions() {
         Rectangle playerRectangle = player.getBounds();
@@ -377,12 +303,12 @@ public class GamePlayManager extends GameState implements Serializable {
         PowerUp powerUp = tileMap.getPowerUp();
         Door door = tileMap.getDoor();
         collisionManager.handleCollisions(
-            objects,
-            playerRectangle,
-            enemies,
-            bombsPlaced,
-            flames,
-            powerUp, door, this.tileMap.isBonusStage()
+                objects,
+                playerRectangle,
+                enemies,
+                bombsPlaced,
+                flames,
+                powerUp, door, this.tileMap.isBonusStage()
         );
 
     }

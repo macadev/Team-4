@@ -14,7 +14,7 @@ import javax.swing.*;
  * username, password and a Login button. The user is logged in after valid credentials are entered and redirected
  * to the main menu. Methods from JFrame are inherited to be used in the popup.
  */
-public class LoginPopUp extends JFrame {
+public class LoginPopup extends JFrame {
 
     private JTextField fieldName;
     private JPasswordField fieldPass;
@@ -26,7 +26,7 @@ public class LoginPopUp extends JFrame {
      * Constructor for LoginPopup.
      * @param menuManager Object menuManager is passed to navigate between the different game states and menus.
      */
-    public LoginPopUp(MenuManager menuManager){
+    public LoginPopup(MenuManager menuManager){
         this.menuManager = menuManager;
 
         //Sets up window attributes
