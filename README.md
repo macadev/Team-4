@@ -1,25 +1,59 @@
-Team-4
-======
+Bomberman | Team 4
+==========
 
-Initial version of Bomberman
+**Team-4 ISE**
 
-The prototype as of November 2nd, 2014.
 
-- Grid is composed of concrete blocks and brick walls.
-- Brick wall locations are randomly decided.
-- Game can be paused by pressing the space bar.
-- Player can move using the arrow keys. Camera will follow if at the center of the screen.
-- Bombs can be placed by pressing the x key (preliminary prototype).
+Daniel Macario - daniel.macario@mail.mcgill.ca
+Vasundhara Gupta
+Florent Lefebvre
+Shabab Ahmed
+Owen Li
 
-The prototype as of November 10th, 2014.
+**Dependencies**
 
-- Bombs can be placed. They explode and demolish nearby walls.
-- Collision has been updated to include bombs.
-- All powerups have been implemented, including the detonator.
-- Player controls have been tweaked for the best user experience.
-- A Sqlite database has been setup for the menu systems.
-    - The login systems is fully implemented.
-    - The account creation system is fully implemented.
+The entire application was devloped in Java 6.
 
-Note: In order for the database system to run, you will have to add the sqlite-jdbc.jar file to the classpath of the application
-      This was not done because it depends on which IDE you may be using, professor.
+**Development Platforms**
+
+All the team members developed the Application using IntelliJ IDEA 13.
+Florent and Daniel developed using Mac OS X Yosemite, and Shabab, Vasu and Owen used Windows 7.
+
+**Third Party Libraries**
+
+- SQLite-jdbc
+  https://bitbucket.org/xerial/sqlite-jdbc
+  Version 3.8.7
+  In order to install, simply add it to the classpath of the application within the IDE.
+
+- JUnit 4
+  http://junit.org/
+  Version 4.11
+  In order to install, simply add it to the classpath of the application within the IDE.
+
+- hamcrest (JUnit 4 dependency)
+  http://hamcrest.org/JavaHamcrest/
+  Version 1.3
+  In order to install, simply add it to the classpath of the application within the IDE.
+
+**MIT License**
+
+Copyright (c) 2014 Daniel Macario, Vasundhara Gupta, Owen Li, Shabab Ahmed, Florent Lefebvre, Owen Li.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
