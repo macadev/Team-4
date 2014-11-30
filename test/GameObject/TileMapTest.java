@@ -39,7 +39,7 @@ public class TileMapTest {
         tileMap.setCurrentStage(60);
         tileMap.nextStage();
         assertEquals("Calling next stage when the current stage number is 60 changes the current" +
-                        "gamePlay state to FINISHEDGAME", GamePlayState.FINISHEDGAME, player.getCurrentGamePlayState());
+                "gamePlay state to FINISHEDGAME", GamePlayState.FINISHEDGAME, player.getCurrentGamePlayState());
 
     }
 
@@ -121,11 +121,11 @@ public class TileMapTest {
         tileMap.setTimeToHarderSetSpawn(1);
         tileMap.countDownToHarderEnemySetSpawn();
         assertEquals("If a harder set of enemies has already been created, and timeToHarderSet is greater than 0" +
-                        " then the timeToHarderSetSpawn decreases by 1", 0, tileMap.getTimeToHarderSetSpawn());
+                " then the timeToHarderSetSpawn decreases by 1", 0, tileMap.getTimeToHarderSetSpawn());
         tileMap.setTimeToHarderSet(0);
         tileMap.countDownToHarderEnemySetSpawn();
         assertEquals("If a harder set of enemies has already been created and the timeToHarderSet is 0, then the its" +
-                        " value should not change from 0", 0, tileMap.getTimeToHarderSetSpawn());
+                " value should not change from 0", 0, tileMap.getTimeToHarderSetSpawn());
 
         tileMap.setTimeToHarderSetSpawn(0);
         tileMap.setHarderSetAlreadyCreated(false);

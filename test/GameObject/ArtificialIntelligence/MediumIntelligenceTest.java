@@ -72,10 +72,10 @@ public class MediumIntelligenceTest {
                 mediumIntelligence.randomTurnOnIntersection(35, 35, false));
 
         assertFalse("Since enemyAtXIntersection boolean is false, the return boolean should be false",
-                mediumIntelligence.randomTurnOnIntersection(36, 35, false));
+                mediumIntelligence.randomTurnOnIntersection(36, 35, true));
 
         assertFalse("Since enemyAtYIntersection boolean is false, the return boolean should be false",
-                mediumIntelligence.randomTurnOnIntersection(35, 36, false));
+                mediumIntelligence.randomTurnOnIntersection(35, 36, true));
 
     }
 }

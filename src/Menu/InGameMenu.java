@@ -12,23 +12,22 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JTextField;
 
-/**
- * This class is used to represent the options available to the player when the game is paused. This menu is to appear
- * when the player presses the space bar during game play. The InGameMenu class inherits most of its functionality from
- * the MenuTemplate class. Specifically, the InGameMenu class defines the logic for: continuing the same game, starting
- * another- new game,quitting the game entirely, go the main menu for additional options or view their score on the
- * leaderboard.
- */
+    /**
+    * This class is used to represent the options available to the player when the game is paused. This menu is to appear
+    * when the player presses the space bar during game play. The InGameMenu class inherits most of its functionality from
+    * the MenuTemplate class. Specifically, the InGameMenu class defines the logic for: continuing the same game, starting
+    * another- new game,quitting the game entirely, go the main menu for additional options or view their score on the
+    * leaderboard.
+    */
 public class InGameMenu extends MenuTemplate{ //this menu will appear when the user pauses the game
-
-    private String[] options = {"Resume Gameplay","Save Game", "Start New Game", "Quit Game", "Exit to Main Menu", "View Leaderboard" };
+    private String[] options = {"Resume Gameplay","Save Game", "Start New Game", "Quit Game", "Exit to Main Menu",
+                                "View Leaderboard" };
     //options offered in the in-game menu as stated in the SRS
     private int currentChoice = 0; // index of the options array
     private Color titleColor = MenuTemplate.TITLE_COLOR;
     private Font titleFont = MenuTemplate.TITLE_FONT;
     private Font font = MenuTemplate.BODY_FONT;
     private GameStateManager gsm;
-
 
     /** Constructor for the InGameMenu class. Creates a InGameMenu object which takes both the menuManager and gsm
      * as a parameter.
@@ -44,7 +43,6 @@ public class InGameMenu extends MenuTemplate{ //this menu will appear when the u
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 	}
 
     /**
@@ -97,7 +95,6 @@ public class InGameMenu extends MenuTemplate{ //this menu will appear when the u
 
 	@Override
 	public void keyReleased(int k) {
-		// TODO Auto-generated method stub
 
 	}
 

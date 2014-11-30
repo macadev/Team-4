@@ -227,7 +227,7 @@ public class Enemy extends MovableObject implements Serializable {
 
     /**
      * Assigns the shortest path between the player and enemy
-     * @param pathFinder This assigned path is now the shortest path used when the getPathFinder method is called 
+     * @param pathFinder This assigned path is now the shortest path used when the getPathFinder method is called
      */
     public void setPathFinder(PathFinder pathFinder) {
         this.pathFinder = pathFinder;
