@@ -120,8 +120,8 @@ public class PlayerTest {
         player.setPosX(100);
         player.setPosY(50);
         player.nextStage();
-        assertEquals("X Position of the player is reset to 35", 35, player.getPosX());
-        assertEquals("Y Position of the player is reset to 35", 35, player.getPosY());
+        assertEquals("X Position of the player is reset to 32", 32, player.getPosX());
+        assertEquals("Y Position of the player is reset to 32", 32, player.getPosY());
     }
 
     @Test

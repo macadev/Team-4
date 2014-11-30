@@ -103,7 +103,7 @@ public class CollisionManagerTest {
         tileMap.setEnemies(new ArrayList<Enemy>());
         collisionManager.checkCollisionWithDoor(player.getBounds(), door, tileMap.getEnemies());
         assertEquals("if the door exists and there are no enemies on the map, a collision with" +
-                "the door advances the player to the next stage which resets its x position to 35", 35, player.getPosX());
+                "the door advances the player to the next stage which resets its x position to 32", 32, player.getPosX());
     }
 
     @Test

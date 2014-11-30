@@ -95,6 +95,6 @@ public class Flame extends StaticObject implements Serializable {
      * this flame object.
      */
     public Coordinate getExplosionOriginAsCoordinate() {
-        return new Coordinate(explosionOriginX + 14, explosionOriginY + 14);
+        return new Coordinate(explosionOriginX + Bomb.SPRITE_SIDE_LENGTH, explosionOriginY + Bomb.SPRITE_SIDE_LENGTH);
     }
 }

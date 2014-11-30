@@ -50,10 +50,10 @@ public class PathFinder implements Serializable {
      */
     public ArrayList<Coordinate> findPath(int playerPosX, int playerPosY, int enemyPosX, int enemyPosY, boolean enemyHasWallPass) {
 
-        int playerRow = ((playerPosY - playerPosY % 32) / 32) - 1;
-        int playerCol = ((playerPosX - playerPosX % 32) / 32) - 1;
-        int enemyRow = ((enemyPosY - enemyPosY % 32) / 32) - 1;
-        int enemyCol = ((enemyPosX - enemyPosX % 32) / 32) - 1;
+        int playerRow = ((playerPosY - playerPosY % TileMap.TILE_SIDE_LENGTH) / TileMap.TILE_SIDE_LENGTH) - 1;
+        int playerCol = ((playerPosX - playerPosX % TileMap.TILE_SIDE_LENGTH) / TileMap.TILE_SIDE_LENGTH) - 1;
+        int enemyRow = ((enemyPosY - enemyPosY % TileMap.TILE_SIDE_LENGTH) / TileMap.TILE_SIDE_LENGTH) - 1;
+        int enemyCol = ((enemyPosX - enemyPosX % TileMap.TILE_SIDE_LENGTH) / TileMap.TILE_SIDE_LENGTH) - 1;
 
         Node start = null;
         Node destination = null;
@@ -182,6 +182,7 @@ public class PathFinder implements Serializable {
      * @param coordinates
      */
     private void removeChains(ArrayList<Coordinate> coordinates) {
+
         for (int i = 0; i < coordinates.size() - 2; i ++) {
             if ((coordinates.get(i).getRow() == coordinates.get(i + 1).getRow() && coordinates.get(i).getRow() == coordinates.get(i + 2).getRow())
                     || (coordinates.get(i).getCol() == coordinates.get(i + 1).getCol() && coordinates.get(i).getCol() == coordinates.get(i + 2).getCol())) {
@@ -189,6 +190,7 @@ public class PathFinder implements Serializable {
                 i--;
             }
         }
+
     }
 
     /**

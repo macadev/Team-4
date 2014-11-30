@@ -1,7 +1,9 @@
+/**
+ * Created by Owen Li on 14-11-18.
+ */
 package Database;
 
 /**
- * Created by Owen Li on 14-11-18.
  * This class defines an object PlayerScore for a user, used in generating the leader boards.
  */
 public class PlayerScore {

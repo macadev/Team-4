@@ -26,7 +26,7 @@ public class BrickWall extends StaticObject implements Serializable {
      *                   or not
      */
     public BrickWall(int posX, int posY, boolean visible, boolean hasPowerUp) {
-        this.imagePath = "../resources/brickBlock2.png";
+        this.imagePath = "../resources/brickBlock.png";
         this.posX = posX;
         this.posY = posY;
         this.previousX = posX;

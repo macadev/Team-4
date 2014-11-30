@@ -5,6 +5,7 @@ package GameObject.ArtificialIntelligence;
 
 import GameObject.Direction;
 import GameObject.Enemy;
+import GameObject.TileMap;
 import GamePlay.Coordinate;
 
 import java.io.Serializable;
@@ -18,12 +19,14 @@ import java.util.ArrayList;
  */
 public class HighIntelligence extends ArtificialIntelligence implements Serializable {
 
+    // Maximum distance at which the player will be chased.
+    public static final int CHASE_THRESHOLD = 85;
+
     public static PathFinder pathFinder;
     //List of tiles that connect the current position of the enemy to the position of the player.
     private ArrayList<Coordinate> pathToPlayer;
     private boolean chaseEnabled;
     private Coordinate nextDestination;
-    private int recalculatePathTimer = 0;
 
     /**
      * The chasePlayer method determines whether the enemy should initiate
@@ -38,13 +41,14 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
     @Override
     public void chasePlayer(int playerPosX, int playerPosY, int distanceFromEnemyToPlayer, Enemy enemy) {
 
-        boolean enemyAtCenterOfTile = enemy.getPosX() % 32 == 0 && enemy.getPosY() % 32 == 0;
+        boolean enemyAtCenterOfTile =
+                enemy.getPosX() % TileMap.TILE_SIDE_LENGTH == 0 && enemy.getPosY() % TileMap.TILE_SIDE_LENGTH == 0;
 
         // Initiate a chase only if the enemy is at the center of a tile and the distance
         // to the player is less than 85 (the diagonal length of two tiles combined).
         // Here we meet the requirement that the enemy should only recalculate the path
         //to the player once it has traversed one tile.
-        if (enemyAtCenterOfTile && distanceFromEnemyToPlayer < 85) {
+        if (enemyAtCenterOfTile && distanceFromEnemyToPlayer < CHASE_THRESHOLD) {
 
             pathToPlayer = pathFinder.findPath(playerPosX, playerPosY, enemy.getPosX(), enemy.getPosY(), enemy.hasWallPass());
             if (pathToPlayer != null) {
@@ -52,11 +56,7 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
                 setNextDestination();
                 chaseEnabled = true;
             }
-
-            //TODO: carefully remove the time, don't break stuff.
-            recalculatePathTimer = 45;
         }
-        recalculatePathTimer--;
     }
 
     /**
@@ -76,7 +76,7 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
         Coordinate nextPositionOnGrid = pathToPlayer.remove(0);
         int nextRow = nextPositionOnGrid.getRow();
         int nextCol = nextPositionOnGrid.getCol();
-        nextDestination = new Coordinate((nextCol + 1) * 32, (nextRow + 1) * 32);
+        nextDestination = new Coordinate((nextCol + 1) * TileMap.TILE_SIDE_LENGTH, (nextRow + 1) * TileMap.TILE_SIDE_LENGTH);
         return true;
     }
 
@@ -146,8 +146,8 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
             boolean shouldTurn = random.nextFloat() <= 0.1f;
             if (randomTurnOnIntersection(enemyPosX, enemyPosY, shouldTurn)) {
                 enemy.setDirectionOfMovement(Direction.getRandomPerpendicularDirection(directionOfMovement));
-                enemy.setPosX(enemyPosX - enemyPosX % 32);
-                enemy.setPosY(enemyPosY - enemyPosY % 32);
+                enemy.setPosX(enemyPosX - enemyPosX % TileMap.TILE_SIDE_LENGTH);
+                enemy.setPosY(enemyPosY - enemyPosY % TileMap.TILE_SIDE_LENGTH);
             }
         }
         moveEnemyOnBoard(enemy);
@@ -160,8 +160,8 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
      * @return A boolean specifying whether a random turn should be performed.
      */
     public boolean randomTurnOnIntersection(int posX, int posY, boolean shouldTurn) {
-        boolean enemyAtXIntersection = (posX) % 32 <= 3 && (posX/32) % 2 == 1;
-        boolean enemyAtYIntersection = (posY) % 32 <= 3 && (posY/32) % 2 == 1;
+        boolean enemyAtXIntersection = (posX) % TileMap.TILE_SIDE_LENGTH <= 3 && (posX/TileMap.TILE_SIDE_LENGTH) % 2 == 1;
+        boolean enemyAtYIntersection = (posY) % TileMap.TILE_SIDE_LENGTH <= 3 && (posY/TileMap.TILE_SIDE_LENGTH) % 2 == 1;
         if (enemyAtXIntersection && enemyAtYIntersection && shouldTurn) {
             return true;
         } else {

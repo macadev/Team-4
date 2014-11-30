@@ -167,11 +167,11 @@ public class GamePlayManager extends GameState implements Serializable {
             // In this case we snap the camera to a position encompassing all of the right
             // side of the board.
             if (secondCameraRegion) {
-                g.translate(-(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.WIDTH_OF_TILE), 0);
+                g.translate(-(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.TILE_SIDE_LENGTH), 0);
                 player.drawBombs(g);
                 tileMap.drawObjects(g);
                 player.draw(g);
-                g.translate(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.WIDTH_OF_TILE, 0);
+                g.translate(tileMap.TOTAL_WIDTH_OF_COLUMNS - 15 * tileMap.TILE_SIDE_LENGTH, 0);
             } else {
                 // The player has less than 15 tile columns on its left side. In this case we do
                 // not need to adjust the camera position; it is fixed on the left side of the board.

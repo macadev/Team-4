@@ -27,14 +27,18 @@ public class Player extends MovableObject implements Serializable {
     private int respawnCount = 0;
     private int livesRemaining;
 
-    //powerUp logic data.
+    // PowerUp logic data.
     private int bombsAllowed;
     private boolean bombPass;
     private boolean flamePass;
     private boolean detonatorEnabled;
     private boolean invincibilityEnabled;
-    //invincibility last for 5 seconds = 150 frames.
+    // Invincibility last for 5 seconds = 150 frames.
     private int invincibilityDuration = 150;
+
+    // Constants
+    public static final int SPRITE_SIDE_LENGTH = 30;
+    public static final int PLAYER_SPAWN_COORDINATE = 32;
 
     /**
      * Initialize a Player object representing the Bomberman character on the grid
@@ -140,16 +144,16 @@ public class Player extends MovableObject implements Serializable {
             int bombX;
             int bombY;
 
-            if (posX % 32 >= 17) {
-                bombX = posX - posX % 32 + 32;
+            if (posX % TileMap.TILE_SIDE_LENGTH >= 17) {
+                bombX = posX - posX % TileMap.TILE_SIDE_LENGTH + TileMap.TILE_SIDE_LENGTH;
             } else {
-                bombX = posX - posX % 32;
+                bombX = posX - posX % TileMap.TILE_SIDE_LENGTH;
             }
 
-            if (posY % 32 >= 17) {
-                bombY = posY - posY % 32 + 32;
+            if (posY % TileMap.TILE_SIDE_LENGTH >= 17) {
+                bombY = posY - posY % TileMap.TILE_SIDE_LENGTH + TileMap.TILE_SIDE_LENGTH;
             } else {
-                bombY = posY - posY % 32;
+                bombY = posY - posY % TileMap.TILE_SIDE_LENGTH;
             }
 
             Bomb bomb = new Bomb(bombX, bombY);
@@ -190,8 +194,8 @@ public class Player extends MovableObject implements Serializable {
     public void countDownToRespawn() {
         if (this.respawnCount == 60) {
             visible = true;
-            posX = 35;
-            posY = 35;
+            posX = PLAYER_SPAWN_COORDINATE;
+            posY = PLAYER_SPAWN_COORDINATE;
             respawnCount = 0;
         } else {
             respawnCount++;
@@ -276,10 +280,10 @@ public class Player extends MovableObject implements Serializable {
      * touching the door).
      */
     public void nextStage() {
-        previousX = 35;
-        previousY = 35;
-        posX = 35;
-        posY = 35;
+        previousX = PLAYER_SPAWN_COORDINATE;
+        previousY = PLAYER_SPAWN_COORDINATE;
+        posX = PLAYER_SPAWN_COORDINATE;
+        posY = PLAYER_SPAWN_COORDINATE;
         //Erase all the existing bombs placed on the completed stage.
         bombsPlaced = new ArrayList<Bomb>();
         if (tileMap != null) {

@@ -40,23 +40,23 @@ public class Spawner implements Serializable {
             for (int row = 0; row < TileMap.NUM_OF_ROWS; row++) {
 
                 //Generate top row of tiles
-                if (row == 0) gridLayout[col][row] = new ConcreteWall(col * TileMap.WIDTH_OF_TILE, 0);
+                if (row == 0) gridLayout[col][row] = new ConcreteWall(col * TileMap.TILE_SIDE_LENGTH, 0);
 
                 //Generate bottom row of tiles
-                if (row == 12) gridLayout[col][row] = new ConcreteWall(col * TileMap.WIDTH_OF_TILE,
-                        TileMap.HEIGHT_OF_TILE * (row));
+                if (row == 12) gridLayout[col][row] = new ConcreteWall(col * TileMap.TILE_SIDE_LENGTH,
+                        TileMap.TILE_SIDE_LENGTH * (row));
 
                 //Generate first column of tiles
                 if (col == 0 && row >= 1 && row < 12)
-                    gridLayout[col][row] = new ConcreteWall(col, row * TileMap.HEIGHT_OF_TILE);
+                    gridLayout[col][row] = new ConcreteWall(col, row * TileMap.TILE_SIDE_LENGTH);
 
                 //Generate last column of tiles
                 if (col == 30 && row >= 1 && row < 12)
-                    gridLayout[col][row] = new ConcreteWall(col * TileMap.WIDTH_OF_TILE, row * TileMap.HEIGHT_OF_TILE);
+                    gridLayout[col][row] = new ConcreteWall(col * TileMap.TILE_SIDE_LENGTH, row * TileMap.TILE_SIDE_LENGTH);
 
                 //Generate alternating tiles present inside the grid
                 if (row >= 2 && row <= 10 && (row % 2) == 0 && col >= 2 && col <= 28 && (col % 2) == 0) {
-                    gridLayout[col][row] = new ConcreteWall(col * TileMap.WIDTH_OF_TILE, row * TileMap.WIDTH_OF_TILE);
+                    gridLayout[col][row] = new ConcreteWall(col * TileMap.TILE_SIDE_LENGTH, row * TileMap.TILE_SIDE_LENGTH);
                 }
             }
         }
@@ -71,7 +71,7 @@ public class Spawner implements Serializable {
                 boolean isPositionNull = (gridLayout[col][row] == null);
 
                 if (!stageData.isBonusStage() && isPositionNull && getRandomBoolean() && isInValidPosition(row, col)) {
-                    gridLayout[col][row] = new BrickWall(col * TileMap.WIDTH_OF_TILE, row * TileMap.HEIGHT_OF_TILE, true, false);
+                    gridLayout[col][row] = new BrickWall(col * TileMap.TILE_SIDE_LENGTH, row * TileMap.TILE_SIDE_LENGTH, true, false);
                     possiblePowerUpAndDoorCoordinates.add(new Coordinate(row, col));
                 } else if (isPositionNull) {
                     possibleEnemyCoordinates.add(new Coordinate(row, col));
@@ -93,7 +93,7 @@ public class Spawner implements Serializable {
                 int row = positionOnGrid.getRow();
                 int col = positionOnGrid.getCol();
 
-                enemies.add(new Enemy(onlyTypePresent, col * TileMap.WIDTH_OF_TILE, row * TileMap.HEIGHT_OF_TILE));
+                enemies.add(new Enemy(onlyTypePresent, col * TileMap.TILE_SIDE_LENGTH, row * TileMap.TILE_SIDE_LENGTH));
             }
             return enemies;
         }
@@ -108,7 +108,7 @@ public class Spawner implements Serializable {
                 int row = positionOnGrid.getRow();
                 int col = positionOnGrid.getCol();
 
-                enemies.add(new Enemy(currentSetType, col * TileMap.WIDTH_OF_TILE, row * TileMap.HEIGHT_OF_TILE));
+                enemies.add(new Enemy(currentSetType, col * TileMap.TILE_SIDE_LENGTH, row * TileMap.TILE_SIDE_LENGTH));
             }
 
         }
@@ -136,7 +136,7 @@ public class Spawner implements Serializable {
             int row = spawnCoordinate.getRow();
             int col = spawnCoordinate.getCol();
 
-            enemies.add(new Enemy(harderEnemyType, col * TileMap.WIDTH_OF_TILE + 1, row * TileMap.HEIGHT_OF_TILE + 1));
+            enemies.add(new Enemy(harderEnemyType, col * TileMap.TILE_SIDE_LENGTH + 1, row * TileMap.TILE_SIDE_LENGTH + 1));
         }
         return enemies;
     }
@@ -149,7 +149,7 @@ public class Spawner implements Serializable {
         //In the case of a bonus stage, the enemiesPresent array will only contain one enemySet
         //We retrieve the only type to create new enemies of that same type.
         EnemyType type = stageData.getEnemiesPresent()[0].getEnemyType();
-        Enemy bonusEnemy = new Enemy(type, col * TileMap.WIDTH_OF_TILE, row * TileMap.HEIGHT_OF_TILE);
+        Enemy bonusEnemy = new Enemy(type, col * TileMap.TILE_SIDE_LENGTH, row * TileMap.TILE_SIDE_LENGTH);
         return bonusEnemy;
     }
 
@@ -161,7 +161,7 @@ public class Spawner implements Serializable {
         Coordinate positionOnGrid = getRandomCoordinateFromSet(possiblePowerUpAndDoorCoordinates);
         int row = positionOnGrid.getRow();
         int col = positionOnGrid.getCol();
-        PowerUp powerUp = new PowerUp(powerUpType, col * TileMap.WIDTH_OF_TILE, row * TileMap.HEIGHT_OF_TILE);
+        PowerUp powerUp = new PowerUp(powerUpType, col * TileMap.TILE_SIDE_LENGTH, row * TileMap.TILE_SIDE_LENGTH);
         return powerUp;
     }
 
@@ -172,7 +172,7 @@ public class Spawner implements Serializable {
         Coordinate positionOnGrid = getRandomCoordinateFromSet(possiblePowerUpAndDoorCoordinates);
         int row = positionOnGrid.getRow();
         int col = positionOnGrid.getCol();
-        Door door = new Door(col * TileMap.WIDTH_OF_TILE + 1, row * TileMap.HEIGHT_OF_TILE + 1);
+        Door door = new Door(col * TileMap.TILE_SIDE_LENGTH + 1, row * TileMap.TILE_SIDE_LENGTH + 1);
         return door;
     }
 

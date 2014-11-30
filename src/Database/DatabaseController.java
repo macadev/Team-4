@@ -1,12 +1,13 @@
+/**
+ * Created by Owen Li on 14-11-08.
+ */
 package Database;
 
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
-//2014
 
 /**
- * Created by Owen Li on 14-11-08.
  * The DatabaseController class handles all user data storage by implementing the SQLite library.
  * The methods in this class use SQL queries to read,update,delete,and create entries from a table inside the database.
  * When appropriate, the methods in this class use the username of a user as the key to access all other entries in the database

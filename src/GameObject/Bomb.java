@@ -21,6 +21,7 @@ public class Bomb extends StaticObject implements Serializable {
     //placement
     private boolean firstCollision;
     private int framesOnGrid;
+    public static final int SPRITE_SIDE_LENGTH = 15;
 
     /**
      * Contains the image that represents the structure
@@ -29,7 +30,7 @@ public class Bomb extends StaticObject implements Serializable {
      * @param posY Position Y of the robot on the grid
      */
     public Bomb(int posX, int posY) {
-        this.imagePath = "../resources/bomb2.png";
+        this.imagePath = "../resources/bomb.png";
         this.posX = posX;
         this.posY = posY;
         this.visible = true;

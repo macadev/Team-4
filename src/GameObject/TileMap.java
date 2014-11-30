@@ -30,8 +30,7 @@ public class TileMap implements Serializable {
     public static final int TOTAL_HEIGHT_OF_ROWS = 416;
     public static final int NUM_OF_COLS = 31;
     public static final int NUM_OF_ROWS = 13;
-    public static final int WIDTH_OF_TILE = 32;
-    public static final int HEIGHT_OF_TILE = 32;
+    public static final int TILE_SIDE_LENGTH = 32;
     public static final int CAMERA_MOVING_LIMIT_LEFT = 224;
     public static final int CAMERA_MOVING_LIMIT_RIGHT = 733;
 
@@ -55,7 +54,6 @@ public class TileMap implements Serializable {
 
     //keep track of the current stage
     private int currentStage;
-    private int bonusStageCountDown;
 
     /**
      * Initialize a TileMap object to hold and interact with all the game objects that
@@ -70,14 +68,13 @@ public class TileMap implements Serializable {
         this.player = player;
         this.userName = userName;
         this.currentStage = selectedStage;
-        this.bombRadius = 4;
+        this.bombRadius = 1;
         this.spawner = new Spawner(getCurrentStage());
         this.flames = new ArrayList<Flame>();
         this.isBonusStage = getCurrentStage().isBonusStage();
         this.pathFinder = new PathFinder();
-        HighIntelligence.setPathFinder(pathFinder);
-        this.bonusStageCountDown = 0;
         this.harderSetAlreadyCreated = false;
+        HighIntelligence.setPathFinder(pathFinder);
         populateGridWithBlocks();
         createEnemySet();
         generatePowerUp();
@@ -282,13 +279,13 @@ public class TileMap implements Serializable {
      */
     public void addFlames(int bombPosX, int bombPosY) {
 
-        int posXOfExplosion = bombPosX / 32;
-        int posYOfExplosion = bombPosY / 32;
+        int posXOfExplosion = bombPosX / TILE_SIDE_LENGTH;
+        int posYOfExplosion = bombPosY / TILE_SIDE_LENGTH;
 
         //Place a flame object at the center of the explosion
         //TODO: INTRODUCE CONSTANTS EVERYWHERE!
         //We create a flame object directly on the location where the bomb exploded.
-        flames.add(new Flame(posXOfExplosion * 32, posYOfExplosion * 32, true, bombPosX, bombPosY));
+        flames.add(new Flame(posXOfExplosion * TILE_SIDE_LENGTH, posYOfExplosion * TILE_SIDE_LENGTH, true, bombPosX, bombPosY));
 
         boolean isConcreteWall;
         boolean isBrickWall;
@@ -309,29 +306,29 @@ public class TileMap implements Serializable {
                     //expand flames in the East direction
                     posXofWall = posXOfExplosion + i;
                     posYofWall = posYOfExplosion;
-                    posXofFlame = (posXofWall) * 32;
-                    posYofFlame = (posYofWall) * 32;
+                    posXofFlame = (posXofWall) * TILE_SIDE_LENGTH;
+                    posYofFlame = (posYofWall) * TILE_SIDE_LENGTH;
 
                 } else if (direction == Direction.WEST) {
                     //expand flames in the West direction
                     posXofWall = posXOfExplosion - i;
                     posYofWall = posYOfExplosion;
-                    posXofFlame = (posXofWall) * 32;
-                    posYofFlame = (posYofWall) * 32;
+                    posXofFlame = (posXofWall) * TILE_SIDE_LENGTH;
+                    posYofFlame = (posYofWall) * TILE_SIDE_LENGTH;
 
                 } else if (direction == Direction.NORTH) {
                     //expand flames in the North direction
                     posXofWall = posXOfExplosion;
                     posYofWall = posYOfExplosion - i;
-                    posXofFlame = (posXofWall) * 32;
-                    posYofFlame = (posYofWall) * 32;
+                    posXofFlame = (posXofWall) * TILE_SIDE_LENGTH;
+                    posYofFlame = (posYofWall) * TILE_SIDE_LENGTH;
 
                 } else {
                     //expand flames in the South direction
                     posXofWall = posXOfExplosion;
                     posYofWall = posYOfExplosion + i;
-                    posXofFlame = (posXofWall) * 32;
-                    posYofFlame = (posYofWall) * 32;
+                    posXofFlame = (posXofWall) * TILE_SIDE_LENGTH;
+                    posYofFlame = (posYofWall) * TILE_SIDE_LENGTH;
                 }
 
                 wall = walls[posXofWall][posYofWall];
@@ -424,8 +421,13 @@ public class TileMap implements Serializable {
             //the intelligence types.
             int distanceBetweenPlayerAndEnemy = 100;
             if (playerIsVisible) {
-                Coordinate centerOfPlayerObject = new Coordinate(playerPosX + 15, playerPosY + 15);
-                Coordinate centerOfEnemyObject = new Coordinate(enemy.getPosX() + 15, enemy.getPosY() + 15);
+
+                Coordinate centerOfPlayerObject = new Coordinate(playerPosX + Player.SPRITE_SIDE_LENGTH / 2,
+                                                                 playerPosY + Player.SPRITE_SIDE_LENGTH / 2);
+
+                Coordinate centerOfEnemyObject = new Coordinate(enemy.getPosX() + Player.SPRITE_SIDE_LENGTH / 2,
+                                                                enemy.getPosY() + Player.SPRITE_SIDE_LENGTH / 2);
+
                 distanceBetweenPlayerAndEnemy = centerOfPlayerObject.distanceTo(centerOfEnemyObject);
             }
 

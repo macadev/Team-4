@@ -19,6 +19,7 @@ import java.io.Serializable;
  */
 public class Enemy extends MovableObject implements Serializable {
 
+    public static final int SPRITE_SIDE_LENGTH = 30;
     private EnemyType enemyType;
     private Direction directionOfMovement;
     private ArtificialIntelligence intelligence = null;
@@ -181,7 +182,7 @@ public class Enemy extends MovableObject implements Serializable {
      * @return the centralized coordinate location of the enemy.
      */
     public Coordinate getCenterOfEnemyAsCoordinate() {
-        return new Coordinate(posX + 15, posY + 15);
+        return new Coordinate(posX + SPRITE_SIDE_LENGTH / 2, posY + SPRITE_SIDE_LENGTH / 2);
     }
 
     /**
