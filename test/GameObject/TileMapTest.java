@@ -50,41 +50,40 @@ public class TileMapTest {
         tileMap.setPowerUp(new PowerUp(PowerUpType.BOMBPASS, 200,200));
 
         // col then row      |     row then col
-        walls[0][1] = new BrickWall(1, 0, true, false);
-        walls[1][0] = new BrickWall(0, 1, true, false);
+        walls[2][1] = new BrickWall(1, 2, true, false);
+        walls[1][2] = new BrickWall(2, 1, true, false);
 
         tileMap.addFlames(32, 32);
         assertTrue("We expect brick walls within the radius of explosion to be replaced by null in the two-dimensional " +
-                "walls array", walls[0][1] == null && walls[1][0] == null);
-
+                "walls array", walls[2][1] == null && walls[1][2] == null);
+        walls[1][2] = null;
 
         // This brick wall is created behind a concrete wall which faces the origin of the explosion.
         // The brick wall should not disappear because it is protected by the concrete wall.
         player = new Player(35, 35, true, MovableObject.NORMALSPEED);
         tileMap = new TileMap(player, 1, userName);
         walls = tileMap.getWalls();
-        walls[1][2] = new BrickWall(2, 1, true, false);
-        walls[1][0] = null;
+        walls[2][3] = new BrickWall(3, 2, true, false);
+        // get the powerUp far from the explosion so that it doesn't alter the result.
         tileMap.setPowerUp(new PowerUp(PowerUpType.BOMBPASS, 200,200));
         tileMap.addFlames(64, 32);
-        assertTrue("Concrete walls should stop the expansion of the explosion", walls[1][2] instanceof BrickWall);
+        assertTrue("Concrete walls should stop the expansion of the explosion", walls[2][3] instanceof BrickWall);
 
 
-        // This brick wall is created behind a concrete wall which faces the origin of the explosion.
-        // The brick wall should not disappear because it is protected by the concrete wall.
         player = new Player(35, 35, true, MovableObject.NORMALSPEED);
         tileMap = new TileMap(player, 1, userName);
-        // PowerUp is placed under the brick wall created above
-        tileMap.getPowerUp().setPosX(32);
-        tileMap.getPowerUp().setPosY(64);
+        // PowerUp is placed under the brick wall created below
+
+        PowerUp powerUp = new PowerUp(PowerUpType.BOMBS, 32, 64);
+        tileMap.setPowerUp(powerUp);
         tileMap.setBombRadius(8);
         walls = tileMap.getWalls();
-        walls[0][1] = new BrickWall(1, 0, true, false);
+        walls[2][1] = new BrickWall(1, 2, true, true);
 
         tileMap.addFlames(32,32);
 
-        assertNull("If a brick wall hiding a powerUp is hit by flames, then it becomes null within the two dimensional " +
-                "walls array", walls[0][1]);
+        assertNull("If a brick wall hiding a powerUp is hit by flames, then its place in the two-dimensional walls array " +
+                "should become null", walls[2][1]);
     }
 
     @Test

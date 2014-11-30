@@ -64,7 +64,7 @@ public class Player extends MovableObject implements Serializable {
         this.wallPass = false;
         this.bombPass = false;
         this.flamePass = false;
-        this.detonatorEnabled = true;
+        this.detonatorEnabled = false;
         this.invincibilityEnabled = false;
     }
 
