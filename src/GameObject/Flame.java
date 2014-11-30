@@ -9,7 +9,8 @@ import javax.swing.*;
 import java.io.Serializable;
 
 /**
- * Used to represent the flame object that appears once a bomb explodes.
+ * Used to represent the flame object that appears once a bomb explodes.Flames increase the explosion range of all
+ * bombs by 1 square in each direction
  */
 public class Flame extends StaticObject implements Serializable {
 
@@ -21,11 +22,11 @@ public class Flame extends StaticObject implements Serializable {
      * A Flame object is defined by a position on the grid, and a boolean representing whether it is
      * visible or not. We keep track of the time it will remain visible in terms of number of frames
      * it will be rendered.
-     * @param posX
-     * @param posY
-     * @param visible
-     * @param explosionOriginX
-     * @param explosionOriginY
+     * @param posX x position of the flame on the grid
+     * @param posY y position of the flame on the grid
+     * @param visible boolean representing whether the flame can be seen or not
+     * @param explosionOriginX x position of where the explosion occurred
+     * @param explosionOriginY y position of where the explosion occurred
      */
     public Flame(int posX, int posY, boolean visible, int explosionOriginX, int explosionOriginY) {
         this.imagePath = "../resources/flames.png";
@@ -52,22 +53,42 @@ public class Flame extends StaticObject implements Serializable {
         }
     }
 
+    /**
+     * Attains the x position of where the explosion occurred
+     * @return the x-position of explosion
+     */
     public int getExplosionOriginX() {
         return explosionOriginX;
     }
 
+    /**
+     * Assigns the x position of where the explosion will occur
+     * @param explosionOriginX ,sets the previous explosion x-position to the new assigned int value
+     */
     public void setExplosionOriginX(int explosionOriginX) {
         this.explosionOriginX = explosionOriginX;
     }
 
+    /**
+     * Attains the y position of where the explosion occurred
+     * @return the y position of explosion
+     */
     public int getExplosionOriginY() {
         return explosionOriginY;
     }
 
+    /**
+     *  * Assigns the x-coordinate position of where the explosion will occur
+     * @param explosionOriginY, sets the previous explosion y-coordinate to the new assigned int value
+     */
     public void setExplosionOriginY(int explosionOriginY) {
         this.explosionOriginY = explosionOriginY;
     }
 
+    /**
+     * Attains the origin of the explosion by the combining the explosion X and explosion Y parts
+     * @return the coordinate based on both x+14 and y+14 as these are the centres 
+     */
     public Coordinate getExplosionOriginAsCoordinate() {
         return new Coordinate(explosionOriginX + 14, explosionOriginY + 14);
     }
