@@ -3,12 +3,11 @@ Bomberman | Team 4
 
 **Team-4 ISE**
 
-
-Daniel Macario - daniel.macario@mail.mcgill.ca
-Vasundhara Gupta
-Florent Lefebvre
-Shabab Ahmed
-Owen Li
+* Vasundhara Gupta
+* Florent Lefebvre
+* Shabab Ahmed
+* Owen Li
+* Daniel Macario - daniel.macario@mail.mcgill.ca
 
 **Dependencies**
 
