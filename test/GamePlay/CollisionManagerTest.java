@@ -3,11 +3,9 @@ package GamePlay;
 import GameObject.*;
 import GameObject.Player;
 import GameObject.TileMap;
-import SystemController.SoundController;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -29,7 +27,7 @@ public class CollisionManagerTest {
     public void testCheckCollisionsWithWalls() throws Exception {
         player.setPreviousX(33);
         player.setPreviousY(33);
-        GameObject[][] walls = tileMap.getObjects();
+        GameObject[][] walls = tileMap.getWalls();
         walls[1][2] = new BrickWall(64,32, true, false);
         tileMap.setEnemies(new ArrayList<Enemy>());
 

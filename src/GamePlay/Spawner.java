@@ -45,6 +45,7 @@ public class Spawner implements Serializable {
                 //Generate bottom row of tiles
                 if (row == 12) gridLayout[col][row] = new ConcreteWall(col * TileMap.WIDTH_OF_TILE,
                         TileMap.HEIGHT_OF_TILE * (row));
+
                 //Generate first column of tiles
                 if (col == 0 && row >= 1 && row < 12)
                     gridLayout[col][row] = new ConcreteWall(col, row * TileMap.HEIGHT_OF_TILE);
