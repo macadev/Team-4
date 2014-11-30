@@ -70,7 +70,7 @@ public class TileMap implements Serializable {
         this.player = player;
         this.userName = userName;
         this.currentStage = selectedStage;
-        this.bombRadius = 3;
+        this.bombRadius = 4;
         this.spawner = new Spawner(getCurrentStage());
         this.flames = new ArrayList<Flame>();
         this.isBonusStage = getCurrentStage().isBonusStage();
@@ -98,40 +98,8 @@ public class TileMap implements Serializable {
     }
 
     /**
-     * Gets the boolean on whether to spawn harder enemies or not
-     * @return Boolean whether to spawn harder set of enemies
-     */
-    public boolean isSpawnHarderSet() {
-        return spawnHarderSet;
-    }
-
-    /**
-     * Sets the boolean to true or false on whether to spawn harder enemies
-     * @param spawnHarderSet Boolean is passed to set spawnHarderSet to true or false
-     */
-    public void setSpawnHarderSet(boolean spawnHarderSet) {
-        this.spawnHarderSet = spawnHarderSet;
-    }
-
-    /**
-     * Gets the value of timeToHarderSet
-     * @return int timeToHarderSet representing the time regarding harder enemy spawn
-     */
-    public int getTimeToHarderSet() {
-        return timeToHarderSet;
-    }
-
-    /**
-     * Sets value of timeToHarderSet
-     * @param timeToHarderSet int representing time regarding harder enemy spawn
-     */
-    public void setTimeToHarderSet(int timeToHarderSet) {
-        this.timeToHarderSet = timeToHarderSet;
-    }
-
-    /**
      * Function called when a bomb explosion collides with a powerUp or the door.
-     * If this is case, we wait 20 frames for the flames to disappear and then
+     * If this is the case, we wait 20 frames for the flames to disappear and then
      * generate the harder set of enemies.
      */
     public void determineIfShouldSpawnHarderEnemies() {
@@ -313,6 +281,7 @@ public class TileMap implements Serializable {
      * @param bombPosY Integer representing the y coordinate where the bomb exploded.
      */
     public void addFlames(int bombPosX, int bombPosY) {
+
         int posXOfExplosion = bombPosX / 32;
         int posYOfExplosion = bombPosY / 32;
 
@@ -332,7 +301,7 @@ public class TileMap implements Serializable {
 
         //We expand in the radius of explosion of the bomb going in the cardinal directions.
         //We add flame objects at each tile until we reach the limit of the radius or we hit
-        //a concrete wall.
+        //a wall.
         for (Direction direction : directions) {
             for (int i = 1; i < bombRadius + 1; i++) {
 
@@ -358,7 +327,7 @@ public class TileMap implements Serializable {
                     posYofFlame = (posYofWall) * 32;
 
                 } else {
-                    //expand flames in the South direciton
+                    //expand flames in the South direction
                     posXofWall = posXOfExplosion;
                     posYofWall = posYOfExplosion + i;
                     posXofFlame = (posXofWall) * 32;
@@ -366,7 +335,6 @@ public class TileMap implements Serializable {
                 }
 
                 wall = walls[posXofWall][posYofWall];
-
                 isConcreteWall = wall instanceof ConcreteWall;
                 isBrickWall = wall instanceof BrickWall;
 
@@ -386,26 +354,26 @@ public class TileMap implements Serializable {
     }
 
     /**
-     * Sets the boolean for timetoHarderSetSpawn
-     * @param timeToHarderSetSpawn Boolean is passed to set timeToHarderSetSpawn to True or False
-     */
-    public void setTimeToHarderSetSpawn(int timeToHarderSetSpawn) {
-        this.timeToHarderSetSpawn = timeToHarderSetSpawn;
-    }
-
-    /**
      * Countdown timer used to trigger the spawn of a harder set of enemies
      * once the 200 seconds that a stage lasts ends.
      */
     public void countDownToHarderEnemySetSpawn() {
+
+        // timeToHarderSet refers to the 200 second timer countdown present
+        // in regular stages. Once this timer hits 0, we start a second timer
+        // that times 0.66 seconds before the enemy set is spawned. This timer
+        // avoid having the enemies killed by the flames of the bomb that detonated
+        // the door or powerUp.
+
+        // Bomb or powerUp detonated by the player before the 200 second timer
+        // ran out.
         if (harderSetAlreadyCreated) {
             if (timeToHarderSet > 0) timeToHarderSetSpawn--;
             return;
-
         }
 
+        // Spawn new enemy set if the 200 second timer runs out
         if (timeToHarderSetSpawn == 0) {
-            timeToHarderSetSpawn = 0;
             EnemyType harderEnemyType = determineHarderEnemyTypeToSpawn();
             newEnemySet = spawner.createSetOfHardEnemiesAtRandomPositions(harderEnemyType);
             spawnHarderSet = true;
@@ -423,6 +391,10 @@ public class TileMap implements Serializable {
      *             will spawn.
      */
     public void spawnSetOfHarderEnemies(int spawnPosX, int spawnPosY) {
+
+        // If there are no enemies left on the grid, then we don't spawn any new enemies.
+        // We follow this requirement from the NES version of the game that the wiki is based
+        // on.
         if (enemies.size() == 0) return;
         EnemyType harderEnemyType = determineHarderEnemyTypeToSpawn();
         newEnemySet = spawner.createSetOfHarderEnemies(harderEnemyType, spawnPosX, spawnPosY);
@@ -477,6 +449,7 @@ public class TileMap implements Serializable {
      */
     public EnemyType determineHarderEnemyTypeToSpawn() {
 
+        // Sort the enemies present on the grid based on their difficulty attribute
         Collections.sort(enemies, new Comparator<Enemy>() {
             @Override
             public int compare(Enemy enemyA, Enemy enemyB) {
@@ -485,7 +458,7 @@ public class TileMap implements Serializable {
 
         });
 
-        //Get the most difficult enemy type present in the game
+        //Get the most difficult enemy ranking present in the game
         int hardestTypeDifficulty = enemies.get(enemies.size() - 1).getDifficultyRanking();
 
         switch (hardestTypeDifficulty) {
@@ -509,7 +482,13 @@ public class TileMap implements Serializable {
         return null;
     }
 
-
+    /**
+     * Sets the boolean for timetoHarderSetSpawn
+     * @param timeToHarderSetSpawn Boolean is passed to set timeToHarderSetSpawn to True or False
+     */
+    public void setTimeToHarderSetSpawn(int timeToHarderSetSpawn) {
+        this.timeToHarderSetSpawn = timeToHarderSetSpawn;
+    }
 
     /**
      * Increments the bomb explosion radius by 1 tile.
@@ -535,6 +514,15 @@ public class TileMap implements Serializable {
     }
 
     /**
+     * Specify the stage number that the TileMap instance represents.
+     * @param currentStage Integer specifying the stage number that the TileMap
+     *                     represents.
+     */
+    public void setCurrentStage(int currentStage) {
+        this.currentStage = currentStage;
+    }
+
+    /**
      * Retrieve the enemies present on the grid.
      * @return An ArrayList containing the enemy objects present on the grid.
      */
@@ -554,7 +542,7 @@ public class TileMap implements Serializable {
      * Get the Wall objects present on the grid.
      * @return An two dimensional array containing instances of ConcreteWall and BrickWall
      */
-    public GameObject[][] getObjects() {
+    public GameObject[][] getWalls() {
         return walls;
     }
 
@@ -675,5 +663,47 @@ public class TileMap implements Serializable {
      */
     public void setBombRadius(int bombRadius) {
         this.bombRadius = bombRadius;
+    }
+
+    /**
+     * Retrieve the new enemySet to be spawned once a bomb explodes
+     * on a powerUp or door.
+     * @return An ArrayList containing the new Enemy set to be spawned after
+     * a bomb explodes on a powerUp or door.
+     */
+    public ArrayList<Enemy> getNewEnemySet() {
+        return newEnemySet;
+    }
+
+    /**
+     * Gets the boolean on whether to spawn harder enemies or not
+     * @return Boolean whether to spawn harder set of enemies
+     */
+    public boolean isSpawnHarderSet() {
+        return spawnHarderSet;
+    }
+
+    /**
+     * Sets the boolean to true or false on whether to spawn harder enemies
+     * @param spawnHarderSet Boolean is passed to set spawnHarderSet to true or false
+     */
+    public void setSpawnHarderSet(boolean spawnHarderSet) {
+        this.spawnHarderSet = spawnHarderSet;
+    }
+
+    /**
+     * Gets the value of timeToHarderSet
+     * @return int timeToHarderSet representing the time regarding harder enemy spawn
+     */
+    public int getTimeToHarderSet() {
+        return timeToHarderSet;
+    }
+
+    /**
+     * Sets value of timeToHarderSet
+     * @param timeToHarderSet int representing time regarding harder enemy spawn
+     */
+    public void setTimeToHarderSet(int timeToHarderSet) {
+        this.timeToHarderSet = timeToHarderSet;
     }
 }

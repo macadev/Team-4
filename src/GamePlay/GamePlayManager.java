@@ -4,8 +4,6 @@
 package GamePlay;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -296,7 +294,7 @@ public class GamePlayManager extends GameState implements Serializable {
      */
     public void checkCollisions() {
         Rectangle playerRectangle = player.getBounds();
-        GameObject[][] objects = tileMap.getObjects();
+        GameObject[][] objects = tileMap.getWalls();
         ArrayList<Bomb> bombsPlaced = player.getBombsPlaced();
         ArrayList<Enemy> enemies = tileMap.getEnemies();
         ArrayList<Flame> flames = tileMap.getFlames();

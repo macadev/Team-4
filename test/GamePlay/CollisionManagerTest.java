@@ -3,11 +3,9 @@ package GamePlay;
 import GameObject.*;
 import GameObject.Player;
 import GameObject.TileMap;
-import SystemController.SoundController;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -29,7 +27,7 @@ public class CollisionManagerTest {
     public void testCheckCollisionsWithWalls() throws Exception {
         player.setPreviousX(33);
         player.setPreviousY(33);
-        GameObject[][] walls = tileMap.getObjects();
+        GameObject[][] walls = tileMap.getWalls();
         walls[1][2] = new BrickWall(64,32, true, false);
         tileMap.setEnemies(new ArrayList<Enemy>());
 
@@ -71,7 +69,8 @@ public class CollisionManagerTest {
         powerUp = new PowerUp(PowerUpType.BOMBPASS, 32, 32);
         powerUp.setFirstCollision(true);
         collisionManager.checkCollisionWithPowerUp(player.getBounds(), powerUp);
-        assertFalse("If player collides with powerUp, and the powerUp is covered by a brickWallthe powerUp effect is activated on the player object", player.hasBombPass());
+        assertTrue("If player collides with powerUp, and the powerUp is covered by a brickWall the powerUp effect " +
+                "is activated on the player object", player.hasBombPass());
 
         //powerUp is null
         powerUp = null;

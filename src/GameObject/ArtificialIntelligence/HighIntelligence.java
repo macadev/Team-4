@@ -142,7 +142,9 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
             // if chase is not enabled and enemy is at an intersection,
             // then determine if we should turn in a random direction.
             Direction directionOfMovement = enemy.getDirectionOfMovement();
-            if (randomTurnOnIntersection(enemyPosX, enemyPosY)) {
+
+            boolean shouldTurn = random.nextFloat() <= 0.1f;
+            if (randomTurnOnIntersection(enemyPosX, enemyPosY, shouldTurn)) {
                 enemy.setDirectionOfMovement(Direction.getRandomPerpendicularDirection(directionOfMovement));
                 enemy.setPosX(enemyPosX - enemyPosX % 32);
                 enemy.setPosY(enemyPosY - enemyPosY % 32);
@@ -157,10 +159,10 @@ public class HighIntelligence extends ArtificialIntelligence implements Serializ
      * @param posY The y coordinate where the enemy is located.
      * @return A boolean specifying whether a random turn should be performed.
      */
-    public boolean randomTurnOnIntersection(int posX, int posY) {
-        boolean playerAtXIntersection = (posX) % 32 <= 3 && (posX/32) % 2 == 1;
-        boolean playerAtYIntersection = (posY) % 32 <= 3 && (posY/32) % 2 == 1;
-        if (playerAtXIntersection && playerAtYIntersection && random.nextFloat() <= 0.5f) {
+    public boolean randomTurnOnIntersection(int posX, int posY, boolean shouldTurn) {
+        boolean enemyAtXIntersection = (posX) % 32 <= 3 && (posX/32) % 2 == 1;
+        boolean enemyAtYIntersection = (posY) % 32 <= 3 && (posY/32) % 2 == 1;
+        if (enemyAtXIntersection && enemyAtYIntersection && shouldTurn) {
             return true;
         } else {
             return false;
