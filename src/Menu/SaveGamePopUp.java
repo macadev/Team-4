@@ -11,7 +11,9 @@ import java.util.Date;
 
 /**
  * Created by FloMac on 14-11-20.
- * Creates a pop up to save the current game with or without a file name.
+ * The SaveGamePopUp is accessed through the in game menu and allows the user to save his current progress in the game.
+ * It allows the user to name the save game file or a default time stamp is give if the name is left blank.
+ * Methods from JFrame are inherited to be used in the popup.
  */
 public class SaveGamePopUp extends JFrame {
 
@@ -21,24 +23,22 @@ public class SaveGamePopUp extends JFrame {
     private MenuManager menuManager;
 
     /**
-     * Creates the view of the SaveGamePopUp, prevents resizing, sets size, sets display position, enables closing.
-     * @param menuManager
+     * Constructor for SaveGamePopUp.
+     * @param menuManager Object menuManager is passed to navigate between the different game states and menus.
      */
     public SaveGamePopUp(MenuManager menuManager){
         this.menuManager = menuManager;
         createView();
-        //Exit Option
+
+        //Sets up window attributes
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        //Display Size
         setSize(350, 100);
-        //Setting it to the middle of the screen
         setLocationRelativeTo(null);
-        //Disable resize
         setResizable(false);
     }
 
     /**
-     * Creates the user interface
+     * Creates the window and everything displayed in it in the popup.
      */
     private void createView(){
         JPanel panel = new JPanel();
@@ -85,7 +85,7 @@ public class SaveGamePopUp extends JFrame {
     }
 
     /**
-     * Hides the window.
+     * Adds functionality to close the popup.
      */
     public void closeWindow() {
         setVisible(false);
@@ -93,7 +93,8 @@ public class SaveGamePopUp extends JFrame {
     }
 
     /**
-     * Checks if fileNameField is empty, saves with sample format if so, otherwise with a custom file name.
+     * Saves the file when save file is clicked. If the file name is empty, it gives a time stamp as the name for the
+     * saved file. Otherwise saves the file with user entered name.
      */
     public void saveFileClicked() {
         String fileName = fileNameField.getText();
@@ -108,7 +109,7 @@ public class SaveGamePopUp extends JFrame {
     }
 
     /**
-     * Changes MenuState to MainMenu.
+     * Redirects the user to the main menu.
      */
     public void redirectToMainMenu() {
         menuManager.setMenuState(MenuState.MAIN);

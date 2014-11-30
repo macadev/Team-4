@@ -21,7 +21,6 @@ public class MovableObject extends GameObject implements Serializable {
     protected int score;
     protected boolean wallPass;
 
-
     /**
      * Displaces the object on the grid based on the values of the deltaX
      * and the deltaY variables.
@@ -65,9 +64,9 @@ public class MovableObject extends GameObject implements Serializable {
 
     /**
      * Restores the position of the object to a specific set of coordinates
-     * @param x An integer representing the x coordinate on the grid where the Movable Object
+     * @param x An integer representing the x coordinate on the grid where the MovableObject
      *          will be rendered.
-     * @param y An integer representing the y coordinate on the grid where the Movable Object
+     * @param y An integer representing the y coordinate on the grid where the MovableObject
      *          will be placed.
      */
     public void restorePositionTo(int x, int y) {
@@ -76,7 +75,7 @@ public class MovableObject extends GameObject implements Serializable {
     }
 
     /**
-     * Retrieve the speed attribute of the movable object
+     * Retrieve the speed attribute of the MovableObject
      * @return an integer representing the speed of the MovableObject
      */
     public int getSpeed() {
@@ -84,25 +83,40 @@ public class MovableObject extends GameObject implements Serializable {
     }
 
     /**
-     * Modify the speed attribute of the movable object
-     * @param speed Set the speed of the movable object instance
+     * Modify the speed attribute of the MovableObject
+     * @param speed Set the speed of the MovableObject instance
      */
     public void setSpeed(int speed) {
         this.speed = speed;
     }
 
+    /**
+     * Retrieve the change in the x coordinate of the MovableObject
+     * @return Integer deltaX representing change in x coordinate of MovableObject
+     */
     public int getDeltaX() {
         return deltaX;
     }
 
+    /**
+     * Modify the x coordinate of the MovableObject
+     * @param deltaX Set the x coordinate of the MovableObject instance
+     */
     public void setDeltaX(int deltaX) {
         this.deltaX = deltaX;
     }
-
+    /**
+     * Retrieve the change in the y coordinate of the MovableObject
+     * @return Integer deltaY representing change in y coordinate of MovableObject
+     */
     public int getDeltaY() {
         return deltaY;
     }
 
+    /**
+     * Modify the y coordinate of the MovableObject
+     * @param deltaY Set the y coordinate of the MovableObject instance
+     */
     public void setDeltaY(int deltaY) {
         this.deltaY = deltaY;
     }
@@ -125,11 +139,51 @@ public class MovableObject extends GameObject implements Serializable {
         this.wallPass = wallPass;
     }
 
+    /**
+     * Get the score attribute associated with the MovableObject
+     * @return Integer representing the score of the object
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Set the wallPass attribute associated with the MovableObject
+     * @param score An integer representing the score of the object
+     */
     public void setScore(int score) {
         this.score = score;
+    }
+
+    /**
+     * Gets the x coordinate of the MovableObject
+     * @return Integer representing x the coordinate of the MovableObject
+     */
+    public int getPosX(){
+        return posX;
+    }
+
+    /**
+     *  Sets the x coordinate of the MovableObject
+     * @param posX An integer representing the x position where the object will be rendered on the Game Grid.
+     */
+    public void setPosX(int posX){
+        this.posX = posX;
+    }
+
+    /**
+     * Gets the y coordinate of the MovableObject
+     * @return Integer representing y the coordinate of the MovableObject
+     */
+    public int getPosY(){
+        return posY;
+    }
+
+    /**
+     *  Sets the y coordinate of the MovableObject
+     * @param posY An integer representing the y position where the object will be rendered on the Game Grid.
+     */
+    public void setPosY(int posY){
+        this.posY = posY;
     }
 }

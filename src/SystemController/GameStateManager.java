@@ -8,7 +8,6 @@ import Menu.*;
 
 import java.awt.*;
 
-
 /**
  * Controller used to switch between the two states of the application:
  * Menu or GamePlay. Also acts as a channel of communication for telling
@@ -75,7 +74,8 @@ public class GameStateManager {
     /**
      * Call the draw method within the current game state Controller
      * at a given time
-     * @param g
+     * @param g The Graphics2D object where all the objects for
+     *          both GamePlay and Menus are drawn.
      */
     public void draw(Graphics2D g) {
         if (currentState == TopLevelState.GAMEPLAYSTATE) {
@@ -88,7 +88,7 @@ public class GameStateManager {
     /**
      * Pass user input to the corresponding game state controller at a give
      * time
-     * @param k
+     * @param k Integer specifying the code of the key pressed by the user.
      */
     public void keyPressed(int k) {
         if (currentState == TopLevelState.GAMEPLAYSTATE) {
@@ -101,7 +101,7 @@ public class GameStateManager {
     /**
      * Pass user input to the corresponding game state controller at a give
      * time
-     * @param k
+     * @param k Integer specifying the code of the key released by the user.
      */
     public void keyReleased(int k) {
         if (currentState == TopLevelState.GAMEPLAYSTATE) {

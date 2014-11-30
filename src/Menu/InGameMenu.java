@@ -1,7 +1,8 @@
+/**
+ *
+ */
 package Menu;
 
-import GameObject.Player;
-import GamePlay.GamePlayState;
 import SystemController.GameStateManager;
 import SystemController.TopLevelState;
 
@@ -10,45 +11,40 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JTextField;
-
 /**
  * This class is used to represent the options available to the player when the game is paused. This menu is to appear
  * when the player presses the space bar during game play. The InGameMenu class inherits most of its functionality from
  * the MenuTemplate class. Specifically, the InGameMenu class defines the logic for: continuing the same game, starting
- * another- new game,quitting the game entirely, go the main menu for additional options or view their score on the
- * leaderboard.
+ * a new game, quitting the game entirely, redirecting to the main menu and viewing the leader board.
  */
-public class InGameMenu extends MenuTemplate{ //this menu will appear when the user pauses the game
+public class InGameMenu extends MenuTemplate{
 
-    private String[] options = {"Resume Gameplay","Save Game", "Start New Game", "Quit Game", "Exit to Main Menu", "View Leaderboard" };
-    //options offered in the in-game menu as stated in the SRS
-    private int currentChoice = 0; // index of the options array
+    // Options present in the in-game menu as specified in the SRS
+    private String[] options = {"Resume Gameplay","Save Game", "Start New Game", "Quit Game",
+                                "Exit to Main Menu", "View Leaderboard"};
+
+    // Used to keep track of the option selected by the user.
+    private int currentChoice = 0;
     private Color titleColor = MenuTemplate.TITLE_COLOR;
     private Font titleFont = MenuTemplate.TITLE_FONT;
     private Font font = MenuTemplate.BODY_FONT;
     private GameStateManager gsm;
 
-
-    /** Constructor for the InGameMenu class. Creates a InGameMenu object which takes both the menuManager and gsm
+    /**
+     * Constructor for the InGameMenu class. Creates a InGameMenu object which takes both the menuManager and gsm
      * as a parameter.
-     * @param menuManager Object navigates between the different menus
-     * depending on the currentChoice as chosen by the player.
-     *  @param gsm Object navigates between the different game-states
-     * depending on the currentChoice as chosen by the user.
+     * @param menuManager Object used to navigate between the different menus
+     * depending on the option selected by the player.
+     * @param gsm Object used to navigate between the different game-states
+     * depending on the menu option selected by the user.
      */
     public InGameMenu(MenuManager menuManager, GameStateManager gsm) {
 	    this.menuManager = menuManager;
         this.gsm = gsm;
 	}
 
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-	}
-
     /**
-     * Draws the InGameMenu with the options when the game is paused
+     * Draws the InGameMenu when the game is paused
      * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
      */
 	@Override
@@ -58,7 +54,6 @@ public class InGameMenu extends MenuTemplate{ //this menu will appear when the u
         g.setPaint(titleColor);
         g.drawString("In-Game Menu", 80, 70);
 
-
         //draw menu options
         g.setFont(font);
         for(int i = 0; i < options.length; i++) {
@@ -67,42 +62,36 @@ public class InGameMenu extends MenuTemplate{ //this menu will appear when the u
             } else {
                 g.setColor(MenuTemplate.BODY_SELECTED_COLOR);
             }
-            // pass horizontal distance, then vertical distance
+
             g.drawString(options[i], X_OFFSET, Y_OFFSET + i * 15);
         }
 
     }
 
     /**
-     * Implements the functionality for the user to scroll through the options with the direction
-     * buttons on the keyboard.
-     * @param k KeyCode used to represent the key pressed on the keyboard.
+     * Implements the functionality that enables the user to scroll through the options with the
+     * arrow keys on the keyboard.
+     * @param k Integer code used to represent the key pressed on the keyboard.
      */
 	@Override
 	public void keyPressed(int k) {
-        // TODO Auto-generated method stub
         if (k == KeyEvent.VK_ENTER) {
             select();
         }
         if (k == KeyEvent.VK_UP) {
             currentChoice--;
+            // Wrap around if we have reached the top end of the menu
             if (currentChoice == -1) currentChoice  = options.length - 1;
         }
         if (k == KeyEvent.VK_DOWN) {
             currentChoice++;
+            // Wrap around if we have reached an lower end of the menu
             if (currentChoice == options.length) currentChoice = 0;
         }
     }
 
-
-	@Override
-	public void keyReleased(int k) {
-		// TODO Auto-generated method stub
-
-	}
-
     /**
-     * Implements the functionality of each choice on the screen
+     * Enables the functionality of the current menu option selected by the user.
      */
 	public void select() {
 
@@ -134,4 +123,14 @@ public class InGameMenu extends MenuTemplate{ //this menu will appear when the u
             menuManager.setMenuState(MenuState.LEADERBOARD);
         }
 	}
+
+
+    @Override
+    public void init() {
+    }
+
+    @Override
+    public void keyReleased(int k) {
+
+    }
 }

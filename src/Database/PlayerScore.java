@@ -1,19 +1,25 @@
-package Database;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.sql.*;
-
 /**
  * Created by Owen Li on 14-11-18.
  */
-public class PlayerScore {
+package Database;
 
+/**
+ * This class defines an object PlayerScore for a user, used in generating the leader boards.
+ */
+public class PlayerScore {
     public int score;
     public String username;
     public int gamesPlayed;
     public String realName;
 
+    /**
+     * Creates a new PlayerScore object from specified elements
+     * @param username A string representing the username of the user.
+     * @param score An int representing the score of the user.
+     * @param realName A string representing the real name of the user.
+     * @param gamesPlayed An int representing the number of games played by the user.
+     * @return
+     */
     public static PlayerScore createPlayer(String username, int score, String realName, int gamesPlayed) {
         PlayerScore player = new PlayerScore();
         player.score = score;
@@ -21,11 +27,6 @@ public class PlayerScore {
         player.gamesPlayed = gamesPlayed;
         player.realName = realName;
         return player;
-    }
-
-    public static void checkPlayerExists(PlayerScore playerTest) {
-        if (playerTest.username != null && !playerTest.username.isEmpty())
-        System.out.println("player exists");
     }
 }
 

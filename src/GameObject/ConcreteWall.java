@@ -19,7 +19,7 @@ public class ConcreteWall extends StaticObject implements Serializable {
      * @param posY y position of the ConcreteWall on the grid
      */
     public ConcreteWall(int posX, int posY) {
-        this.imagePath = "../resources/concreteBlock.png";
+        this.imagePath = "/res/image/concreteBlock.png";
         this.posX = posX;
         this.posY = posY;
         this.previousX = posX;

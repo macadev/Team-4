@@ -121,11 +121,11 @@ public class CollisionManager implements Serializable {
      * @param playerRectangle The rectangle representing the collision box of the player object.
      * @param powerUp The powerUp object present on the grid.
      */
-    private void checkCollisionWithPowerUp(Rectangle playerRectangle, PowerUp powerUp) {
+    public void checkCollisionWithPowerUp(Rectangle playerRectangle, PowerUp powerUp) {
         if (powerUp == null) return;
         Rectangle powerUpRectangle = powerUp.getBounds();
 
-        if (powerUp.isVisible()) {
+        if (powerUp.isVisible() && !powerUp.isFirstCollision()) {
             if (playerRectangle.intersects(powerUpRectangle)) {
                 player.enablePowerUp(powerUp.getPowerUpType());
                 powerUp.setVisible(false);
@@ -141,7 +141,7 @@ public class CollisionManager implements Serializable {
      * @param door The door object present on the grid.
      * @param enemies An ArrayList containing the enemy objects present in the game.
      */
-    private void checkCollisionWithDoor(Rectangle playerRectangle, Door door, ArrayList<Enemy> enemies) {
+    public void checkCollisionWithDoor(Rectangle playerRectangle, Door door, ArrayList<Enemy> enemies) {
         if (door == null) return;
 
         if (enemies.size() == 0) {
@@ -212,65 +212,112 @@ public class CollisionManager implements Serializable {
         for (Flame flame : flames) {
             flameRectangle = flame.getBounds();
 
-            if (player.isVisible() && !player.isInvincibilityEnabled() && !isBonusStage) {
-                if(!player.hasFlamePass()) {
-                    if (playerRectangle.intersects(flameRectangle)) {
-                        //If the player collides with a bomb object we call it's death method.
-                        player.death();
-                    }
-                }
+            //we decouple this methods for testing purposes.
+            checkCollisionsBetweenFlameAndPlayer(flameRectangle, playerRectangle, isBonusStage);
+            checkCollisionsBetweenFlameAndBomb(flameRectangle, bombsPlaced);
+            checkCollisionsBetweenFlameAndEnemies(flameRectangle, flame, enemies, enemiesKilled);
+            checkCollisionsBetweenFlameAndPowerUp(flameRectangle, powerUp, isBonusStage);
+            checkCollisionsBetweenFlameAndDoor(flameRectangle, door, isBonusStage);
+        }
+
+        calculateScoreFromKills(enemiesKilled);
+    }
+
+    /**
+     * Resolves collisions between the player object and a flame object.
+     * @param flameRectangle The rectangle representing the collision box of the flame object.
+     * @param playerRectangle The rectangle representing the collision box of the player object.
+     * @param isBonusStage A boolean specifying whether the current stage is a bonus stage or not.
+     */
+    public void checkCollisionsBetweenFlameAndPlayer(Rectangle flameRectangle, Rectangle playerRectangle,
+                                                     boolean isBonusStage) {
+        if (player.isVisible() && !player.isInvincibilityEnabled() && !player.hasFlamePass() && !isBonusStage ) {
+            if (playerRectangle.intersects(flameRectangle)) {
+                //If the player collides with a bomb object we call it's death method.
+                player.death();
             }
+        }
+    }
 
-            for (Bomb bomb : bombsPlaced) {
-                Rectangle bombRectangle = bomb.getBounds();
-                if (flameRectangle.intersects(bombRectangle)) {
-                    //Detonate bombs if they collide with the flame object
-                    SoundController.BOMBEXPLODE.play();
-                    bomb.setVisible(false);
-                }
+    /**
+     * Resolves the collisions between the bomb objects and a flame object.
+     * @param flameRectangle The rectangle representing the collision box of the flame object.
+     * @param bombsPlaced An ArrayList containing the bombs objects placed on the grid.
+     */
+    public void checkCollisionsBetweenFlameAndBomb(Rectangle flameRectangle, ArrayList<Bomb> bombsPlaced) {
+        for (Bomb bomb : bombsPlaced) {
+            Rectangle bombRectangle = bomb.getBounds();
+            if (flameRectangle.intersects(bombRectangle)) {
+                //Detonate bombs if they collide with the flame object
+                SoundController.BOMBEXPLODE.play();
+                bomb.setVisible(false);
             }
+        }
+    }
 
-            for (Enemy enemy : enemies) {
-                Rectangle enemyRectangle = enemy.getBounds();
-                if (enemyRectangle.intersects(flameRectangle)) {
-                    enemy.death();
-                    Coordinate positionOfDeath = enemy.getCenterOfEnemyAsCoordinate();
-                    Coordinate locationOfBomb = flame.getExplosionOriginAsCoordinate();
+    /**
+     * Resolves the collisions between the enemy objects and a flame object.
+     * @param flameRectangle The rectangle representing the collision box of the flame object.
+     * @param flame The flame object being tested for collision.
+     * @param enemies ArrayList containing the enemy objects present on the grid.
+     * @param enemiesKilled ArrayList used to keep track of the enemies killed. Used
+     *                      for score management.
+     */
+    public void checkCollisionsBetweenFlameAndEnemies(Rectangle flameRectangle, Flame flame,
+                                                      ArrayList<Enemy> enemies, ArrayList<KillSet> enemiesKilled) {
+        for (Enemy enemy : enemies) {
+            Rectangle enemyRectangle = enemy.getBounds();
+            if (enemyRectangle.intersects(flameRectangle)) {
+                enemy.death();
+                Coordinate positionOfDeath = enemy.getCenterOfEnemyAsCoordinate();
+                Coordinate locationOfBomb = flame.getExplosionOriginAsCoordinate();
 
-                    //If an enemy collides with a flame object, we create a KillSet object with
-                    //the data of the death so that we can then pass it to the score manager to
-                    //determine the score obtained.
-                    if (!enemy.isHitByFlames()) {
-                        enemiesKilled.add(new KillSet(positionOfDeath, locationOfBomb, enemy));
-                    }
-                    enemy.setHitByFlames(true);
+                //If an enemy collides with a flame object, we create a KillSet object with
+                //the data of the death so that we can then pass it to the score manager to
+                //determine the score obtained.
+                if (!enemy.isHitByFlames()) {
+                    enemiesKilled.add(new KillSet(positionOfDeath, locationOfBomb, enemy));
                 }
+                enemy.setHitByFlames(true);
             }
+        }
+    }
 
-            if (!isBonusStage) {
-                //check whether powerUp is visible on the map, and if we haven't already spawned
-                //a harder set of enemies.
-                if (powerUp.isVisible()) {
-                    Rectangle powerUpRectangle = powerUp.getBounds();
-                    if (powerUpRectangle.intersects(flameRectangle)) {
-                        powerUp.setVisible(false);
-                        spawnSetOfHarderEnemies(powerUp.getPosX(), powerUp.getPosY());
-                    }
-                }
-
-                Rectangle doorRectangle = door.getBounds();
-                if (doorRectangle.intersects(flameRectangle)) {
-                    if (!tileMap.isHarderSetAlreadyCreated()) {
-                        spawnSetOfHarderEnemies(door.getPosX(), door.getPosY());
-                    }
+    /**
+     * Resolves the collisions between flame objects and a powerUp object.
+     * @param flameRectangle The rectangle representing the collision box of the flame object.
+     * @param powerUp The powerUp object present on the grid.
+     * @param isBonusStage A boolean specifying whether the current stage is a bonus stage or not.
+     */
+    public void checkCollisionsBetweenFlameAndPowerUp(Rectangle flameRectangle, PowerUp powerUp, boolean isBonusStage) {
+        if (!isBonusStage) {
+            //check whether powerUp is visible on the map, and if we haven't already spawned
+            //a harder set of enemies.
+            if (powerUp.isVisible() && !powerUp.isFirstCollision()) {
+                Rectangle powerUpRectangle = powerUp.getBounds();
+                if (powerUpRectangle.intersects(flameRectangle)) {
+                    powerUp.setVisible(false);
+                    spawnSetOfHarderEnemies(powerUp.getPosX(), powerUp.getPosY());
                 }
             }
         }
+    }
 
-        //TODO: might want to remove this later on
-        if (enemiesKilled.size() > 0) System.out.println("SIZE = " + enemiesKilled.size());
-
-        calculateScoreFromKills(enemiesKilled);
+    /**
+     * Resolves the collision between the door object and a flame object.
+     * @param flameRectangle The rectangle representing the collision box of the flame object.
+     * @param door The door object present on the grid.
+     * @param isBonusStage A boolean specifying whether the current stage is a bonus stage or not.
+     */
+    public void checkCollisionsBetweenFlameAndDoor(Rectangle flameRectangle, Door door, boolean isBonusStage) {
+        if (!isBonusStage) {
+            Rectangle doorRectangle = door.getBounds();
+            if (doorRectangle.intersects(flameRectangle)) {
+                if (!tileMap.isHarderSetAlreadyCreated()) {
+                    spawnSetOfHarderEnemies(door.getPosX(), door.getPosY());
+                }
+            }
+        }
     }
 
     /**

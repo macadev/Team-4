@@ -11,8 +11,4 @@ public class DoorTest {
 
     }
 
-    @Test
-    public void testIsFirstCollision() throws Exception {
-
-    }
 }

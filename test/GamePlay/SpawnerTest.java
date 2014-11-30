@@ -92,7 +92,7 @@ public class SpawnerTest {
                 correctLayout = false;
             }
 
-            if ((y/TileMap.HEIGHT_OF_TILE)%2 == 0 && (x/TileMap.WIDTH_OF_TILE)%2 == 0) {
+            if ((y/TileMap.TILE_SIDE_LENGTH)%2 == 0 && (x/TileMap.TILE_SIDE_LENGTH)%2 == 0) {
                 correctLayout = false;
             }
         }

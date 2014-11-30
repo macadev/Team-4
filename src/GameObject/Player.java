@@ -25,16 +25,20 @@ public class Player extends MovableObject implements Serializable {
     private TileMap tileMap;
     ArrayList<Bomb> bombsPlaced;
     private int respawnCount = 0;
-    //invincibility last for 5 seconds = 150 frames
-    private int invincibilityDuration = 150;
     private int livesRemaining;
 
-    //powerup logic data
+    // PowerUp logic data.
     private int bombsAllowed;
     private boolean bombPass;
     private boolean flamePass;
     private boolean detonatorEnabled;
     private boolean invincibilityEnabled;
+    // Invincibility last for 5 seconds = 150 frames.
+    private int invincibilityDuration = 150;
+
+    // Constants
+    public static final int SPRITE_SIDE_LENGTH = 30;
+    public static final int PLAYER_SPAWN_COORDINATE = 32;
 
     /**
      * Initialize a Player object representing the Bomberman character on the grid
@@ -44,7 +48,7 @@ public class Player extends MovableObject implements Serializable {
      * @param speed int representing the speed of movement of the player object on the map
      */
     public Player(int posX, int posY, boolean visible, int speed) {
-        this.imagePath = "../resources/bomberman.png";
+        this.imagePath = "/res/image/bomberman.png";
         this.score = 0;
         this.livesRemaining = 3;
         this.currentState = GamePlayState.INGAME;
@@ -56,7 +60,7 @@ public class Player extends MovableObject implements Serializable {
         this.previousY = posY;
         this.visible = visible;
         this.speed = speed;
-        this.image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
+        this.image = new ImageIcon(Player.class.getResource(imagePath)).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();
@@ -140,29 +144,21 @@ public class Player extends MovableObject implements Serializable {
             int bombX;
             int bombY;
 
-            if (posX % 32 >= 17) {
-                bombX = posX - posX % 32 + 32;
+            if (posX % TileMap.TILE_SIDE_LENGTH >= 17) {
+                bombX = posX - posX % TileMap.TILE_SIDE_LENGTH + TileMap.TILE_SIDE_LENGTH;
             } else {
-                bombX = posX - posX % 32;
+                bombX = posX - posX % TileMap.TILE_SIDE_LENGTH;
             }
 
-            if (posY % 32 >= 17) {
-                bombY = posY - posY % 32 + 32;
+            if (posY % TileMap.TILE_SIDE_LENGTH >= 17) {
+                bombY = posY - posY % TileMap.TILE_SIDE_LENGTH + TileMap.TILE_SIDE_LENGTH;
             } else {
-                bombY = posY - posY % 32;
+                bombY = posY - posY % TileMap.TILE_SIDE_LENGTH;
             }
 
             Bomb bomb = new Bomb(bombX, bombY);
             bombsPlaced.add(bomb);
         }
-    }
-
-    /**
-     * Increments the bomb object blast radius by 1.
-     * Called upon picking up the Flames powerUp.
-     */
-    public void incrementBombRadius() {
-        tileMap.incrementBombRadius();
     }
 
     /**
@@ -198,8 +194,8 @@ public class Player extends MovableObject implements Serializable {
     public void countDownToRespawn() {
         if (this.respawnCount == 60) {
             visible = true;
-            posX = 35;
-            posY = 35;
+            posX = PLAYER_SPAWN_COORDINATE;
+            posY = PLAYER_SPAWN_COORDINATE;
             respawnCount = 0;
         } else {
             respawnCount++;
@@ -221,6 +217,11 @@ public class Player extends MovableObject implements Serializable {
 
     }
 
+    /**
+     * Timer used to keep track of the duration of the invincibility powerUp.
+     * Upon coming in contact with the powerUp, the player becomes immune to the
+     * collisions with enemies and flames.
+     */
     public void updateInvincibilityTimer() {
         invincibilityDuration--;
         if (invincibilityDuration == 0) {
@@ -249,7 +250,7 @@ public class Player extends MovableObject implements Serializable {
                 flamePass = true;
                 break;
             case FLAMES:
-                incrementBombRadius();
+                tileMap.incrementBombRadius();
                 break;
             case MYSTERY:
                 invincibilityEnabled = true;
@@ -279,10 +280,10 @@ public class Player extends MovableObject implements Serializable {
      * touching the door).
      */
     public void nextStage() {
-        previousX = 35;
-        previousY = 35;
-        posX = 35;
-        posY = 35;
+        previousX = PLAYER_SPAWN_COORDINATE;
+        previousY = PLAYER_SPAWN_COORDINATE;
+        posX = PLAYER_SPAWN_COORDINATE;
+        posY = PLAYER_SPAWN_COORDINATE;
         //Erase all the existing bombs placed on the completed stage.
         bombsPlaced = new ArrayList<Bomb>();
         if (tileMap != null) {
@@ -485,5 +486,13 @@ public class Player extends MovableObject implements Serializable {
      */
     public int getLivesRemaining() {
         return livesRemaining;
+    }
+
+    /**
+     * Specify whether the player is invincible (cannot be killed by enemies or flames).
+     * @param invincibilityEnabled A boolean specifying whether the player is invincible.
+     */
+    public void setInvincibilityEnabled(boolean invincibilityEnabled) {
+        this.invincibilityEnabled = invincibilityEnabled;
     }
 }

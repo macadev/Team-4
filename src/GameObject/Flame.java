@@ -9,7 +9,10 @@ import javax.swing.*;
 import java.io.Serializable;
 
 /**
- * Used to represent the flame object that appears once a bomb explodes.
+ * Used to represent the flame object that is displayed once a bomb explodes. The collision manager class
+ * relies on the flame object to enable most of the gameplay logic, specifically: when the player should die,
+ * when a bomb should detonate another bomb, when the enemies should die, when the powerUp should disappear,
+ * and when a harder set of enemies should be spawned (flame collision with powerUp or door).
  */
 public class Flame extends StaticObject implements Serializable {
 
@@ -19,16 +22,16 @@ public class Flame extends StaticObject implements Serializable {
 
     /**
      * A Flame object is defined by a position on the grid, and a boolean representing whether it is
-     * visible or not. We keep track of the time it will remain visible in terms of number of frames
-     * it will be rendered.
-     * @param posX
-     * @param posY
-     * @param visible
-     * @param explosionOriginX
-     * @param explosionOriginY
+     * visible or not. We keep track of the time it will remain visible in terms of the number of frames
+     * it should be rendered on the screen.
+     * @param posX x coordinate of the flame on the grid.
+     * @param posY y coordinate of the flame on the grid.
+     * @param visible boolean representing whether the flame can be seen or not.
+     * @param explosionOriginX x coordinate where the bomb exploded.
+     * @param explosionOriginY y coordinate where the bomb exploded.
      */
     public Flame(int posX, int posY, boolean visible, int explosionOriginX, int explosionOriginY) {
-        this.imagePath = "../resources/flames.png";
+        this.imagePath = "/res/image/flames.png";
         this.posX = posX;
         this.posY = posY;
         this.previousX = posX;
@@ -52,23 +55,46 @@ public class Flame extends StaticObject implements Serializable {
         }
     }
 
+    /**
+     * Retrieves the x coordinate specifying where the bomb that generated this flame exploded.
+     * @return The x coordinate specifying where the bomb the bomb that generated this flame exploded.
+     */
     public int getExplosionOriginX() {
         return explosionOriginX;
     }
 
+    /**
+     * Sets the x coordinate where the the bomb that generated this flame exploded.
+     * @param explosionOriginX Integer representing the x coordinate where the bomb that generated
+     *                         this flame occurred.
+     */
     public void setExplosionOriginX(int explosionOriginX) {
         this.explosionOriginX = explosionOriginX;
     }
 
+    /**
+     * Retrieve the y coordinate of where the explosion occurred.
+     * @return Integer representing the y coordinate where the explosion occurred.
+     */
     public int getExplosionOriginY() {
         return explosionOriginY;
     }
 
+    /**
+     * Sets the y-coordinate where the bomb that generated this flame exploded.
+     * @param explosionOriginY Integer representing the y coordinate where the bomb
+     *                         that generated this flame exploded.
+     */
     public void setExplosionOriginY(int explosionOriginY) {
         this.explosionOriginY = explosionOriginY;
     }
 
+    /**
+     * Retrieves the coordinate where the bomb exploded.
+     * @return A coordinate representing the center of the bomb sprite that generated
+     * this flame object.
+     */
     public Coordinate getExplosionOriginAsCoordinate() {
-        return new Coordinate(explosionOriginX + 14, explosionOriginY + 14);
+        return new Coordinate(explosionOriginX + Bomb.SPRITE_SIDE_LENGTH, explosionOriginY + Bomb.SPRITE_SIDE_LENGTH);
     }
 }

@@ -18,7 +18,6 @@ import javax.swing.*;
 public class AccountCreationPopUp extends JFrame {
 
 
-    //Initializing variables to be used
     private JTextField realName;
     private JTextField userName;
     private JPasswordField fieldPass;
@@ -30,19 +29,17 @@ public class AccountCreationPopUp extends JFrame {
     private MenuManager menuManager;
 
     /**
-     *Constructor for AccountCreationMenuPopUp
+     * Constructor for AccountCreationMenuPopUp
      * @param menuManager Object menuManager is passed to navigate between the different game states and menus.
      */
     public AccountCreationPopUp(MenuManager menuManager){
         this.menuManager = menuManager;
         createView();
-        //Exit Option
+
+        //Sets up window attributes
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        //Display Size
         setSize(400, 300);
-        //Setting it to the middle of the screen
         setLocationRelativeTo(null);
-        //Disable resize
         setResizable(false);
 
 
@@ -55,15 +52,12 @@ public class AccountCreationPopUp extends JFrame {
         JPanel panel = new JPanel();
         getContentPane().add(panel);
 
-        //panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
         JLabel label = new JLabel("Real Name:             ");
         label.setBounds(10, 10, 80, 25);
         panel.add(label);
 
         realName = new JTextField(20);
         realName.setBounds(100, 10, 160, 25);
-        //realName.setPreferredSize(new Dimension(150, 30));
         panel.add(realName);
 
         JLabel label3 = new JLabel("User Name:             ");
@@ -72,7 +66,6 @@ public class AccountCreationPopUp extends JFrame {
 
         userName = new JTextField(20);
         userName.setBounds(100, 50, 160, 25);
-        //userName.setPreferredSize(new Dimension(150, 30));
         panel.add(userName);
 
 
@@ -82,7 +75,6 @@ public class AccountCreationPopUp extends JFrame {
 
         fieldPass = new JPasswordField(20);
         fieldPass.setBounds(100, 90, 160, 25);
-        //fieldPass.setPreferredSize(new Dimension(150, 30));
         panel.add(fieldPass);
 
         JLabel label4 = new JLabel("Re-enter Password: ");
@@ -91,7 +83,6 @@ public class AccountCreationPopUp extends JFrame {
 
         retypePass = new JPasswordField(20);
         retypePass.setBounds(100, 130, 160, 25);
-        //retypePass.setPreferredSize(new Dimension(150, 30));
         panel.add(retypePass);
 
         buttonSubmit = new JButton("Submit");
@@ -233,7 +224,7 @@ public class AccountCreationPopUp extends JFrame {
     }
 
     /**
-     *Checks to see if username characters are valid or not. Username must be alphanumeric and may contain accents.
+     * Checks to see if username characters are valid or not. Username must be alphanumeric and may contain accents.
      * @param sI The string username input is taken to see if it is valid or not
      * @return Boolean is returned to see if the username is valid or not.
      */

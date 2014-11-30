@@ -8,6 +8,11 @@ import java.awt.*;
 /**
  * Created by danielmacario on 14-10-31.
  */
+
+/**
+ * The MenuTemplate class is used by other menus for their appearance. Methods from JFrame are inherited to be used in
+ * this class.
+ */
 public abstract class MenuTemplate extends JFrame {
 
     protected MenuManager menuManager;

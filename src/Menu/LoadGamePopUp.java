@@ -1,8 +1,6 @@
 package Menu;
 
-/**
- * Created by FloMac on 14-11-20.
- */
+
 import GamePlay.GamePlayManager;
 import SystemController.GameFileManager;
 
@@ -15,14 +13,25 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+/**
+ * The LoadGamePopUp is accessed through the main menu and allows the user to load a previously saved game.
+ * This popup allows the user to scroll through the list of previously saved games and choose which saved game
+ * to start up. Methods from JFrame are inherited to be used in the popup.
+ */
 public class LoadGamePopUp extends JFrame {
 
     private JScrollPane scrollpane;
     private MenuManager menuManager;
 
+    /**
+     * Constructor for LoadGamePopUp.
+     * @param menuManager Object menuManager is passed to navigate between the different game states and menus.
+     */
     public LoadGamePopUp(MenuManager menuManager) {
         super("Load Game Menu");
         this.menuManager = menuManager;
+
+        //Sets up window attributes
         setSize(200, 300);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -31,6 +40,9 @@ public class LoadGamePopUp extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Displays the existing saved game files.
+     */
     public void displayFiles() {
 
         ArrayList<String> userSavedFiles = getFileNames(menuManager.getPlayerUserName());
@@ -48,7 +60,6 @@ public class LoadGamePopUp extends JFrame {
 
         if (userSavedFiles == null) {
             JLabel label = new JLabel("No saved Files exist");
-            //label.setBounds(10, 10, 80, 25);
             view.add(label);
         } else {
             for (final String fileName : userSavedFiles) {
@@ -70,17 +81,30 @@ public class LoadGamePopUp extends JFrame {
         getContentPane().add(scrollpane, BorderLayout.CENTER);
     }
 
+
+    /**
+     * Loads the selected game.
+     * @param fileName The name of the saved game file chosen is passed, so that it can be loaded.
+     */
     public void fileButtonClicked(String fileName) {
         GamePlayManager loadedGame = GameFileManager.loadGame(fileName);
         menuManager.setUpLoadedGame(loadedGame);
         closeWindow();
     }
 
+    /**
+     * Adds functionality to close the popup.
+     */
     public void closeWindow() {
         setVisible(false);
         dispose();
     }
 
+    /**
+     * Gets the array of saved files for the current user.
+     * @param username String is passed, so that it can match it with the files in the database for the current user.
+     * @return Arraylist of save games is returned after matching it with the username.
+     */
     public static ArrayList<String> getFileNames(String username) {
         //Access the directory where the the user files are saved
         String folderPath = "savedgames/" + username + "/";

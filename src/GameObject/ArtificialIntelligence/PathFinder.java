@@ -50,10 +50,10 @@ public class PathFinder implements Serializable {
      */
     public ArrayList<Coordinate> findPath(int playerPosX, int playerPosY, int enemyPosX, int enemyPosY, boolean enemyHasWallPass) {
 
-        int playerRow = ((playerPosY - playerPosY % 32) / 32) - 1;
-        int playerCol = ((playerPosX - playerPosX % 32) / 32) - 1;
-        int enemyRow = ((enemyPosY - enemyPosY % 32) / 32) - 1;
-        int enemyCol = ((enemyPosX - enemyPosX % 32) / 32) - 1;
+        int playerRow = ((playerPosY - playerPosY % TileMap.TILE_SIDE_LENGTH) / TileMap.TILE_SIDE_LENGTH) - 1;
+        int playerCol = ((playerPosX - playerPosX % TileMap.TILE_SIDE_LENGTH) / TileMap.TILE_SIDE_LENGTH) - 1;
+        int enemyRow = ((enemyPosY - enemyPosY % TileMap.TILE_SIDE_LENGTH) / TileMap.TILE_SIDE_LENGTH) - 1;
+        int enemyCol = ((enemyPosX - enemyPosX % TileMap.TILE_SIDE_LENGTH) / TileMap.TILE_SIDE_LENGTH) - 1;
 
         Node start = null;
         Node destination = null;
@@ -66,7 +66,7 @@ public class PathFinder implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
             nodesExist = false;
-            System.out.println("Array out of bounds.");
+            System.out.println("Nodes for path finding do not exist");
         }
 
         ArrayList<Coordinate> pathToPlayer = null;
@@ -155,7 +155,7 @@ public class PathFinder implements Serializable {
         nodes.add(start);
 
         ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
-        // We invert the path to go from starting node to the destination.
+        // We invert the path to go from the starting node to the destination.
         for (int i = nodes.size() - 1; i >= 0; i--) {
             Node selectedNode = nodes.get(i);
             coordinates.add(new Coordinate(selectedNode.getX(), selectedNode.getY()));
@@ -182,6 +182,7 @@ public class PathFinder implements Serializable {
      * @param coordinates
      */
     private void removeChains(ArrayList<Coordinate> coordinates) {
+
         for (int i = 0; i < coordinates.size() - 2; i ++) {
             if ((coordinates.get(i).getRow() == coordinates.get(i + 1).getRow() && coordinates.get(i).getRow() == coordinates.get(i + 2).getRow())
                     || (coordinates.get(i).getCol() == coordinates.get(i + 1).getCol() && coordinates.get(i).getCol() == coordinates.get(i + 2).getCol())) {
@@ -189,6 +190,7 @@ public class PathFinder implements Serializable {
                 i--;
             }
         }
+
     }
 
     /**
@@ -208,7 +210,6 @@ public class PathFinder implements Serializable {
      *              are present on the grid at a given time.
      */
     public void updateGraph(GameObject[][] walls) {
-        System.out.println("Updating graph!!");
         // Walls is 31x13 tiles. We only want to iterate over the
         // inner square: 29x11 tiles. We keep track of two separate
         // indices for the object array and the graph array.
@@ -250,6 +251,22 @@ public class PathFinder implements Serializable {
     }
 
     /**
+     * Get the time remaining before the refresh flag is set to true.
+     * @return An integer representing the time remaining before the graph is refreshed.
+     */
+    public int getTimeToRefreshGraph() {
+        return timeToRefreshGraph;
+    }
+
+    /**
+     * Specify the time remaining before thr refresh flag is set top true.
+     * @param timeToRefreshGraph An integer representing the time remaining before the graph is refreshed.
+     */
+    public void setTimeToRefreshGraph(int timeToRefreshGraph) {
+        this.timeToRefreshGraph = timeToRefreshGraph;
+    }
+
+    /**
      * Creates a graph representation of the grid in term of node objects. Note that
      * we do not represent the outer concrete walls that surround the map, only the 29x11
      * inner tiles.
@@ -259,7 +276,7 @@ public class PathFinder implements Serializable {
 
         /*
         Important information regarding this architecture:
-            - We only keep one instance of graph at a given time; all the enemies
+            - We only keep one instance of this graph during gamepaly; all the enemies
               with high intelligence share this instance.
             - We don't encode the nodes that are concrete walls; by ignoring them
               them from the graph they are never considered in path finding.

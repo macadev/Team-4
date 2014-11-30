@@ -20,13 +20,16 @@ public class GameObject implements Serializable {
     protected String imagePath;
     protected int posX;
     protected int posY;
+
     //Coordinates where the object was rendered on the last frame
     protected int previousX;
     protected int previousY;
+
     //Width and height of the image object used to represent the Game Object.
     protected int width;
     protected int height;
     protected transient Image image;
+
     //Boolean that specifies whether the Game Object should be rendered on the grid or not.
     protected boolean visible;
 

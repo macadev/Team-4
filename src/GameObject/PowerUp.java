@@ -1,23 +1,22 @@
+/**
+ * Created by danielmacario on 14-11-05.
+ */
 package GameObject;
 
 import javax.swing.*;
 import java.io.Serializable;
 
-/**
- * Created by danielmacario on 14-11-05.
- */
 public class PowerUp extends StaticObject implements Serializable {
 
     private PowerUpType powerUpType;
     private boolean keptAfterDeath;
-    private boolean firstCollision;
 
     /**
-     * PowerUp Constructor. We group the entire functionality of all powerups within a single class
-     * instead of having 8 different classes with very similar purposes. Based on the PowerUpType passed
-     * we decide on the image that will be rendered, and the type is stored so that we can enable the
-     * specific functionality of the powerup once the player has collided with it
-     * @param powerUpType
+     * Initialize a new powerUp object. We group the entire functionality of all powerUps within a single class
+     * instead of having 8 different classes with very similar attributes. We decide on the image that will be
+     * rendered and whether the powerUp is kept after death based on the PowerUpType passed. The type is stored so
+     * that we can enable the specific functionality of the powerUp once the player has collided with it.
+     * @param powerUpType The type specifying which powerUp the constructor must create.
      */
     public PowerUp(PowerUpType powerUpType, int posX, int posY) {
         this.posX = posX;
@@ -28,35 +27,35 @@ public class PowerUp extends StaticObject implements Serializable {
 
         switch (powerUpType) {
             case BOMBPASS:
-                imagePath = "../resources/PowerUps/bombpass.png";
+                imagePath = "/res/image/PowerUps/bombpass.png";
                 keptAfterDeath = false;
                 break;
             case BOMBS:
-                imagePath = "../resources/PowerUps/bombs.png";
+                imagePath = "/res/image/PowerUps/bombs.png";
                 keptAfterDeath = true;
                 break;
             case DETONATOR:
-                imagePath = "../resources/PowerUps/detonator.png";
+                imagePath = "/res/image/PowerUps/detonator.png";
                 keptAfterDeath = false;
                 break;
             case FLAMEPASS:
-                imagePath = "../resources/PowerUps/flamepass.png";
+                imagePath = "/res/image/PowerUps/flamepass.png";
                 keptAfterDeath = false;
                 break;
             case FLAMES:
-                imagePath = "../resources/PowerUps/flames.png";
+                imagePath = "/res/image/PowerUps/flames.png";
                 keptAfterDeath = true;
                 break;
             case MYSTERY:
-                imagePath = "../resources/PowerUps/mystery.png";
+                imagePath = "/res/image/PowerUps/mystery.png";
                 //kept after death doesn't apply to this powerup
                 break;
             case SPEED:
-                imagePath = "../resources/PowerUps/speed.png";
+                imagePath = "/res/image/PowerUps/speed.png";
                 keptAfterDeath = true;
                 break;
             case WALLPASS:
-                imagePath = "../resources/PowerUps/wallpass.png";
+                imagePath = "/res/image/PowerUps/wallpass.png";
                 keptAfterDeath = false;
                 break;
         }
@@ -65,17 +64,9 @@ public class PowerUp extends StaticObject implements Serializable {
         this.height = image.getHeight(null);
     }
 
-
-    public boolean isFirstCollision() {
-        return firstCollision;
-    }
-
-    public void setFirstCollision(boolean firstCollision) {
-        this.firstCollision = firstCollision;
-    }
-
     /**
-     * Gets PowerUpType
+     * Retrieve the powerUp type used to create this instance of powerUp object. Used when the player collides
+     * with the powerUp object to enable the particular logic associated with it.
      * @return PowerUpType is returned.
      */
     public PowerUpType getPowerUpType() {
