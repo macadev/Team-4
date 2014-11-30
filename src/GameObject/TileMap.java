@@ -547,6 +547,15 @@ public class TileMap implements Serializable {
     }
 
     /**
+     * Specify the walls present on the grid.
+     * @param walls A two dimensional array representing the map. Each slot contains
+     *              a wall or a null object specifying that there is no wall.
+     */
+    public void setWalls(GameObject[][] walls) {
+        this.walls = walls;
+    }
+
+    /**
      * Get the flame objects present on the grid.
      * @return An ArrayList containing the flame objects currently visible on the grid.
      */
