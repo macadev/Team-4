@@ -1,33 +1,29 @@
 package Menu;
 
-import SystemController.GameStateManager;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JTextField;
-
-    /**
-    * This class is used to represent the options available to the player when the game is over/lost.The GameOverMenu class
-    * inherits most of its functionality from the MenuTemplate class.
-    * Specifically, the GameOverMenu class defines the logic for: starting a new game, loading a previously saved game,
-    * view their score on the leaderboard or return to the main menu for additional options.
-    */
+/**
+ * This class is used to represent the options available to the player when the game is over or completed.
+ * The GameOverMenu class inherits most of its functionality from the MenuTemplate class.
+ * Specifically, the GameOverMenu class defines the logic for: starting a new game, loading a previously saved game,
+ * viewing the leader boards menu and returning to the main menu.
+ */
 public class GameOverMenu extends MenuTemplate {
     private String[] options = {"Start New Game", "Load Saved Game", "View Leaderboard", "Return to Main Menu"};
-    // menu options as highlighted/mentioned in the SRS
-    private int currentChoice = 0; // index of options array
+    // Used to keep track of the option that should be highlighted on the menu.
+    private int currentChoice = 0;
     private Color titleColor = MenuTemplate.TITLE_COLOR;
     private Font titleFont = MenuTemplate.TITLE_FONT;
     private Font font = MenuTemplate.BODY_FONT;
 
     /**
-     * Creates a GameOverMenu object which takes the menuManager as a parameter.
-     *
+     * Initializes a GameOverMenu instance, which allows the rendering of the GameOver
+     * options on the screen.
      * @param menuManager Object navigates between the different game states and menus
-     *                    depending on the currentChoice as chosen by the user.
+     *                    depending on the option selected by the user.
      */
     public GameOverMenu(MenuManager menuManager) {
         this.menuManager = menuManager;
@@ -38,19 +34,18 @@ public class GameOverMenu extends MenuTemplate {
     }
 
     /**
-     * Draws the GameOverMenu with the options when the game ends
-     *
-     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
+     * Draws the GameOverMenu on the screen once the game has ended.
+     * @param g Graphics object corresponding to the JPanel where the menu will be rendered.
      */
     @Override
     public void draw(Graphics2D g) { //the code in this method is used in every menu for consistency
-        //draw the title
+
         g.setColor(titleColor);
         g.setFont(titleFont);
         g.setPaint(titleColor);
         g.drawString("Game Over Menu", 80, 70); //
 
-        //draw menu options
+        //draw menu options contained in the options Array
         g.setFont(font);
         for (int i = 0; i < options.length; i++) {
             if (i == currentChoice) {
@@ -58,15 +53,14 @@ public class GameOverMenu extends MenuTemplate {
             } else {
                 g.setColor(MenuTemplate.BODY_SELECTED_COLOR);
             }
-            // pass horizontal distance, then vertical distance
             g.drawString(options[i], X_OFFSET, Y_OFFSET + i * 15);
         }
     }
 
     /**
-     * Implements the functionality for the user to scroll through the options with the direction
-     * buttons on the keyboard.
-     * @param k KeyCode used to represent the key pressed on the keyboard.
+     * Enables the user to scroll through the options in the menu using the arrow
+     * keys on the keyboard.
+     * @param k Integer used to represent the key pressed on the keyboard.
      */
     @Override
     public void keyPressed(int k) {
@@ -84,13 +78,8 @@ public class GameOverMenu extends MenuTemplate {
     }
 
 
-    @Override
-    public void keyReleased(int k) {
-
-    }
-
     /**
-     * Implements the functionality of each choice on the screen
+     * Enables the functionality of the current menu option selected by the user.
      */
     public void select() {
         if (currentChoice == 0) {
@@ -112,6 +101,11 @@ public class GameOverMenu extends MenuTemplate {
             //return to main menu
             menuManager.setMenuState(MenuState.MAIN);
         }
+    }
+
+    @Override
+    public void keyReleased(int k) {
+
     }
 }
 
