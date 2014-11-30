@@ -31,7 +31,7 @@ public class Flame extends StaticObject implements Serializable {
      * @param explosionOriginY y coordinate where the bomb exploded.
      */
     public Flame(int posX, int posY, boolean visible, int explosionOriginX, int explosionOriginY) {
-        this.imagePath = "../resources/flames.png";
+        this.imagePath = "/res/image/flames.png";
         this.posX = posX;
         this.posY = posY;
         this.previousX = posX;

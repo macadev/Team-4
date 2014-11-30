@@ -8,31 +8,31 @@ import java.applet.AudioClip;
 public class SoundController {
 
     public static final AudioClip THEME = Applet.newAudioClip(
-            SoundController.class.getResource("/resources/Music/pirates-of-the-caribbean-8-bit.wav")
+            SoundController.class.getResource("/res/raw/pirates-of-the-caribbean-8-bit.wav")
     );
 
     public static final AudioClip GAMEOVER = Applet.newAudioClip(
-            SoundController.class.getResource("/resources/Music/gameover.wav")
+            SoundController.class.getResource("/res/raw/gameover.wav")
     );
 
     public static final AudioClip DEATH = Applet.newAudioClip(
-            SoundController.class.getResource("/resources/Music/death.wav")
+            SoundController.class.getResource("/res/raw/death.wav")
     );
 
     public static final AudioClip PAUSE = Applet.newAudioClip(
-            SoundController.class.getResource("/resources/Music/PAUSE.wav")
+            SoundController.class.getResource("/res/raw/PAUSE.wav")
     );
 
     public static final AudioClip POWERUP = Applet.newAudioClip(
-            SoundController.class.getResource("/resources/Music/PowerUp.wav")
+            SoundController.class.getResource("/res/raw/PowerUp.wav")
     );
 
     public static final AudioClip BOMBEXPLODE = Applet.newAudioClip(
-            SoundController.class.getResource("/resources/Music/BombExplode.wav")
+            SoundController.class.getResource("/res/raw/BombExplode.wav")
     );
 
     public static final AudioClip SELECT = Applet.newAudioClip(
-            SoundController.class.getResource("/resources/Music/select.wav")
+            SoundController.class.getResource("/res/raw/select.wav")
     );
 
 

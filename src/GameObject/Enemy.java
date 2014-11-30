@@ -48,7 +48,7 @@ public class Enemy extends MovableObject implements Serializable {
         //and whether the enemy can pass through walls or not.
         switch (type) {
             case BALLOOM:
-                this.imagePath = "../resources/Enemies/balloom.png";
+                this.imagePath = "/res/image/Enemies/balloom.png";
                 this.score = 100;
                 this.speed = MovableObject.SLOWSPEED;
                 this.wallPass = false;
@@ -56,7 +56,7 @@ public class Enemy extends MovableObject implements Serializable {
                 this.difficultyRanking = 0;
                 break;
             case ONEAL:
-                this.imagePath = "../resources/Enemies/oneal.png";
+                this.imagePath = "/res/image/Enemies/oneal.png";
                 this.score = 200;
                 this.speed = MovableObject.NORMALSPEED;
                 this.wallPass = false;
@@ -64,7 +64,7 @@ public class Enemy extends MovableObject implements Serializable {
                 this.difficultyRanking = 1;
                 break;
             case DOLL:
-                this.imagePath = "../resources/Enemies/doll.png";
+                this.imagePath = "/res/image/Enemies/doll.png";
                 this.score = 400;
                 this.speed = MovableObject.SLOWSPEED;
                 this.wallPass = false;
@@ -72,7 +72,7 @@ public class Enemy extends MovableObject implements Serializable {
                 this.difficultyRanking = 2;
                 break;
             case MINVO:
-                this.imagePath = "../resources/Enemies/minvo.png";
+                this.imagePath = "/res/image/Enemies/minvo.png";
                 this.score = 800;
                 this.speed = MovableObject.NORMALSPEED;
                 this.wallPass = false;
@@ -80,7 +80,7 @@ public class Enemy extends MovableObject implements Serializable {
                 this.difficultyRanking = 3;
                 break;
             case KONDORIA:
-                this.imagePath = "../resources/Enemies/kondoria.png";
+                this.imagePath = "/res/image/Enemies/kondoria.png";
                 this.score = 1000;
                 //TODO: define 'slowest' speed
                 this.speed = MovableObject.SLOWSPEED;
@@ -89,7 +89,7 @@ public class Enemy extends MovableObject implements Serializable {
                 this.difficultyRanking = 4;
                 break;
             case OVAPI:
-                this.imagePath = "../resources/Enemies/ovapi.png";
+                this.imagePath = "/res/image/Enemies/ovapi.png";
                 this.score = 2000;
                 this.speed = MovableObject.SLOWSPEED;
                 this.wallPass = true;
@@ -97,7 +97,7 @@ public class Enemy extends MovableObject implements Serializable {
                 this.difficultyRanking = 5;
                 break;
             case PASS:
-                this.imagePath = "../resources/Enemies/pass.png";
+                this.imagePath = "/res/image/Enemies/pass.png";
                 this.score = 4000;
                 this.speed = MovableObject.FASTSPEED;
                 this.wallPass = false;
@@ -105,7 +105,7 @@ public class Enemy extends MovableObject implements Serializable {
                 this.difficultyRanking = 6;
                 break;
             case PONTAN:
-                this.imagePath = "../resources/Enemies/pontan.png";
+                this.imagePath = "/res/image/Enemies/pontan.png";
                 this.score = 8000;
                 this.speed = MovableObject.FASTSPEED;
                 this.wallPass = true;

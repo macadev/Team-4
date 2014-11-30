@@ -4,15 +4,9 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import Database.DatabaseController;
-import Database.PlayerScore;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
-
-//import java.nio.file.Files;
-//import java.nio.file.Path;
-//import java.nio.file.Paths;
 
 public class DatabaseControllerTest {
     @BeforeClass

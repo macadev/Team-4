@@ -20,7 +20,7 @@ public class Door extends StaticObject implements Serializable {
      * @param posY Position Y of the door in the grid
      */
     public Door(int posX, int posY) {
-        this.imagePath = "../resources/door.png";
+        this.imagePath = "/res/image/door.png";
         this.posX = posX;
         this.posY = posY;
         this.visible = true;

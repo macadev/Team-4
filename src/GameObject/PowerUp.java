@@ -27,35 +27,35 @@ public class PowerUp extends StaticObject implements Serializable {
 
         switch (powerUpType) {
             case BOMBPASS:
-                imagePath = "../resources/PowerUps/bombpass.png";
+                imagePath = "/res/image/PowerUps/bombpass.png";
                 keptAfterDeath = false;
                 break;
             case BOMBS:
-                imagePath = "../resources/PowerUps/bombs.png";
+                imagePath = "/res/image/PowerUps/bombs.png";
                 keptAfterDeath = true;
                 break;
             case DETONATOR:
-                imagePath = "../resources/PowerUps/detonator.png";
+                imagePath = "/res/image/PowerUps/detonator.png";
                 keptAfterDeath = false;
                 break;
             case FLAMEPASS:
-                imagePath = "../resources/PowerUps/flamepass.png";
+                imagePath = "/res/image/PowerUps/flamepass.png";
                 keptAfterDeath = false;
                 break;
             case FLAMES:
-                imagePath = "../resources/PowerUps/flames.png";
+                imagePath = "/res/image/PowerUps/flames.png";
                 keptAfterDeath = true;
                 break;
             case MYSTERY:
-                imagePath = "../resources/PowerUps/mystery.png";
+                imagePath = "/res/image/PowerUps/mystery.png";
                 //kept after death doesn't apply to this powerup
                 break;
             case SPEED:
-                imagePath = "../resources/PowerUps/speed.png";
+                imagePath = "/res/image/PowerUps/speed.png";
                 keptAfterDeath = true;
                 break;
             case WALLPASS:
-                imagePath = "../resources/PowerUps/wallpass.png";
+                imagePath = "/res/image/PowerUps/wallpass.png";
                 keptAfterDeath = false;
                 break;
         }

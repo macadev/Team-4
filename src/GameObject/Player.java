@@ -48,7 +48,7 @@ public class Player extends MovableObject implements Serializable {
      * @param speed int representing the speed of movement of the player object on the map
      */
     public Player(int posX, int posY, boolean visible, int speed) {
-        this.imagePath = "../resources/bomberman.png";
+        this.imagePath = "/res/image/bomberman.png";
         this.score = 0;
         this.livesRemaining = 3;
         this.currentState = GamePlayState.INGAME;
@@ -60,7 +60,7 @@ public class Player extends MovableObject implements Serializable {
         this.previousY = posY;
         this.visible = visible;
         this.speed = speed;
-        this.image = new ImageIcon(this.getClass().getResource(imagePath)).getImage();
+        this.image = new ImageIcon(Player.class.getResource(imagePath)).getImage();
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
         this.bombsPlaced = new ArrayList<Bomb>();

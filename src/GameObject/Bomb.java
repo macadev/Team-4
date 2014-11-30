@@ -30,7 +30,7 @@ public class Bomb extends StaticObject implements Serializable {
      * @param posY Position Y of the robot on the grid
      */
     public Bomb(int posX, int posY) {
-        this.imagePath = "../resources/bomb.png";
+        this.imagePath = "/res/image/bomb.png";
         this.posX = posX;
         this.posY = posY;
         this.visible = true;
@@ -62,7 +62,7 @@ public class Bomb extends StaticObject implements Serializable {
 
     /**
      * draw the bomb on the game grid.
-     * @param g Graphics object used to render the images
+     * @param g Graphics object used to render the image
      */
     public void draw(Graphics2D g) {
         timeExplosion();
