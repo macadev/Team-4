@@ -4,12 +4,15 @@ import Menu.MenuManager;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class TileMapTest {
     private TileMap tileMap;
     private Player player;
     private String userName;
+    private ArrayList<Enemy> enemies;
 
     @Before
     public void Setup(){
@@ -58,7 +61,7 @@ public class TileMapTest {
 
     @Test
     public void testSpawnSetOfHarderEnemies() throws Exception {
-
+        
     }
 
     @Test
