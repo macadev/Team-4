@@ -9,6 +9,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Spawner class takes care of creating and positioning objects present on the grid.
+ */
 public class Spawner implements Serializable {
 
     private Random randomGenerator = new Random();
@@ -27,6 +30,9 @@ public class Spawner implements Serializable {
         this.stageData = stageData;
     }
 
+    /**
+     * @return Returns the gridLayout with brick and concrete walls generated.
+     */
     public GameObject[][] generateWalls() {
 
         generateConcreteWalls();
@@ -34,6 +40,9 @@ public class Spawner implements Serializable {
         return gridLayout;
     }
 
+    /**
+     *Generates unbreakable concrete walls.
+     */
     public void generateConcreteWalls() {
         for (int col = 0; col < TileMap.NUM_OF_COLS; col++) {
 
@@ -61,6 +70,9 @@ public class Spawner implements Serializable {
         }
     }
 
+    /**
+     *Generates brick walls with a probability of 20% on the tiles that are not concrete walls.
+     */
     public void generateBrickWalls() {
 
         for (int col = 0; col < TileMap.NUM_OF_COLS; col++) {
@@ -68,10 +80,11 @@ public class Spawner implements Serializable {
             for (int row = 0; row < TileMap.NUM_OF_ROWS; row++) {
 
                 boolean isPositionNull = (gridLayout[col][row] == null);
-
                 if (!stageData.isBonusStage() && isPositionNull && getRandomBoolean() && isInValidPosition(row, col)) {
+
                     gridLayout[col][row] = new BrickWall(col * TileMap.WIDTH_OF_TILE, row * TileMap.HEIGHT_OF_TILE, true, false);
                     possiblePowerUpAndDoorCoordinates.add(new Coordinate(row, col));
+
                 } else if (isPositionNull) {
                     possibleEnemyCoordinates.add(new Coordinate(row, col));
                 }
@@ -79,6 +92,9 @@ public class Spawner implements Serializable {
         }
     }
 
+    /**
+     * @return Returns an ArrayList of the enemy objects present on the grid.
+     */
     public ArrayList<Enemy> generateEnemies() {
         Coordinate positionOnGrid;
         EnemySet[] enemiesPresent = stageData.getEnemiesPresent();
@@ -115,6 +131,13 @@ public class Spawner implements Serializable {
         return enemies;
     }
 
+    /**
+     *
+     * @param harderEnemyType
+     * @param posX
+     * @param posY
+     * @return Returns an ArrayList<Enemy> of the harder enemy objects present on the grid.
+     */
     public ArrayList<Enemy> createSetOfHarderEnemies(EnemyType harderEnemyType, int posX, int posY) {
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
@@ -124,6 +147,11 @@ public class Spawner implements Serializable {
         return enemies;
     }
 
+    /**
+     *
+     * @param harderEnemyType
+     * @return Returns an ArrayList<Enemy> of the harder enemies.
+     */
     public ArrayList<Enemy> createSetOfHardEnemiesAtRandomPositions(EnemyType harderEnemyType) {
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
@@ -140,6 +168,10 @@ public class Spawner implements Serializable {
         return enemies;
     }
 
+    /**
+     *
+     * @return Returns the bonus enemies present on bonus levels.
+     */
     public Enemy createBonusStageEnemy() {
         Coordinate positionOnGrid = getRandomCoordinateFromSet(possibleEnemyCoordinates);
         int row = positionOnGrid.getRow();
@@ -152,6 +184,10 @@ public class Spawner implements Serializable {
         return bonusEnemy;
     }
 
+    /**
+     *
+     * @return Returns the powerup object present on the grid.
+     */
     public PowerUp generatePowerUp() {
 
         if (stageData.isBonusStage()) return null;
@@ -164,6 +200,10 @@ public class Spawner implements Serializable {
         return powerUp;
     }
 
+    /**
+     *
+     * @return Returns the door object present on the grid.
+     */
     public Door generateDoor() {
 
         if (stageData.isBonusStage()) return null;
@@ -175,41 +215,55 @@ public class Spawner implements Serializable {
         return door;
     }
 
+    /**
+     * Clear stageData from the previous stage.
+     * @param stageData
+     */
     public void nextStage(StageData stageData) {
         this.stageData = stageData;
         clearPossibleCoordinates();
     }
 
+    /**
+     *
+     * @param coordinates
+     * @return Returns random coordinates from ArrayList<Coordinate>.
+     */
     public Coordinate getRandomCoordinateFromSet(ArrayList<Coordinate> coordinates) {
         int index = randomGenerator.nextInt(coordinates.size());
         Coordinate coordinate = coordinates.remove(index);
         return coordinate;
     }
 
+    /**
+     * Clears previous coordinates of ArrayList<Coordinate>.
+     */
     public void clearPossibleCoordinates() {
         possibleEnemyCoordinates = new ArrayList<Coordinate>();
         possiblePowerUpAndDoorCoordinates = new ArrayList<Coordinate>();
     }
 
     /**
-     * Returns true if the passed coordinate is not in the area where the player spawns
      * @param row
      * @param col
-     * @return
+     * @return Returns true if the passed coordinate is not in the area where the player spawns.
      */
     public boolean isInValidPosition(int row, int col) {
         return (row + col != 3 && row + col != 2);
     }
 
+    /**
+     *
+     * @return Returns false 80% of the time and true 20% of the time.
+     */
     public boolean getRandomBoolean() {
         return randomGenerator.nextFloat() <= 0.2;
     }
 
     /**
-     *
      * @param low
      * @param high
-     * @return
+     * @return Returns an int result.
      */
     public int getRandom(int low, int high) {
         Random r = new Random();
@@ -219,4 +273,10 @@ public class Spawner implements Serializable {
         return result;
     }
 
+    /**
+     * @return Returns the grid layout of the level.
+     */
+    public GameObject[][] getGridLayout() {
+        return gridLayout;
+    }
 }

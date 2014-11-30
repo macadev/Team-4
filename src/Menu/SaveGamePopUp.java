@@ -11,6 +11,7 @@ import java.util.Date;
 
 /**
  * Created by FloMac on 14-11-20.
+ * Creates a pop up to save the current game with or without a file name.
  */
 public class SaveGamePopUp extends JFrame {
 
@@ -19,6 +20,10 @@ public class SaveGamePopUp extends JFrame {
     private JButton buttonSubmit;
     private MenuManager menuManager;
 
+    /**
+     * Creates the view of the SaveGamePopUp, prevents resizing, sets size, sets display position, enables closing.
+     * @param menuManager
+     */
     public SaveGamePopUp(MenuManager menuManager){
         this.menuManager = menuManager;
         createView();
@@ -32,7 +37,9 @@ public class SaveGamePopUp extends JFrame {
         setResizable(false);
     }
 
-    //User Interface
+    /**
+     * Creates the user interface
+     */
     private void createView(){
         JPanel panel = new JPanel();
         getContentPane().add(panel);
@@ -49,6 +56,11 @@ public class SaveGamePopUp extends JFrame {
         buttonSubmit.setBounds(10, 80, 80, 25);
 
         buttonSubmit.addActionListener(new ActionListener() {
+
+            /**
+             * Listens if saveFile is clicked.
+             * @param actionEvent
+             */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 saveFileClicked();
@@ -58,6 +70,10 @@ public class SaveGamePopUp extends JFrame {
 
         JButton exitButton = new JButton("Close");
         exitButton.addActionListener(new ActionListener() {
+            /**
+             * Listens if closeWindow is clicked.
+             * @param actionEvent
+             */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 closeWindow();
@@ -68,11 +84,17 @@ public class SaveGamePopUp extends JFrame {
         panel.add(labelMessage);
     }
 
+    /**
+     * Hides the window.
+     */
     public void closeWindow() {
         setVisible(false);
         dispose();
     }
 
+    /**
+     * Checks if fileNameField is empty, saves with sample format if so, otherwise with a custom file name.
+     */
     public void saveFileClicked() {
         String fileName = fileNameField.getText();
         if (fileName.isEmpty()) {
@@ -85,6 +107,9 @@ public class SaveGamePopUp extends JFrame {
         closeWindow();
     }
 
+    /**
+     * Changes MenuState to MainMenu.
+     */
     public void redirectToMainMenu() {
         menuManager.setMenuState(MenuState.MAIN);
     }
