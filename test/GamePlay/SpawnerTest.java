@@ -137,7 +137,7 @@ public class SpawnerTest {
     @Test
     public void testCreateSetOfHardEnemiesAtRandomPositions() throws Exception {
         ArrayList<Enemy> enemies = normalSpawner.createSetOfHarderEnemies(EnemyType.BALLOOM, 0, 0);
-        assertEquals("The number of generated enemies is incorrect"8, enemies.size());
+        assertEquals("The number of generated enemies is incorrect",8, enemies.size());
 
         for (Enemy enemy : enemies) {
             assertEquals("Enemy generated is of the wrong type", true, enemy.getEnemyType().equals(EnemyType.BALLOOM));
@@ -152,7 +152,7 @@ public class SpawnerTest {
     public void testCreateBonusStageEnemy() throws Exception {
         bonusSpawner.generateWalls();
         normalSpawner.generateWalls();
-        assert("There are non-bonus enemies", normalSpawner.createBonusStageEnemy() != null);
+        assertTrue ("There are non-bonus enemies", normalSpawner.createBonusStageEnemy() != null);
         assertTrue("There non-bonus enemies",bonusSpawner.createBonusStageEnemy() != null);
     }
 

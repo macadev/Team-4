@@ -30,7 +30,7 @@ public class GameFileManagerTest {
     public void testSaveGame() throws Exception {
         GameFileManager.saveDirectory = "testSavedGames/";
         fileManager.saveGame(gpm ,"testUser1");
-        Path path = Paths.get("testSavedGames/");
+        Path path = Paths.get("testSavedGames/testUser1/testUser1.ser");
         assertTrue("User save file exists", Files.exists(path));
     }
 
