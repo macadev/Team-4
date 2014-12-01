@@ -75,6 +75,7 @@ public class Spawner implements Serializable {
 
                 //Generate alternating tiles present inside the grid
                 if (row >= 2 && row <= 10 && (row % 2) == 0 && col >= 2 && col <= 28 && (col % 2) == 0) {
+
                     gridLayout[col][row] = new ConcreteWall(col * TileMap.TILE_SIDE_LENGTH, row * TileMap.TILE_SIDE_LENGTH);
                 }
             }
@@ -117,8 +118,7 @@ public class Spawner implements Serializable {
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
         // If the stage is a bonus stage, we generate
-        // 8 enemies of the only type passed in the StageData
-        // Object
+        // 8 enemies of the only type passed in the StageData object.
         if (stageData.isBonusStage()) {
             EnemyType onlyTypePresent = enemiesPresent[0].getEnemyType();
 

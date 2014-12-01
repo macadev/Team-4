@@ -28,34 +28,34 @@ public class SpawnerTest {
 
     @Test
     public void testGenerateWalls() throws Exception {
-        GameObject[][] grid = normalSpawner.generateWalls();
 
-        assertEquals(13, grid[0].length);
-        assertEquals(31, grid.length);
     }
 
     @Test
     public void testGenerateConcreteWalls() throws Exception {
         normalSpawner.generateConcreteWalls();
-        int numRows = 13;
-        int numCols = 31;
         GameObject[][] walls = normalSpawner.getGridLayout();
+
         boolean correctLayout = true;
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
-                if (i == 0 || i == 12 || j == 0 || j == 30) {
-                    if (!(walls[j][i] instanceof ConcreteWall)) {
+
+        // iterate over the grid checking that all the tiles that should be concrete
+        // walls are in fact concrete walls. Note that their position is constant for all
+        // the stages of the game.
+        for (int row = 0; row < TileMap.NUM_OF_ROWS; row++) {
+            for (int col = 0; col < TileMap.NUM_OF_COLS; col++) {
+                if (row == 0 || row == 12 || col == 0 || col == 30) {
+                    if (!(walls[col][row] instanceof ConcreteWall)) {
                         correctLayout = false;
                     }
                 }
-                if ( j%2 == 0 && i%2 == 0) {
-                    if (!(walls[j][i] instanceof ConcreteWall)) {
+                if (col % 2 == 0 && row % 2 == 0) {
+                    if (!(walls[col][row] instanceof ConcreteWall)) {
                         correctLayout = false;
                     }
                 }
             }
         }
-        assertTrue("Concrete walls not properly generated", correctLayout);
+        assertTrue("The concrete walls should be at their defined constant positions", correctLayout);
     }
 
     @Test
@@ -70,6 +70,7 @@ public class SpawnerTest {
         //if stage is a bonus stage, check no brick walls are generated.
         bonusSpawner.generateBrickWalls();
         GameObject[][] walls = bonusSpawner.getGridLayout();
+
         boolean hasBrickWall = false;
         for (int i = 1; i < 11; i++) {
             for (int j = 1; j < 29; j++) {
@@ -78,11 +79,9 @@ public class SpawnerTest {
                     hasBrickWall = true;
                     break;
                 }
-
             }
-
         }
-        assertFalse("the grid doesn't contain any brickwalls", hasBrickWall);
+        assertFalse("If the stage is a bonus stage, then generateBrickWalls should not create any brick walls", hasBrickWall);
     }
 
     @Test
@@ -90,22 +89,33 @@ public class SpawnerTest {
         bonusSpawner.generateWalls();
         ArrayList<Enemy> enemies = bonusSpawner.generateEnemies();
 
-        boolean correctLayout = true;
+        boolean enemiesAreAllTheSameType = true;
 
+        EnemyType uniqueType = enemies.get(0).getEnemyType();
         for(Enemy enemy : enemies) {
-            int x = enemy.getPosX();
-            int y = enemy.getPosY();
-            if (x == 0 || x == 12 || y == 0 || y == 30) {
-                correctLayout = false;
-            }
-
-            if ((y/TileMap.TILE_SIDE_LENGTH)%2 == 0 && (x/TileMap.TILE_SIDE_LENGTH)%2 == 0) {
-                correctLayout = false;
+            if (!(enemy.getEnemyType() == uniqueType)) {
+                enemiesAreAllTheSameType = false;
             }
         }
 
-        assertEquals(8, enemies.size());
-        assertTrue(correctLayout);
+        assertTrue("For a bonus stage, all the enemies created should be of the same type", enemiesAreAllTheSameType);
+
+        normalSpawner.generateWalls();
+        enemies = normalSpawner.generateEnemies();
+
+        assertTrue("The spawner should generate the amount of enemies specified in the StageData object, " +
+                "for stage one it should generate 6 enemies", enemies.size() == 6);
+
+        boolean specificTypeIsCorrect = true;
+        for(Enemy enemy : enemies) {
+            if ((enemy.getEnemyType() != EnemyType.BALLOOM)) {
+                specificTypeIsCorrect = false;
+            }
+        }
+
+        assertTrue("The spawner should generate the type of enemies specified in the StageData object, " +
+                "for stage one it should generate only ballooms", specificTypeIsCorrect);
+
     }
 
     @Test
