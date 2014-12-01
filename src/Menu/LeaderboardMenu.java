@@ -27,8 +27,8 @@ public class LeaderboardMenu extends MenuTemplate {
     private MenuState previousMenuState;
 
     /**
-     * Intializes a LeaderboardMenu.
-     * @param menuManager MenuManager instance is passed to navigate and redirect to
+     * Initializes a LeaderboardMenu instance.
+     * @param menuManager MenuManager instance is used to navigate and redirect to
      *                    other menus.
      */
     public LeaderboardMenu(MenuManager menuManager) {
@@ -37,7 +37,7 @@ public class LeaderboardMenu extends MenuTemplate {
     }
 
     /**
-     * Draws the leader board.
+     * Draws the leader board on the screen.
      * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
      */
     @Override
@@ -106,7 +106,8 @@ public class LeaderboardMenu extends MenuTemplate {
     }
 
     /**
-     *
+     * The username, real name, score and total number of games played of each
+     * of the top ten players are is displayed on drawn on the screen
      * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
      */
     private void renderPlayerScore(Graphics2D g) {
@@ -122,8 +123,9 @@ public class LeaderboardMenu extends MenuTemplate {
     }
 
     /**
-     *
-     * @param score
+     * If the username or realname of a player is greater than 11 characters,
+     * then it is shortened to 10 characters so that it fits on the screen.
+     * @param score The score object containing the score data of a player..
      */
     private void fixLength(PlayerScore score) {
         if (score.username.length() > 11) {
@@ -135,7 +137,7 @@ public class LeaderboardMenu extends MenuTemplate {
     }
 
     /**
-     * Draws out a message to tell the user to press enter to go back to the previous message
+     * Draws out a message to tell the user to press enter to go back to the previous menu.
      * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
      */
     private void renderGoBackMessage(Graphics2D g) {
@@ -143,7 +145,7 @@ public class LeaderboardMenu extends MenuTemplate {
     }
 
     /**
-     * Returns the user to the menu from which they had accessed the leaderboard menu.
+     * Returns the user to the menu from which they accessed the leaderboard menu.
      */
     private void goBack() {
         loadScoresFlag = true;
@@ -151,7 +153,7 @@ public class LeaderboardMenu extends MenuTemplate {
     }
 
     /**
-     * Calls the goBack function when enter is pressed to return the user to the previous menu.
+     * Calls the goBack function when enter key is pressed to return the user to the previous menu.
      * @param k User input is passed.
      */
     @Override
@@ -162,16 +164,20 @@ public class LeaderboardMenu extends MenuTemplate {
     }
 
     /**
-     * Gets the previous menu state.
-     * @return Previous menu state is retrieved
+     * Get the previous menu state that the user accessed before opening
+     * the leaderboard menu.
+     * @return MenuState object representing the previous menu the user accessed before
+     * opening the leaderboard menu.
      */
     public MenuState getPreviousMenuState() {
         return previousMenuState;
     }
 
     /**
-     * Sets the previous menu state.
-     * @param previousMenuState Variable containing the previous menustate is passed
+     * Sets the previousMenuState variable which represents the menu state that the user
+     * accessed before opening the leaderboard menu.
+     * @param previousMenuState Sets the previousMenuState to be the menu from
+     *                          which the user opened the leaderboard.
      */
     public void setPreviousMenuState(MenuState previousMenuState) {
         this.previousMenuState = previousMenuState;
