@@ -5,8 +5,8 @@ Bomberman | Team 4
 
 * Vasundhara Gupta
 * Florent Lefebvre
-* Shabab Ahmed
-* Owen Li
+* Shabab Ahmed 
+* Owen Li - owen.li@mail.mcgill.ca
 * Daniel Macario - daniel.macario@mail.mcgill.ca
 
 **Dependencies**
