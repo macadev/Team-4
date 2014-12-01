@@ -1,13 +1,6 @@
 package SystemController;
 
 import GamePlay.GamePlayManager;
-<<<<<<< HEAD
-//import com.sun.tools.javac.util.Paths;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-=======
->>>>>>> origin/master
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.io.File;
