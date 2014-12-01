@@ -41,7 +41,6 @@ public class MenuManager extends GameState {
      */
     public void setMenuState(MenuState state) {
         currentMenu = state;
-        menuStates.get(currentMenu).init();
     }
 
     /**
@@ -112,13 +111,10 @@ public class MenuManager extends GameState {
         menuStates.get(currentMenu).keyPressed(k);
     }
 
-    /**
-     * Pass the user input to the corresponding menu state at a given time.
-     * @param k User input is passed.
-     */
     @Override
     public void keyReleased(int k) {
-        menuStates.get(currentMenu).keyReleased(k);
+
     }
+
 
 }

@@ -11,7 +11,8 @@ import java.util.ArrayList;
 
 /**
  * The LeaderboardMenu class displays the high scores of the top ten users. It is updated with the progress of each
- * user in the game. This menu inherits methods from MenuTemplate.
+ * user in the game. This menu inherits methods from MenuTemplate. If there are less than ten users in the
+ * database, it displays however many there are.
  */
 public class LeaderboardMenu extends MenuTemplate {
 
@@ -26,17 +27,13 @@ public class LeaderboardMenu extends MenuTemplate {
     private MenuState previousMenuState;
 
     /**
-     * Constructor for LeaderboardMenu.
-     * @param menuManager Object is passed to navigate between different menus.
+     * Intializes a LeaderboardMenu.
+     * @param menuManager MenuManager instance is passed to navigate and redirect to
+     *                    other menus.
      */
     public LeaderboardMenu(MenuManager menuManager) {
         this.menuManager = menuManager;
         this.loadScoresFlag = true;
-    }
-
-    @Override
-    public void init() {
-
     }
 
     /**
@@ -164,11 +161,6 @@ public class LeaderboardMenu extends MenuTemplate {
         }
     }
 
-    @Override
-    public void keyReleased(int k) {
-
-    }
-
     /**
      * Gets the previous menu state.
      * @return Previous menu state is retrieved
@@ -184,4 +176,5 @@ public class LeaderboardMenu extends MenuTemplate {
     public void setPreviousMenuState(MenuState previousMenuState) {
         this.previousMenuState = previousMenuState;
     }
+
 }

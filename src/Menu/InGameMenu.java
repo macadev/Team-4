@@ -124,13 +124,4 @@ public class InGameMenu extends MenuTemplate{
         }
 	}
 
-
-    @Override
-    public void init() {
-    }
-
-    @Override
-    public void keyReleased(int k) {
-
-    }
 }
