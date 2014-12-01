@@ -1,48 +1,28 @@
 package SystemController;
 
 import GamePlay.GamePlayManager;
-import com.sun.tools.javac.util.Paths;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
-//import java.nio.file.Files;
-//import java.nio.file.Path;
-//import java.nio.file.Paths;
-
 import static org.junit.Assert.*;
+import java.io.File;
 
 public class GameFileManagerTest {
-    GameFileManager fileManager = new GameFileManager("testUser1");
-    GameStateManager gsm = new GameStateManager(5);
-    GamePlayManager gpm = new GamePlayManager(gsm,5);
-
-    @Before
-    public  void setUp() throws Exception {
-
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
 
     @Test
-    public void testSaveGame() throws Exception {
+    public void testSaveGameAndLoadGame() throws Exception {
+        GameStateManager gameStateManager = new GameStateManager(5);
+        GamePlayManager gamePlayManager = new GamePlayManager(gameStateManager, 5);
+        GameFileManager.saveDirectory = "src/res/data/testSavedGames/";
+        GameFileManager.setUserName("testUser1");
+        GameFileManager.saveGame(gamePlayManager, "saveFileTest");
 
-        GameFileManager.saveDirectory = "testSavedGames/";
-        fileManager.saveGame(gpm ,"testUser1");
+        File file = new File("src/res/data/testSavedGames/testUser1/saveFileTest.ser");
+        assertTrue("The serialized save game file should exist", file.exists() && !file.isDirectory());
 
-
+        GamePlayManager loadedGame = GameFileManager.loadGame("saveFileTest");
+        // We test this by checking that the unique saveFileName assigned upon saving is the same
+        // for both instances of GamePlayManager.
+        assertTrue("The loaded GamePlayManager should be equal to the instance that " +
+                "was previous saved", loadedGame.getSaveFileName().equals(gamePlayManager.getSaveFileName()));
     }
 
-    @Test
-    public void testLoadGame() throws Exception {
-
-    }
-
-    @Test
-    public void testSetUserName() throws Exception {
-
-    }
 }

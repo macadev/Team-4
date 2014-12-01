@@ -4,7 +4,8 @@
 package Database;
 
 /**
- * This class defines an object PlayerScore for a user, used in generating the leader boards.
+ * Class used to define a wrapper object used to package the information
+ * that will be displayed on the the leader boards.
  */
 public class PlayerScore {
     public int score;

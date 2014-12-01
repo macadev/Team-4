@@ -10,6 +10,11 @@ import GamePlay.Coordinate;
 
 import java.io.Serializable;
 
+/**
+ * Class used to establish the logic implemented by medium intelligence enemies. Medium intelligence enemies
+ * are capable of chasing the player if they are within a one tile radius. They also have a 10% chance of
+ * performing random turns at intersections.
+ */
 public class MediumIntelligence extends ArtificialIntelligence implements Serializable {
 
     private static final int CHASE_THRESHOLD = 65;

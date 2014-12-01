@@ -22,7 +22,7 @@ public class GameFileManager {
      * @param username
      */
     public GameFileManager(String username) {
-        this.userName = username;
+        userName = username;
     }
 
     /**
@@ -37,7 +37,9 @@ public class GameFileManager {
     public static void saveGame(GamePlayManager gamePlayManager, String fileName) {
         // If a previous saved file already exists with the same name, then the
         // old file is replaced by the new one.
+        gamePlayManager.setSaveFileName(fileName);
         try {
+            System.out.println(userName);
             FileOutputStream fileOut = new FileOutputStream(saveDirectory + userName + "/" + fileName +".ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(gamePlayManager);
