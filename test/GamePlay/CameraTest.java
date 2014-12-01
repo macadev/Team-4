@@ -17,11 +17,10 @@ public class CameraTest {
 
     @Test
     public void testAdjustPosition() throws Exception {
-        int oldResult = cam.getPosX();
-        cam.adjustPosition(); //no int because adjustPosition returns void which is nooooothing
+        cam.adjustPosition();
         int result = cam.getPosX();
-        System.out.println("Old: " + oldResult + " New: " + result);
-        assertEquals(result, 222);
+        assertEquals("The camera adjusts its position following the constants defined for the " +
+                "thresholds", 222, result);
     }
 
 }

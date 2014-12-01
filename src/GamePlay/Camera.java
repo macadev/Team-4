@@ -8,7 +8,9 @@ import SystemController.GameController;
 import java.io.Serializable;
 
 /**
- * The Camera class manages the user's view of the game.
+ * The Camera class manages the user's view of the game. It enables
+ * the scrolling of the screen when the player has more than 15 columns
+ * of tiles on either side.
  */
 public class Camera implements Serializable {
 
@@ -21,7 +23,7 @@ public class Camera implements Serializable {
     }
 
     /**
-     * Adjust the position of the camera as the player moves.
+     * Adjust the position of the camera to follow the player.
      */
     public void adjustPosition() {
         posX = -player.getPosX() + GameController.WIDTH/2 - 18;
@@ -35,8 +37,9 @@ public class Camera implements Serializable {
     }
 
     /**
-     * Sets the position as posX
-     * @param posX
+     * Sets X position where the camera is looking.
+     * @param posX An integer representing the x coordinate where the camera
+     *             should focus on.
      */
     public void setPosX(int posX) {
         this.posX = posX;

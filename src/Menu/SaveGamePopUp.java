@@ -1,3 +1,6 @@
+/**
+ * Created by Florent Lefebvre on 14-11-20.
+ */
 package Menu;
 
 import javax.swing.*;
@@ -8,12 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-
 /**
- * Created by FloMac on 14-11-20.
  * The SaveGamePopUp is accessed through the in game menu and allows the user to save his current progress in the game.
- * It allows the user to name the save game file or a default time stamp is give if the name is left blank.
- * Methods from JFrame are inherited to be used in the popup.
+ * It allows the user to name the save game file. If the user does not input a name, a time stamp  of time of creation
+ * is used.
  */
 public class SaveGamePopUp extends JFrame {
 
@@ -23,7 +24,7 @@ public class SaveGamePopUp extends JFrame {
     private MenuManager menuManager;
 
     /**
-     * Constructor for SaveGamePopUp.
+     * Initializes a SaveGamePopUp menu instance.
      * @param menuManager Object menuManager is passed to navigate between the different game states and menus.
      */
     public SaveGamePopUp(MenuManager menuManager){
@@ -38,7 +39,8 @@ public class SaveGamePopUp extends JFrame {
     }
 
     /**
-     * Creates the window and everything displayed in it in the popup.
+     * Creates the window and the elements used to allow
+     * the user to name the current game file.
      */
     private void createView(){
         JPanel panel = new JPanel();
@@ -48,10 +50,12 @@ public class SaveGamePopUp extends JFrame {
         label.setBounds(10, 10, 80, 25);
         panel.add(label);
 
+        // Field used to accept the file name to be used.
         fileNameField = new JTextField(20);
         fileNameField.setBounds(100, 10, 160, 25);
         panel.add(fileNameField);
 
+        // Button used to submit the creation of the file.
         buttonSubmit = new JButton("Save Game");
         buttonSubmit.setBounds(10, 80, 80, 25);
 
@@ -93,11 +97,13 @@ public class SaveGamePopUp extends JFrame {
     }
 
     /**
-     * Saves the file when save file is clicked. If the file name is empty, it gives a time stamp as the name for the
-     * saved file. Otherwise saves the file with user entered name.
+     * Saves the file to the savedgames folder under the users' unique directory.
+     * If the file name is empty, it uses a time stamp specifying the time of
+     * creation as the name.
      */
     public void saveFileClicked() {
         String fileName = fileNameField.getText();
+
         if (fileName.isEmpty()) {
             DateFormat df = new SimpleDateFormat("MM-dd-yyyy-HH:mm:ss");
             Date today = Calendar.getInstance().getTime();
