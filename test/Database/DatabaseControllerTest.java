@@ -8,6 +8,7 @@ import org.junit.Test;
 //import java.nio.file.Path;
 //import java.nio.file.Paths;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -65,8 +66,8 @@ public class DatabaseControllerTest {
     public void testCreateDirectoryForUserSavedFiles() throws Exception {
         DatabaseController.saveDirectory = "src/res/data/testSavedGames/";
         DatabaseController.createDirectoryForUserSavedFiles("testUser1");
-//        Path path = Paths.get("testSavedGames/");
-//        assertTrue("User folder exists", Files.exists(path));
+        File dir = new File("src/res/data/testSavedGames/testUser1");
+        assertTrue("User folder exists", dir.exists());
     }
     @Test
     public void testGetPassword() throws Exception {
