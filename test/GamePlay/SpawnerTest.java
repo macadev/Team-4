@@ -26,11 +26,10 @@ public class SpawnerTest {
         normalSpawner = new Spawner(Stages.gameStages[1]);
     }
 
-    @Test
-    public void testGenerateWalls() throws Exception {
-
-    }
-
+    /**
+     * Tests if concrete walls are created on the proper locations.
+     * @throws Exception
+     */
     @Test
     public void testGenerateConcreteWalls() throws Exception {
         normalSpawner.generateConcreteWalls();
@@ -58,6 +57,10 @@ public class SpawnerTest {
         assertTrue("The concrete walls should be at their defined constant positions", correctLayout);
     }
 
+    /**
+     * Tests if the brickwalls are not created in bonus levels.
+     * @throws Exception
+     */
     @Test
     public void testGenerateBrickWalls() throws Exception {
 
@@ -74,7 +77,6 @@ public class SpawnerTest {
         boolean hasBrickWall = false;
         for (int i = 1; i < 11; i++) {
             for (int j = 1; j < 29; j++) {
-
                 if (walls[j][i] instanceof BrickWall) {
                     hasBrickWall = true;
                     break;
@@ -84,6 +86,10 @@ public class SpawnerTest {
         assertFalse("If the stage is a bonus stage, then generateBrickWalls should not create any brick walls", hasBrickWall);
     }
 
+    /**
+     * Tests if enemies are generated at the proper location, in proper amount.
+     * @throws Exception
+     */
     @Test
     public void testGenerateEnemies() throws Exception {
         bonusSpawner.generateWalls();
@@ -118,55 +124,71 @@ public class SpawnerTest {
 
     }
 
+    /**
+     * Tests if harder enemies are generated with the right type.
+     * @throws Exception
+     */
     @Test
     public void testCreateSetOfHarderEnemies() throws Exception {
         ArrayList<Enemy> enemies = normalSpawner.createSetOfHarderEnemies(EnemyType.BALLOOM, 0, 0);
         assertEquals(8, enemies.size());
 
         for (Enemy enemy : enemies) {
-            assertEquals(true, enemy.getEnemyType().equals(EnemyType.BALLOOM));
+            assertEquals("Enemy generated is of the wrong type", true, enemy.getEnemyType().equals(EnemyType.BALLOOM));
         }
     }
-
+    /**
+     * Tests if harder enemies are generated with the right type, and amount.
+     * @throws Exception
+     */
     @Test
     public void testCreateSetOfHardEnemiesAtRandomPositions() throws Exception {
         ArrayList<Enemy> enemies = normalSpawner.createSetOfHarderEnemies(EnemyType.BALLOOM, 0, 0);
-        assertEquals(8, enemies.size());
+        assertEquals("The number of generated enemies is incorrect", 8, enemies.size());
 
         for (Enemy enemy : enemies) {
-            assertEquals(true, enemy.getEnemyType().equals(EnemyType.BALLOOM));
+            assertEquals("Enemy generated is of the wrong type", true, enemy.getEnemyType().equals(EnemyType.BALLOOM));
         }
     }
 
+    /**
+     * Tests if the proper enemies are created for bonus stages
+     * @throws Exception
+     */
     @Test
     public void testCreateBonusStageEnemy() throws Exception {
         bonusSpawner.generateWalls();
-        normalSpawner.generateWalls();
-        assert(normalSpawner.createBonusStageEnemy() != null);
-        assert(bonusSpawner.createBonusStageEnemy() != null);
+        boolean enemyCreatedMatchesStageDataEnemy =
+                bonusSpawner.createBonusStageEnemy().getEnemyType() == Stages.gameStages[6].getEnemiesPresent()[0].getEnemyType();
+        assertTrue("In a bonus stage, the unique enemy type should match the type" +
+                " specified by the StageData object", enemyCreatedMatchesStageDataEnemy);
     }
 
     @Test
     public void testGeneratePowerUp() throws Exception {
         bonusSpawner.generateWalls();
         normalSpawner.generateWalls();
-        assertNull(bonusSpawner.generatePowerUp());
-        assert(normalSpawner.generatePowerUp() != null);
+        assertNull("There should be no powerUp in a bonus stage", bonusSpawner.generatePowerUp());
+        assertTrue("There should be a powerUp in a non-bonus stage", normalSpawner.generatePowerUp() != null);
     }
 
+    /**
+     * Tests if a door is generated for normal and bonus levels
+     * @throws Exception
+     */
     @Test
     public void testGenerateDoor() throws Exception {
         bonusSpawner.generateWalls();
         normalSpawner.generateWalls();
-        assertNull(bonusSpawner.generateDoor());
-        assert(normalSpawner.generateDoor() != null);
+        assertNull("There should be no door in a bonus stage", bonusSpawner.generateDoor());
+        assertTrue("There should be a door in a non-bonus stage", normalSpawner.generateDoor() != null);
     }
 
-    @Test
-    public void testNextStage() throws Exception {
-
-    }
-
+    /**
+     * Tests if possibleEnemyCoordinates is empty after calling clearPossibleCoordinates.
+     * Tests if possiblePowerUpAndDoorCoordinates is empty after calling generateConcreteWalls.
+     * @throws Exception
+     */
     @Test
     public void testClearPossibleCoordinates() throws Exception {
 
@@ -180,6 +202,10 @@ public class SpawnerTest {
                 "after calling generateConcreteWalls", normalSpawner.getPossiblePowerUpAndDoorCoordinates().size() == 0);
     }
 
+    /**
+     * Tests if normalSpawner returns valid spawn coordinates.
+     * @throws Exception
+     */
     @Test
     public void testIsInValidPosition() throws Exception {
         assertEquals(normalSpawner.isNotInSpawnArea(0, 0), true);

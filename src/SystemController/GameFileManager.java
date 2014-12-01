@@ -13,6 +13,7 @@ import java.io.*;
 public class GameFileManager {
 
     private static String userName;
+    public static String saveDirectory = "savedgames/";
 
     /**
      * Initialize an instance of GameFileManager. It receives a string specifying the
@@ -25,7 +26,7 @@ public class GameFileManager {
     }
 
     /**
-     * Serializes and instance of the GamePlayManager object the user decides to save.
+     * Serializes an instance of the GamePlayManager object the user decides to save.
      * Then stores the .ser file to a directory specifically created for the user that
      * is generated when his/her account is created using the account creation system.
      * @param gamePlayManager The GamePlayManager instance containing all the information
@@ -37,7 +38,7 @@ public class GameFileManager {
         // If a previous saved file already exists with the same name, then the
         // old file is replaced by the new one.
         try {
-            FileOutputStream fileOut = new FileOutputStream("savedgames/" + userName + "/" + fileName +".ser");
+            FileOutputStream fileOut = new FileOutputStream(saveDirectory + userName + "/" + fileName +".ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(gamePlayManager);
             out.close();
