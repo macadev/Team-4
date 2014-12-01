@@ -23,7 +23,7 @@ public class DatabaseController {
     /**
      * String representing directory for which games will be saved to
      */
-    public static String saveDirectory = "savedgames/";
+    public static String saveDirectory = "src/res/data/savedgames/";
 
     /**
      * Initializes the database, and inserts a table used to store user data. Contains fields: username,

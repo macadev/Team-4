@@ -1,10 +1,15 @@
 package SystemController;
 
 import GamePlay.GamePlayManager;
+import com.sun.tools.javac.util.Paths;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+//import java.nio.file.Files;
+//import java.nio.file.Path;
+//import java.nio.file.Paths;
 
 import static org.junit.Assert.*;
 
@@ -24,10 +29,11 @@ public class GameFileManagerTest {
 
     @Test
     public void testSaveGame() throws Exception {
-//        GameFileManager.saveDirectory = "testSavedGames/";
-//        fileManager.saveGame(gpm ,"testUser1");
-//        Path path = Paths.get("testSavedGames/");
-//        assertTrue("User save file exists", Files.exists(path));
+
+        GameFileManager.saveDirectory = "testSavedGames/";
+        fileManager.saveGame(gpm ,"testUser1");
+
+
     }
 
     @Test

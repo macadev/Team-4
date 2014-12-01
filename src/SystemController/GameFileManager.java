@@ -13,7 +13,7 @@ import java.io.*;
 public class GameFileManager {
 
     private static String userName;
-    public static String saveDirectory = "savedgames/";
+    public static String saveDirectory = "src/res/data/savedgames/";
 
     /**
      * Initialize an instance of GameFileManager. It receives a string specifying the
@@ -60,7 +60,7 @@ public class GameFileManager {
     public static GamePlayManager loadGame(String fileName) {
         GamePlayManager loadedGame;
         try {
-            FileInputStream fileIn = new FileInputStream("savedgames/" + userName + "/" + fileName + ".ser");
+            FileInputStream fileIn = new FileInputStream(saveDirectory + userName + "/" + fileName + ".ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
             loadedGame = (GamePlayManager) in.readObject();
             in.close();
