@@ -6,16 +6,21 @@ package GameObject;
 import javax.swing.*;
 import java.io.Serializable;
 
+/**
+ * Used to create the powerUp object hidden in every non-bonus stage during gameplay. We group the entire
+ * functionality of all powerUps within a single class instead of having 8 different classes with very similar
+ * attributes. We decide on the image that will be rendered and whether the powerUp is kept after death based on
+ * the PowerUpType passed. The type is stored so that we can enable the specific functionality of the powerUp once
+ * the player has collided with it.
+ */
 public class PowerUp extends StaticObject implements Serializable {
 
     private PowerUpType powerUpType;
     private boolean keptAfterDeath;
 
     /**
-     * Initialize a new powerUp object. We group the entire functionality of all powerUps within a single class
-     * instead of having 8 different classes with very similar attributes. We decide on the image that will be
-     * rendered and whether the powerUp is kept after death based on the PowerUpType passed. The type is stored so
-     * that we can enable the specific functionality of the powerUp once the player has collided with it.
+     * Initialize a new powerUp object. The image to be rendered depends on the
+     * powerUpType passed.
      * @param powerUpType The type specifying which powerUp the constructor must create.
      */
     public PowerUp(PowerUpType powerUpType, int posX, int posY) {

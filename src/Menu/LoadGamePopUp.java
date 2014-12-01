@@ -1,6 +1,5 @@
 package Menu;
 
-
 import GamePlay.GamePlayManager;
 import SystemController.GameFileManager;
 
@@ -106,8 +105,9 @@ public class LoadGamePopUp extends JFrame {
      * @return Arraylist of save games is returned after matching it with the username.
      */
     public static ArrayList<String> getFileNames(String username) {
+
         //Access the directory where the the user files are saved
-        String folderPath = "savedgames/" + username + "/";
+        String folderPath = "src/res/data/savedgames/" + username + "/";
         File f = new File(folderPath);
 
         if (!f.exists()) return null;

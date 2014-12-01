@@ -40,10 +40,7 @@ public abstract class MenuTemplate extends JFrame {
     public static final Color BACKGROUND_COLOR = new Color(0, 0, 0);
 
     //Methods
-    public abstract void init();
     public abstract void draw(Graphics2D g);
     public abstract void keyPressed(int k);
-    public abstract void keyReleased(int k);
-
 
 }

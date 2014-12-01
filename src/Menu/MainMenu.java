@@ -37,11 +37,6 @@ public class MainMenu extends MenuTemplate {
         this.gsm = gsm;
     }
 
-    @Override
-    public void init() {
-
-    }
-
     /**
      * Draws the InGameMenu with the options when the game is paused
      * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
@@ -121,11 +116,5 @@ public class MainMenu extends MenuTemplate {
             if (currentChoice == options.length) currentChoice = 0;
         }
     }
-
-    @Override
-    public void keyReleased(int k) {
-
-    }
-
 
 }

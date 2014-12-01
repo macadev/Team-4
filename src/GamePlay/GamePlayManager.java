@@ -16,6 +16,10 @@ import Menu.MenuState;
 import SystemController.SoundController;
 import SystemController.TopLevelState;
 
+/**
+ * Control structure in charge of updating the object models present during
+ * gameplay and also rendering them on the screen.
+ */
 public class GamePlayManager extends GameState implements Serializable {
 
     private TileMap tileMap;
@@ -29,6 +33,7 @@ public class GamePlayManager extends GameState implements Serializable {
     public int bonusStageCountDown = 900;
     private int bonusStageNewEnemyCountDown = 30;
     public static final int framesPerSecond = 30;
+    private String saveFileName;
 
     //TODO: remove after demo, these are for temporary pause feature
     private Color titleColor = new Color(255, 0, 21);
@@ -343,4 +348,23 @@ public class GamePlayManager extends GameState implements Serializable {
         this.player.setCurrentGamePlayState(GamePlayState.INGAME);
     }
 
+    /**
+     * Retrieves the String associated with this instance of GamePlayManager that
+     * is assigned right before serialization.
+     * @return A String specifying the save file name associated with this
+     * instance of GamePlayManager.
+     */
+    public String getSaveFileName() {
+        return saveFileName;
+    }
+
+    /**
+     * Set the saveFileName associated with this instance of GamePlayManager
+     * @param saveFileName A String specifying the name of the file in
+     *                     which this instance of GamePlayManager is being
+     *                     serialized.
+     */
+    public void setSaveFileName(String saveFileName) {
+        this.saveFileName = saveFileName;
+    }
 }

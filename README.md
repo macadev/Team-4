@@ -3,15 +3,21 @@ Bomberman | Team 4
 
 **Team-4 ISE**
 
+<<<<<<< HEAD
 * Vasundhara Gupta
 * Florent Lefebvre
 * Shabab Ahmed 
+=======
+* Vasundhara Gupta - vasundhara.gupta@mail.mcgill.ca
+* Florent Lefebvre - florent.lefebvre@mail.mcgill.ca
+* Shabab Ahmed - shabab.ahmed@mail.mcgill.ca
+>>>>>>> origin/master
 * Owen Li - owen.li@mail.mcgill.ca
 * Daniel Macario - daniel.macario@mail.mcgill.ca
 
 **Dependencies**
 
-The entire application was devloped in Java 6.
+The entire application was developed in Java 6.
 
 **Development Platforms**
 

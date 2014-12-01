@@ -27,12 +27,6 @@ public class LoginMenu extends MenuTemplate {
         this.menuManager = menuManager;
     }
 
-
-    @Override
-    public void init() {
-
-    }
-
     /**
      * Draws the login menu with the options when the program is first started.
      * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
@@ -95,11 +89,6 @@ public class LoginMenu extends MenuTemplate {
             currentChoice++;
             if (currentChoice == options.length) currentChoice = 0;
         }
-    }
-
-    @Override
-    public void keyReleased(int k) {
-
     }
 
     /**

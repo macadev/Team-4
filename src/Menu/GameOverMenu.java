@@ -29,10 +29,6 @@ public class GameOverMenu extends MenuTemplate {
         this.menuManager = menuManager;
     }
 
-    @Override
-    public void init() {
-    }
-
     /**
      * Draws the GameOverMenu on the screen once the game has ended.
      * @param g Graphics object corresponding to the JPanel where the menu will be rendered.
@@ -101,11 +97,6 @@ public class GameOverMenu extends MenuTemplate {
             //return to main menu
             menuManager.setMenuState(MenuState.MAIN);
         }
-    }
-
-    @Override
-    public void keyReleased(int k) {
-
     }
 }
 
