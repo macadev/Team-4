@@ -9,7 +9,12 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+/**
+ * The LeaderboardMenu class displays the high scores of the top ten users. It is updated with the progress of each
+ * user in the game. This menu inherits methods from MenuTemplate.
+ */
 public class LeaderboardMenu extends MenuTemplate {
+
 
     private MenuManager menuManager;
     private ArrayList<String> userNames;
@@ -20,6 +25,10 @@ public class LeaderboardMenu extends MenuTemplate {
     private int rowPos = 30;
     private MenuState previousMenuState;
 
+    /**
+     * Constructor for LeaderboardMenu.
+     * @param menuManager Object is passed to navigate between different menus.
+     */
     public LeaderboardMenu(MenuManager menuManager) {
         this.menuManager = menuManager;
         this.loadScoresFlag = true;
@@ -30,6 +39,10 @@ public class LeaderboardMenu extends MenuTemplate {
 
     }
 
+    /**
+     * Draws the leader board.
+     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
+     */
     @Override
     public void draw(Graphics2D g) {
         if (loadScoresFlag) {
@@ -56,6 +69,10 @@ public class LeaderboardMenu extends MenuTemplate {
         renderGoBackMessage(g);
     }
 
+    /**
+     * Draws the legend for the leader board indicating what each column represents.
+     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
+     */
     private void renderLegend(Graphics2D g) {
         g.drawString("Rank", rowPos - 15, columnPos - 30);
         g.drawString("UserName", rowPos + 35, columnPos - 30);
@@ -64,6 +81,10 @@ public class LeaderboardMenu extends MenuTemplate {
         g.drawString("Games", rowPos + 380, columnPos - 30);
     }
 
+    /**
+     * Draws the users with the top ten scores.
+     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
+     */
     private void renderTopTen(Graphics2D g) {
         //draw high scores
 
@@ -87,6 +108,10 @@ public class LeaderboardMenu extends MenuTemplate {
         }
     }
 
+    /**
+     *
+     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
+     */
     private void renderPlayerScore(Graphics2D g) {
         g.drawString("Your rank:", rowPos, 310);
 
@@ -99,6 +124,10 @@ public class LeaderboardMenu extends MenuTemplate {
         g.drawString(String.valueOf(playerScore.gamesPlayed), rowPos + 380, 340);
     }
 
+    /**
+     *
+     * @param score
+     */
     private void fixLength(PlayerScore score) {
         if (score.username.length() > 11) {
             score.username = score.username.substring(0, 9);
@@ -108,15 +137,26 @@ public class LeaderboardMenu extends MenuTemplate {
         }
     }
 
+    /**
+     * Draws out a message to tell the user to press enter to go back to the previous message
+     * @param g Graphics object corresponding to the JPanel where the game play state is rendered.
+     */
     private void renderGoBackMessage(Graphics2D g) {
         g.drawString("Press Enter to go back", rowPos, 380);
     }
 
+    /**
+     * Returns the user to the menu from which they had accessed the leaderboard menu.
+     */
     private void goBack() {
         loadScoresFlag = true;
         menuManager.setMenuState(previousMenuState);
     }
 
+    /**
+     * Calls the goBack function when enter is pressed to return the user to the previous menu.
+     * @param k User input is passed.
+     */
     @Override
     public void keyPressed(int k) {
         if (k == KeyEvent.VK_ENTER) {
@@ -129,10 +169,18 @@ public class LeaderboardMenu extends MenuTemplate {
 
     }
 
+    /**
+     * Gets the previous menu state.
+     * @return Previous menu state is retrieved
+     */
     public MenuState getPreviousMenuState() {
         return previousMenuState;
     }
 
+    /**
+     * Sets the previous menu state.
+     * @param previousMenuState Variable containing the previous menustate is passed
+     */
     public void setPreviousMenuState(MenuState previousMenuState) {
         this.previousMenuState = previousMenuState;
     }
