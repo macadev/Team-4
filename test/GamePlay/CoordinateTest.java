@@ -22,25 +22,37 @@ public class CoordinateTest {
 
     @Test
     public void testEquals() throws Exception {
-        assertEquals(coordinate1.equals(coordinate1), true);
-        assertEquals(coordinate1.equals(coordinate4), false);
-        assertEquals(coordinate1.equals(coordinate2), false);
-        assertEquals(coordinate1.equals(coordinate3), true);
+        assertTrue("The overridden equals method should return true when the same " +
+                "instance of coordinate is passed", coordinate1.equals(coordinate1));
+        assertTrue("The overridden equals method should return true for coordinates " +
+                "that represent the same location on the grid", coordinate1.equals(coordinate3));
+        assertFalse("The overridden equals should return false for coordinates that are not the " +
+                "same instance and do not represent the same location on the board", coordinate1.equals(coordinate2));
     }
 
     @Test
     public void testHashCode() throws Exception {
-        int firstHash = coordinate1.hashCode();
-        int secondHash = coordinate3.hashCode();
+        int firstHashCode = coordinate1.hashCode();
 
-        assertEquals(firstHash, -4);
-        assertEquals(firstHash, secondHash);
+        assertEquals("the overriden hashcode method follows the specific logic outlined", -4, firstHashCode);
+
+        Coordinate coordinateX = new Coordinate(1,2);
+        Coordinate coordinateY = new Coordinate(2,1);
+        int hashCodeX = coordinateX.hashCode();
+        int hasCodeXMirror = coordinateY.hashCode();
+
+        assertNotEquals("The hashcode for mirroring coordinates should not be the same", hashCodeX, hasCodeXMirror);
+
     }
 
 
     @Test
     public void testDistanceTo() throws Exception {
         int result = coordinate1.distanceTo(coordinate2);
-        assertEquals(result, (int) Math.sqrt((0 - 1) * (0 - 1) + (0 - 1) * (0 - 1)));
+        assertEquals("The distance returned follows the logic defined ", (int) Math.sqrt((0 - 1) * (0 - 1) + (0 - 1) * (0 - 1)), result);
+
+        result = coordinate1.distanceTo(coordinate1);
+        assertEquals("The distance from a coordinate to itself should be 0", 0, result);
+
     }
 }

@@ -10,7 +10,6 @@ public class HighIntelligenceTest {
 
     private HighIntelligence highIntelligence;
 
-
     @Before
     public void setup(){
         highIntelligence = new HighIntelligence();

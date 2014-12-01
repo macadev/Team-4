@@ -60,6 +60,13 @@ public class SpawnerTest {
 
     @Test
     public void testGenerateBrickWalls() throws Exception {
+
+        normalSpawner.generateBrickWalls();
+        assertTrue("possibleEnemyCoordinates should not be empty " +
+                "after calling generateConcreteWalls", normalSpawner.getPossibleEnemyCoordinates().size() > 0);
+        assertTrue("possiblePowerUpAndDoorCoordinates should not be empty " +
+                "after calling generateConcreteWalls", normalSpawner.getPossiblePowerUpAndDoorCoordinates().size() > 0);
+
         //if stage is a bonus stage, check no brick walls are generated.
         bonusSpawner.generateBrickWalls();
         GameObject[][] walls = bonusSpawner.getGridLayout();
@@ -147,26 +154,33 @@ public class SpawnerTest {
 
     @Test
     public void testNextStage() throws Exception {
-        assert(true);
+
     }
 
     @Test
     public void testClearPossibleCoordinates() throws Exception {
-        assert(true);
+
+        // Populates the possibleEnemyCoordinates and possiblePowerUpAndDoorCoordinates
+        // ArrayLists.
+        normalSpawner.generateBrickWalls();
+        normalSpawner.clearPossibleCoordinates();
+        assertTrue("possibleEnemyCoordinates be empty after calling clearPossibleCoordinates",
+                normalSpawner.getPossibleEnemyCoordinates().size() == 0);
+        assertTrue("possiblePowerUpAndDoorCoordinates should be empty " +
+                "after calling generateConcreteWalls", normalSpawner.getPossiblePowerUpAndDoorCoordinates().size() == 0);
     }
 
     @Test
     public void testIsInValidPosition() throws Exception {
-        assertEquals(normalSpawner.isInValidPosition(0,0), true);
-        assertEquals(normalSpawner.isInValidPosition(2,1), false);
-        assertEquals(normalSpawner.isInValidPosition(3,0), false);
-        assertEquals(normalSpawner.isInValidPosition(1,2), false);
-        assertEquals(normalSpawner.isInValidPosition(0,3), false);
-        assertEquals(normalSpawner.isInValidPosition(0,2), false);
-        assertEquals(normalSpawner.isInValidPosition(1,1), false);
-
-        assertEquals(normalSpawner.isInValidPosition(5,2), true);
-        assertEquals(normalSpawner.isInValidPosition(3,1), true);
+        assertEquals(normalSpawner.isNotInSpawnArea(0, 0), true);
+        assertEquals(normalSpawner.isNotInSpawnArea(2, 1), false);
+        assertEquals(normalSpawner.isNotInSpawnArea(3, 0), false);
+        assertEquals(normalSpawner.isNotInSpawnArea(1, 2), false);
+        assertEquals(normalSpawner.isNotInSpawnArea(0, 3), false);
+        assertEquals(normalSpawner.isNotInSpawnArea(0, 2), false);
+        assertEquals(normalSpawner.isNotInSpawnArea(1, 1), false);
+        assertEquals(normalSpawner.isNotInSpawnArea(5, 2), true);
+        assertEquals(normalSpawner.isNotInSpawnArea(3, 1), true);
     }
 
 }

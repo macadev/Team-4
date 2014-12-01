@@ -3,13 +3,10 @@
  */
 package GamePlay;
 
-
 /**
- * This enum states the gameplay state the play is in.
+ * Constants used to represent the four different states of gameplay
+ * present in the game.
  */
 public enum GamePlayState {
-    GAMEOVER,
-    PAUSE,
-    INGAME,
-    FINISHEDGAME
+    GAMEOVER, PAUSE, INGAME, FINISHEDGAME
 }

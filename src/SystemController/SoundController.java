@@ -1,17 +1,14 @@
+/**
+ * Created by Florent Lefevbre on 14-11-21.
+ */
 package SystemController;
 import java.applet.Applet;
 import java.applet.AudioClip;
 
 /**
- * Created by FloMac on 14-11-21.
- * Manages sounds in the game
+ * Class used to store the sound used throughout the game.
  */
-
 public class SoundController {
-
-    /**
-     * These Audioclips enable which ever sound file they point to to be played
-     */
 
     public static final AudioClip THEME = Applet.newAudioClip(
             SoundController.class.getResource("/res/raw/pirates-of-the-caribbean-8-bit.wav")
